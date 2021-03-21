@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.dgut.epidemic.mapper.VolunteerServiceMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.VolunteerService" >
+    <id column="VOLUNTEER_SERVICE_ID" property="volunteerServiceId" jdbcType="SMALLINT" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="DETAILS" property="details" jdbcType="VARCHAR" />
+    <result column="SPONSOR" property="sponsor" jdbcType="VARCHAR" />
+    <result column="EXPECTED_VOLUNTEERS" property="expectedVolunteers" jdbcType="SMALLINT" />
+    <result column="CONDITIONS" property="conditions" jdbcType="VARCHAR" />
+    <result column="PARTICIPATED_VOLUNTEERS" property="participatedVolunteers" jdbcType="SMALLINT" />
+    <result column="LOCATION" property="location" jdbcType="VARCHAR" />
+    <result column="INITIATE_TIME" property="initiateTime" jdbcType="TIMESTAMP" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    VOLUNTEER_SERVICE_ID, TITLE, DETAILS, SPONSOR, EXPECTED_VOLUNTEERS, CONDITIONS, PARTICIPATED_VOLUNTEERS, 
+    LOCATION, INITIATE_TIME, START_TIME, END_TIME, REMARKS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerServiceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from volunteer_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from volunteer_service
+    where VOLUNTEER_SERVICE_ID = #{volunteerServiceId,jdbcType=SMALLINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from volunteer_service
+    where VOLUNTEER_SERVICE_ID = #{volunteerServiceId,jdbcType=SMALLINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerServiceExample" >
+    delete from volunteer_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerService" >
+    insert into volunteer_service (VOLUNTEER_SERVICE_ID, TITLE, DETAILS, 
+      SPONSOR, EXPECTED_VOLUNTEERS, CONDITIONS, 
+      PARTICIPATED_VOLUNTEERS, LOCATION, INITIATE_TIME, 
+      START_TIME, END_TIME, REMARKS
+      )
+    values (#{volunteerServiceId,jdbcType=SMALLINT}, #{title,jdbcType=VARCHAR}, #{details,jdbcType=VARCHAR}, 
+      #{sponsor,jdbcType=VARCHAR}, #{expectedVolunteers,jdbcType=SMALLINT}, #{conditions,jdbcType=VARCHAR}, 
+      #{participatedVolunteers,jdbcType=SMALLINT}, #{location,jdbcType=VARCHAR}, #{initiateTime,jdbcType=TIMESTAMP}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerService" >
+    insert into volunteer_service
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="volunteerServiceId != null" >
+        VOLUNTEER_SERVICE_ID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="details != null" >
+        DETAILS,
+      </if>
+      <if test="sponsor != null" >
+        SPONSOR,
+      </if>
+      <if test="expectedVolunteers != null" >
+        EXPECTED_VOLUNTEERS,
+      </if>
+      <if test="conditions != null" >
+        CONDITIONS,
+      </if>
+      <if test="participatedVolunteers != null" >
+        PARTICIPATED_VOLUNTEERS,
+      </if>
+      <if test="location != null" >
+        LOCATION,
+      </if>
+      <if test="initiateTime != null" >
+        INITIATE_TIME,
+      </if>
+      <if test="startTime != null" >
+        START_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="volunteerServiceId != null" >
+        #{volunteerServiceId,jdbcType=SMALLINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="details != null" >
+        #{details,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsor != null" >
+        #{sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedVolunteers != null" >
+        #{expectedVolunteers,jdbcType=SMALLINT},
+      </if>
+      <if test="conditions != null" >
+        #{conditions,jdbcType=VARCHAR},
+      </if>
+      <if test="participatedVolunteers != null" >
+        #{participatedVolunteers,jdbcType=SMALLINT},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="initiateTime != null" >
+        #{initiateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerServiceExample" resultType="java.lang.Integer" >
+    select count(*) from volunteer_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update volunteer_service
+    <set >
+      <if test="record.volunteerServiceId != null" >
+        VOLUNTEER_SERVICE_ID = #{record.volunteerServiceId,jdbcType=SMALLINT},
+      </if>
+      <if test="record.title != null" >
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.details != null" >
+        DETAILS = #{record.details,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sponsor != null" >
+        SPONSOR = #{record.sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expectedVolunteers != null" >
+        EXPECTED_VOLUNTEERS = #{record.expectedVolunteers,jdbcType=SMALLINT},
+      </if>
+      <if test="record.conditions != null" >
+        CONDITIONS = #{record.conditions,jdbcType=VARCHAR},
+      </if>
+      <if test="record.participatedVolunteers != null" >
+        PARTICIPATED_VOLUNTEERS = #{record.participatedVolunteers,jdbcType=SMALLINT},
+      </if>
+      <if test="record.location != null" >
+        LOCATION = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.initiateTime != null" >
+        INITIATE_TIME = #{record.initiateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.startTime != null" >
+        START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remarks != null" >
+        REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update volunteer_service
+    set VOLUNTEER_SERVICE_ID = #{record.volunteerServiceId,jdbcType=SMALLINT},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      DETAILS = #{record.details,jdbcType=VARCHAR},
+      SPONSOR = #{record.sponsor,jdbcType=VARCHAR},
+      EXPECTED_VOLUNTEERS = #{record.expectedVolunteers,jdbcType=SMALLINT},
+      CONDITIONS = #{record.conditions,jdbcType=VARCHAR},
+      PARTICIPATED_VOLUNTEERS = #{record.participatedVolunteers,jdbcType=SMALLINT},
+      LOCATION = #{record.location,jdbcType=VARCHAR},
+      INITIATE_TIME = #{record.initiateTime,jdbcType=TIMESTAMP},
+      START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      REMARKS = #{record.remarks,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerService" >
+    update volunteer_service
+    <set >
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="details != null" >
+        DETAILS = #{details,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsor != null" >
+        SPONSOR = #{sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedVolunteers != null" >
+        EXPECTED_VOLUNTEERS = #{expectedVolunteers,jdbcType=SMALLINT},
+      </if>
+      <if test="conditions != null" >
+        CONDITIONS = #{conditions,jdbcType=VARCHAR},
+      </if>
+      <if test="participatedVolunteers != null" >
+        PARTICIPATED_VOLUNTEERS = #{participatedVolunteers,jdbcType=SMALLINT},
+      </if>
+      <if test="location != null" >
+        LOCATION = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="initiateTime != null" >
+        INITIATE_TIME = #{initiateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where VOLUNTEER_SERVICE_ID = #{volunteerServiceId,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerService" >
+    update volunteer_service
+    set TITLE = #{title,jdbcType=VARCHAR},
+      DETAILS = #{details,jdbcType=VARCHAR},
+      SPONSOR = #{sponsor,jdbcType=VARCHAR},
+      EXPECTED_VOLUNTEERS = #{expectedVolunteers,jdbcType=SMALLINT},
+      CONDITIONS = #{conditions,jdbcType=VARCHAR},
+      PARTICIPATED_VOLUNTEERS = #{participatedVolunteers,jdbcType=SMALLINT},
+      LOCATION = #{location,jdbcType=VARCHAR},
+      INITIATE_TIME = #{initiateTime,jdbcType=TIMESTAMP},
+      START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where VOLUNTEER_SERVICE_ID = #{volunteerServiceId,jdbcType=SMALLINT}
+  </update>
+</mapper>

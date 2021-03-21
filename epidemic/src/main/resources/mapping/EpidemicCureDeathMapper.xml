@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.dgut.epidemic.mapper.EpidemicCureDeathMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.EpidemicCureDeath" >
+    <id column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="TIME_OF_DISCHARGE" property="timeOfDischarge" jdbcType="TIMESTAMP" />
+    <result column="TIME_OF_DEATH" property="timeOfDeath" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CAMPUS_ID, STATUS, TIME_OF_DISCHARGE, TIME_OF_DEATH, REMARKS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeathExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from epidemic_cure_death
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from epidemic_cure_death
+    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from epidemic_cure_death
+    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeathExample" >
+    delete from epidemic_cure_death
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeath" >
+    insert into epidemic_cure_death (CAMPUS_ID, STATUS, TIME_OF_DISCHARGE, 
+      TIME_OF_DEATH, REMARKS)
+    values (#{campusId,jdbcType=BIGINT}, #{status,jdbcType=VARCHAR}, #{timeOfDischarge,jdbcType=TIMESTAMP}, 
+      #{timeOfDeath,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeath" >
+    insert into epidemic_cure_death
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="campusId != null" >
+        CAMPUS_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="timeOfDischarge != null" >
+        TIME_OF_DISCHARGE,
+      </if>
+      <if test="timeOfDeath != null" >
+        TIME_OF_DEATH,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="campusId != null" >
+        #{campusId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="timeOfDischarge != null" >
+        #{timeOfDischarge,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeOfDeath != null" >
+        #{timeOfDeath,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeathExample" resultType="java.lang.Integer" >
+    select count(*) from epidemic_cure_death
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update epidemic_cure_death
+    <set >
+      <if test="record.campusId != null" >
+        CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timeOfDischarge != null" >
+        TIME_OF_DISCHARGE = #{record.timeOfDischarge,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.timeOfDeath != null" >
+        TIME_OF_DEATH = #{record.timeOfDeath,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remarks != null" >
+        REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update epidemic_cure_death
+    set CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      TIME_OF_DISCHARGE = #{record.timeOfDischarge,jdbcType=TIMESTAMP},
+      TIME_OF_DEATH = #{record.timeOfDeath,jdbcType=TIMESTAMP},
+      REMARKS = #{record.remarks,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeath" >
+    update epidemic_cure_death
+    <set >
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="timeOfDischarge != null" >
+        TIME_OF_DISCHARGE = #{timeOfDischarge,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeOfDeath != null" >
+        TIME_OF_DEATH = #{timeOfDeath,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeath" >
+    update epidemic_cure_death
+    set STATUS = #{status,jdbcType=VARCHAR},
+      TIME_OF_DISCHARGE = #{timeOfDischarge,jdbcType=TIMESTAMP},
+      TIME_OF_DEATH = #{timeOfDeath,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  </update>
+</mapper>

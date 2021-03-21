@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.dgut.epidemic.mapper.VolunteerEnrollMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
+    <id column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <result column="ENROLL_TIME" property="enrollTime" jdbcType="TIMESTAMP" />
+    <result column="EMPLOY_OR_NOT" property="employOrNot" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CAMPUS_ID, ENROLL_TIME, EMPLOY_OR_NOT, REMARKS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnrollExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from volunteer_enroll
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from volunteer_enroll
+    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from volunteer_enroll
+    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnrollExample" >
+    delete from volunteer_enroll
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
+    insert into volunteer_enroll (CAMPUS_ID, ENROLL_TIME, EMPLOY_OR_NOT, 
+      REMARKS)
+    values (#{campusId,jdbcType=BIGINT}, #{enrollTime,jdbcType=TIMESTAMP}, #{employOrNot,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
+    insert into volunteer_enroll
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="campusId != null" >
+        CAMPUS_ID,
+      </if>
+      <if test="enrollTime != null" >
+        ENROLL_TIME,
+      </if>
+      <if test="employOrNot != null" >
+        EMPLOY_OR_NOT,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="campusId != null" >
+        #{campusId,jdbcType=BIGINT},
+      </if>
+      <if test="enrollTime != null" >
+        #{enrollTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="employOrNot != null" >
+        #{employOrNot,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnrollExample" resultType="java.lang.Integer" >
+    select count(*) from volunteer_enroll
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update volunteer_enroll
+    <set >
+      <if test="record.campusId != null" >
+        CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      </if>
+      <if test="record.enrollTime != null" >
+        ENROLL_TIME = #{record.enrollTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.employOrNot != null" >
+        EMPLOY_OR_NOT = #{record.employOrNot,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update volunteer_enroll
+    set CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      ENROLL_TIME = #{record.enrollTime,jdbcType=TIMESTAMP},
+      EMPLOY_OR_NOT = #{record.employOrNot,jdbcType=VARCHAR},
+      REMARKS = #{record.remarks,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
+    update volunteer_enroll
+    <set >
+      <if test="enrollTime != null" >
+        ENROLL_TIME = #{enrollTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="employOrNot != null" >
+        EMPLOY_OR_NOT = #{employOrNot,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
+    update volunteer_enroll
+    set ENROLL_TIME = #{enrollTime,jdbcType=TIMESTAMP},
+      EMPLOY_OR_NOT = #{employOrNot,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  </update>
+</mapper>

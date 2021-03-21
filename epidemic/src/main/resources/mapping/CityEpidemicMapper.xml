@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.dgut.epidemic.mapper.CityEpidemicMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.CityEpidemic" >
+    <id column="CITY_EPIDEMIC_ID" property="cityEpidemicId" jdbcType="BIGINT" />
+    <result column="CITY_ID" property="cityId" jdbcType="SMALLINT" />
+    <result column="NEW_DIAGNOSIS" property="newDiagnosis" jdbcType="INTEGER" />
+    <result column="EXISTING_DIAGNOSIS" property="existingDiagnosis" jdbcType="INTEGER" />
+    <result column="CUMULATIVE_DIAGNOSIS" property="cumulativeDiagnosis" jdbcType="INTEGER" />
+    <result column="CUMULATIVE_DEATH" property="cumulativeDeath" jdbcType="INTEGER" />
+    <result column="CUMULATIVE_CURE" property="cumulativeCure" jdbcType="INTEGER" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CITY_EPIDEMIC_ID, CITY_ID, NEW_DIAGNOSIS, EXISTING_DIAGNOSIS, CUMULATIVE_DIAGNOSIS, 
+    CUMULATIVE_DEATH, CUMULATIVE_CURE, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.CityEpidemicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from city_epidemic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from city_epidemic
+    where CITY_EPIDEMIC_ID = #{cityEpidemicId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from city_epidemic
+    where CITY_EPIDEMIC_ID = #{cityEpidemicId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.CityEpidemicExample" >
+    delete from city_epidemic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.CityEpidemic" >
+    insert into city_epidemic (CITY_EPIDEMIC_ID, CITY_ID, NEW_DIAGNOSIS, 
+      EXISTING_DIAGNOSIS, CUMULATIVE_DIAGNOSIS, 
+      CUMULATIVE_DEATH, CUMULATIVE_CURE, UPDATE_TIME
+      )
+    values (#{cityEpidemicId,jdbcType=BIGINT}, #{cityId,jdbcType=SMALLINT}, #{newDiagnosis,jdbcType=INTEGER}, 
+      #{existingDiagnosis,jdbcType=INTEGER}, #{cumulativeDiagnosis,jdbcType=INTEGER}, 
+      #{cumulativeDeath,jdbcType=INTEGER}, #{cumulativeCure,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.CityEpidemic" >
+    insert into city_epidemic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cityEpidemicId != null" >
+        CITY_EPIDEMIC_ID,
+      </if>
+      <if test="cityId != null" >
+        CITY_ID,
+      </if>
+      <if test="newDiagnosis != null" >
+        NEW_DIAGNOSIS,
+      </if>
+      <if test="existingDiagnosis != null" >
+        EXISTING_DIAGNOSIS,
+      </if>
+      <if test="cumulativeDiagnosis != null" >
+        CUMULATIVE_DIAGNOSIS,
+      </if>
+      <if test="cumulativeDeath != null" >
+        CUMULATIVE_DEATH,
+      </if>
+      <if test="cumulativeCure != null" >
+        CUMULATIVE_CURE,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cityEpidemicId != null" >
+        #{cityEpidemicId,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=SMALLINT},
+      </if>
+      <if test="newDiagnosis != null" >
+        #{newDiagnosis,jdbcType=INTEGER},
+      </if>
+      <if test="existingDiagnosis != null" >
+        #{existingDiagnosis,jdbcType=INTEGER},
+      </if>
+      <if test="cumulativeDiagnosis != null" >
+        #{cumulativeDiagnosis,jdbcType=INTEGER},
+      </if>
+      <if test="cumulativeDeath != null" >
+        #{cumulativeDeath,jdbcType=INTEGER},
+      </if>
+      <if test="cumulativeCure != null" >
+        #{cumulativeCure,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.edu.dgut.epidemic.pojo.CityEpidemicExample" resultType="java.lang.Integer" >
+    select count(*) from city_epidemic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update city_epidemic
+    <set >
+      <if test="record.cityEpidemicId != null" >
+        CITY_EPIDEMIC_ID = #{record.cityEpidemicId,jdbcType=BIGINT},
+      </if>
+      <if test="record.cityId != null" >
+        CITY_ID = #{record.cityId,jdbcType=SMALLINT},
+      </if>
+      <if test="record.newDiagnosis != null" >
+        NEW_DIAGNOSIS = #{record.newDiagnosis,jdbcType=INTEGER},
+      </if>
+      <if test="record.existingDiagnosis != null" >
+        EXISTING_DIAGNOSIS = #{record.existingDiagnosis,jdbcType=INTEGER},
+      </if>
+      <if test="record.cumulativeDiagnosis != null" >
+        CUMULATIVE_DIAGNOSIS = #{record.cumulativeDiagnosis,jdbcType=INTEGER},
+      </if>
+      <if test="record.cumulativeDeath != null" >
+        CUMULATIVE_DEATH = #{record.cumulativeDeath,jdbcType=INTEGER},
+      </if>
+      <if test="record.cumulativeCure != null" >
+        CUMULATIVE_CURE = #{record.cumulativeCure,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update city_epidemic
+    set CITY_EPIDEMIC_ID = #{record.cityEpidemicId,jdbcType=BIGINT},
+      CITY_ID = #{record.cityId,jdbcType=SMALLINT},
+      NEW_DIAGNOSIS = #{record.newDiagnosis,jdbcType=INTEGER},
+      EXISTING_DIAGNOSIS = #{record.existingDiagnosis,jdbcType=INTEGER},
+      CUMULATIVE_DIAGNOSIS = #{record.cumulativeDiagnosis,jdbcType=INTEGER},
+      CUMULATIVE_DEATH = #{record.cumulativeDeath,jdbcType=INTEGER},
+      CUMULATIVE_CURE = #{record.cumulativeCure,jdbcType=INTEGER},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.dgut.epidemic.pojo.CityEpidemic" >
+    update city_epidemic
+    <set >
+      <if test="cityId != null" >
+        CITY_ID = #{cityId,jdbcType=SMALLINT},
+      </if>
+      <if test="newDiagnosis != null" >
+        NEW_DIAGNOSIS = #{newDiagnosis,jdbcType=INTEGER},
+      </if>
+      <if test="existingDiagnosis != null" >
+        EXISTING_DIAGNOSIS = #{existingDiagnosis,jdbcType=INTEGER},
+      </if>
+      <if test="cumulativeDiagnosis != null" >
+        CUMULATIVE_DIAGNOSIS = #{cumulativeDiagnosis,jdbcType=INTEGER},
+      </if>
+      <if test="cumulativeDeath != null" >
+        CUMULATIVE_DEATH = #{cumulativeDeath,jdbcType=INTEGER},
+      </if>
+      <if test="cumulativeCure != null" >
+        CUMULATIVE_CURE = #{cumulativeCure,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CITY_EPIDEMIC_ID = #{cityEpidemicId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.CityEpidemic" >
+    update city_epidemic
+    set CITY_ID = #{cityId,jdbcType=SMALLINT},
+      NEW_DIAGNOSIS = #{newDiagnosis,jdbcType=INTEGER},
+      EXISTING_DIAGNOSIS = #{existingDiagnosis,jdbcType=INTEGER},
+      CUMULATIVE_DIAGNOSIS = #{cumulativeDiagnosis,jdbcType=INTEGER},
+      CUMULATIVE_DEATH = #{cumulativeDeath,jdbcType=INTEGER},
+      CUMULATIVE_CURE = #{cumulativeCure,jdbcType=INTEGER},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where CITY_EPIDEMIC_ID = #{cityEpidemicId,jdbcType=BIGINT}
+  </update>
+</mapper>

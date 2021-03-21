@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.dgut.epidemic.mapper.CampusUserInfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.CampusUserInfo" >
+    <id column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <result column="FULL_NAME" property="fullName" jdbcType="VARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="VARCHAR" />
+    <result column="AGE" property="age" jdbcType="SMALLINT" />
+    <result column="ID_NUMBER" property="idNumber" jdbcType="VARCHAR" />
+    <result column="POST" property="post" jdbcType="VARCHAR" />
+    <result column="CLASS_ID" property="classId" jdbcType="INTEGER" />
+    <result column="PHONE_NUMBER" property="phoneNumber" jdbcType="CHAR" />
+    <result column="EMERGENCY_CONTACT" property="emergencyContact" jdbcType="VARCHAR" />
+    <result column="EMERGENCY_CONTACT_PHONE" property="emergencyContactPhone" jdbcType="CHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CAMPUS_ID, FULL_NAME, GENDER, AGE, ID_NUMBER, POST, CLASS_ID, PHONE_NUMBER, EMERGENCY_CONTACT, 
+    EMERGENCY_CONTACT_PHONE, ADDRESS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.CampusUserInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from campus_user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from campus_user_info
+    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from campus_user_info
+    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.CampusUserInfoExample" >
+    delete from campus_user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.CampusUserInfo" >
+    insert into campus_user_info (CAMPUS_ID, FULL_NAME, GENDER, 
+      AGE, ID_NUMBER, POST, 
+      CLASS_ID, PHONE_NUMBER, EMERGENCY_CONTACT, 
+      EMERGENCY_CONTACT_PHONE, ADDRESS)
+    values (#{campusId,jdbcType=BIGINT}, #{fullName,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{age,jdbcType=SMALLINT}, #{idNumber,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, 
+      #{classId,jdbcType=INTEGER}, #{phoneNumber,jdbcType=CHAR}, #{emergencyContact,jdbcType=VARCHAR}, 
+      #{emergencyContactPhone,jdbcType=CHAR}, #{address,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.CampusUserInfo" >
+    insert into campus_user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="campusId != null" >
+        CAMPUS_ID,
+      </if>
+      <if test="fullName != null" >
+        FULL_NAME,
+      </if>
+      <if test="gender != null" >
+        GENDER,
+      </if>
+      <if test="age != null" >
+        AGE,
+      </if>
+      <if test="idNumber != null" >
+        ID_NUMBER,
+      </if>
+      <if test="post != null" >
+        POST,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="phoneNumber != null" >
+        PHONE_NUMBER,
+      </if>
+      <if test="emergencyContact != null" >
+        EMERGENCY_CONTACT,
+      </if>
+      <if test="emergencyContactPhone != null" >
+        EMERGENCY_CONTACT_PHONE,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="campusId != null" >
+        #{campusId,jdbcType=BIGINT},
+      </if>
+      <if test="fullName != null" >
+        #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="idNumber != null" >
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=CHAR},
+      </if>
+      <if test="emergencyContact != null" >
+        #{emergencyContact,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyContactPhone != null" >
+        #{emergencyContactPhone,jdbcType=CHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.edu.dgut.epidemic.pojo.CampusUserInfoExample" resultType="java.lang.Integer" >
+    select count(*) from campus_user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update campus_user_info
+    <set >
+      <if test="record.campusId != null" >
+        CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      </if>
+      <if test="record.fullName != null" >
+        FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        GENDER = #{record.gender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null" >
+        AGE = #{record.age,jdbcType=SMALLINT},
+      </if>
+      <if test="record.idNumber != null" >
+        ID_NUMBER = #{record.idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.post != null" >
+        POST = #{record.post,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classId != null" >
+        CLASS_ID = #{record.classId,jdbcType=INTEGER},
+      </if>
+      <if test="record.phoneNumber != null" >
+        PHONE_NUMBER = #{record.phoneNumber,jdbcType=CHAR},
+      </if>
+      <if test="record.emergencyContact != null" >
+        EMERGENCY_CONTACT = #{record.emergencyContact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emergencyContactPhone != null" >
+        EMERGENCY_CONTACT_PHONE = #{record.emergencyContactPhone,jdbcType=CHAR},
+      </if>
+      <if test="record.address != null" >
+        ADDRESS = #{record.address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update campus_user_info
+    set CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
+      GENDER = #{record.gender,jdbcType=VARCHAR},
+      AGE = #{record.age,jdbcType=SMALLINT},
+      ID_NUMBER = #{record.idNumber,jdbcType=VARCHAR},
+      POST = #{record.post,jdbcType=VARCHAR},
+      CLASS_ID = #{record.classId,jdbcType=INTEGER},
+      PHONE_NUMBER = #{record.phoneNumber,jdbcType=CHAR},
+      EMERGENCY_CONTACT = #{record.emergencyContact,jdbcType=VARCHAR},
+      EMERGENCY_CONTACT_PHONE = #{record.emergencyContactPhone,jdbcType=CHAR},
+      ADDRESS = #{record.address,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.dgut.epidemic.pojo.CampusUserInfo" >
+    update campus_user_info
+    <set >
+      <if test="fullName != null" >
+        FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        AGE = #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="idNumber != null" >
+        ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        POST = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        CLASS_ID = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="phoneNumber != null" >
+        PHONE_NUMBER = #{phoneNumber,jdbcType=CHAR},
+      </if>
+      <if test="emergencyContact != null" >
+        EMERGENCY_CONTACT = #{emergencyContact,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyContactPhone != null" >
+        EMERGENCY_CONTACT_PHONE = #{emergencyContactPhone,jdbcType=CHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.CampusUserInfo" >
+    update campus_user_info
+    set FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      GENDER = #{gender,jdbcType=VARCHAR},
+      AGE = #{age,jdbcType=SMALLINT},
+      ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      POST = #{post,jdbcType=VARCHAR},
+      CLASS_ID = #{classId,jdbcType=INTEGER},
+      PHONE_NUMBER = #{phoneNumber,jdbcType=CHAR},
+      EMERGENCY_CONTACT = #{emergencyContact,jdbcType=VARCHAR},
+      EMERGENCY_CONTACT_PHONE = #{emergencyContactPhone,jdbcType=CHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR}
+    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  </update>
+</mapper>
