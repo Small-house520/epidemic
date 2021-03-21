@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<!-- 页面meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>出入校园记录</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+	name="viewport">
+<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+<link rel="stylesheet"
+	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/style.css">
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="hold-transition skin-red sidebar-mini">
+	<!-- .box-body -->
+	<div class="box-header with-border">
+		<h3 class="box-title">出入校园记录</h3>
+	</div>
+
+	<div class="box-body">
+
+		<!-- 数据表格 -->
+		<div class="table-box">
+
+			<!--工具栏-->
+			<div class="pull-left">
+				<div class="form-group form-inline">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default" title="刷新"
+							onclick="window.location.reload();">
+							<i class="fa fa-refresh"></i> 刷新
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="box-tools pull-right">
+				<div class="has-feedback">
+					姓名： <input type="text" id="fullName" name="fullName"
+						placeholder="姓名" value=""> 状态：<input type="text"
+						id="state" name="state" placeholder="状态" value=""> 手机号码： <input
+						type="number" id="phoneNumber" name="phoneNumber"
+						placeholder="手机号码" value=""> 记录时间： <input type="datetime"
+						id="recordDate" name="recordDate" placeholder="记录时间" value="">
+					<button class="btn btn-default">查询</button>
+				</div>
+			</div>
+			<!--工具栏/-->
+
+			<!--数据列表-->
+			<table id="dataList"
+				class="table table-bordered table-striped table-hover dataTable">
+				<thead>
+					<tr>
+						<th class="" style="padding-right: 0px"><input id="selall"
+							type="checkbox" class="icheckbox_square-blue"></th>
+						<th class="sorting_asc">记录ID</th>
+						<th class="sorting">姓名</th>
+						<th class="sorting">单位</th>
+						<th class="sorting">联系方式</th>
+						<th class="sorting">事由</th>
+						<th class="sorting">审批人</th>
+						<th class="sorting">状态</th>
+						<th class="sorting">记录时间</th>
+
+
+						<th class="text-center">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="checkbox"></td>
+						<td>1</td>
+						<td>梦琪琪商贸有限公司</td>
+						<td>梦琪琪</td>
+						<td>李梦琪</td>
+						<td>13402312232</td>
+						<td>梦琪琪</td>
+						<td>李梦琪</td>
+						<td>13402312232</td>
+
+						<td class="text-center">
+							<button type="button" class="btn bg-olive btn-xs"
+								data-toggle="modal" data-target="#sellerModal">详情</button>
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox"></td>
+						<td>2</td>
+						<td>黑瞎子苹果专卖店</td>
+						<td>黑瞎子</td>
+						<td>孙大鹏</td>
+						<td>13622244111</td>
+						<td>黑瞎子</td>
+						<td>孙大鹏</td>
+						<td>13622244111</td>
+
+						<td class="text-center">
+							<button type="button" class="btn bg-olive btn-xs"
+								data-toggle="modal" data-target="#sellerModal">详情</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!--数据列表/-->
+
+
+		</div>
+		<!-- 数据表格 /-->
+
+
+
+
+	</div>
+	<!-- /.box-body -->
+
+
+
+
+	<!-- 商家详情 -->
+	<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 id="myModalLabel">记录详情</h3>
+				</div>
+				<div class="modal-body">
+
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#drive" data-toggle="tab">驾车信息</a></li>
+					</ul>
+
+					<!-- 选项卡开始 -->
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade" id="drive">
+							<br>
+							<table class="table table-bordered table-striped">
+								<tr>
+									<td>是否驾车</td>
+									<td>7822332278223322</td>
+								</tr>
+								<tr>
+									<td>驾驶人</td>
+									<td>7822332278223322</td>
+								</tr>
+								<tr>
+									<td>车牌号</td>
+									<td>7822332278223322</td>
+								</tr>
+								<tr>
+									<td>备注</td>
+									<td>7822332278223322</td>
+								</tr>
+							</table>
+						</div>
+
+					</div>
+					<!-- 选项卡结束 -->
+
+
+				</div>
+				<div class="modal-footer">
+					<!-- <button class="btn btn-success" data-dismiss="modal"
+							aria-hidden="true">审核通过</button>
+						<button class="btn btn-danger" data-dismiss="modal"
+							aria-hidden="true">审核未通过</button> -->
+					<button class="btn btn-default" data-dismiss="modal"
+						aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+</html>

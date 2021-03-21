@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<!-- 页面meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>体温记录</title>
+<meta
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+	name="viewport">
+<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+<link rel="stylesheet"
+	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/style.css">
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="hold-transition skin-red sidebar-mini">
+	<!-- .box-body -->
+	<div class="box-header with-border">
+		<h3 class="box-title">体温记录</h3>
+	</div>
+
+	<div class="box-body">
+
+		<!-- 数据表格 -->
+		<div class="table-box">
+
+			<!--工具栏-->
+			<div class="pull-left">
+				<div class="form-group form-inline">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default" title="刷新"
+							onclick="window.location.reload();">
+							<i class="fa fa-refresh"></i> 刷新
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="box-tools pull-right">
+				<div class="has-feedback">
+					编号：<input type="number" id="campusId" name="campusId"
+						placeholder="编号" value=""> 体温： <input type="number"
+						id="temperature" name="temperature" placeholder="班级编号" value="">
+					填报日期： <input type="datetime" id="uploadDate" name="uploadDate"
+						placeholder="填报日期" value="">
+					<button class="btn btn-default">查询</button>
+				</div>
+			</div>
+			<!--工具栏/-->
+
+			<!--数据列表-->
+			<table id="dataList"
+				class="table table-bordered table-striped table-hover dataTable">
+				<thead>
+					<tr>
+						<th class="" style="padding-right: 0px"><input id="selall"
+							type="checkbox" class="icheckbox_square-blue"></th>
+						<th class="sorting_asc">编号</th>
+						<th class="sorting">身体状况</th>
+						<th class="sorting">今日体温</th>
+						<th class="sorting">填报日期</th>
+						<th class="sorting">备注</th>
+
+						<th class="text-center">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="checkbox"></td>
+						<td>1</td>
+						<td>梦琪琪商贸有限公司</td>
+						<td>梦琪琪</td>
+						<td>李梦琪</td>
+						<td>13402312232</td>
+
+					</tr>
+					<tr>
+						<td><input type="checkbox"></td>
+						<td>2</td>
+						<td>黑瞎子苹果专卖店</td>
+						<td>黑瞎子</td>
+						<td>孙大鹏</td>
+						<td>13622244111</td>
+
+					</tr>
+				</tbody>
+			</table>
+			<!--数据列表/-->
+
+
+		</div>
+		<!-- 数据表格 /-->
+
+
+
+
+	</div>
+	<!-- /.box-body -->
+
+
+
+</body>
+
+</html>

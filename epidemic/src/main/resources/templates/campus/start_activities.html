@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<!-- 页面meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>发起志愿活动</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+	name="viewport">
+<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+<link rel="stylesheet"
+	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/style.css">
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="hold-transition skin-red sidebar-mini">
+	<!-- 正文区域 -->
+	<section class="content">
+
+		<div class="box-body">
+
+			<!--tab页-->
+			<div class="nav-tabs-custom">
+
+				<!--tab头-->
+				<ul class="nav nav-tabs">
+
+					<li class="active"><a href="#home" data-toggle="tab">发起志愿活动</a>
+					</li>
+				</ul>
+				<!--tab头/-->
+
+				<!--tab内容-->
+				<div class="tab-content">
+
+					<!--表单内容-->
+					<div class="tab-pane active" id="home">
+						<div class="row data-type">
+
+							<div class="col-md-2 title">志愿服务标题</div>
+							<div class="col-md-10 data">
+								<input type="text" id="title" name="title" class="form-control"
+									placeholder="志愿服务标题" value="">
+							</div>
+
+							<div class="col-md-2 title">志愿服务详情</div>
+							<div class="col-md-10 data">
+								<input type="text" id="details" name="details"
+									class="form-control" placeholder="志愿服务详情" value="">
+							</div>
+
+							<div class="col-md-2 title">志愿服务发起人</div>
+							<div class="col-md-10 data">
+								<input type="text" id="sponsor" name="sponsor"
+									class="form-control" placeholder="志愿服务发起人" value="">
+							</div>
+
+							<div class="col-md-2 title">招募志愿者人数</div>
+							<div class="col-md-10 data">
+								<input type="number" id="expectedVolunteers"
+									name="expectedVolunteers" class="form-control"
+									placeholder="招募志愿者人数" value="">
+							</div>
+
+							<div class="col-md-2 title">招募志愿者条件</div>
+							<div class="col-md-10 data">
+								<input type="text" id="conditions" name="conditions"
+									class="form-control" placeholder="招募志愿者条件" value="">
+							</div>
+
+							<div class="col-md-2 title">参加活动志愿者人数</div>
+							<div class="col-md-10 data">
+								<input type="number" id="participatedVolunteers"
+									name="participatedVolunteers" class="form-control"
+									placeholder="参加活动志愿者人数" value="">
+							</div>
+
+							<div class="col-md-2 title">志愿服务地点</div>
+							<div class="col-md-10 data">
+								<input type="text" id="location" name="location"
+									class="form-control" placeholder="志愿服务地点" value="">
+							</div>
+
+							<div class="col-md-2 title">志愿服务发起时间</div>
+							<div class="col-md-10 data">
+								<input type="datetime" id="initiateTime" name="initiateTime"
+									class="form-control" placeholder="志愿服务发起时间" value="">
+							</div>
+
+							<div class="col-md-2 title">志愿服务开始时间</div>
+							<div class="col-md-10 data">
+								<input type="datetime" id="startTime" name="startTime"
+									class="form-control" placeholder="志愿服务开始时间" value="">
+							</div>
+
+							<div class="col-md-2 title">志愿服务结束时间</div>
+							<div class="col-md-10 data">
+								<input type="datetime" id="endTime" name="endTime"
+									class="form-control" placeholder="志愿服务结束时间" value="">
+							</div>
+
+							<div class="col-md-2 title">备注</div>
+							<div class="col-md-10 data">
+								<input type="text" id="remarks" name="remarks"
+									class="form-control" placeholder="备注" value="">
+							</div>
+
+						</div>
+					</div>
+
+
+				</div>
+				<!--tab内容/-->
+				<!--表单内容/-->
+
+			</div>
+
+
+
+		</div>
+		<div class="btn-toolbar list-toolbar">
+			<button class="btn btn-primary">
+				<i class="fa fa-save"></i>保存
+			</button>
+			<a data-toggle="modal" class="btn btn-danger">提交</a>
+		</div>
+
+	</section>
+	<!-- 正文区域 /-->
+
+</body>
+
+</html>

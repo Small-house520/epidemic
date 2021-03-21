@@ -41,7 +41,7 @@
 		<!-- 页面头部 -->
 		<header class="main-header">
 			<!-- Logo -->
-			<a href="index.html" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+			<a href="home.html" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
 				<span class="logo-mini"><b>防控疫情</b></span> <!-- logo for regular state and mobile devices -->
 				<span class="logo-lg"><b>校园疫情-防控管理后台</b></span>
 			</a>
@@ -283,7 +283,7 @@
 				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu">
 					<li class="header">菜单</li>
-					<li id="admin-index"><a href="index.html"><i
+					<li id="admin-index"><a href="home.html"><i
 							class="fa fa-dashboard"></i> <span>首页</span></a></li>
 
 					<!-- 菜单 -->
@@ -293,14 +293,20 @@
 						</span>
 					</a>
 						<ul class="treeview-menu">
-							<li id="admin-login"><a href="user_list.html"
+							<li id="admin-login"><a href="user/account_list.html"
+								target="iframe"> <i class="fa fa-circle-o"></i>账号信息
+							</a></li>
+							<li id="admin-login"><a href="user/user_list.html"
 								target="iframe"> <i class="fa fa-circle-o"></i>用户信息
 							</a></li>
-							<li id="admin-login"><a href="user_edit.html"
+							<li id="admin-login"><a href="user/account_edit.html"
+								target="iframe"> <i class="fa fa-circle-o"></i>账号编辑
+							</a></li>
+							<li id="admin-login"><a href="user/user_edit.html"
 								target="iframe"> <i class="fa fa-circle-o"></i>用户编辑
 							</a></li>
-							<li id="admin-login"><a href="user_add.html" target="iframe">
-									<i class="fa fa-circle-o"></i>添加用户
+							<li id="admin-login"><a href="user/user_add.html"
+								target="iframe"> <i class="fa fa-circle-o"></i>添加用户
 							</a></li>
 						</ul></li>
 					<li class="treeview"><a href="#"> <i class="fa fa-folder"></i>
@@ -309,17 +315,13 @@
 						</span>
 					</a>
 						<ul class="treeview-menu">
-							<li id="admin-login"><a href="permission_add.html"
-								target="iframe"> <i class="fa fa-circle-o"></i>添加权限
+							<li id="admin-login"><a
+								href="permission/permission_add.html" target="iframe"> <i
+									class="fa fa-circle-o"></i>添加权限
 							</a></li>
-							<li id="admin-login"><a href="permission_list.html"
-								target="iframe"> <i class="fa fa-circle-o"></i>查看权限
-							</a></li>
-							<li id="admin-login"><a href="permission_edit.html"
-								target="iframe"> <i class="fa fa-circle-o"></i>编辑权限
-							</a></li>
-							<li id="admin-login"><a href="permission_assign.html"
-								target="iframe"> <i class="fa fa-circle-o"></i>分配权限
+							<li id="admin-login"><a
+								href="permission/permission_list.html" target="iframe"> <i
+									class="fa fa-circle-o"></i>查看权限
 							</a></li>
 						</ul></li>
 					<li class="treeview"><a href="#"> <i class="fa fa-folder"></i>
@@ -328,16 +330,16 @@
 						</span>
 					</a>
 						<ul class="treeview-menu">
-							<li id="admin-login"><a href="health_upload.html"
+							<li id="admin-login"><a href="campus/health_upload.html"
 								target="iframe"> <i class="fa fa-circle-o"></i>体温行程上报
 							</a></li>
-							<li id="admin-login"><a href="temperature.html"
+							<li id="admin-login"><a href="campus/temperature.html"
 								target="iframe"> <i class="fa fa-circle-o"></i>体温记录管理
 							</a></li>
-							<li id="admin-login"><a href="travel.html" target="iframe">
-									<i class="fa fa-circle-o"></i>行程记录管理
+							<li id="admin-login"><a href="campus/travel.html"
+								target="iframe"> <i class="fa fa-circle-o"></i>行程记录管理
 							</a></li>
-							<li id="admin-login"><a href="campus_access.html"
+							<li id="admin-login"><a href="campus/campus_access.html"
 								target="iframe"> <i class="fa fa-circle-o"></i>出入校园记录管理
 							</a></li>
 						</ul></li>
@@ -349,17 +351,17 @@
 					</a>
 						<ul class="treeview-menu">
 
-							<li id="admin-login"><a href="diagnosis.html"
+							<li id="admin-login"><a href="epidemic/diagnosis.html"
 								target="iframe"> <i class="fa fa-circle-o"></i>确诊患者管理
 							</a></li>
-							<li id="admin-login"><a href="close_contact.html"
+							<li id="admin-login"><a href="epidemic/close_contact.html"
 								target="iframe"> <i class="fa fa-circle-o"></i>密切接触管理
 							</a></li>
-							<li id="admin-login"><a href="cure.html" target="iframe">
-									<i class="fa fa-circle-o"></i>治愈管理
+							<li id="admin-login"><a href="epidemic/cure.html"
+								target="iframe"> <i class="fa fa-circle-o"></i>治愈管理
 							</a></li>
-							<li id="admin-login"><a href="death.html" target="iframe">
-									<i class="fa fa-circle-o"></i>死亡管理
+							<li id="admin-login"><a href="epidemic/death.html"
+								target="iframe"> <i class="fa fa-circle-o"></i>死亡管理
 							</a></li>
 						</ul></li>
 
@@ -370,11 +372,12 @@
 					</a>
 						<ul class="treeview-menu">
 
-							<li id="admin-login"><a href="start_activities.html"
+							<li id="admin-login"><a href="campus/start_activities.html"
 								target="iframe"> <i class="fa fa-circle-o"></i>发起志愿活动
 							</a></li>
-							<li id="admin-login"><a href="volunteer_activities.html"
-								target="iframe"> <i class="fa fa-circle-o"></i>防疫志愿风采展
+							<li id="admin-login"><a
+								href="campus/volunteer_activities.html" target="iframe"> <i
+									class="fa fa-circle-o"></i>防疫志愿风采展
 							</a></li>
 						</ul></li>
 					<!-- 菜单 /-->

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>体温行程上报</title>
+<meta
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+	name="viewport">
+<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+<link rel="stylesheet"
+	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/style.css">
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
+
+</head>
+<body class="hold-transition skin-red sidebar-mini">
+	<!-- 正文区域 -->
+	<section class="content">
+
+		<div class="box-body">
+
+			<!--tab页-->
+			<div class="nav-tabs-custom">
+
+				<!--tab头-->
+				<ul class="nav nav-tabs">
+
+					<li class="active"><a href="#home" data-toggle="tab">体温行程填报</a>
+					</li>
+				</ul>
+				<!--tab头/-->
+
+				<!--tab内容-->
+				<div class="tab-content">
+
+					<!--表单内容-->
+					<div class="tab-pane active" id="home">
+						<div class="row data-type">
+
+							<div class="col-md-2 title">编号</div>
+							<div class="col-md-10 data">
+								<input type="number" id="campusId" name="campusId"
+									class="form-control" placeholder="编号" value="">
+							</div>
+
+							<div class="col-md-2 title">身体状况</div>
+							<div class="col-md-10 data">
+								<input type="text" id="physicalCondition"
+									name="physicalCondition" class="form-control" placeholder="密码"
+									value="">
+							</div>
+
+							<div class="col-md-2 title">近14天的行程记录</div>
+							<div class="col-md-10 data">
+								<input type="text" id="itineraryRecords" name="itineraryRecords"
+									class="form-control" placeholder="近14天的行程记录" value="">
+							</div>
+
+							<div class="col-md-2 title">是否已经返校</div>
+							<div class="col-md-10 data">
+								<input type="text" id="returnedToSchool" name="returnedToSchool"
+									class="form-control" placeholder="是否已经返校" value="">
+							</div>
+
+							<div class="col-md-2 title">当前所在地</div>
+							<div class="col-md-10 data">
+								<input type="text" id="currentAddress" name="currentAddress"
+									class="form-control" placeholder="当前所在地" value="">
+							</div>
+
+							<div class="col-md-2 title">今日体温</div>
+							<div class="col-md-10 data">
+								<input type="number" id="temperature" name="temperature"
+									class="form-control" placeholder="今日体温" value="">
+							</div>
+
+							<div class="col-md-2 title">备注</div>
+							<div class="col-md-10 data">
+								<input type="text" id="remarks" name="remarks"
+									class="form-control" placeholder="备注" value="">
+							</div>
+
+
+						</div>
+					</div>
+
+
+				</div>
+				<!--tab内容/-->
+				<!--表单内容/-->
+
+			</div>
+
+
+		</div>
+		<div class="btn-toolbar list-toolbar">
+			<button class="btn btn-primary">
+				<i class="fa fa-save"></i>保存
+			</button>
+			<a data-toggle="modal" class="btn btn-danger">提交</a>
+		</div>
+
+	</section>
+	<!-- 正文区域 /-->
+
+</body>
+</html>
