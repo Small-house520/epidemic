@@ -105,6 +105,66 @@ public class VolunteerEnrollExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
+        public Criteria andVolunteerIdIsNull() {
+            addCriterion("VOLUNTEER_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerIdIsNotNull() {
+            addCriterion("VOLUNTEER_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerIdEqualTo(Integer value) {
+            addCriterion("VOLUNTEER_ID =", value, "volunteerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerIdNotEqualTo(Integer value) {
+            addCriterion("VOLUNTEER_ID <>", value, "volunteerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerIdGreaterThan(Integer value) {
+            addCriterion("VOLUNTEER_ID >", value, "volunteerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("VOLUNTEER_ID >=", value, "volunteerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerIdLessThan(Integer value) {
+            addCriterion("VOLUNTEER_ID <", value, "volunteerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerIdLessThanOrEqualTo(Integer value) {
+            addCriterion("VOLUNTEER_ID <=", value, "volunteerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerIdIn(List<Integer> values) {
+            addCriterion("VOLUNTEER_ID in", values, "volunteerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerIdNotIn(List<Integer> values) {
+            addCriterion("VOLUNTEER_ID not in", values, "volunteerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerIdBetween(Integer value1, Integer value2) {
+            addCriterion("VOLUNTEER_ID between", value1, value2, "volunteerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("VOLUNTEER_ID not between", value1, value2, "volunteerId");
+            return (Criteria) this;
+        }
+
         public Criteria andCampusIdIsNull() {
             addCriterion("CAMPUS_ID is null");
             return (Criteria) this;
@@ -162,6 +222,76 @@ public class VolunteerEnrollExample {
 
         public Criteria andCampusIdNotBetween(Long value1, Long value2) {
             addCriterion("CAMPUS_ID not between", value1, value2, "campusId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedIsNull() {
+            addCriterion("IS_QUALIFIED is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedIsNotNull() {
+            addCriterion("IS_QUALIFIED is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedEqualTo(String value) {
+            addCriterion("IS_QUALIFIED =", value, "isQualified");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedNotEqualTo(String value) {
+            addCriterion("IS_QUALIFIED <>", value, "isQualified");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedGreaterThan(String value) {
+            addCriterion("IS_QUALIFIED >", value, "isQualified");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedGreaterThanOrEqualTo(String value) {
+            addCriterion("IS_QUALIFIED >=", value, "isQualified");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedLessThan(String value) {
+            addCriterion("IS_QUALIFIED <", value, "isQualified");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedLessThanOrEqualTo(String value) {
+            addCriterion("IS_QUALIFIED <=", value, "isQualified");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedLike(String value) {
+            addCriterion("IS_QUALIFIED like", value, "isQualified");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedNotLike(String value) {
+            addCriterion("IS_QUALIFIED not like", value, "isQualified");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedIn(List<String> values) {
+            addCriterion("IS_QUALIFIED in", values, "isQualified");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedNotIn(List<String> values) {
+            addCriterion("IS_QUALIFIED not in", values, "isQualified");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedBetween(String value1, String value2) {
+            addCriterion("IS_QUALIFIED between", value1, value2, "isQualified");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQualifiedNotBetween(String value1, String value2) {
+            addCriterion("IS_QUALIFIED not between", value1, value2, "isQualified");
             return (Criteria) this;
         }
 
@@ -295,73 +425,143 @@ public class VolunteerEnrollExample {
             return (Criteria) this;
         }
 
-        public Criteria andRemarksIsNull() {
-            addCriterion("REMARKS is null");
+        public Criteria andVolunteerRemarksIsNull() {
+            addCriterion("VOLUNTEER_REMARKS is null");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksIsNotNull() {
-            addCriterion("REMARKS is not null");
+        public Criteria andVolunteerRemarksIsNotNull() {
+            addCriterion("VOLUNTEER_REMARKS is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksEqualTo(String value) {
-            addCriterion("REMARKS =", value, "remarks");
+        public Criteria andVolunteerRemarksEqualTo(String value) {
+            addCriterion("VOLUNTEER_REMARKS =", value, "volunteerRemarks");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksNotEqualTo(String value) {
-            addCriterion("REMARKS <>", value, "remarks");
+        public Criteria andVolunteerRemarksNotEqualTo(String value) {
+            addCriterion("VOLUNTEER_REMARKS <>", value, "volunteerRemarks");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksGreaterThan(String value) {
-            addCriterion("REMARKS >", value, "remarks");
+        public Criteria andVolunteerRemarksGreaterThan(String value) {
+            addCriterion("VOLUNTEER_REMARKS >", value, "volunteerRemarks");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksGreaterThanOrEqualTo(String value) {
-            addCriterion("REMARKS >=", value, "remarks");
+        public Criteria andVolunteerRemarksGreaterThanOrEqualTo(String value) {
+            addCriterion("VOLUNTEER_REMARKS >=", value, "volunteerRemarks");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksLessThan(String value) {
-            addCriterion("REMARKS <", value, "remarks");
+        public Criteria andVolunteerRemarksLessThan(String value) {
+            addCriterion("VOLUNTEER_REMARKS <", value, "volunteerRemarks");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksLessThanOrEqualTo(String value) {
-            addCriterion("REMARKS <=", value, "remarks");
+        public Criteria andVolunteerRemarksLessThanOrEqualTo(String value) {
+            addCriterion("VOLUNTEER_REMARKS <=", value, "volunteerRemarks");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksLike(String value) {
-            addCriterion("REMARKS like", value, "remarks");
+        public Criteria andVolunteerRemarksLike(String value) {
+            addCriterion("VOLUNTEER_REMARKS like", value, "volunteerRemarks");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksNotLike(String value) {
-            addCriterion("REMARKS not like", value, "remarks");
+        public Criteria andVolunteerRemarksNotLike(String value) {
+            addCriterion("VOLUNTEER_REMARKS not like", value, "volunteerRemarks");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksIn(List<String> values) {
-            addCriterion("REMARKS in", values, "remarks");
+        public Criteria andVolunteerRemarksIn(List<String> values) {
+            addCriterion("VOLUNTEER_REMARKS in", values, "volunteerRemarks");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksNotIn(List<String> values) {
-            addCriterion("REMARKS not in", values, "remarks");
+        public Criteria andVolunteerRemarksNotIn(List<String> values) {
+            addCriterion("VOLUNTEER_REMARKS not in", values, "volunteerRemarks");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksBetween(String value1, String value2) {
-            addCriterion("REMARKS between", value1, value2, "remarks");
+        public Criteria andVolunteerRemarksBetween(String value1, String value2) {
+            addCriterion("VOLUNTEER_REMARKS between", value1, value2, "volunteerRemarks");
             return (Criteria) this;
         }
 
-        public Criteria andRemarksNotBetween(String value1, String value2) {
-            addCriterion("REMARKS not between", value1, value2, "remarks");
+        public Criteria andVolunteerRemarksNotBetween(String value1, String value2) {
+            addCriterion("VOLUNTEER_REMARKS not between", value1, value2, "volunteerRemarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksIsNull() {
+            addCriterion("SPONSOR_REMARKS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksIsNotNull() {
+            addCriterion("SPONSOR_REMARKS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksEqualTo(String value) {
+            addCriterion("SPONSOR_REMARKS =", value, "sponsorRemarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksNotEqualTo(String value) {
+            addCriterion("SPONSOR_REMARKS <>", value, "sponsorRemarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksGreaterThan(String value) {
+            addCriterion("SPONSOR_REMARKS >", value, "sponsorRemarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksGreaterThanOrEqualTo(String value) {
+            addCriterion("SPONSOR_REMARKS >=", value, "sponsorRemarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksLessThan(String value) {
+            addCriterion("SPONSOR_REMARKS <", value, "sponsorRemarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksLessThanOrEqualTo(String value) {
+            addCriterion("SPONSOR_REMARKS <=", value, "sponsorRemarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksLike(String value) {
+            addCriterion("SPONSOR_REMARKS like", value, "sponsorRemarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksNotLike(String value) {
+            addCriterion("SPONSOR_REMARKS not like", value, "sponsorRemarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksIn(List<String> values) {
+            addCriterion("SPONSOR_REMARKS in", values, "sponsorRemarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksNotIn(List<String> values) {
+            addCriterion("SPONSOR_REMARKS not in", values, "sponsorRemarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksBetween(String value1, String value2) {
+            addCriterion("SPONSOR_REMARKS between", value1, value2, "sponsorRemarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorRemarksNotBetween(String value1, String value2) {
+            addCriterion("SPONSOR_REMARKS not between", value1, value2, "sponsorRemarks");
             return (Criteria) this;
         }
     }

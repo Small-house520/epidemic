@@ -2,6 +2,7 @@ package cn.edu.dgut.epidemic.pojo;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TemperatureItineraryExample {
@@ -103,6 +104,66 @@ public class TemperatureItineraryExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        public Criteria andHealthIdIsNull() {
+            addCriterion("HEALTH_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHealthIdIsNotNull() {
+            addCriterion("HEALTH_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHealthIdEqualTo(Integer value) {
+            addCriterion("HEALTH_ID =", value, "healthId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHealthIdNotEqualTo(Integer value) {
+            addCriterion("HEALTH_ID <>", value, "healthId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHealthIdGreaterThan(Integer value) {
+            addCriterion("HEALTH_ID >", value, "healthId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHealthIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("HEALTH_ID >=", value, "healthId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHealthIdLessThan(Integer value) {
+            addCriterion("HEALTH_ID <", value, "healthId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHealthIdLessThanOrEqualTo(Integer value) {
+            addCriterion("HEALTH_ID <=", value, "healthId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHealthIdIn(List<Integer> values) {
+            addCriterion("HEALTH_ID in", values, "healthId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHealthIdNotIn(List<Integer> values) {
+            addCriterion("HEALTH_ID not in", values, "healthId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHealthIdBetween(Integer value1, Integer value2) {
+            addCriterion("HEALTH_ID between", value1, value2, "healthId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHealthIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("HEALTH_ID not between", value1, value2, "healthId");
+            return (Criteria) this;
         }
 
         public Criteria andCampusIdIsNull() {
@@ -502,6 +563,66 @@ public class TemperatureItineraryExample {
 
         public Criteria andTemperatureNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("TEMPERATURE not between", value1, value2, "temperature");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadDateIsNull() {
+            addCriterion("UPLOAD_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadDateIsNotNull() {
+            addCriterion("UPLOAD_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadDateEqualTo(Date value) {
+            addCriterion("UPLOAD_DATE =", value, "uploadDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadDateNotEqualTo(Date value) {
+            addCriterion("UPLOAD_DATE <>", value, "uploadDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadDateGreaterThan(Date value) {
+            addCriterion("UPLOAD_DATE >", value, "uploadDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("UPLOAD_DATE >=", value, "uploadDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadDateLessThan(Date value) {
+            addCriterion("UPLOAD_DATE <", value, "uploadDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadDateLessThanOrEqualTo(Date value) {
+            addCriterion("UPLOAD_DATE <=", value, "uploadDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadDateIn(List<Date> values) {
+            addCriterion("UPLOAD_DATE in", values, "uploadDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadDateNotIn(List<Date> values) {
+            addCriterion("UPLOAD_DATE not in", values, "uploadDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadDateBetween(Date value1, Date value2) {
+            addCriterion("UPLOAD_DATE between", value1, value2, "uploadDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUploadDateNotBetween(Date value1, Date value2) {
+            addCriterion("UPLOAD_DATE not between", value1, value2, "uploadDate");
             return (Criteria) this;
         }
 

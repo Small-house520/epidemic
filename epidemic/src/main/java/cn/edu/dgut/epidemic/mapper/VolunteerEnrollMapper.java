@@ -10,7 +10,7 @@ public interface VolunteerEnrollMapper {
 
     int deleteByExample(VolunteerEnrollExample example);
 
-    int deleteByPrimaryKey(Long campusId);
+    int deleteByPrimaryKey(Integer volunteerId);
 
     int insert(VolunteerEnroll record);
 
@@ -18,7 +18,7 @@ public interface VolunteerEnrollMapper {
 
     List<VolunteerEnroll> selectByExample(VolunteerEnrollExample example);
 
-    VolunteerEnroll selectByPrimaryKey(Long campusId);
+    VolunteerEnroll selectByPrimaryKey(Integer volunteerId);
 
     int updateByExampleSelective(@Param("record") VolunteerEnroll record, @Param("example") VolunteerEnrollExample example);
 

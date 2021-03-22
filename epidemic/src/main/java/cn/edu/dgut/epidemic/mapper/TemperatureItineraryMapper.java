@@ -10,7 +10,7 @@ public interface TemperatureItineraryMapper {
 
     int deleteByExample(TemperatureItineraryExample example);
 
-    int deleteByPrimaryKey(Long campusId);
+    int deleteByPrimaryKey(Integer healthId);
 
     int insert(TemperatureItinerary record);
 
@@ -18,7 +18,7 @@ public interface TemperatureItineraryMapper {
 
     List<TemperatureItinerary> selectByExample(TemperatureItineraryExample example);
 
-    TemperatureItinerary selectByPrimaryKey(Long campusId);
+    TemperatureItinerary selectByPrimaryKey(Integer healthId);
 
     int updateByExampleSelective(@Param("record") TemperatureItinerary record, @Param("example") TemperatureItineraryExample example);
 

@@ -11,6 +11,8 @@ public class EpidemicInformation {
 
     private Date releaseTime;
 
+    private String remarks;
+
     public Short getInformationId() {
         return informationId;
     }
@@ -41,5 +43,13 @@ public class EpidemicInformation {
 
     public void setReleaseTime(Date releaseTime) {
         this.releaseTime = releaseTime;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks == null ? null : remarks.trim();
     }
 }

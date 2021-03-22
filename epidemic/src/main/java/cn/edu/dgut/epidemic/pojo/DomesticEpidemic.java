@@ -13,9 +13,9 @@ public class DomesticEpidemic {
 
     private Integer existingAsymptomatic;
 
-    private Integer cumulativeDeath;
-
     private Integer cumulativeCure;
+
+    private Integer cumulativeDeath;
 
     private Date updateTime;
 
@@ -59,20 +59,20 @@ public class DomesticEpidemic {
         this.existingAsymptomatic = existingAsymptomatic;
     }
 
-    public Integer getCumulativeDeath() {
-        return cumulativeDeath;
-    }
-
-    public void setCumulativeDeath(Integer cumulativeDeath) {
-        this.cumulativeDeath = cumulativeDeath;
-    }
-
     public Integer getCumulativeCure() {
         return cumulativeCure;
     }
 
     public void setCumulativeCure(Integer cumulativeCure) {
         this.cumulativeCure = cumulativeCure;
+    }
+
+    public Integer getCumulativeDeath() {
+        return cumulativeDeath;
+    }
+
+    public void setCumulativeDeath(Integer cumulativeDeath) {
+        this.cumulativeDeath = cumulativeDeath;
     }
 
     public Date getUpdateTime() {

@@ -6,6 +6,7 @@
     <result column="TITLE" property="title" jdbcType="VARCHAR" />
     <result column="CORRESPONDING_LINK" property="correspondingLink" jdbcType="VARCHAR" />
     <result column="RELEASE_TIME" property="releaseTime" jdbcType="TIMESTAMP" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    INFORMATION_ID, TITLE, CORRESPONDING_LINK, RELEASE_TIME
+    INFORMATION_ID, TITLE, CORRESPONDING_LINK, RELEASE_TIME, REMARKS
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicInformationExample" >
     select
@@ -100,9 +101,9 @@
   </delete>
   <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicInformation" >
     insert into epidemic_information (INFORMATION_ID, TITLE, CORRESPONDING_LINK, 
-      RELEASE_TIME)
+      RELEASE_TIME, REMARKS)
     values (#{informationId,jdbcType=SMALLINT}, #{title,jdbcType=VARCHAR}, #{correspondingLink,jdbcType=VARCHAR}, 
-      #{releaseTime,jdbcType=TIMESTAMP})
+      #{releaseTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicInformation" >
     insert into epidemic_information
@@ -119,6 +120,9 @@
       <if test="releaseTime != null" >
         RELEASE_TIME,
       </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="informationId != null" >
@@ -132,6 +136,9 @@
       </if>
       <if test="releaseTime != null" >
         #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -156,6 +163,9 @@
       <if test="record.releaseTime != null" >
         RELEASE_TIME = #{record.releaseTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.remarks != null" >
+        REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,7 +176,8 @@
     set INFORMATION_ID = #{record.informationId,jdbcType=SMALLINT},
       TITLE = #{record.title,jdbcType=VARCHAR},
       CORRESPONDING_LINK = #{record.correspondingLink,jdbcType=VARCHAR},
-      RELEASE_TIME = #{record.releaseTime,jdbcType=TIMESTAMP}
+      RELEASE_TIME = #{record.releaseTime,jdbcType=TIMESTAMP},
+      REMARKS = #{record.remarks,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +194,9 @@
       <if test="releaseTime != null" >
         RELEASE_TIME = #{releaseTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
     </set>
     where INFORMATION_ID = #{informationId,jdbcType=SMALLINT}
   </update>
@@ -190,7 +204,8 @@
     update epidemic_information
     set TITLE = #{title,jdbcType=VARCHAR},
       CORRESPONDING_LINK = #{correspondingLink,jdbcType=VARCHAR},
-      RELEASE_TIME = #{releaseTime,jdbcType=TIMESTAMP}
+      RELEASE_TIME = #{releaseTime,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
     where INFORMATION_ID = #{informationId,jdbcType=SMALLINT}
   </update>
 </mapper>

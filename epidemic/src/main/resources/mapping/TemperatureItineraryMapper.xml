@@ -2,12 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.edu.dgut.epidemic.mapper.TemperatureItineraryMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.TemperatureItinerary" >
-    <id column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <id column="HEALTH_ID" property="healthId" jdbcType="INTEGER" />
+    <result column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
     <result column="PHYSICAL_CONDITION" property="physicalCondition" jdbcType="VARCHAR" />
     <result column="ITINERARY_RECORDS" property="itineraryRecords" jdbcType="VARCHAR" />
     <result column="RETURNED_TO_SCHOOL" property="returnedToSchool" jdbcType="VARCHAR" />
     <result column="CURRENT_ADDRESS" property="currentAddress" jdbcType="VARCHAR" />
     <result column="TEMPERATURE" property="temperature" jdbcType="DECIMAL" />
+    <result column="UPLOAD_DATE" property="uploadDate" jdbcType="TIMESTAMP" />
     <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -69,8 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CAMPUS_ID, PHYSICAL_CONDITION, ITINERARY_RECORDS, RETURNED_TO_SCHOOL, CURRENT_ADDRESS, 
-    TEMPERATURE, REMARKS
+    HEALTH_ID, CAMPUS_ID, PHYSICAL_CONDITION, ITINERARY_RECORDS, RETURNED_TO_SCHOOL, 
+    CURRENT_ADDRESS, TEMPERATURE, UPLOAD_DATE, REMARKS
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.TemperatureItineraryExample" >
     select
@@ -86,15 +88,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from temperature_itinerary
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where HEALTH_ID = #{healthId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from temperature_itinerary
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where HEALTH_ID = #{healthId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.TemperatureItineraryExample" >
     delete from temperature_itinerary
@@ -103,16 +105,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.TemperatureItinerary" >
-    insert into temperature_itinerary (CAMPUS_ID, PHYSICAL_CONDITION, ITINERARY_RECORDS, 
-      RETURNED_TO_SCHOOL, CURRENT_ADDRESS, TEMPERATURE, 
-      REMARKS)
-    values (#{campusId,jdbcType=BIGINT}, #{physicalCondition,jdbcType=VARCHAR}, #{itineraryRecords,jdbcType=VARCHAR}, 
-      #{returnedToSchool,jdbcType=VARCHAR}, #{currentAddress,jdbcType=VARCHAR}, #{temperature,jdbcType=DECIMAL}, 
-      #{remarks,jdbcType=VARCHAR})
+    insert into temperature_itinerary (HEALTH_ID, CAMPUS_ID, PHYSICAL_CONDITION, 
+      ITINERARY_RECORDS, RETURNED_TO_SCHOOL, CURRENT_ADDRESS, 
+      TEMPERATURE, UPLOAD_DATE, REMARKS
+      )
+    values (#{healthId,jdbcType=INTEGER}, #{campusId,jdbcType=BIGINT}, #{physicalCondition,jdbcType=VARCHAR}, 
+      #{itineraryRecords,jdbcType=VARCHAR}, #{returnedToSchool,jdbcType=VARCHAR}, #{currentAddress,jdbcType=VARCHAR}, 
+      #{temperature,jdbcType=DECIMAL}, #{uploadDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.TemperatureItinerary" >
     insert into temperature_itinerary
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="healthId != null" >
+        HEALTH_ID,
+      </if>
       <if test="campusId != null" >
         CAMPUS_ID,
       </if>
@@ -131,11 +138,17 @@
       <if test="temperature != null" >
         TEMPERATURE,
       </if>
+      <if test="uploadDate != null" >
+        UPLOAD_DATE,
+      </if>
       <if test="remarks != null" >
         REMARKS,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="healthId != null" >
+        #{healthId,jdbcType=INTEGER},
+      </if>
       <if test="campusId != null" >
         #{campusId,jdbcType=BIGINT},
       </if>
@@ -154,6 +167,9 @@
       <if test="temperature != null" >
         #{temperature,jdbcType=DECIMAL},
       </if>
+      <if test="uploadDate != null" >
+        #{uploadDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
       </if>
@@ -168,6 +184,9 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update temperature_itinerary
     <set >
+      <if test="record.healthId != null" >
+        HEALTH_ID = #{record.healthId,jdbcType=INTEGER},
+      </if>
       <if test="record.campusId != null" >
         CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
       </if>
@@ -186,6 +205,9 @@
       <if test="record.temperature != null" >
         TEMPERATURE = #{record.temperature,jdbcType=DECIMAL},
       </if>
+      <if test="record.uploadDate != null" >
+        UPLOAD_DATE = #{record.uploadDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.remarks != null" >
         REMARKS = #{record.remarks,jdbcType=VARCHAR},
       </if>
@@ -196,12 +218,14 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update temperature_itinerary
-    set CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+    set HEALTH_ID = #{record.healthId,jdbcType=INTEGER},
+      CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
       PHYSICAL_CONDITION = #{record.physicalCondition,jdbcType=VARCHAR},
       ITINERARY_RECORDS = #{record.itineraryRecords,jdbcType=VARCHAR},
       RETURNED_TO_SCHOOL = #{record.returnedToSchool,jdbcType=VARCHAR},
       CURRENT_ADDRESS = #{record.currentAddress,jdbcType=VARCHAR},
       TEMPERATURE = #{record.temperature,jdbcType=DECIMAL},
+      UPLOAD_DATE = #{record.uploadDate,jdbcType=TIMESTAMP},
       REMARKS = #{record.remarks,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -210,6 +234,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.edu.dgut.epidemic.pojo.TemperatureItinerary" >
     update temperature_itinerary
     <set >
+      <if test="campusId != null" >
+        CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+      </if>
       <if test="physicalCondition != null" >
         PHYSICAL_CONDITION = #{physicalCondition,jdbcType=VARCHAR},
       </if>
@@ -225,20 +252,25 @@
       <if test="temperature != null" >
         TEMPERATURE = #{temperature,jdbcType=DECIMAL},
       </if>
+      <if test="uploadDate != null" >
+        UPLOAD_DATE = #{uploadDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="remarks != null" >
         REMARKS = #{remarks,jdbcType=VARCHAR},
       </if>
     </set>
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where HEALTH_ID = #{healthId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.TemperatureItinerary" >
     update temperature_itinerary
-    set PHYSICAL_CONDITION = #{physicalCondition,jdbcType=VARCHAR},
+    set CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+      PHYSICAL_CONDITION = #{physicalCondition,jdbcType=VARCHAR},
       ITINERARY_RECORDS = #{itineraryRecords,jdbcType=VARCHAR},
       RETURNED_TO_SCHOOL = #{returnedToSchool,jdbcType=VARCHAR},
       CURRENT_ADDRESS = #{currentAddress,jdbcType=VARCHAR},
       TEMPERATURE = #{temperature,jdbcType=DECIMAL},
+      UPLOAD_DATE = #{uploadDate,jdbcType=TIMESTAMP},
       REMARKS = #{remarks,jdbcType=VARCHAR}
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where HEALTH_ID = #{healthId,jdbcType=INTEGER}
   </update>
 </mapper>

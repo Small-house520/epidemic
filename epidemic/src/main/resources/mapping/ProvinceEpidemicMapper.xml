@@ -7,8 +7,8 @@
     <result column="NEW_DIAGNOSIS" property="newDiagnosis" jdbcType="INTEGER" />
     <result column="EXISTING_DIAGNOSIS" property="existingDiagnosis" jdbcType="INTEGER" />
     <result column="CUMULATIVE_DIAGNOSIS" property="cumulativeDiagnosis" jdbcType="INTEGER" />
-    <result column="CUMULATIVE_DEATH" property="cumulativeDeath" jdbcType="INTEGER" />
     <result column="CUMULATIVE_CURE" property="cumulativeCure" jdbcType="INTEGER" />
+    <result column="CUMULATIVE_DEATH" property="cumulativeDeath" jdbcType="INTEGER" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -71,7 +71,7 @@
   </sql>
   <sql id="Base_Column_List" >
     PROVINCE_EPIDEMIC_ID, PROVINCE_ID, NEW_DIAGNOSIS, EXISTING_DIAGNOSIS, CUMULATIVE_DIAGNOSIS, 
-    CUMULATIVE_DEATH, CUMULATIVE_CURE, UPDATE_TIME
+    CUMULATIVE_CURE, CUMULATIVE_DEATH, UPDATE_TIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.ProvinceEpidemicExample" >
     select
@@ -106,11 +106,11 @@
   <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.ProvinceEpidemic" >
     insert into province_epidemic (PROVINCE_EPIDEMIC_ID, PROVINCE_ID, 
       NEW_DIAGNOSIS, EXISTING_DIAGNOSIS, CUMULATIVE_DIAGNOSIS, 
-      CUMULATIVE_DEATH, CUMULATIVE_CURE, UPDATE_TIME
+      CUMULATIVE_CURE, CUMULATIVE_DEATH, UPDATE_TIME
       )
     values (#{provinceEpidemicId,jdbcType=INTEGER}, #{provinceId,jdbcType=SMALLINT}, 
       #{newDiagnosis,jdbcType=INTEGER}, #{existingDiagnosis,jdbcType=INTEGER}, #{cumulativeDiagnosis,jdbcType=INTEGER}, 
-      #{cumulativeDeath,jdbcType=INTEGER}, #{cumulativeCure,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
+      #{cumulativeCure,jdbcType=INTEGER}, #{cumulativeDeath,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.ProvinceEpidemic" >
@@ -131,11 +131,11 @@
       <if test="cumulativeDiagnosis != null" >
         CUMULATIVE_DIAGNOSIS,
       </if>
-      <if test="cumulativeDeath != null" >
-        CUMULATIVE_DEATH,
-      </if>
       <if test="cumulativeCure != null" >
         CUMULATIVE_CURE,
+      </if>
+      <if test="cumulativeDeath != null" >
+        CUMULATIVE_DEATH,
       </if>
       <if test="updateTime != null" >
         UPDATE_TIME,
@@ -157,11 +157,11 @@
       <if test="cumulativeDiagnosis != null" >
         #{cumulativeDiagnosis,jdbcType=INTEGER},
       </if>
-      <if test="cumulativeDeath != null" >
-        #{cumulativeDeath,jdbcType=INTEGER},
-      </if>
       <if test="cumulativeCure != null" >
         #{cumulativeCure,jdbcType=INTEGER},
+      </if>
+      <if test="cumulativeDeath != null" >
+        #{cumulativeDeath,jdbcType=INTEGER},
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
@@ -192,11 +192,11 @@
       <if test="record.cumulativeDiagnosis != null" >
         CUMULATIVE_DIAGNOSIS = #{record.cumulativeDiagnosis,jdbcType=INTEGER},
       </if>
-      <if test="record.cumulativeDeath != null" >
-        CUMULATIVE_DEATH = #{record.cumulativeDeath,jdbcType=INTEGER},
-      </if>
       <if test="record.cumulativeCure != null" >
         CUMULATIVE_CURE = #{record.cumulativeCure,jdbcType=INTEGER},
+      </if>
+      <if test="record.cumulativeDeath != null" >
+        CUMULATIVE_DEATH = #{record.cumulativeDeath,jdbcType=INTEGER},
       </if>
       <if test="record.updateTime != null" >
         UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -213,8 +213,8 @@
       NEW_DIAGNOSIS = #{record.newDiagnosis,jdbcType=INTEGER},
       EXISTING_DIAGNOSIS = #{record.existingDiagnosis,jdbcType=INTEGER},
       CUMULATIVE_DIAGNOSIS = #{record.cumulativeDiagnosis,jdbcType=INTEGER},
-      CUMULATIVE_DEATH = #{record.cumulativeDeath,jdbcType=INTEGER},
       CUMULATIVE_CURE = #{record.cumulativeCure,jdbcType=INTEGER},
+      CUMULATIVE_DEATH = #{record.cumulativeDeath,jdbcType=INTEGER},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -235,11 +235,11 @@
       <if test="cumulativeDiagnosis != null" >
         CUMULATIVE_DIAGNOSIS = #{cumulativeDiagnosis,jdbcType=INTEGER},
       </if>
-      <if test="cumulativeDeath != null" >
-        CUMULATIVE_DEATH = #{cumulativeDeath,jdbcType=INTEGER},
-      </if>
       <if test="cumulativeCure != null" >
         CUMULATIVE_CURE = #{cumulativeCure,jdbcType=INTEGER},
+      </if>
+      <if test="cumulativeDeath != null" >
+        CUMULATIVE_DEATH = #{cumulativeDeath,jdbcType=INTEGER},
       </if>
       <if test="updateTime != null" >
         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
@@ -253,8 +253,8 @@
       NEW_DIAGNOSIS = #{newDiagnosis,jdbcType=INTEGER},
       EXISTING_DIAGNOSIS = #{existingDiagnosis,jdbcType=INTEGER},
       CUMULATIVE_DIAGNOSIS = #{cumulativeDiagnosis,jdbcType=INTEGER},
-      CUMULATIVE_DEATH = #{cumulativeDeath,jdbcType=INTEGER},
       CUMULATIVE_CURE = #{cumulativeCure,jdbcType=INTEGER},
+      CUMULATIVE_DEATH = #{cumulativeDeath,jdbcType=INTEGER},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
     where PROVINCE_EPIDEMIC_ID = #{provinceEpidemicId,jdbcType=INTEGER}
   </update>

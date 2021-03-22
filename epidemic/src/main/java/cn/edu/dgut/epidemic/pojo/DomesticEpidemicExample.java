@@ -405,66 +405,6 @@ public class DomesticEpidemicExample {
             return (Criteria) this;
         }
 
-        public Criteria andCumulativeDeathIsNull() {
-            addCriterion("CUMULATIVE_DEATH is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCumulativeDeathIsNotNull() {
-            addCriterion("CUMULATIVE_DEATH is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCumulativeDeathEqualTo(Integer value) {
-            addCriterion("CUMULATIVE_DEATH =", value, "cumulativeDeath");
-            return (Criteria) this;
-        }
-
-        public Criteria andCumulativeDeathNotEqualTo(Integer value) {
-            addCriterion("CUMULATIVE_DEATH <>", value, "cumulativeDeath");
-            return (Criteria) this;
-        }
-
-        public Criteria andCumulativeDeathGreaterThan(Integer value) {
-            addCriterion("CUMULATIVE_DEATH >", value, "cumulativeDeath");
-            return (Criteria) this;
-        }
-
-        public Criteria andCumulativeDeathGreaterThanOrEqualTo(Integer value) {
-            addCriterion("CUMULATIVE_DEATH >=", value, "cumulativeDeath");
-            return (Criteria) this;
-        }
-
-        public Criteria andCumulativeDeathLessThan(Integer value) {
-            addCriterion("CUMULATIVE_DEATH <", value, "cumulativeDeath");
-            return (Criteria) this;
-        }
-
-        public Criteria andCumulativeDeathLessThanOrEqualTo(Integer value) {
-            addCriterion("CUMULATIVE_DEATH <=", value, "cumulativeDeath");
-            return (Criteria) this;
-        }
-
-        public Criteria andCumulativeDeathIn(List<Integer> values) {
-            addCriterion("CUMULATIVE_DEATH in", values, "cumulativeDeath");
-            return (Criteria) this;
-        }
-
-        public Criteria andCumulativeDeathNotIn(List<Integer> values) {
-            addCriterion("CUMULATIVE_DEATH not in", values, "cumulativeDeath");
-            return (Criteria) this;
-        }
-
-        public Criteria andCumulativeDeathBetween(Integer value1, Integer value2) {
-            addCriterion("CUMULATIVE_DEATH between", value1, value2, "cumulativeDeath");
-            return (Criteria) this;
-        }
-
-        public Criteria andCumulativeDeathNotBetween(Integer value1, Integer value2) {
-            addCriterion("CUMULATIVE_DEATH not between", value1, value2, "cumulativeDeath");
-            return (Criteria) this;
-        }
-
         public Criteria andCumulativeCureIsNull() {
             addCriterion("CUMULATIVE_CURE is null");
             return (Criteria) this;
@@ -522,6 +462,66 @@ public class DomesticEpidemicExample {
 
         public Criteria andCumulativeCureNotBetween(Integer value1, Integer value2) {
             addCriterion("CUMULATIVE_CURE not between", value1, value2, "cumulativeCure");
+            return (Criteria) this;
+        }
+
+        public Criteria andCumulativeDeathIsNull() {
+            addCriterion("CUMULATIVE_DEATH is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCumulativeDeathIsNotNull() {
+            addCriterion("CUMULATIVE_DEATH is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCumulativeDeathEqualTo(Integer value) {
+            addCriterion("CUMULATIVE_DEATH =", value, "cumulativeDeath");
+            return (Criteria) this;
+        }
+
+        public Criteria andCumulativeDeathNotEqualTo(Integer value) {
+            addCriterion("CUMULATIVE_DEATH <>", value, "cumulativeDeath");
+            return (Criteria) this;
+        }
+
+        public Criteria andCumulativeDeathGreaterThan(Integer value) {
+            addCriterion("CUMULATIVE_DEATH >", value, "cumulativeDeath");
+            return (Criteria) this;
+        }
+
+        public Criteria andCumulativeDeathGreaterThanOrEqualTo(Integer value) {
+            addCriterion("CUMULATIVE_DEATH >=", value, "cumulativeDeath");
+            return (Criteria) this;
+        }
+
+        public Criteria andCumulativeDeathLessThan(Integer value) {
+            addCriterion("CUMULATIVE_DEATH <", value, "cumulativeDeath");
+            return (Criteria) this;
+        }
+
+        public Criteria andCumulativeDeathLessThanOrEqualTo(Integer value) {
+            addCriterion("CUMULATIVE_DEATH <=", value, "cumulativeDeath");
+            return (Criteria) this;
+        }
+
+        public Criteria andCumulativeDeathIn(List<Integer> values) {
+            addCriterion("CUMULATIVE_DEATH in", values, "cumulativeDeath");
+            return (Criteria) this;
+        }
+
+        public Criteria andCumulativeDeathNotIn(List<Integer> values) {
+            addCriterion("CUMULATIVE_DEATH not in", values, "cumulativeDeath");
+            return (Criteria) this;
+        }
+
+        public Criteria andCumulativeDeathBetween(Integer value1, Integer value2) {
+            addCriterion("CUMULATIVE_DEATH between", value1, value2, "cumulativeDeath");
+            return (Criteria) this;
+        }
+
+        public Criteria andCumulativeDeathNotBetween(Integer value1, Integer value2) {
+            addCriterion("CUMULATIVE_DEATH not between", value1, value2, "cumulativeDeath");
             return (Criteria) this;
         }
 

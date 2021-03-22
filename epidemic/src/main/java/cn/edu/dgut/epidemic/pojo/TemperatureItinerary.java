@@ -1,8 +1,11 @@
 package cn.edu.dgut.epidemic.pojo;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class TemperatureItinerary {
+    private Integer healthId;
+
     private Long campusId;
 
     private String physicalCondition;
@@ -15,7 +18,17 @@ public class TemperatureItinerary {
 
     private BigDecimal temperature;
 
+    private Date uploadDate;
+
     private String remarks;
+
+    public Integer getHealthId() {
+        return healthId;
+    }
+
+    public void setHealthId(Integer healthId) {
+        this.healthId = healthId;
+    }
 
     public Long getCampusId() {
         return campusId;
@@ -63,6 +76,14 @@ public class TemperatureItinerary {
 
     public void setTemperature(BigDecimal temperature) {
         this.temperature = temperature;
+    }
+
+    public Date getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(Date uploadDate) {
+        this.uploadDate = uploadDate;
     }
 
     public String getRemarks() {

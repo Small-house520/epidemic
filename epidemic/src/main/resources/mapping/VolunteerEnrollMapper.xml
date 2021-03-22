@@ -2,10 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.edu.dgut.epidemic.mapper.VolunteerEnrollMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
-    <id column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <id column="VOLUNTEER_ID" property="volunteerId" jdbcType="INTEGER" />
+    <result column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <result column="IS_QUALIFIED" property="isQualified" jdbcType="VARCHAR" />
     <result column="ENROLL_TIME" property="enrollTime" jdbcType="TIMESTAMP" />
     <result column="EMPLOY_OR_NOT" property="employOrNot" jdbcType="VARCHAR" />
-    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="VOLUNTEER_REMARKS" property="volunteerRemarks" jdbcType="VARCHAR" />
+    <result column="SPONSOR_REMARKS" property="sponsorRemarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +69,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CAMPUS_ID, ENROLL_TIME, EMPLOY_OR_NOT, REMARKS
+    VOLUNTEER_ID, CAMPUS_ID, IS_QUALIFIED, ENROLL_TIME, EMPLOY_OR_NOT, VOLUNTEER_REMARKS, 
+    SPONSOR_REMARKS
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnrollExample" >
     select
@@ -82,15 +86,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from volunteer_enroll
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where VOLUNTEER_ID = #{volunteerId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from volunteer_enroll
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where VOLUNTEER_ID = #{volunteerId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnrollExample" >
     delete from volunteer_enroll
@@ -99,16 +103,24 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
-    insert into volunteer_enroll (CAMPUS_ID, ENROLL_TIME, EMPLOY_OR_NOT, 
-      REMARKS)
-    values (#{campusId,jdbcType=BIGINT}, #{enrollTime,jdbcType=TIMESTAMP}, #{employOrNot,jdbcType=VARCHAR}, 
-      #{remarks,jdbcType=VARCHAR})
+    insert into volunteer_enroll (VOLUNTEER_ID, CAMPUS_ID, IS_QUALIFIED, 
+      ENROLL_TIME, EMPLOY_OR_NOT, VOLUNTEER_REMARKS, 
+      SPONSOR_REMARKS)
+    values (#{volunteerId,jdbcType=INTEGER}, #{campusId,jdbcType=BIGINT}, #{isQualified,jdbcType=VARCHAR}, 
+      #{enrollTime,jdbcType=TIMESTAMP}, #{employOrNot,jdbcType=VARCHAR}, #{volunteerRemarks,jdbcType=VARCHAR}, 
+      #{sponsorRemarks,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
     insert into volunteer_enroll
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="volunteerId != null" >
+        VOLUNTEER_ID,
+      </if>
       <if test="campusId != null" >
         CAMPUS_ID,
+      </if>
+      <if test="isQualified != null" >
+        IS_QUALIFIED,
       </if>
       <if test="enrollTime != null" >
         ENROLL_TIME,
@@ -116,13 +128,22 @@
       <if test="employOrNot != null" >
         EMPLOY_OR_NOT,
       </if>
-      <if test="remarks != null" >
-        REMARKS,
+      <if test="volunteerRemarks != null" >
+        VOLUNTEER_REMARKS,
+      </if>
+      <if test="sponsorRemarks != null" >
+        SPONSOR_REMARKS,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="volunteerId != null" >
+        #{volunteerId,jdbcType=INTEGER},
+      </if>
       <if test="campusId != null" >
         #{campusId,jdbcType=BIGINT},
+      </if>
+      <if test="isQualified != null" >
+        #{isQualified,jdbcType=VARCHAR},
       </if>
       <if test="enrollTime != null" >
         #{enrollTime,jdbcType=TIMESTAMP},
@@ -130,8 +151,11 @@
       <if test="employOrNot != null" >
         #{employOrNot,jdbcType=VARCHAR},
       </if>
-      <if test="remarks != null" >
-        #{remarks,jdbcType=VARCHAR},
+      <if test="volunteerRemarks != null" >
+        #{volunteerRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsorRemarks != null" >
+        #{sponsorRemarks,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -144,8 +168,14 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update volunteer_enroll
     <set >
+      <if test="record.volunteerId != null" >
+        VOLUNTEER_ID = #{record.volunteerId,jdbcType=INTEGER},
+      </if>
       <if test="record.campusId != null" >
         CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      </if>
+      <if test="record.isQualified != null" >
+        IS_QUALIFIED = #{record.isQualified,jdbcType=VARCHAR},
       </if>
       <if test="record.enrollTime != null" >
         ENROLL_TIME = #{record.enrollTime,jdbcType=TIMESTAMP},
@@ -153,8 +183,11 @@
       <if test="record.employOrNot != null" >
         EMPLOY_OR_NOT = #{record.employOrNot,jdbcType=VARCHAR},
       </if>
-      <if test="record.remarks != null" >
-        REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      <if test="record.volunteerRemarks != null" >
+        VOLUNTEER_REMARKS = #{record.volunteerRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sponsorRemarks != null" >
+        SPONSOR_REMARKS = #{record.sponsorRemarks,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -163,10 +196,13 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update volunteer_enroll
-    set CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+    set VOLUNTEER_ID = #{record.volunteerId,jdbcType=INTEGER},
+      CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      IS_QUALIFIED = #{record.isQualified,jdbcType=VARCHAR},
       ENROLL_TIME = #{record.enrollTime,jdbcType=TIMESTAMP},
       EMPLOY_OR_NOT = #{record.employOrNot,jdbcType=VARCHAR},
-      REMARKS = #{record.remarks,jdbcType=VARCHAR}
+      VOLUNTEER_REMARKS = #{record.volunteerRemarks,jdbcType=VARCHAR},
+      SPONSOR_REMARKS = #{record.sponsorRemarks,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -174,23 +210,35 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
     update volunteer_enroll
     <set >
+      <if test="campusId != null" >
+        CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+      </if>
+      <if test="isQualified != null" >
+        IS_QUALIFIED = #{isQualified,jdbcType=VARCHAR},
+      </if>
       <if test="enrollTime != null" >
         ENROLL_TIME = #{enrollTime,jdbcType=TIMESTAMP},
       </if>
       <if test="employOrNot != null" >
         EMPLOY_OR_NOT = #{employOrNot,jdbcType=VARCHAR},
       </if>
-      <if test="remarks != null" >
-        REMARKS = #{remarks,jdbcType=VARCHAR},
+      <if test="volunteerRemarks != null" >
+        VOLUNTEER_REMARKS = #{volunteerRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsorRemarks != null" >
+        SPONSOR_REMARKS = #{sponsorRemarks,jdbcType=VARCHAR},
       </if>
     </set>
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where VOLUNTEER_ID = #{volunteerId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
     update volunteer_enroll
-    set ENROLL_TIME = #{enrollTime,jdbcType=TIMESTAMP},
+    set CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+      IS_QUALIFIED = #{isQualified,jdbcType=VARCHAR},
+      ENROLL_TIME = #{enrollTime,jdbcType=TIMESTAMP},
       EMPLOY_OR_NOT = #{employOrNot,jdbcType=VARCHAR},
-      REMARKS = #{remarks,jdbcType=VARCHAR}
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+      VOLUNTEER_REMARKS = #{volunteerRemarks,jdbcType=VARCHAR},
+      SPONSOR_REMARKS = #{sponsorRemarks,jdbcType=VARCHAR}
+    where VOLUNTEER_ID = #{volunteerId,jdbcType=INTEGER}
   </update>
 </mapper>
