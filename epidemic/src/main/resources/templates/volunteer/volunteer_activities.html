@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<!-- 页面meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>防疫志愿风采展</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+	name="viewport">
+<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+<link rel="stylesheet"
+	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/style.css">
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="hold-transition skin-red sidebar-mini">
+	<!-- .box-body -->
+	<div class="box-header with-border">
+		<h3 class="box-title">防疫志愿风采展</h3>
+	</div>
+
+	<div class="box-body">
+
+		<!-- 数据表格 -->
+		<div class="table-box">
+
+			<!--工具栏-->
+			<div class="pull-left">
+				<div class="form-group form-inline">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default" title="新建"
+							data-toggle="modal" data-target="#editModal">
+							<i class="fa fa-file-o"></i> 新建
+						</button>
+						<button type="button" class="btn btn-default" title="删除">
+							<i class="fa fa-trash-o"></i> 删除
+						</button>
+						<button type="button" class="btn btn-default" title="刷新"
+							onclick="window.location.reload();">
+							<i class="fa fa-refresh"></i> 刷新
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="box-tools pull-right">
+				<div class="has-feedback">
+					志愿服务标题：<input type="text" id="title" name="title" placeholder="标题"
+						value=""> 发起人： <input type="text" id="sponsor"
+						name="sponsor" placeholder="姓名" value=""> 开始时间： <input
+						type="datetime" id="startTime" name="startTime" placeholder="开始时间"
+						value=""> 结束时间： <input type="datetime" id="endTime"
+						name="endTime" placeholder="结束时间" value="">
+					<button class="btn btn-default">查询</button>
+				</div>
+			</div>
+			<!--工具栏/-->
+
+			<!--数据列表-->
+			<table id="dataList"
+				class="table table-bordered table-striped table-hover dataTable">
+				<thead>
+					<tr>
+						<th class="" style="padding-right: 0px"><input id="selall"
+							type="checkbox" class="icheckbox_square-blue"></th>
+						<th class="sorting_asc">志愿服务标题</th>
+						<th class="sorting">志愿服务发起人</th>
+						<th class="sorting">志愿者人数</th>
+						<th class="sorting">志愿服务地点</th>
+						<th class="sorting">志愿服务开始时间</th>
+						<th class="sorting">志愿服务结束时间</th>
+
+
+						<th class="text-center">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="checkbox"></td>
+						<td>1</td>
+						<td>梦琪琪商贸有限公司</td>
+						<td>梦琪琪</td>
+						<td>李梦琪</td>
+						<td>13402312232</td>
+						<td>梦琪琪</td>
+
+						<td class="text-center">
+							<button type="button" class="btn bg-olive btn-xs"
+								data-toggle="modal" data-target="#sellerModal">详情</button>
+							<button type="button" class="btn bg-olive btn-xs"
+								data-toggle="modal" data-target="#sellerModal">报名</button>
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox"></td>
+						<td>2</td>
+						<td>黑瞎子苹果专卖店</td>
+						<td>黑瞎子</td>
+						<td>孙大鹏</td>
+						<td>13622244111</td>
+						<td>孙大鹏</td>
+
+						<td class="text-center">
+							<button type="button" class="btn bg-olive btn-xs"
+								data-toggle="modal" data-target="#sellerModal">详情</button>
+							<button type="button" class="btn bg-olive btn-xs"
+								data-toggle="modal" data-target="#editModal">编辑</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!--数据列表/-->
+
+
+		</div>
+		<!-- 数据表格 /-->
+
+
+
+
+	</div>
+	<!-- /.box-body -->
+
+
+
+
+	<!-- 商家详情 -->
+	<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 id="myModalLabel">志愿服务详情</h3>
+				</div>
+				<div class="modal-body">
+
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#detail" data-toggle="tab">志愿服务详情</a></li>
+					</ul>
+
+					<!-- 选项卡开始 -->
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade" id="detail">
+							<br>
+							<table class="table table-bordered table-striped">
+								<tr>
+									<td>活动详情</td>
+									<td>7822332278223322</td>
+								</tr>
+								<tr>
+									<td>预期招募志愿者人数</td>
+									<td>13900221212</td>
+								</tr>
+								<tr>
+									<td>招募志愿者条件</td>
+									<td>13900221212</td>
+								</tr>
+								<tr>
+									<td>志愿服务活动发起时间</td>
+									<td>13900221212</td>
+								</tr>
+								<tr>
+									<td>备注</td>
+									<td>13900221212</td>
+								</tr>
+							</table>
+						</div>
+
+					</div>
+					<!-- 选项卡结束 -->
+
+
+				</div>
+				<div class="modal-footer">
+					<!-- <button class="btn btn-success" data-dismiss="modal"
+							aria-hidden="true">审核通过</button>
+						<button class="btn btn-danger" data-dismiss="modal"
+							aria-hidden="true">审核未通过</button> -->
+					<button class="btn btn-default" data-dismiss="modal"
+						aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 编辑窗口 -->
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 id="myModalLabel">编辑活动</h3>
+				</div>
+				<div class="modal-body">
+
+					<table class="table table-bordered table-striped" width="800px">
+						<tr>
+							<td>志愿服务标题</td>
+							<td><input type="text" id="title" name="title"
+								class="form-control" placeholder="志愿服务标题"></td>
+						</tr>
+						<tr>
+							<td>志愿服务详情</td>
+							<td><input type="text" id="details" name="details"
+								class="form-control" placeholder="志愿服务详情"></td>
+						</tr>
+						<tr>
+							<td>招募志愿者人数</td>
+							<td><input type="number" id="expectedVolunteers"
+								name="expectedVolunteers" class="form-control"
+								placeholder="招募志愿者人数"></td>
+						</tr>
+						<tr>
+							<td>招募志愿者条件</td>
+							<td><input type="conditions" id="age" name="conditions"
+								class="form-control" placeholder="招募志愿者条件"></td>
+						</tr>
+						<tr>
+							<td>参加活动志愿者人数</td>
+							<td><input type="number" id="participatedVolunteers"
+								name="participatedVolunteers" class="form-control"
+								placeholder="参加活动志愿者人数"></td>
+						</tr>
+						<tr>
+							<td>志愿服务地点</td>
+							<td><input type="text" id="location" name="location"
+								class="form-control" placeholder="志愿服务地点"></td>
+						</tr>
+						<tr>
+							<td>志愿服务开始时间</td>
+							<td><input type="datetime" id="startTime" name="startTime"
+								class="form-control" placeholder="志愿服务开始时间"></td>
+						</tr>
+						<tr>
+							<td>志愿服务结束时间</td>
+							<td><input type="text" id="endTime" name="endTime"
+								class="form-control" placeholder="志愿服务结束时间"></td>
+						</tr>
+						<tr>
+							<td>备注</td>
+							<td><input type="text" id="remarks" name="remarks"
+								class="form-control" placeholder="备注"></td>
+						</tr>
+					</table>
+
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" data-dismiss="modal"
+						aria-hidden="true">保存</button>
+					<button class="btn btn-default" data-dismiss="modal"
+						aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 编辑窗口 -->
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 id="myModalLabel">报名</h3>
+				</div>
+				<div class="modal-body">
+
+					<table class="table table-bordered table-striped" width="800px">
+						<tr>
+							<td>编号</td>
+							<td><input type="number" id="campusId" name="campusId"
+								class="form-control" placeholder="编号"></td>
+						</tr>
+						<tr>
+							<td>是否符合条件</td>
+							<td><input type="text" id="isQualified" name="isQualified"
+								class="form-control" placeholder="是否符合条件"></td>
+						</tr>
+						<tr>
+							<td>备注</td>
+							<td><input type="text" id="remarks" name="remarks"
+								class="form-control" placeholder="备注"></td>
+						</tr>
+					</table>
+
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" data-dismiss="modal"
+						aria-hidden="true">保存</button>
+					<button class="btn btn-default" data-dismiss="modal"
+						aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>
