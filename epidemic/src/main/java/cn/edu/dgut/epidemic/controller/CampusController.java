@@ -14,18 +14,18 @@ import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
 import cn.edu.dgut.epidemic.service.UserService;
 
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/campus")
+public class CampusController {
 	// public static Logger logger = Logger.getLogger(UserController.class);
 
 	@Autowired
 	private UserService userService;
 
-	// 添加用户（包括账号信息和个人信息）
-	@RequestMapping("/useradd")
-	public String userAdd(CampusUser campusUser, CampusUserInfo campusUserInfo) {
+	// 查询出入校园记录
+	@RequestMapping("/campusaccess")
+	public String campusAccess(CampusUser campusUser, CampusUserInfo campusUserInfo) {
 		this.userService.userAdd(campusUser, campusUserInfo);
-		return "user_list";
+		return "campus_access";
 	}
 
 	// 获取个人账号信息
