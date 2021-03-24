@@ -9,8 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import cn.edu.dgut.epidemic.pojo.CampusAccessRecords;
 import cn.edu.dgut.epidemic.pojo.CampusUser;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
+import cn.edu.dgut.epidemic.pojo.TemperatureItinerary;
+import cn.edu.dgut.epidemic.service.CampusService;
 import cn.edu.dgut.epidemic.service.UserService;
 
 @Controller
@@ -21,67 +24,54 @@ public class CampusController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private CampusService campusService;
+
 	// 查询出入校园记录
 	@RequestMapping("/campusaccess")
-	public String campusAccess(CampusUser campusUser, CampusUserInfo campusUserInfo) {
-		this.userService.userAdd(campusUser, campusUserInfo);
+	public String campusAccess(CampusAccessRecords accessRecords, Model model) {
+		List<CampusAccessRecords> list = this.campusService.campusAccess(accessRecords);
+		model.addAttribute("accessRecords", list);
 		return "campus_access";
 	}
 
-	// 获取个人账号信息
-	@RequestMapping("/getaccount")
-	public String accountEdit(Model model, HttpSession session) {
+	// 跳转到填报体温行程信息页面
+	@RequestMapping("/tohealthupload")
+	public String toHealthUpload(Model model, HttpSession session) {
 		// 取出session中的账号信息
 		CampusUser campusUser = (CampusUser) session.getAttribute("loginedUser");
 
-		model.addAttribute("user", campusUser);
-
-		return "account_edit";
-	}
-
-	// 编辑账号信息
-	@RequestMapping("/accountedit")
-	public String accountEdit(CampusUser campusUser) {
-		// 清理session
-		this.userService.accountEdit(campusUser);
-		return "redirect:/getaccount";
-	}
-
-	// 查看账号信息
-	@RequestMapping("/accountlist")
-	public String accountList(CampusUser user, Model model) {
-		List<CampusUser> list = this.userService.accountList(user);
-		model.addAttribute("users", list);
-		return "account_list";
-	}
-
-	// 获取个人信息
-	@RequestMapping("/getuser")
-	public String getUserInfo(Model model, HttpSession session) {
-		// 取出session中的账号信息
-		CampusUser campusUser = (CampusUser) session.getAttribute("loginedUser");
-
-		// 根据编号获取用户信息
 		CampusUserInfo userInfo = this.userService.getUserInfo(campusUser.getCampusId());
 
-		model.addAttribute("userinfo", userInfo);
+		TemperatureItinerary healthInfo = this.campusService.getHealthInfo(campusUser.getCampusId());
 
-		return "user_edit";
+		model.addAttribute("userInfo", userInfo);
+		if (healthInfo != null) {
+			model.addAttribute("healthInfo", healthInfo);
+		}
+
+		return "health_upload";
 	}
 
-	// 编辑个人信息
-	@RequestMapping("/useredit")
-	public String userEdit(CampusUserInfo userInfo) {
-		// 清理session
-		this.userService.userEdit(userInfo);
-		return "redirect:/getuser";
+	// 填报体温行程信息
+	@RequestMapping("/healthupload")
+	public String healthUpload(TemperatureItinerary healthInfo, Model model, HttpSession session) {
+
+		this.campusService.healthUpload(healthInfo);
+
+		// model.addAttribute("", );
+
+		return "redirect:/tohealthupload";
 	}
 
-	// 查看个人信息
-	@RequestMapping("/userlist")
-	public String userList(CampusUserInfo userInfo, Model model) {
-		List<CampusUserInfo> list = this.userService.userList(userInfo);
-		model.addAttribute("users", list);
-		return "user_list";
+	// 查看体温信息
+	@RequestMapping("/health")
+	public String temperature(TemperatureItinerary healthInfo, Integer flag, Model model) {
+		List<TemperatureItinerary> list = this.campusService.temperature(healthInfo);
+		model.addAttribute("healthInfo", list);
+		if (flag == 1) {
+			return "temperature";
+		}
+		return "travel";
 	}
 }

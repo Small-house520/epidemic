@@ -127,7 +127,7 @@ public class EpidemicServiceImpl implements EpidemicService {
 		}
 		// 根据时间查询各城市当前最新的疫情数据
 		CityEpidemicExample cityEpidemicExample = new CityEpidemicExample();
-		cn.edu.dgut.epidemic.pojo.CityEpidemicExample.Criteria criteria = cityEpidemicExample.createCriteria();
+		CityEpidemicExample.Criteria criteria = cityEpidemicExample.createCriteria();
 		criteria.andUpdateTimeBetween(date2, date1);
 		List<CityEpidemic> cList = this.cityEpidemicMapper.selectByExample(cityEpidemicExample);
 

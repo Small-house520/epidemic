@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
 			return list;
 		}
 		CampusUserInfoExample userInfoExample = new CampusUserInfoExample();
-		cn.edu.dgut.epidemic.pojo.CampusUserInfoExample.Criteria criteria = userInfoExample.createCriteria();
+		CampusUserInfoExample.Criteria criteria = userInfoExample.createCriteria();
 		if (userInfo.getCampusId() != null && userInfo.getCampusId() > 0) {
 			criteria.andCampusIdEqualTo(userInfo.getCampusId());
 		}
