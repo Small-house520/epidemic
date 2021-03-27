@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class EpidemicDiagnosisSuspectedExample {
+public class EpidemicDiagnosisExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public EpidemicDiagnosisSuspectedExample() {
+    public EpidemicDiagnosisExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -103,6 +103,66 @@ public class EpidemicDiagnosisSuspectedExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        public Criteria andEpidemicDiagnosisIdIsNull() {
+            addCriterion("EPIDEMIC_DIAGNOSIS_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicDiagnosisIdIsNotNull() {
+            addCriterion("EPIDEMIC_DIAGNOSIS_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicDiagnosisIdEqualTo(Integer value) {
+            addCriterion("EPIDEMIC_DIAGNOSIS_ID =", value, "epidemicDiagnosisId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicDiagnosisIdNotEqualTo(Integer value) {
+            addCriterion("EPIDEMIC_DIAGNOSIS_ID <>", value, "epidemicDiagnosisId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicDiagnosisIdGreaterThan(Integer value) {
+            addCriterion("EPIDEMIC_DIAGNOSIS_ID >", value, "epidemicDiagnosisId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicDiagnosisIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("EPIDEMIC_DIAGNOSIS_ID >=", value, "epidemicDiagnosisId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicDiagnosisIdLessThan(Integer value) {
+            addCriterion("EPIDEMIC_DIAGNOSIS_ID <", value, "epidemicDiagnosisId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicDiagnosisIdLessThanOrEqualTo(Integer value) {
+            addCriterion("EPIDEMIC_DIAGNOSIS_ID <=", value, "epidemicDiagnosisId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicDiagnosisIdIn(List<Integer> values) {
+            addCriterion("EPIDEMIC_DIAGNOSIS_ID in", values, "epidemicDiagnosisId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicDiagnosisIdNotIn(List<Integer> values) {
+            addCriterion("EPIDEMIC_DIAGNOSIS_ID not in", values, "epidemicDiagnosisId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicDiagnosisIdBetween(Integer value1, Integer value2) {
+            addCriterion("EPIDEMIC_DIAGNOSIS_ID between", value1, value2, "epidemicDiagnosisId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicDiagnosisIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("EPIDEMIC_DIAGNOSIS_ID not between", value1, value2, "epidemicDiagnosisId");
+            return (Criteria) this;
         }
 
         public Criteria andCampusIdIsNull() {
@@ -305,63 +365,63 @@ public class EpidemicDiagnosisSuspectedExample {
             return (Criteria) this;
         }
 
-        public Criteria andLengthOfStayIsNull() {
-            addCriterion("LENGTH_OF_STAY is null");
+        public Criteria andDiagnosisTimeIsNull() {
+            addCriterion("DIAGNOSIS_TIME is null");
             return (Criteria) this;
         }
 
-        public Criteria andLengthOfStayIsNotNull() {
-            addCriterion("LENGTH_OF_STAY is not null");
+        public Criteria andDiagnosisTimeIsNotNull() {
+            addCriterion("DIAGNOSIS_TIME is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLengthOfStayEqualTo(Date value) {
-            addCriterion("LENGTH_OF_STAY =", value, "lengthOfStay");
+        public Criteria andDiagnosisTimeEqualTo(Date value) {
+            addCriterion("DIAGNOSIS_TIME =", value, "diagnosisTime");
             return (Criteria) this;
         }
 
-        public Criteria andLengthOfStayNotEqualTo(Date value) {
-            addCriterion("LENGTH_OF_STAY <>", value, "lengthOfStay");
+        public Criteria andDiagnosisTimeNotEqualTo(Date value) {
+            addCriterion("DIAGNOSIS_TIME <>", value, "diagnosisTime");
             return (Criteria) this;
         }
 
-        public Criteria andLengthOfStayGreaterThan(Date value) {
-            addCriterion("LENGTH_OF_STAY >", value, "lengthOfStay");
+        public Criteria andDiagnosisTimeGreaterThan(Date value) {
+            addCriterion("DIAGNOSIS_TIME >", value, "diagnosisTime");
             return (Criteria) this;
         }
 
-        public Criteria andLengthOfStayGreaterThanOrEqualTo(Date value) {
-            addCriterion("LENGTH_OF_STAY >=", value, "lengthOfStay");
+        public Criteria andDiagnosisTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("DIAGNOSIS_TIME >=", value, "diagnosisTime");
             return (Criteria) this;
         }
 
-        public Criteria andLengthOfStayLessThan(Date value) {
-            addCriterion("LENGTH_OF_STAY <", value, "lengthOfStay");
+        public Criteria andDiagnosisTimeLessThan(Date value) {
+            addCriterion("DIAGNOSIS_TIME <", value, "diagnosisTime");
             return (Criteria) this;
         }
 
-        public Criteria andLengthOfStayLessThanOrEqualTo(Date value) {
-            addCriterion("LENGTH_OF_STAY <=", value, "lengthOfStay");
+        public Criteria andDiagnosisTimeLessThanOrEqualTo(Date value) {
+            addCriterion("DIAGNOSIS_TIME <=", value, "diagnosisTime");
             return (Criteria) this;
         }
 
-        public Criteria andLengthOfStayIn(List<Date> values) {
-            addCriterion("LENGTH_OF_STAY in", values, "lengthOfStay");
+        public Criteria andDiagnosisTimeIn(List<Date> values) {
+            addCriterion("DIAGNOSIS_TIME in", values, "diagnosisTime");
             return (Criteria) this;
         }
 
-        public Criteria andLengthOfStayNotIn(List<Date> values) {
-            addCriterion("LENGTH_OF_STAY not in", values, "lengthOfStay");
+        public Criteria andDiagnosisTimeNotIn(List<Date> values) {
+            addCriterion("DIAGNOSIS_TIME not in", values, "diagnosisTime");
             return (Criteria) this;
         }
 
-        public Criteria andLengthOfStayBetween(Date value1, Date value2) {
-            addCriterion("LENGTH_OF_STAY between", value1, value2, "lengthOfStay");
+        public Criteria andDiagnosisTimeBetween(Date value1, Date value2) {
+            addCriterion("DIAGNOSIS_TIME between", value1, value2, "diagnosisTime");
             return (Criteria) this;
         }
 
-        public Criteria andLengthOfStayNotBetween(Date value1, Date value2) {
-            addCriterion("LENGTH_OF_STAY not between", value1, value2, "lengthOfStay");
+        public Criteria andDiagnosisTimeNotBetween(Date value1, Date value2) {
+            addCriterion("DIAGNOSIS_TIME not between", value1, value2, "diagnosisTime");
             return (Criteria) this;
         }
 
@@ -432,76 +492,6 @@ public class EpidemicDiagnosisSuspectedExample {
 
         public Criteria andSourceOfInfectionNotBetween(String value1, String value2) {
             addCriterion("SOURCE_OF_INFECTION not between", value1, value2, "sourceOfInfection");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedIsNull() {
-            addCriterion("WHETHER_DIAGNOSED is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedIsNotNull() {
-            addCriterion("WHETHER_DIAGNOSED is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedEqualTo(String value) {
-            addCriterion("WHETHER_DIAGNOSED =", value, "whetherDiagnosed");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedNotEqualTo(String value) {
-            addCriterion("WHETHER_DIAGNOSED <>", value, "whetherDiagnosed");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedGreaterThan(String value) {
-            addCriterion("WHETHER_DIAGNOSED >", value, "whetherDiagnosed");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedGreaterThanOrEqualTo(String value) {
-            addCriterion("WHETHER_DIAGNOSED >=", value, "whetherDiagnosed");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedLessThan(String value) {
-            addCriterion("WHETHER_DIAGNOSED <", value, "whetherDiagnosed");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedLessThanOrEqualTo(String value) {
-            addCriterion("WHETHER_DIAGNOSED <=", value, "whetherDiagnosed");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedLike(String value) {
-            addCriterion("WHETHER_DIAGNOSED like", value, "whetherDiagnosed");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedNotLike(String value) {
-            addCriterion("WHETHER_DIAGNOSED not like", value, "whetherDiagnosed");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedIn(List<String> values) {
-            addCriterion("WHETHER_DIAGNOSED in", values, "whetherDiagnosed");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedNotIn(List<String> values) {
-            addCriterion("WHETHER_DIAGNOSED not in", values, "whetherDiagnosed");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedBetween(String value1, String value2) {
-            addCriterion("WHETHER_DIAGNOSED between", value1, value2, "whetherDiagnosed");
-            return (Criteria) this;
-        }
-
-        public Criteria andWhetherDiagnosedNotBetween(String value1, String value2) {
-            addCriterion("WHETHER_DIAGNOSED not between", value1, value2, "whetherDiagnosed");
             return (Criteria) this;
         }
 

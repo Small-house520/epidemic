@@ -305,73 +305,133 @@ public class VolunteerServiceExample {
             return (Criteria) this;
         }
 
-        public Criteria andSponsorIsNull() {
-            addCriterion("SPONSOR is null");
+        public Criteria andCampusIdIsNull() {
+            addCriterion("CAMPUS_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorIsNotNull() {
-            addCriterion("SPONSOR is not null");
+        public Criteria andCampusIdIsNotNull() {
+            addCriterion("CAMPUS_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorEqualTo(String value) {
-            addCriterion("SPONSOR =", value, "sponsor");
+        public Criteria andCampusIdEqualTo(Long value) {
+            addCriterion("CAMPUS_ID =", value, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorNotEqualTo(String value) {
-            addCriterion("SPONSOR <>", value, "sponsor");
+        public Criteria andCampusIdNotEqualTo(Long value) {
+            addCriterion("CAMPUS_ID <>", value, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorGreaterThan(String value) {
-            addCriterion("SPONSOR >", value, "sponsor");
+        public Criteria andCampusIdGreaterThan(Long value) {
+            addCriterion("CAMPUS_ID >", value, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorGreaterThanOrEqualTo(String value) {
-            addCriterion("SPONSOR >=", value, "sponsor");
+        public Criteria andCampusIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("CAMPUS_ID >=", value, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorLessThan(String value) {
-            addCriterion("SPONSOR <", value, "sponsor");
+        public Criteria andCampusIdLessThan(Long value) {
+            addCriterion("CAMPUS_ID <", value, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorLessThanOrEqualTo(String value) {
-            addCriterion("SPONSOR <=", value, "sponsor");
+        public Criteria andCampusIdLessThanOrEqualTo(Long value) {
+            addCriterion("CAMPUS_ID <=", value, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorLike(String value) {
-            addCriterion("SPONSOR like", value, "sponsor");
+        public Criteria andCampusIdIn(List<Long> values) {
+            addCriterion("CAMPUS_ID in", values, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorNotLike(String value) {
-            addCriterion("SPONSOR not like", value, "sponsor");
+        public Criteria andCampusIdNotIn(List<Long> values) {
+            addCriterion("CAMPUS_ID not in", values, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorIn(List<String> values) {
-            addCriterion("SPONSOR in", values, "sponsor");
+        public Criteria andCampusIdBetween(Long value1, Long value2) {
+            addCriterion("CAMPUS_ID between", value1, value2, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorNotIn(List<String> values) {
-            addCriterion("SPONSOR not in", values, "sponsor");
+        public Criteria andCampusIdNotBetween(Long value1, Long value2) {
+            addCriterion("CAMPUS_ID not between", value1, value2, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorBetween(String value1, String value2) {
-            addCriterion("SPONSOR between", value1, value2, "sponsor");
+        public Criteria andSponsorOrgIsNull() {
+            addCriterion("SPONSOR_ORG is null");
             return (Criteria) this;
         }
 
-        public Criteria andSponsorNotBetween(String value1, String value2) {
-            addCriterion("SPONSOR not between", value1, value2, "sponsor");
+        public Criteria andSponsorOrgIsNotNull() {
+            addCriterion("SPONSOR_ORG is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorOrgEqualTo(String value) {
+            addCriterion("SPONSOR_ORG =", value, "sponsorOrg");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorOrgNotEqualTo(String value) {
+            addCriterion("SPONSOR_ORG <>", value, "sponsorOrg");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorOrgGreaterThan(String value) {
+            addCriterion("SPONSOR_ORG >", value, "sponsorOrg");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorOrgGreaterThanOrEqualTo(String value) {
+            addCriterion("SPONSOR_ORG >=", value, "sponsorOrg");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorOrgLessThan(String value) {
+            addCriterion("SPONSOR_ORG <", value, "sponsorOrg");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorOrgLessThanOrEqualTo(String value) {
+            addCriterion("SPONSOR_ORG <=", value, "sponsorOrg");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorOrgLike(String value) {
+            addCriterion("SPONSOR_ORG like", value, "sponsorOrg");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorOrgNotLike(String value) {
+            addCriterion("SPONSOR_ORG not like", value, "sponsorOrg");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorOrgIn(List<String> values) {
+            addCriterion("SPONSOR_ORG in", values, "sponsorOrg");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorOrgNotIn(List<String> values) {
+            addCriterion("SPONSOR_ORG not in", values, "sponsorOrg");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorOrgBetween(String value1, String value2) {
+            addCriterion("SPONSOR_ORG between", value1, value2, "sponsorOrg");
+            return (Criteria) this;
+        }
+
+        public Criteria andSponsorOrgNotBetween(String value1, String value2) {
+            addCriterion("SPONSOR_ORG not between", value1, value2, "sponsorOrg");
             return (Criteria) this;
         }
 
@@ -692,6 +752,66 @@ public class VolunteerServiceExample {
 
         public Criteria andInitiateTimeNotBetween(Date value1, Date value2) {
             addCriterion("INITIATE_TIME not between", value1, value2, "initiateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeadlineIsNull() {
+            addCriterion("DEADLINE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeadlineIsNotNull() {
+            addCriterion("DEADLINE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeadlineEqualTo(Date value) {
+            addCriterion("DEADLINE =", value, "deadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeadlineNotEqualTo(Date value) {
+            addCriterion("DEADLINE <>", value, "deadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeadlineGreaterThan(Date value) {
+            addCriterion("DEADLINE >", value, "deadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeadlineGreaterThanOrEqualTo(Date value) {
+            addCriterion("DEADLINE >=", value, "deadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeadlineLessThan(Date value) {
+            addCriterion("DEADLINE <", value, "deadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeadlineLessThanOrEqualTo(Date value) {
+            addCriterion("DEADLINE <=", value, "deadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeadlineIn(List<Date> values) {
+            addCriterion("DEADLINE in", values, "deadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeadlineNotIn(List<Date> values) {
+            addCriterion("DEADLINE not in", values, "deadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeadlineBetween(Date value1, Date value2) {
+            addCriterion("DEADLINE between", value1, value2, "deadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeadlineNotBetween(Date value1, Date value2) {
+            addCriterion("DEADLINE not between", value1, value2, "deadline");
             return (Criteria) this;
         }
 

@@ -7,6 +7,8 @@ public class VolunteerEnroll {
 
     private Long campusId;
 
+    private Short volunteerServiceId;
+
     private String isQualified;
 
     private Date enrollTime;
@@ -31,6 +33,14 @@ public class VolunteerEnroll {
 
     public void setCampusId(Long campusId) {
         this.campusId = campusId;
+    }
+
+    public Short getVolunteerServiceId() {
+        return volunteerServiceId;
+    }
+
+    public void setVolunteerServiceId(Short volunteerServiceId) {
+        this.volunteerServiceId = volunteerServiceId;
     }
 
     public String getIsQualified() {

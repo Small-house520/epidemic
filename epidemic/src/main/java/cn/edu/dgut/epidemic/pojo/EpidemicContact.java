@@ -2,7 +2,9 @@ package cn.edu.dgut.epidemic.pojo;
 
 import java.util.Date;
 
-public class EpidemicCloseContact {
+public class EpidemicContact {
+    private Integer epidemicContactId;
+
     private Long campusId;
 
     private String contactSource;
@@ -12,6 +14,14 @@ public class EpidemicCloseContact {
     private Date isolationTime;
 
     private String remarks;
+
+    public Integer getEpidemicContactId() {
+        return epidemicContactId;
+    }
+
+    public void setEpidemicContactId(Integer epidemicContactId) {
+        this.epidemicContactId = epidemicContactId;
+    }
 
     public Long getCampusId() {
         return campusId;

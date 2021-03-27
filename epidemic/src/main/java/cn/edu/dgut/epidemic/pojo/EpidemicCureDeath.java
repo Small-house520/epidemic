@@ -3,6 +3,8 @@ package cn.edu.dgut.epidemic.pojo;
 import java.util.Date;
 
 public class EpidemicCureDeath {
+    private Integer epidemicCureId;
+
     private Long campusId;
 
     private String status;
@@ -12,6 +14,14 @@ public class EpidemicCureDeath {
     private Date timeOfDeath;
 
     private String remarks;
+
+    public Integer getEpidemicCureId() {
+        return epidemicCureId;
+    }
+
+    public void setEpidemicCureId(Integer epidemicCureId) {
+        this.epidemicCureId = epidemicCureId;
+    }
 
     public Long getCampusId() {
         return campusId;

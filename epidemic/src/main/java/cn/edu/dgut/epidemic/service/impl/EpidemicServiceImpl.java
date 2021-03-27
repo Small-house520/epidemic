@@ -93,7 +93,7 @@ public class EpidemicServiceImpl implements EpidemicService {
 		for (int i = 0; i < provinces.size(); i++) {
 			for (int j = 0; j < pList.size(); j++) {
 				if (provinces.get(i).getProvinceId() == pList.get(j).getProvinceId()) {
-					provinceEpidemicDetail.setProvinceName(provinces.get(i).getProvinceName());
+					provinceEpidemicDetail.setProvince(provinces.get(i));
 					provinceEpidemicDetail.setProvinceEpidemic(pList.get(j));
 					list.add(provinceEpidemicDetail);
 					break;
@@ -141,7 +141,7 @@ public class EpidemicServiceImpl implements EpidemicService {
 		for (int i = 0; i < cities.size(); i++) {
 			for (int j = 0; j < cList.size(); j++) {
 				if (cities.get(i).getCityId() == cList.get(j).getCityId()) {
-					cityEpidemicDetail.setCityName(cities.get(i).getCityName());
+					cityEpidemicDetail.setCity(cities.get(i));
 					cityEpidemicDetail.setCityEpidemic(cList.get(j));
 					list.add(cityEpidemicDetail);
 					break;

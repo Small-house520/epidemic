@@ -10,7 +10,7 @@ public interface EpidemicCureDeathMapper {
 
     int deleteByExample(EpidemicCureDeathExample example);
 
-    int deleteByPrimaryKey(Long campusId);
+    int deleteByPrimaryKey(Integer epidemicCureId);
 
     int insert(EpidemicCureDeath record);
 
@@ -18,7 +18,7 @@ public interface EpidemicCureDeathMapper {
 
     List<EpidemicCureDeath> selectByExample(EpidemicCureDeathExample example);
 
-    EpidemicCureDeath selectByPrimaryKey(Long campusId);
+    EpidemicCureDeath selectByPrimaryKey(Integer epidemicCureId);
 
     int updateByExampleSelective(@Param("record") EpidemicCureDeath record, @Param("example") EpidemicCureDeathExample example);
 

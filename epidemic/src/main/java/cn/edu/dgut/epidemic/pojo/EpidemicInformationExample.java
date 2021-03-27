@@ -365,6 +365,76 @@ public class EpidemicInformationExample {
             return (Criteria) this;
         }
 
+        public Criteria andInformationFlagIsNull() {
+            addCriterion("INFORMATION_FLAG is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagIsNotNull() {
+            addCriterion("INFORMATION_FLAG is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagEqualTo(String value) {
+            addCriterion("INFORMATION_FLAG =", value, "informationFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagNotEqualTo(String value) {
+            addCriterion("INFORMATION_FLAG <>", value, "informationFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagGreaterThan(String value) {
+            addCriterion("INFORMATION_FLAG >", value, "informationFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagGreaterThanOrEqualTo(String value) {
+            addCriterion("INFORMATION_FLAG >=", value, "informationFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagLessThan(String value) {
+            addCriterion("INFORMATION_FLAG <", value, "informationFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagLessThanOrEqualTo(String value) {
+            addCriterion("INFORMATION_FLAG <=", value, "informationFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagLike(String value) {
+            addCriterion("INFORMATION_FLAG like", value, "informationFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagNotLike(String value) {
+            addCriterion("INFORMATION_FLAG not like", value, "informationFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagIn(List<String> values) {
+            addCriterion("INFORMATION_FLAG in", values, "informationFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagNotIn(List<String> values) {
+            addCriterion("INFORMATION_FLAG not in", values, "informationFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagBetween(String value1, String value2) {
+            addCriterion("INFORMATION_FLAG between", value1, value2, "informationFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andInformationFlagNotBetween(String value1, String value2) {
+            addCriterion("INFORMATION_FLAG not between", value1, value2, "informationFlag");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarksIsNull() {
             addCriterion("REMARKS is null");
             return (Criteria) this;

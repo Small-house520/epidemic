@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.edu.dgut.epidemic.mapper.EpidemicDiagnosisSuspectedMapper" >
-  <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisSuspected" >
-    <id column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+<mapper namespace="cn.edu.dgut.epidemic.mapper.EpidemicDiagnosisMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosis" >
+    <id column="EPIDEMIC_DIAGNOSIS_ID" property="epidemicDiagnosisId" jdbcType="INTEGER" />
+    <result column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
     <result column="SYMPTOMS" property="symptoms" jdbcType="VARCHAR" />
     <result column="HOSPITAL" property="hospital" jdbcType="VARCHAR" />
-    <result column="LENGTH_OF_STAY" property="lengthOfStay" jdbcType="TIMESTAMP" />
+    <result column="DIAGNOSIS_TIME" property="diagnosisTime" jdbcType="TIMESTAMP" />
     <result column="SOURCE_OF_INFECTION" property="sourceOfInfection" jdbcType="VARCHAR" />
-    <result column="WHETHER_DIAGNOSED" property="whetherDiagnosed" jdbcType="VARCHAR" />
     <result column="WHETHER_SEVERE" property="whetherSevere" jdbcType="VARCHAR" />
     <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
@@ -70,16 +70,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CAMPUS_ID, SYMPTOMS, HOSPITAL, LENGTH_OF_STAY, SOURCE_OF_INFECTION, WHETHER_DIAGNOSED, 
+    EPIDEMIC_DIAGNOSIS_ID, CAMPUS_ID, SYMPTOMS, HOSPITAL, DIAGNOSIS_TIME, SOURCE_OF_INFECTION, 
     WHETHER_SEVERE, REMARKS
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisSuspectedExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from epidemic_diagnosis_suspected
+    from epidemic_diagnosis
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,33 +87,36 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from epidemic_diagnosis_suspected
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    from epidemic_diagnosis
+    where EPIDEMIC_DIAGNOSIS_ID = #{epidemicDiagnosisId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from epidemic_diagnosis_suspected
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from epidemic_diagnosis
+    where EPIDEMIC_DIAGNOSIS_ID = #{epidemicDiagnosisId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisSuspectedExample" >
-    delete from epidemic_diagnosis_suspected
+  <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisExample" >
+    delete from epidemic_diagnosis
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisSuspected" >
-    insert into epidemic_diagnosis_suspected (CAMPUS_ID, SYMPTOMS, HOSPITAL, 
-      LENGTH_OF_STAY, SOURCE_OF_INFECTION, WHETHER_DIAGNOSED, 
+  <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosis" >
+    insert into epidemic_diagnosis (EPIDEMIC_DIAGNOSIS_ID, CAMPUS_ID, SYMPTOMS, 
+      HOSPITAL, DIAGNOSIS_TIME, SOURCE_OF_INFECTION, 
       WHETHER_SEVERE, REMARKS)
-    values (#{campusId,jdbcType=BIGINT}, #{symptoms,jdbcType=VARCHAR}, #{hospital,jdbcType=VARCHAR}, 
-      #{lengthOfStay,jdbcType=TIMESTAMP}, #{sourceOfInfection,jdbcType=VARCHAR}, #{whetherDiagnosed,jdbcType=VARCHAR}, 
+    values (#{epidemicDiagnosisId,jdbcType=INTEGER}, #{campusId,jdbcType=BIGINT}, #{symptoms,jdbcType=VARCHAR}, 
+      #{hospital,jdbcType=VARCHAR}, #{diagnosisTime,jdbcType=TIMESTAMP}, #{sourceOfInfection,jdbcType=VARCHAR}, 
       #{whetherSevere,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisSuspected" >
-    insert into epidemic_diagnosis_suspected
+  <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosis" >
+    insert into epidemic_diagnosis
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="epidemicDiagnosisId != null" >
+        EPIDEMIC_DIAGNOSIS_ID,
+      </if>
       <if test="campusId != null" >
         CAMPUS_ID,
       </if>
@@ -123,14 +126,11 @@
       <if test="hospital != null" >
         HOSPITAL,
       </if>
-      <if test="lengthOfStay != null" >
-        LENGTH_OF_STAY,
+      <if test="diagnosisTime != null" >
+        DIAGNOSIS_TIME,
       </if>
       <if test="sourceOfInfection != null" >
         SOURCE_OF_INFECTION,
-      </if>
-      <if test="whetherDiagnosed != null" >
-        WHETHER_DIAGNOSED,
       </if>
       <if test="whetherSevere != null" >
         WHETHER_SEVERE,
@@ -140,6 +140,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="epidemicDiagnosisId != null" >
+        #{epidemicDiagnosisId,jdbcType=INTEGER},
+      </if>
       <if test="campusId != null" >
         #{campusId,jdbcType=BIGINT},
       </if>
@@ -149,14 +152,11 @@
       <if test="hospital != null" >
         #{hospital,jdbcType=VARCHAR},
       </if>
-      <if test="lengthOfStay != null" >
-        #{lengthOfStay,jdbcType=TIMESTAMP},
+      <if test="diagnosisTime != null" >
+        #{diagnosisTime,jdbcType=TIMESTAMP},
       </if>
       <if test="sourceOfInfection != null" >
         #{sourceOfInfection,jdbcType=VARCHAR},
-      </if>
-      <if test="whetherDiagnosed != null" >
-        #{whetherDiagnosed,jdbcType=VARCHAR},
       </if>
       <if test="whetherSevere != null" >
         #{whetherSevere,jdbcType=VARCHAR},
@@ -166,15 +166,18 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisSuspectedExample" resultType="java.lang.Integer" >
-    select count(*) from epidemic_diagnosis_suspected
+  <select id="countByExample" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisExample" resultType="java.lang.Integer" >
+    select count(*) from epidemic_diagnosis
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update epidemic_diagnosis_suspected
+    update epidemic_diagnosis
     <set >
+      <if test="record.epidemicDiagnosisId != null" >
+        EPIDEMIC_DIAGNOSIS_ID = #{record.epidemicDiagnosisId,jdbcType=INTEGER},
+      </if>
       <if test="record.campusId != null" >
         CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
       </if>
@@ -184,14 +187,11 @@
       <if test="record.hospital != null" >
         HOSPITAL = #{record.hospital,jdbcType=VARCHAR},
       </if>
-      <if test="record.lengthOfStay != null" >
-        LENGTH_OF_STAY = #{record.lengthOfStay,jdbcType=TIMESTAMP},
+      <if test="record.diagnosisTime != null" >
+        DIAGNOSIS_TIME = #{record.diagnosisTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.sourceOfInfection != null" >
         SOURCE_OF_INFECTION = #{record.sourceOfInfection,jdbcType=VARCHAR},
-      </if>
-      <if test="record.whetherDiagnosed != null" >
-        WHETHER_DIAGNOSED = #{record.whetherDiagnosed,jdbcType=VARCHAR},
       </if>
       <if test="record.whetherSevere != null" >
         WHETHER_SEVERE = #{record.whetherSevere,jdbcType=VARCHAR},
@@ -205,36 +205,36 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update epidemic_diagnosis_suspected
-    set CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+    update epidemic_diagnosis
+    set EPIDEMIC_DIAGNOSIS_ID = #{record.epidemicDiagnosisId,jdbcType=INTEGER},
+      CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
       SYMPTOMS = #{record.symptoms,jdbcType=VARCHAR},
       HOSPITAL = #{record.hospital,jdbcType=VARCHAR},
-      LENGTH_OF_STAY = #{record.lengthOfStay,jdbcType=TIMESTAMP},
+      DIAGNOSIS_TIME = #{record.diagnosisTime,jdbcType=TIMESTAMP},
       SOURCE_OF_INFECTION = #{record.sourceOfInfection,jdbcType=VARCHAR},
-      WHETHER_DIAGNOSED = #{record.whetherDiagnosed,jdbcType=VARCHAR},
       WHETHER_SEVERE = #{record.whetherSevere,jdbcType=VARCHAR},
       REMARKS = #{record.remarks,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisSuspected" >
-    update epidemic_diagnosis_suspected
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosis" >
+    update epidemic_diagnosis
     <set >
+      <if test="campusId != null" >
+        CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+      </if>
       <if test="symptoms != null" >
         SYMPTOMS = #{symptoms,jdbcType=VARCHAR},
       </if>
       <if test="hospital != null" >
         HOSPITAL = #{hospital,jdbcType=VARCHAR},
       </if>
-      <if test="lengthOfStay != null" >
-        LENGTH_OF_STAY = #{lengthOfStay,jdbcType=TIMESTAMP},
+      <if test="diagnosisTime != null" >
+        DIAGNOSIS_TIME = #{diagnosisTime,jdbcType=TIMESTAMP},
       </if>
       <if test="sourceOfInfection != null" >
         SOURCE_OF_INFECTION = #{sourceOfInfection,jdbcType=VARCHAR},
-      </if>
-      <if test="whetherDiagnosed != null" >
-        WHETHER_DIAGNOSED = #{whetherDiagnosed,jdbcType=VARCHAR},
       </if>
       <if test="whetherSevere != null" >
         WHETHER_SEVERE = #{whetherSevere,jdbcType=VARCHAR},
@@ -243,17 +243,17 @@
         REMARKS = #{remarks,jdbcType=VARCHAR},
       </if>
     </set>
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where EPIDEMIC_DIAGNOSIS_ID = #{epidemicDiagnosisId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisSuspected" >
-    update epidemic_diagnosis_suspected
-    set SYMPTOMS = #{symptoms,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosis" >
+    update epidemic_diagnosis
+    set CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+      SYMPTOMS = #{symptoms,jdbcType=VARCHAR},
       HOSPITAL = #{hospital,jdbcType=VARCHAR},
-      LENGTH_OF_STAY = #{lengthOfStay,jdbcType=TIMESTAMP},
+      DIAGNOSIS_TIME = #{diagnosisTime,jdbcType=TIMESTAMP},
       SOURCE_OF_INFECTION = #{sourceOfInfection,jdbcType=VARCHAR},
-      WHETHER_DIAGNOSED = #{whetherDiagnosed,jdbcType=VARCHAR},
       WHETHER_SEVERE = #{whetherSevere,jdbcType=VARCHAR},
       REMARKS = #{remarks,jdbcType=VARCHAR}
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where EPIDEMIC_DIAGNOSIS_ID = #{epidemicDiagnosisId,jdbcType=INTEGER}
   </update>
 </mapper>

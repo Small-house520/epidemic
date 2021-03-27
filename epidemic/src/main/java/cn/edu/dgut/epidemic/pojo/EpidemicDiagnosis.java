@@ -2,22 +2,30 @@ package cn.edu.dgut.epidemic.pojo;
 
 import java.util.Date;
 
-public class EpidemicDiagnosisSuspected {
+public class EpidemicDiagnosis {
+    private Integer epidemicDiagnosisId;
+
     private Long campusId;
 
     private String symptoms;
 
     private String hospital;
 
-    private Date lengthOfStay;
+    private Date diagnosisTime;
 
     private String sourceOfInfection;
-
-    private String whetherDiagnosed;
 
     private String whetherSevere;
 
     private String remarks;
+
+    public Integer getEpidemicDiagnosisId() {
+        return epidemicDiagnosisId;
+    }
+
+    public void setEpidemicDiagnosisId(Integer epidemicDiagnosisId) {
+        this.epidemicDiagnosisId = epidemicDiagnosisId;
+    }
 
     public Long getCampusId() {
         return campusId;
@@ -43,12 +51,12 @@ public class EpidemicDiagnosisSuspected {
         this.hospital = hospital == null ? null : hospital.trim();
     }
 
-    public Date getLengthOfStay() {
-        return lengthOfStay;
+    public Date getDiagnosisTime() {
+        return diagnosisTime;
     }
 
-    public void setLengthOfStay(Date lengthOfStay) {
-        this.lengthOfStay = lengthOfStay;
+    public void setDiagnosisTime(Date diagnosisTime) {
+        this.diagnosisTime = diagnosisTime;
     }
 
     public String getSourceOfInfection() {
@@ -57,14 +65,6 @@ public class EpidemicDiagnosisSuspected {
 
     public void setSourceOfInfection(String sourceOfInfection) {
         this.sourceOfInfection = sourceOfInfection == null ? null : sourceOfInfection.trim();
-    }
-
-    public String getWhetherDiagnosed() {
-        return whetherDiagnosed;
-    }
-
-    public void setWhetherDiagnosed(String whetherDiagnosed) {
-        this.whetherDiagnosed = whetherDiagnosed == null ? null : whetherDiagnosed.trim();
     }
 
     public String getWhetherSevere() {

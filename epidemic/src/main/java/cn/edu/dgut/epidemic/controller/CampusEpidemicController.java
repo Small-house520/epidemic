@@ -9,9 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import cn.edu.dgut.epidemic.pojo.EpidemicCloseContact;
+import cn.edu.dgut.epidemic.pojo.EpidemicContact;
 import cn.edu.dgut.epidemic.pojo.EpidemicCureDeath;
-import cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisSuspected;
+import cn.edu.dgut.epidemic.pojo.EpidemicDiagnosis;
 import cn.edu.dgut.epidemic.service.CampusEpidemicService;
 
 @Controller
@@ -24,18 +24,18 @@ public class CampusEpidemicController {
 
 	// 查询校内现有确诊患者信息
 	@RequestMapping("/diagnosis")
-	public String getDiagnosis(EpidemicDiagnosisSuspected epidemicDiagnosis, Model model, HttpSession session) {
+	public String getDiagnosis(EpidemicDiagnosis epidemicDiagnosis, Model model, HttpSession session) {
 
-		List<EpidemicDiagnosisSuspected> list = this.campusEpidemicService.getDiagnosis(epidemicDiagnosis);
+		List<EpidemicDiagnosis> list = this.campusEpidemicService.getDiagnosis(epidemicDiagnosis);
 		model.addAttribute("epidemicDiagnosis", list);
 		return "diagnosis";
 	}
 
 	// 查询校内密切接触者信息
 	@RequestMapping("/contact")
-	public String getContact(EpidemicCloseContact epidemicContact, Model model, HttpSession session) {
+	public String getContact(EpidemicContact epidemicContact, Model model, HttpSession session) {
 
-		List<EpidemicCloseContact> list = this.campusEpidemicService.getContact(epidemicContact);
+		List<EpidemicContact> list = this.campusEpidemicService.getContact(epidemicContact);
 		model.addAttribute("epidemicContact", list);
 		return "close_contact";
 	}

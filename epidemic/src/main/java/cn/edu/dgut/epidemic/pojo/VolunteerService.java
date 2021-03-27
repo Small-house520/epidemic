@@ -9,7 +9,9 @@ public class VolunteerService {
 
     private String details;
 
-    private String sponsor;
+    private Long campusId;
+
+    private String sponsorOrg;
 
     private Short expectedVolunteers;
 
@@ -20,6 +22,8 @@ public class VolunteerService {
     private String location;
 
     private Date initiateTime;
+
+    private Date deadline;
 
     private Date startTime;
 
@@ -51,12 +55,20 @@ public class VolunteerService {
         this.details = details == null ? null : details.trim();
     }
 
-    public String getSponsor() {
-        return sponsor;
+    public Long getCampusId() {
+        return campusId;
     }
 
-    public void setSponsor(String sponsor) {
-        this.sponsor = sponsor == null ? null : sponsor.trim();
+    public void setCampusId(Long campusId) {
+        this.campusId = campusId;
+    }
+
+    public String getSponsorOrg() {
+        return sponsorOrg;
+    }
+
+    public void setSponsorOrg(String sponsorOrg) {
+        this.sponsorOrg = sponsorOrg == null ? null : sponsorOrg.trim();
     }
 
     public Short getExpectedVolunteers() {
@@ -97,6 +109,14 @@ public class VolunteerService {
 
     public void setInitiateTime(Date initiateTime) {
         this.initiateTime = initiateTime;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
     }
 
     public Date getStartTime() {

@@ -1,15 +1,15 @@
 package cn.edu.dgut.epidemic.pojo;
 
 public class CityEpidemicDetail {
-	private String cityName;
+	private City city;
 	private CityEpidemic cityEpidemic;
 
-	public String getCityName() {
-		return cityName;
+	public City getCity() {
+		return city;
 	}
 
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
+	public void setCity(City city) {
+		this.city = city;
 	}
 
 	public CityEpidemic getCityEpidemic() {

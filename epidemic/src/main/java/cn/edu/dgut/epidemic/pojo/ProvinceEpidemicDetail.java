@@ -1,15 +1,15 @@
 package cn.edu.dgut.epidemic.pojo;
 
 public class ProvinceEpidemicDetail {
-	private String provinceName;
+	private Province province;
 	private ProvinceEpidemic provinceEpidemic;
 
-	public String getProvinceName() {
-		return provinceName;
+	public Province getProvince() {
+		return province;
 	}
 
-	public void setProvinceName(String provinceName) {
-		this.provinceName = provinceName;
+	public void setProvince(Province province) {
+		this.province = province;
 	}
 
 	public ProvinceEpidemic getProvinceEpidemic() {

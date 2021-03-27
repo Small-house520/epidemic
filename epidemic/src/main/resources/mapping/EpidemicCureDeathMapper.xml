@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.edu.dgut.epidemic.mapper.EpidemicCureDeathMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.EpidemicCureDeath" >
-    <id column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <id column="EPIDEMIC_CURE_ID" property="epidemicCureId" jdbcType="INTEGER" />
+    <result column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
     <result column="STATUS" property="status" jdbcType="VARCHAR" />
     <result column="TIME_OF_DISCHARGE" property="timeOfDischarge" jdbcType="TIMESTAMP" />
     <result column="TIME_OF_DEATH" property="timeOfDeath" jdbcType="TIMESTAMP" />
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CAMPUS_ID, STATUS, TIME_OF_DISCHARGE, TIME_OF_DEATH, REMARKS
+    EPIDEMIC_CURE_ID, CAMPUS_ID, STATUS, TIME_OF_DISCHARGE, TIME_OF_DEATH, REMARKS
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeathExample" >
     select
@@ -83,15 +84,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from epidemic_cure_death
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where EPIDEMIC_CURE_ID = #{epidemicCureId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from epidemic_cure_death
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where EPIDEMIC_CURE_ID = #{epidemicCureId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeathExample" >
     delete from epidemic_cure_death
@@ -100,14 +101,19 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeath" >
-    insert into epidemic_cure_death (CAMPUS_ID, STATUS, TIME_OF_DISCHARGE, 
-      TIME_OF_DEATH, REMARKS)
-    values (#{campusId,jdbcType=BIGINT}, #{status,jdbcType=VARCHAR}, #{timeOfDischarge,jdbcType=TIMESTAMP}, 
-      #{timeOfDeath,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR})
+    insert into epidemic_cure_death (EPIDEMIC_CURE_ID, CAMPUS_ID, STATUS, 
+      TIME_OF_DISCHARGE, TIME_OF_DEATH, REMARKS
+      )
+    values (#{epidemicCureId,jdbcType=INTEGER}, #{campusId,jdbcType=BIGINT}, #{status,jdbcType=VARCHAR}, 
+      #{timeOfDischarge,jdbcType=TIMESTAMP}, #{timeOfDeath,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeath" >
     insert into epidemic_cure_death
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="epidemicCureId != null" >
+        EPIDEMIC_CURE_ID,
+      </if>
       <if test="campusId != null" >
         CAMPUS_ID,
       </if>
@@ -125,6 +131,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="epidemicCureId != null" >
+        #{epidemicCureId,jdbcType=INTEGER},
+      </if>
       <if test="campusId != null" >
         #{campusId,jdbcType=BIGINT},
       </if>
@@ -151,6 +160,9 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update epidemic_cure_death
     <set >
+      <if test="record.epidemicCureId != null" >
+        EPIDEMIC_CURE_ID = #{record.epidemicCureId,jdbcType=INTEGER},
+      </if>
       <if test="record.campusId != null" >
         CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
       </if>
@@ -173,7 +185,8 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update epidemic_cure_death
-    set CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+    set EPIDEMIC_CURE_ID = #{record.epidemicCureId,jdbcType=INTEGER},
+      CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
       STATUS = #{record.status,jdbcType=VARCHAR},
       TIME_OF_DISCHARGE = #{record.timeOfDischarge,jdbcType=TIMESTAMP},
       TIME_OF_DEATH = #{record.timeOfDeath,jdbcType=TIMESTAMP},
@@ -185,6 +198,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeath" >
     update epidemic_cure_death
     <set >
+      <if test="campusId != null" >
+        CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+      </if>
       <if test="status != null" >
         STATUS = #{status,jdbcType=VARCHAR},
       </if>
@@ -198,14 +214,15 @@
         REMARKS = #{remarks,jdbcType=VARCHAR},
       </if>
     </set>
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where EPIDEMIC_CURE_ID = #{epidemicCureId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeath" >
     update epidemic_cure_death
-    set STATUS = #{status,jdbcType=VARCHAR},
+    set CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+      STATUS = #{status,jdbcType=VARCHAR},
       TIME_OF_DISCHARGE = #{timeOfDischarge,jdbcType=TIMESTAMP},
       TIME_OF_DEATH = #{timeOfDeath,jdbcType=TIMESTAMP},
       REMARKS = #{remarks,jdbcType=VARCHAR}
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where EPIDEMIC_CURE_ID = #{epidemicCureId,jdbcType=INTEGER}
   </update>
 </mapper>

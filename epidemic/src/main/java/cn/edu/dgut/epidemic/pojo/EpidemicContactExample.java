@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class EpidemicCloseContactExample {
+public class EpidemicContactExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public EpidemicCloseContactExample() {
+    public EpidemicContactExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -103,6 +103,66 @@ public class EpidemicCloseContactExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        public Criteria andEpidemicContactIdIsNull() {
+            addCriterion("EPIDEMIC_CONTACT_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicContactIdIsNotNull() {
+            addCriterion("EPIDEMIC_CONTACT_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicContactIdEqualTo(Integer value) {
+            addCriterion("EPIDEMIC_CONTACT_ID =", value, "epidemicContactId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicContactIdNotEqualTo(Integer value) {
+            addCriterion("EPIDEMIC_CONTACT_ID <>", value, "epidemicContactId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicContactIdGreaterThan(Integer value) {
+            addCriterion("EPIDEMIC_CONTACT_ID >", value, "epidemicContactId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicContactIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("EPIDEMIC_CONTACT_ID >=", value, "epidemicContactId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicContactIdLessThan(Integer value) {
+            addCriterion("EPIDEMIC_CONTACT_ID <", value, "epidemicContactId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicContactIdLessThanOrEqualTo(Integer value) {
+            addCriterion("EPIDEMIC_CONTACT_ID <=", value, "epidemicContactId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicContactIdIn(List<Integer> values) {
+            addCriterion("EPIDEMIC_CONTACT_ID in", values, "epidemicContactId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicContactIdNotIn(List<Integer> values) {
+            addCriterion("EPIDEMIC_CONTACT_ID not in", values, "epidemicContactId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicContactIdBetween(Integer value1, Integer value2) {
+            addCriterion("EPIDEMIC_CONTACT_ID between", value1, value2, "epidemicContactId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicContactIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("EPIDEMIC_CONTACT_ID not between", value1, value2, "epidemicContactId");
+            return (Criteria) this;
         }
 
         public Criteria andCampusIdIsNull() {

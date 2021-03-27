@@ -225,6 +225,66 @@ public class VolunteerEnrollExample {
             return (Criteria) this;
         }
 
+        public Criteria andVolunteerServiceIdIsNull() {
+            addCriterion("VOLUNTEER_SERVICE_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerServiceIdIsNotNull() {
+            addCriterion("VOLUNTEER_SERVICE_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerServiceIdEqualTo(Short value) {
+            addCriterion("VOLUNTEER_SERVICE_ID =", value, "volunteerServiceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerServiceIdNotEqualTo(Short value) {
+            addCriterion("VOLUNTEER_SERVICE_ID <>", value, "volunteerServiceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerServiceIdGreaterThan(Short value) {
+            addCriterion("VOLUNTEER_SERVICE_ID >", value, "volunteerServiceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerServiceIdGreaterThanOrEqualTo(Short value) {
+            addCriterion("VOLUNTEER_SERVICE_ID >=", value, "volunteerServiceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerServiceIdLessThan(Short value) {
+            addCriterion("VOLUNTEER_SERVICE_ID <", value, "volunteerServiceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerServiceIdLessThanOrEqualTo(Short value) {
+            addCriterion("VOLUNTEER_SERVICE_ID <=", value, "volunteerServiceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerServiceIdIn(List<Short> values) {
+            addCriterion("VOLUNTEER_SERVICE_ID in", values, "volunteerServiceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerServiceIdNotIn(List<Short> values) {
+            addCriterion("VOLUNTEER_SERVICE_ID not in", values, "volunteerServiceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerServiceIdBetween(Short value1, Short value2) {
+            addCriterion("VOLUNTEER_SERVICE_ID between", value1, value2, "volunteerServiceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVolunteerServiceIdNotBetween(Short value1, Short value2) {
+            addCriterion("VOLUNTEER_SERVICE_ID not between", value1, value2, "volunteerServiceId");
+            return (Criteria) this;
+        }
+
         public Criteria andIsQualifiedIsNull() {
             addCriterion("IS_QUALIFIED is null");
             return (Criteria) this;

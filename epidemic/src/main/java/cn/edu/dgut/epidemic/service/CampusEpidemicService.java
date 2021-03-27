@@ -2,9 +2,9 @@ package cn.edu.dgut.epidemic.service;
 
 import java.util.List;
 
-import cn.edu.dgut.epidemic.pojo.EpidemicCloseContact;
+import cn.edu.dgut.epidemic.pojo.EpidemicContact;
 import cn.edu.dgut.epidemic.pojo.EpidemicCureDeath;
-import cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisSuspected;
+import cn.edu.dgut.epidemic.pojo.EpidemicDiagnosis;
 
 public interface CampusEpidemicService {
 	/**
@@ -13,7 +13,7 @@ public interface CampusEpidemicService {
 	 * @param epidemicDiagnosis
 	 * @return
 	 */
-	List<EpidemicDiagnosisSuspected> getDiagnosis(EpidemicDiagnosisSuspected epidemicDiagnosis);
+	List<EpidemicDiagnosis> getDiagnosis(EpidemicDiagnosis epidemicDiagnosis);
 
 	/**
 	 * 根据查询条件查询校内密切接触者信息
@@ -21,7 +21,7 @@ public interface CampusEpidemicService {
 	 * @param epidemicContact
 	 * @return
 	 */
-	List<EpidemicCloseContact> getContact(EpidemicCloseContact epidemicContact);
+	List<EpidemicContact> getContact(EpidemicContact epidemicContact);
 
 	/**
 	 * 查询校内治愈者信息

@@ -11,6 +11,8 @@ public class EpidemicInformation {
 
     private Date releaseTime;
 
+    private String informationFlag;
+
     private String remarks;
 
     public Short getInformationId() {
@@ -43,6 +45,14 @@ public class EpidemicInformation {
 
     public void setReleaseTime(Date releaseTime) {
         this.releaseTime = releaseTime;
+    }
+
+    public String getInformationFlag() {
+        return informationFlag;
+    }
+
+    public void setInformationFlag(String informationFlag) {
+        this.informationFlag = informationFlag == null ? null : informationFlag.trim();
     }
 
     public String getRemarks() {

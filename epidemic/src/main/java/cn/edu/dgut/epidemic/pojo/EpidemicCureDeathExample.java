@@ -105,6 +105,66 @@ public class EpidemicCureDeathExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
+        public Criteria andEpidemicCureIdIsNull() {
+            addCriterion("EPIDEMIC_CURE_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicCureIdIsNotNull() {
+            addCriterion("EPIDEMIC_CURE_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicCureIdEqualTo(Integer value) {
+            addCriterion("EPIDEMIC_CURE_ID =", value, "epidemicCureId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicCureIdNotEqualTo(Integer value) {
+            addCriterion("EPIDEMIC_CURE_ID <>", value, "epidemicCureId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicCureIdGreaterThan(Integer value) {
+            addCriterion("EPIDEMIC_CURE_ID >", value, "epidemicCureId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicCureIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("EPIDEMIC_CURE_ID >=", value, "epidemicCureId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicCureIdLessThan(Integer value) {
+            addCriterion("EPIDEMIC_CURE_ID <", value, "epidemicCureId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicCureIdLessThanOrEqualTo(Integer value) {
+            addCriterion("EPIDEMIC_CURE_ID <=", value, "epidemicCureId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicCureIdIn(List<Integer> values) {
+            addCriterion("EPIDEMIC_CURE_ID in", values, "epidemicCureId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicCureIdNotIn(List<Integer> values) {
+            addCriterion("EPIDEMIC_CURE_ID not in", values, "epidemicCureId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicCureIdBetween(Integer value1, Integer value2) {
+            addCriterion("EPIDEMIC_CURE_ID between", value1, value2, "epidemicCureId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEpidemicCureIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("EPIDEMIC_CURE_ID not between", value1, value2, "epidemicCureId");
+            return (Criteria) this;
+        }
+
         public Criteria andCampusIdIsNull() {
             addCriterion("CAMPUS_ID is null");
             return (Criteria) this;

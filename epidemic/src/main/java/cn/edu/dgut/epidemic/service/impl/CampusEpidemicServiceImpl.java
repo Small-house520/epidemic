@@ -7,30 +7,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.edu.dgut.epidemic.mapper.EpidemicCloseContactMapper;
+import cn.edu.dgut.epidemic.mapper.EpidemicContactMapper;
 import cn.edu.dgut.epidemic.mapper.EpidemicCureDeathMapper;
-import cn.edu.dgut.epidemic.mapper.EpidemicDiagnosisSuspectedMapper;
-import cn.edu.dgut.epidemic.pojo.EpidemicCloseContact;
+import cn.edu.dgut.epidemic.mapper.EpidemicDiagnosisMapper;
+import cn.edu.dgut.epidemic.pojo.EpidemicContact;
 import cn.edu.dgut.epidemic.pojo.EpidemicCureDeath;
-import cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisSuspected;
+import cn.edu.dgut.epidemic.pojo.EpidemicDiagnosis;
 import cn.edu.dgut.epidemic.service.CampusEpidemicService;
 
 @Service
 @Transactional
 public class CampusEpidemicServiceImpl implements CampusEpidemicService {
 	@Autowired
-	private EpidemicDiagnosisSuspectedMapper epidemicDiagnosisMapper;
+	private EpidemicDiagnosisMapper epidemicDiagnosisMapper;
 
 	@Autowired
-	private EpidemicCloseContactMapper epidemicContactMapper;
+	private EpidemicContactMapper epidemicContactMapper;
 
 	@Autowired
 	private EpidemicCureDeathMapper epidemicCureDeathMapper;
 
 	// 根据查询条件查询校内确诊患者信息
 	@Override
-	public List<EpidemicDiagnosisSuspected> getDiagnosis(EpidemicDiagnosisSuspected epidemicDiagnosis) {
-		List<EpidemicDiagnosisSuspected> list = new ArrayList<EpidemicDiagnosisSuspected>();
+	public List<EpidemicDiagnosis> getDiagnosis(EpidemicDiagnosis epidemicDiagnosis) {
+		List<EpidemicDiagnosis> list = new ArrayList<EpidemicDiagnosis>();
 		if (epidemicDiagnosis == null) {
 			list = this.epidemicDiagnosisMapper.selectByExample(null);
 			return list;
@@ -41,8 +41,8 @@ public class CampusEpidemicServiceImpl implements CampusEpidemicService {
 
 	// 根据查询条件查询校内密切接触者信息
 	@Override
-	public List<EpidemicCloseContact> getContact(EpidemicCloseContact epidemicContact) {
-		List<EpidemicCloseContact> list = new ArrayList<EpidemicCloseContact>();
+	public List<EpidemicContact> getContact(EpidemicContact epidemicContact) {
+		List<EpidemicContact> list = new ArrayList<EpidemicContact>();
 		if (epidemicContact == null) {
 			list = this.epidemicContactMapper.selectByExample(null);
 			return list;
