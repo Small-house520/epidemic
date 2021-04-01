@@ -3,7 +3,7 @@ package cn.edu.dgut.epidemic.pojo;
 import java.util.Date;
 
 public class VolunteerService {
-    private Short volunteerServiceId;
+    private Integer volunteerServiceId;
 
     private String title;
 
@@ -31,11 +31,13 @@ public class VolunteerService {
 
     private String remarks;
 
-    public Short getVolunteerServiceId() {
+    private String state;
+
+    public Integer getVolunteerServiceId() {
         return volunteerServiceId;
     }
 
-    public void setVolunteerServiceId(Short volunteerServiceId) {
+    public void setVolunteerServiceId(Integer volunteerServiceId) {
         this.volunteerServiceId = volunteerServiceId;
     }
 
@@ -141,5 +143,13 @@ public class VolunteerService {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks == null ? null : remarks.trim();
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state == null ? null : state.trim();
     }
 }

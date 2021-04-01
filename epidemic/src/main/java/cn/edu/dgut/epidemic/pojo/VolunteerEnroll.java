@@ -7,7 +7,7 @@ public class VolunteerEnroll {
 
     private Long campusId;
 
-    private Short volunteerServiceId;
+    private Integer volunteerServiceId;
 
     private String isQualified;
 
@@ -18,6 +18,8 @@ public class VolunteerEnroll {
     private String volunteerRemarks;
 
     private String sponsorRemarks;
+
+    private String state;
 
     public Integer getVolunteerId() {
         return volunteerId;
@@ -35,11 +37,11 @@ public class VolunteerEnroll {
         this.campusId = campusId;
     }
 
-    public Short getVolunteerServiceId() {
+    public Integer getVolunteerServiceId() {
         return volunteerServiceId;
     }
 
-    public void setVolunteerServiceId(Short volunteerServiceId) {
+    public void setVolunteerServiceId(Integer volunteerServiceId) {
         this.volunteerServiceId = volunteerServiceId;
     }
 
@@ -81,5 +83,13 @@ public class VolunteerEnroll {
 
     public void setSponsorRemarks(String sponsorRemarks) {
         this.sponsorRemarks = sponsorRemarks == null ? null : sponsorRemarks.trim();
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state == null ? null : state.trim();
     }
 }

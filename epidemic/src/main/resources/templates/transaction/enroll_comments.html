@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>报名审核详情</title>
+
+<!-- Bootstrap -->
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="css/content.css" rel="stylesheet">
+
+<script src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<!--路径导航-->
+
+	<!--路径导航-->
+
+	<div class="page-content">
+		<div class="panel panel-default">
+			<div class="panel-heading">报名审核详情</div>
+			<div class="panel-body">
+				<form action="submitTask" method="post">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-8">
+								<div class="form-group">
+									<label>志愿服务标题</label> <input type="text" class="form-control"
+										id="title" readonly="readonly" name="title" value="">
+								</div>
+
+								<div class="form-group">
+									<label for="col_name">学号</label> <input type="number"
+										class="form-control" id="campusId" name="campusId"
+										readonly="readonly" value="">
+								</div>
+
+								<div class="form-group">
+									<label>是否符合条件</label> <input type="text" class="form-control"
+										id="isQualified" readonly="readonly" name="isQualified"
+										value="">
+								</div>
+
+								<div class="form-group">
+									<label>报名时间</label> <input type="datetime" class="form-control"
+										id="enrollTime" readonly="readonly" name="enrollTime" value="">
+								</div>
+
+								<div class="form-group">
+									<label for="seo_title">备注</label>
+									<textarea class="form-control" rows="10" cols="10"
+										id="volunteerRemarks" readonly="readonly"
+										name="volunteerRemarks"></textarea>
+								</div>
+							</div>
+						</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">报名审核信息</div>
+
+			<div class="table-responsive">
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th width="10%">审核人</th>
+							<th width="20%">时间</th>
+							<th width="70%">批注信息</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td><fmt:formatDate value="${comment.time}"
+									pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="table table-striped table-hover">
+					<tr>
+						<td>暂无批注信息</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+</html>

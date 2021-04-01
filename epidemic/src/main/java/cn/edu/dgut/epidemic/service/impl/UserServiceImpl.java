@@ -112,4 +112,18 @@ public class UserServiceImpl implements UserService {
 		list = this.userInfoMapper.selectByExample(userInfoExample);
 		return list;
 	}
+
+	// 更新用户角色关系
+	@Override
+	public void updateUserRole(Long campusId, Short roleId) {
+		// 根据campusId查询出CampusUser信息
+		CampusUserExample campusUserExample = new CampusUserExample();
+		CampusUserExample.Criteria criteria = campusUserExample.createCriteria();
+		criteria.andCampusIdEqualTo(campusId);
+
+		CampusUser user = this.userMapper.selectByExample(campusUserExample).get(0);
+		// 跟新用户的角色信息
+		user.setRoleId(roleId);
+		this.userMapper.updateByPrimaryKeySelective(user);
+	}
 }

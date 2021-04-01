@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.edu.dgut.epidemic.pojo.CampusUser;
 import cn.edu.dgut.epidemic.service.UserService;
+import cn.edu.dgut.epidemic.util.Constants;
 
 @Controller
 @RequestMapping("/home")
@@ -38,7 +39,7 @@ public class IndexController {
         if (user.getUserPassword().equals(campusUser.getUserPassword())) {
             //登录成功
             //将当前用户的信息保存到Session中
-            session.setAttribute("loginedUser", user);
+            session.setAttribute(Constants.GLOBLE_USER_SESSION, user);
             return "redirect:/home";  //重定向
         }
         //登录失败

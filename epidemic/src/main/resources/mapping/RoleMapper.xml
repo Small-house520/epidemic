@@ -87,6 +87,11 @@
     from role
     where ROLE_ID = #{roleId,jdbcType=SMALLINT}
   </select>
+  <select id="selectLastId" resultType="java.lang.Short" >
+    select ROLE_ID
+    from role
+    order by ROLE_ID DESC limit 1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
     delete from role
     where ROLE_ID = #{roleId,jdbcType=SMALLINT}

@@ -10,7 +10,7 @@ public interface VolunteerServiceMapper {
 
     int deleteByExample(VolunteerServiceExample example);
 
-    int deleteByPrimaryKey(Short volunteerServiceId);
+    int deleteByPrimaryKey(Integer volunteerServiceId);
 
     int insert(VolunteerService record);
 
@@ -18,7 +18,7 @@ public interface VolunteerServiceMapper {
 
     List<VolunteerService> selectByExample(VolunteerServiceExample example);
 
-    VolunteerService selectByPrimaryKey(Short volunteerServiceId);
+    VolunteerService selectByPrimaryKey(Integer volunteerServiceId);
 
     int updateByExampleSelective(@Param("record") VolunteerService record, @Param("example") VolunteerServiceExample example);
 

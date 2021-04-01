@@ -115,52 +115,52 @@ public class VolunteerServiceExample {
             return (Criteria) this;
         }
 
-        public Criteria andVolunteerServiceIdEqualTo(Short value) {
+        public Criteria andVolunteerServiceIdEqualTo(Integer value) {
             addCriterion("VOLUNTEER_SERVICE_ID =", value, "volunteerServiceId");
             return (Criteria) this;
         }
 
-        public Criteria andVolunteerServiceIdNotEqualTo(Short value) {
+        public Criteria andVolunteerServiceIdNotEqualTo(Integer value) {
             addCriterion("VOLUNTEER_SERVICE_ID <>", value, "volunteerServiceId");
             return (Criteria) this;
         }
 
-        public Criteria andVolunteerServiceIdGreaterThan(Short value) {
+        public Criteria andVolunteerServiceIdGreaterThan(Integer value) {
             addCriterion("VOLUNTEER_SERVICE_ID >", value, "volunteerServiceId");
             return (Criteria) this;
         }
 
-        public Criteria andVolunteerServiceIdGreaterThanOrEqualTo(Short value) {
+        public Criteria andVolunteerServiceIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("VOLUNTEER_SERVICE_ID >=", value, "volunteerServiceId");
             return (Criteria) this;
         }
 
-        public Criteria andVolunteerServiceIdLessThan(Short value) {
+        public Criteria andVolunteerServiceIdLessThan(Integer value) {
             addCriterion("VOLUNTEER_SERVICE_ID <", value, "volunteerServiceId");
             return (Criteria) this;
         }
 
-        public Criteria andVolunteerServiceIdLessThanOrEqualTo(Short value) {
+        public Criteria andVolunteerServiceIdLessThanOrEqualTo(Integer value) {
             addCriterion("VOLUNTEER_SERVICE_ID <=", value, "volunteerServiceId");
             return (Criteria) this;
         }
 
-        public Criteria andVolunteerServiceIdIn(List<Short> values) {
+        public Criteria andVolunteerServiceIdIn(List<Integer> values) {
             addCriterion("VOLUNTEER_SERVICE_ID in", values, "volunteerServiceId");
             return (Criteria) this;
         }
 
-        public Criteria andVolunteerServiceIdNotIn(List<Short> values) {
+        public Criteria andVolunteerServiceIdNotIn(List<Integer> values) {
             addCriterion("VOLUNTEER_SERVICE_ID not in", values, "volunteerServiceId");
             return (Criteria) this;
         }
 
-        public Criteria andVolunteerServiceIdBetween(Short value1, Short value2) {
+        public Criteria andVolunteerServiceIdBetween(Integer value1, Integer value2) {
             addCriterion("VOLUNTEER_SERVICE_ID between", value1, value2, "volunteerServiceId");
             return (Criteria) this;
         }
 
-        public Criteria andVolunteerServiceIdNotBetween(Short value1, Short value2) {
+        public Criteria andVolunteerServiceIdNotBetween(Integer value1, Integer value2) {
             addCriterion("VOLUNTEER_SERVICE_ID not between", value1, value2, "volunteerServiceId");
             return (Criteria) this;
         }
@@ -1002,6 +1002,76 @@ public class VolunteerServiceExample {
 
         public Criteria andRemarksNotBetween(String value1, String value2) {
             addCriterion("REMARKS not between", value1, value2, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNull() {
+            addCriterion("STATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNotNull() {
+            addCriterion("STATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateEqualTo(String value) {
+            addCriterion("STATE =", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotEqualTo(String value) {
+            addCriterion("STATE <>", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThan(String value) {
+            addCriterion("STATE >", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThanOrEqualTo(String value) {
+            addCriterion("STATE >=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThan(String value) {
+            addCriterion("STATE <", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThanOrEqualTo(String value) {
+            addCriterion("STATE <=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLike(String value) {
+            addCriterion("STATE like", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotLike(String value) {
+            addCriterion("STATE not like", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIn(List<String> values) {
+            addCriterion("STATE in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotIn(List<String> values) {
+            addCriterion("STATE not in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateBetween(String value1, String value2) {
+            addCriterion("STATE between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotBetween(String value1, String value2) {
+            addCriterion("STATE not between", value1, value2, "state");
             return (Criteria) this;
         }
     }

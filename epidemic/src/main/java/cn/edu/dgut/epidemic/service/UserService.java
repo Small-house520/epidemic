@@ -58,4 +58,12 @@ public interface UserService {
 	 * @return
 	 */
 	List<CampusUserInfo> userList(CampusUserInfo userInfo);
+
+	/**
+	 * 更新用户角色关系
+	 * 
+	 * @param campusId
+	 * @param roleId
+	 */
+	void updateUserRole(Long campusId, Short roleId);
 }
