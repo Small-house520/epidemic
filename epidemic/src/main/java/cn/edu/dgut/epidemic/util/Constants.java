@@ -1,7 +1,7 @@
 package cn.edu.dgut.epidemic.util;
 
 /**
- * 常量
+ * 常量类
  *
  */
 public interface Constants {
