@@ -37,7 +37,10 @@ public class ProcesslServiceImpl implements ProcessService {
 	// 根据id删除活动信息或报名信息
 	@Override
 	public void deleteById(Integer id, Integer flag) {
-		this.volunteerServiceMapper.deleteByPrimaryKey(id);
+		if (flag == 1) {
+			this.volunteerServiceMapper.deleteByPrimaryKey(id);
+		}
+		this.volunteerEnrollMapper.deleteByPrimaryKey(id);
 	}
 
 	// 根据campusId查询出活动信息

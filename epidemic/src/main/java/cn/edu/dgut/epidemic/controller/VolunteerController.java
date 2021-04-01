@@ -36,7 +36,7 @@ public class VolunteerController {
 
 		model.addAttribute("userInfo", userInfo);
 
-		return "start_activities";
+		return "volunteer/start_activities";
 	}
 
 	// 发起志愿活动
@@ -55,6 +55,6 @@ public class VolunteerController {
 	public String getActivities(VolunteerService volunteerInfo, Model model) {
 		List<VolunteerService> list = this.volunteersService.getActivities(volunteerInfo);
 		model.addAttribute("volunteerInfo", list);
-		return "volunteer_activities";
+		return "volunteer/volunteer_activities";
 	}
 }

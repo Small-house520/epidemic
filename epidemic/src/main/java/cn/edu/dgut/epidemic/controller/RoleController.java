@@ -19,6 +19,7 @@ import cn.edu.dgut.epidemic.service.RoleService;
 import cn.edu.dgut.epidemic.service.UserService;
 
 @Controller
+@RequestMapping("/role")
 public class RoleController {
 
 	@Autowired
@@ -41,7 +42,7 @@ public class RoleController {
 		mv.addObject("allPermissions", allPermissions);
 		mv.addObject("menuTypes", menus);
 		mv.addObject("roleAndPermissionsList", permissionList);
-		mv.setViewName("jsp/rolelist");
+		mv.setViewName("permission/permission_add");
 
 		return mv;
 	}
@@ -101,7 +102,7 @@ public class RoleController {
 		mv.addObject("customUser", customUser);
 		mv.addObject("allMenuAndPermissions", allMenuAndPermissions);
 
-		mv.setViewName("jsp/permissionlist");
+		mv.setViewName("permission/permission_list");
 		return mv;
 	}
 

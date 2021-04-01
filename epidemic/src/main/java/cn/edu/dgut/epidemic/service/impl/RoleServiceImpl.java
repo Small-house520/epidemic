@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.edu.dgut.epidemic.mapper.CampusUserMapper;
 import cn.edu.dgut.epidemic.mapper.PermissionCustomMapper;
 import cn.edu.dgut.epidemic.mapper.PermissionMapper;
 import cn.edu.dgut.epidemic.mapper.RoleMapper;
@@ -29,8 +28,8 @@ public class RoleServiceImpl implements RoleService {
 	private RolePermissionMapper rolePermissionMapper;
 	@Autowired
 	private PermissionMapper permissionMapper;
-	@Autowired
-	private CampusUserMapper campusUserMapper;
+	// @Autowired
+	// private CampusUserMapper campusUserMapper;
 
 	// 获取树形菜单
 	@Override

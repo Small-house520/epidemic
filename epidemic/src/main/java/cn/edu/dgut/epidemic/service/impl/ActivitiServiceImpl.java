@@ -22,12 +22,14 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.edu.dgut.epidemic.mapper.VolunteerEnrollMapper;
 import cn.edu.dgut.epidemic.mapper.VolunteerServiceMapper;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
+import cn.edu.dgut.epidemic.pojo.CustomUser;
 import cn.edu.dgut.epidemic.pojo.VolunteerEnroll;
 import cn.edu.dgut.epidemic.pojo.VolunteerEnrollExample;
 import cn.edu.dgut.epidemic.pojo.VolunteerService;
@@ -194,10 +196,11 @@ public class ActivitiServiceImpl implements ActivitiService {
 		 * 流程变量的名称：outcome 流程变量的值：连线的名称
 		 */
 		// 完成任务
+		CustomUser customUser = (CustomUser) SecurityUtils.getSubject().getPrincipal();
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 判断完成流程是否需要对应参数
 		if (outcome != null && outcome.equals("提交申请")) {
-			map.put("role", userInfo);
+			map.put("role", customUser.getRoleId());
 			// 3：使用任务ID，完成当前人的个人任务，同时流程变量
 			taskService.complete(taskId, map);
 		} else if (outcome != null && !outcome.equals("提交")) {

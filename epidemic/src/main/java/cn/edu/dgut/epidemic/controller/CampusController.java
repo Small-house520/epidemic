@@ -15,6 +15,7 @@ import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
 import cn.edu.dgut.epidemic.pojo.TemperatureItinerary;
 import cn.edu.dgut.epidemic.service.CampusService;
 import cn.edu.dgut.epidemic.service.UserService;
+import cn.edu.dgut.epidemic.util.Constants;
 
 @Controller
 @RequestMapping("/campus")
@@ -32,14 +33,14 @@ public class CampusController {
 	public String campusAccess(CampusAccessRecords accessRecords, Model model) {
 		List<CampusAccessRecords> list = this.campusService.campusAccess(accessRecords);
 		model.addAttribute("accessRecords", list);
-		return "campus_access";
+		return "campus/campus_access";
 	}
 
 	// 跳转到填报体温行程信息页面
 	@RequestMapping("/tohealthupload")
 	public String toHealthUpload(Model model, HttpSession session) {
 		// 取出session中的账号信息
-		CampusUser campusUser = (CampusUser) session.getAttribute("loginedUser");
+		CampusUser campusUser = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
 
 		CampusUserInfo userInfo = this.userService.getUserInfo(campusUser.getCampusId());
 
@@ -50,7 +51,7 @@ public class CampusController {
 			model.addAttribute("healthInfo", healthInfo);
 		}
 
-		return "health_upload";
+		return "campus/health_upload";
 	}
 
 	// 填报体温行程信息
@@ -70,8 +71,8 @@ public class CampusController {
 		List<TemperatureItinerary> list = this.campusService.temperature(healthInfo);
 		model.addAttribute("healthInfo", list);
 		if (flag == 1) {
-			return "temperature";
+			return "campus/temperature";
 		}
-		return "travel";
+		return "campus/travel";
 	}
 }

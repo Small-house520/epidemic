@@ -35,6 +35,7 @@ import cn.edu.dgut.epidemic.service.UserService;
 import cn.edu.dgut.epidemic.util.Constants;
 
 @Controller
+@RequestMapping("/activiti")
 public class ActivitiController {
 
 	@Autowired
@@ -49,7 +50,7 @@ public class ActivitiController {
 	public String deployProcess(String processName, MultipartFile fileName) {
 		try {
 			// 传入一个文件输入流和部署名字
-			activitiService.saveNewDeploy(fileName.getInputStream(), processName);
+			this.activitiService.saveNewDeploy(fileName.getInputStream(), processName);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -98,7 +99,7 @@ public class ActivitiController {
 		// 保存报名信息
 		this.processService.saveEnroll(volunteerEnroll);
 
-		activitiService.startProcess(volunteerEnroll.getCampusId(), userInfo.getFullName(), 2);
+		this.activitiService.startProcess(volunteerEnroll.getCampusId(), userInfo.getFullName(), 2);
 
 		// 这种方法是隐藏了参数，链接地址上不直接暴露，
 		// 用(@ModelAttribute(value = "prama")String prama)的方式获取参数。
@@ -173,17 +174,12 @@ public class ActivitiController {
 		// 获取个人信息
 		CampusUser user = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
 		CampusUserInfo userInfo = this.userService.getUserInfo(user.getCampusId());
-		// Role role = this.
 
 		// 添加批注，并把流程往前面推进
 		this.activitiService.submitTask(id, taskId, comment, outcome, userInfo, flag);
 
 		model.addAttribute("flag", flag);
-		String uri = "forward:/myLeaveBill";
-		if (flag == 2) {
-			uri = "forward:/myBaoxiaoBill";
-		}
-		return uri;
+		return "forward:/myprocess";
 	}
 
 	// 查看当前流程图（查看当前活动节点，并使用红色的框标注）
@@ -199,7 +195,7 @@ public class ActivitiController {
 		Map<String, Object> map = this.activitiService.findCoordingByTask(taskId);
 
 		model.addAttribute("acs", map);
-		return "jsp/viewimage";
+		return "process/imageview";
 	}
 
 	// 查看流程图
@@ -220,8 +216,8 @@ public class ActivitiController {
 	}
 
 	// 显示当前流程图的位置
-	@RequestMapping("/viewCurrentImageByBill")
-	public String viewCurrentImageByBill(Long id, Integer flag, ModelMap model) {
+	@RequestMapping("/viewCurrentImageById")
+	public String viewCurrentImageById(Long id, Integer flag, ModelMap model) {
 		String BUSSINESS_KEY = Constants.Activity_KEY + "." + id;
 		if (flag == 2) {
 			BUSSINESS_KEY = Constants.Enroll_KEY + "." + id;
@@ -239,7 +235,7 @@ public class ActivitiController {
 		Map<String, Object> map = this.activitiService.findCoordingByTask(task.getId());
 
 		model.addAttribute("acs", map);
-		return "jsp/viewimage";
+		return "process/viewimage";
 	}
 
 	// 查询流程信息

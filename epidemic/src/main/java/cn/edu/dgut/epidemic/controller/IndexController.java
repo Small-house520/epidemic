@@ -14,44 +14,46 @@ import cn.edu.dgut.epidemic.util.Constants;
 @Controller
 @RequestMapping("/home")
 public class IndexController {
-    
-    @Autowired
-    private UserService userService;
 
-    @RequestMapping("/index")
-    public String toLogin() {
-    	return "admin/index";
-    }
-    
-    // 用户登录
-    @RequestMapping("/login")
-    public String login(CampusUser campusUser, Model model, HttpSession session) {
-    	// 输出账号密码日志
-        //logger.debug("login()方法 account=" + userInfo.getAccount() + ",password:" + userInfo.getPassword());
-        
-        //通过业务逻辑层的bean获取该账号对应的用户信息
-    	CampusUser user = this.userService.findByCampusId(campusUser.getCampusId());
-        if (user == null) {
-            //账号不正确
-            model.addAttribute("msg", "账号或密码不正确！");
-            return "login";
-        }
-        if (user.getUserPassword().equals(campusUser.getUserPassword())) {
-            //登录成功
-            //将当前用户的信息保存到Session中
-            session.setAttribute(Constants.GLOBLE_USER_SESSION, user);
-            return "redirect:/home";  //重定向
-        }
-        //登录失败
-        model.addAttribute("msg", "账号或密码不正确！");
-        return "login";
-    }
+	@Autowired
+	private UserService userService;
 
-    // 退出登录
-    @RequestMapping("/logout")
-    public String logout(HttpSession session) {
-        //清理session
-        session.invalidate();
-        return "redirect:/index";
-    }
+	@RequestMapping("/index")
+	public String toLogin() {
+		return "index";
+	}
+
+	// 用户登录
+	@RequestMapping("/login")
+	public String login(CampusUser campusUser, Model model, HttpSession session) {
+		// 输出账号密码日志
+		// logger.debug("login()方法 account=" + userInfo.getAccount() + ",password:" +
+		// userInfo.getPassword());
+
+		// 通过业务逻辑层的bean获取该账号对应的用户信息
+		CampusUser user = this.userService.findByCampusId(campusUser.getCampusId());
+		if (user == null) {
+			// 账号不正确
+			model.addAttribute("msg", "账号或密码不正确！");
+			return "login";
+		}
+		if (user.getUserPassword().equals(campusUser.getUserPassword())) {
+			// 登录成功
+			// 将当前用户的信息保存到Session中
+			session.setAttribute(Constants.GLOBLE_USER_SESSION, user);
+			// 重定向到后台首页
+			return "redirect:/home";
+		}
+		// 登录失败
+		model.addAttribute("msg", "账号或密码不正确！");
+		return "login";
+	}
+
+	// 退出登录
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		// 清理session
+		session.invalidate();
+		return "redirect:/index";
+	}
 }

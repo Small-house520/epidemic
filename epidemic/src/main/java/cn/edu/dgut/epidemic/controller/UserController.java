@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import cn.edu.dgut.epidemic.pojo.CampusUser;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
 import cn.edu.dgut.epidemic.service.UserService;
+import cn.edu.dgut.epidemic.util.Constants;
 
 @Controller
 @RequestMapping("/user")
@@ -25,18 +26,18 @@ public class UserController {
 	@RequestMapping("/useradd")
 	public String userAdd(CampusUser campusUser, CampusUserInfo campusUserInfo) {
 		this.userService.userAdd(campusUser, campusUserInfo);
-		return "user_list";
+		return "user/user_list";
 	}
 
 	// 获取个人账号信息
 	@RequestMapping("/getaccount")
 	public String accountEdit(Model model, HttpSession session) {
 		// 取出session中的账号信息
-		CampusUser campusUser = (CampusUser) session.getAttribute("loginedUser");
+		CampusUser campusUser = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
 
 		model.addAttribute("user", campusUser);
 
-		return "account_edit";
+		return "user/account_edit";
 	}
 
 	// 编辑账号信息
@@ -52,7 +53,7 @@ public class UserController {
 	public String accountList(CampusUser user, Model model) {
 		List<CampusUser> list = this.userService.accountList(user);
 		model.addAttribute("users", list);
-		return "account_list";
+		return "user/account_list";
 	}
 
 	// 获取个人信息
@@ -66,7 +67,7 @@ public class UserController {
 
 		model.addAttribute("userinfo", userInfo);
 
-		return "user_edit";
+		return "user/user_edit";
 	}
 
 	// 编辑个人信息
@@ -82,6 +83,6 @@ public class UserController {
 	public String userList(CampusUserInfo userInfo, Model model) {
 		List<CampusUserInfo> list = this.userService.userList(userInfo);
 		model.addAttribute("users", list);
-		return "user_list";
+		return "user/user_list";
 	}
 }

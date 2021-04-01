@@ -28,7 +28,7 @@ public class CampusEpidemicController {
 
 		List<EpidemicDiagnosis> list = this.campusEpidemicService.getDiagnosis(epidemicDiagnosis);
 		model.addAttribute("epidemicDiagnosis", list);
-		return "diagnosis";
+		return "epidemic/diagnosis";
 	}
 
 	// 查询校内密切接触者信息
@@ -37,7 +37,7 @@ public class CampusEpidemicController {
 
 		List<EpidemicContact> list = this.campusEpidemicService.getContact(epidemicContact);
 		model.addAttribute("epidemicContact", list);
-		return "close_contact";
+		return "epidemic/close_contact";
 	}
 
 	// 查询校内治愈者信息
@@ -46,7 +46,7 @@ public class CampusEpidemicController {
 
 		List<EpidemicCureDeath> list = this.campusEpidemicService.getCure(epidemicCure);
 		model.addAttribute("epidemicCure", list);
-		return "cure";
+		return "epidemic/cure";
 	}
 
 	// 查询校内死亡者信息
@@ -55,6 +55,6 @@ public class CampusEpidemicController {
 
 		List<EpidemicCureDeath> list = this.campusEpidemicService.getDeath(epidemicDeath);
 		model.addAttribute("epidemicDeath", list);
-		return "death";
+		return "epidemic/death";
 	}
 }

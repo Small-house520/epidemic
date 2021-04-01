@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.dgut.epidemic.mapper.PermissionCustomMapper">
+
+	<resultMap type="cn.edu.dgut.epidemic.pojo.TreeMenu" id="menuTreeResultMap">
+
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<collection property="children" select="getSubMenu" column="id">
+			<id column="PERMISSION_ID" property="permissionId" />
+			<result column="PERMISSION_NAME" property="permissionName" />
+			<result column="PERMISSION_TYPE" property="permissionType" />
+			<result column="ACCESS_URL" property="accessUrl" />
+			<result column="PERMISSION_CODE" property="permissionCode" />
+			<result column="PARENT_ID" property="parentId" />
+			<result column="PARENT_ID_LIST" property="parentIdList" />
+			<result column="PERMISSION_MENU_SORTING" property="permissionMenuSorting" />
+			<result column="REMARKS" property="remarks" />
+		</collection>
+	</resultMap>
+
+	<resultMap type="cn.edu.dgut.epidemic.pojo.TreeMenu" id="menuAndPermissionResultMap">
+
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<collection property="children" select="getSubMenuAndPermissions"
+			column="id">
+			<id column="PERMISSION_ID" property="permissionId" />
+			<result column="PERMISSION_NAME" property="permissionName" />
+			<result column="PERMISSION_TYPE" property="permissionType" />
+			<result column="ACCESS_URL" property="accessUrl" />
+			<result column="PERMISSION_CODE" property="permissionCode" />
+			<result column="PARENT_ID" property="parentId" />
+			<result column="PARENT_ID_LIST" property="parentIdList" />
+			<result column="PERMISSION_MENU_SORTING" property="permissionMenuSorting" />
+			<result column="REMARKS" property="remarks" />
+		</collection>
+	</resultMap>
+
+	<resultMap type="cn.edu.dgut.epidemic.pojo.Role" id="roleAndPermissionResult">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<collection property="permissionList" ofType="cn.edu.dgut.epidemic.pojo.Permission">
+			<id column="PERMISSION_ID" property="permissionId" />
+			<result column="PERMISSION_NAME" property="permissionName" />
+			<result column="PERMISSION_TYPE" property="permissionType" />
+			<result column="ACCESS_URL" property="accessUrl" />
+			<result column="PERMISSION_CODE" property="permissionCode" />
+		</collection>
+	</resultMap>
+
+	<select id="getMenuTree" resultMap="menuTreeResultMap">
+		SELECT
+		PERMISSION_ID,PERMISSION_NAME FROM
+		permission WHERE PARENT_ID=1
+	</select>
+
+	<select id="getSubMenu" resultType="cn.edu.dgut.epidemic.pojo.Permission">
+		SELECT * FROM permission
+		WHERE PARENT_ID=#{id} and PERMISSION_TYPE like '%menu%'
+	</select>
+
+	<select id="getAllMenuAndPermision" resultMap="menuAndPermissionResultMap">
+		SELECT
+		PERMISSION_ID,PERMISSION_NAME
+		FROM permission WHERE PARENT_ID=1
+	</select>
+	<select id="getSubMenuAndPermissions" resultType="cn.edu.dgut.epidemic.pojo.Permission">
+		SELECT * FROM
+		permission WHERE PARENT_ID=#{id}
+	</select>
+
+	<!-- 根据用户id查询权限 -->
+	<select id="findPermissionListByUserId" parameterType="java.lang.Long"
+		resultType="cn.edu.dgut.epidemic.pojo.Permission">
+		SELECT
+		*
+		FROM
+		permission
+		WHERE PERMISSION_TYPE like
+		'%permission%'
+		AND
+		PERMISSION_ID IN
+		(SELECT
+		PERMISSION_ID
+		FROM
+		role_permission
+		WHERE ROLE_ID
+		IN
+		(SELECT
+		ROLE_ID
+		FROM
+		campus_user
+		WHERE
+		CAMPUS_ID = #{id}))
+	</select>
+
+	<!-- 根据用户id查询菜单 -->
+	<select id="findMenuListByUserId" parameterType="string"
+		resultType="cn.edu.dgut.epidemic.pojo.Permission">
+		SELECT
+		*
+		FROM
+		permission
+		WHERE PERMISSION_TYPE like '%menu%'
+		AND id IN
+		(SELECT
+		PERMISSION_ID
+		FROM
+		role_permission
+		WHERE ROLE_ID IN
+		(SELECT
+		ROLE_ID
+		FROM
+		campus_user
+		WHERE CAMPUS_ID = #{id}))
+	</select>
+
+	<select id="findMenuAndPermissionByUserId" parameterType="string"
+		resultType="cn.edu.dgut.epidemic.pojo.Permission">
+		SELECT
+		*
+		FROM
+		permission
+		WHERE PERMISSION_ID IN
+		(SELECT
+		PERMISSION_ID
+		FROM
+		role_permission
+		WHERE ROLE_ID IN
+		(SELECT
+		ROLE_ID
+		FROM
+		campus_user
+		WHERE CAMPUS_ID = #{id}))
+	</select>
+
+	<!-- 根据角色ID查询该角色的的权限 -->
+	<select id="findPermissionsByRoleId" parameterType="java.lang.String"
+		resultType="cn.edu.dgut.epidemic.pojo.Permission">
+		SELECT
+		*
+		FROM
+		permission
+		WHERE PERMISSION_ID IN
+		(SELECT
+		PERMISSION_ID
+		FROM
+		role_permission
+		WHERE ROLE_ID =#{id})
+	</select>
+
+	<select id="findUserAndRoleList" resultType="cn.edu.dgut.epidemic.pojo.CampusUser">
+		SELECT e.*,
+		s1.sys_role_id roleId,
+		s2.name rolename,
+		e2.name manager
+		FROM employee e
+		INNER JOIN employee e2 ON e.manager_id = e2.id
+		INNER JOIN sys_user_role
+		s1 ON e.name=s1.sys_user_id
+		INNER JOIN sys_role s2 ON
+		s1.sys_role_id=s2.id
+	</select>
+
+	<select id="findRoleAndPermissionListByUserId" resultMap="roleAndPermissionResult"
+		parameterType="java.lang.String">
+		SELECT r.*,
+		p.PERMISSION_ID,
+		p.PERMISSION_NAME,
+		p.PERMISSION_TYPE,
+		p.ACCESS_URL,
+		p.PERMISSION_CODE
+		FROM role r
+		INNER JOIN
+		role_permission rp ON r.ROLE_ID=rp.ROLE_ID
+		INNER JOIN
+		permission p ON
+		rp.PERMISSION_ID=p.PERMISSION_ID
+		INNER JOIN
+		campus_user cu ON
+		cu.ROLE_ID=r.ROLE_ID
+		WHERE cu.CAMPUS_ID=#{userId}
+	</select>
+
+	<select id="findRoleAndPermissionList" resultMap="roleAndPermissionResult">
+		SELECT r.*,
+		p.PERMISSION_NAME,
+		p.PERMISSION_NAME,
+		p.PERMISSION_TYPE,
+		p.ACCESS_URL,
+		p.PERMISSION_CODE
+		FROM role r
+		INNER JOIN role_permission rp ON
+		r.ROLE_ID=rp.ROLE_ID
+		INNER JOIN permission p ON
+		rp.PERMISSION_ID=p.PERMISSION_ID
+	</select>
+</mapper>
