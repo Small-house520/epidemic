@@ -71,7 +71,7 @@
 	</select>
 
 	<!-- 根据用户id查询权限 -->
-	<select id="findPermissionListByUserId" parameterType="java.lang.Long"
+	<select id="findPermissionListByUserId" parameterType="java.lang.Short"
 		resultType="cn.edu.dgut.epidemic.pojo.Permission">
 		SELECT
 		*
@@ -92,7 +92,7 @@
 		FROM
 		campus_user
 		WHERE
-		CAMPUS_ID = #{id}))
+		USER_ID = #{id}))
 	</select>
 
 	<!-- 根据用户id查询菜单 -->

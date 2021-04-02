@@ -133,16 +133,16 @@ public class RoleServiceImpl implements RoleService {
 		this.roleMapper.deleteByPrimaryKey(id);
 	}
 
+	// 查询权限列表
+	@Override
+	public List<Permission> findPermissionListByUserId(Short userid) throws Exception {
+		return this.permissionCustomMapper.findPermissionListByUserId(userid);
+	}
+
 	// 查询菜单列表
 	@Override
 	public List<Permission> findMenuListByUserId(String userid) throws Exception {
 		return this.permissionCustomMapper.findMenuListByUserId(userid);
-	}
-
-	// 查询权限列表
-	@Override
-	public List<Permission> findPermissionListByUserId(String userid) throws Exception {
-		return this.permissionCustomMapper.findPermissionListByUserId(userid);
 	}
 
 	// 查询菜单和权限信息

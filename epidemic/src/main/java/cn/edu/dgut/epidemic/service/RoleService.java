@@ -96,11 +96,17 @@ public interface RoleService {
 	 */
 	void deleteRole(Short id);
 
+	/**
+	 * 根据用户id查询权限范围的url
+	 * 
+	 * @param userid
+	 * @return
+	 * @throws Exception
+	 */
+	List<Permission> findPermissionListByUserId(Short userid) throws Exception;
+
 	// 根据用户id查询权限范围的菜单
 	List<Permission> findMenuListByUserId(String userid) throws Exception;
-
-	// 根据用户id查询权限范围的url
-	List<Permission> findPermissionListByUserId(String userid) throws Exception;
 
 	// 根据用户ID查询其所有的菜单和权限
 	List<Permission> findMenuAndPermissionByUserId(String userId);

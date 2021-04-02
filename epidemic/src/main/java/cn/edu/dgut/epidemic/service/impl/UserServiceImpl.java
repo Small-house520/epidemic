@@ -126,4 +126,18 @@ public class UserServiceImpl implements UserService {
 		user.setRoleId(roleId);
 		this.userMapper.updateByPrimaryKeySelective(user);
 	}
+
+	// 根据用户名到数据库查询用户信息
+	@Override
+	public CampusUser findUserByName(String username) {
+		CampusUserExample userExample = new CampusUserExample();
+		CampusUserExample.Criteria criteria = userExample.createCriteria();
+		criteria.andUsernameEqualTo(username);
+		List<CampusUser> list = this.userMapper.selectByExample(userExample);
+		// 如果查询结果不为空
+		if (list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
 }
