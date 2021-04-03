@@ -20,7 +20,7 @@ import cn.edu.dgut.epidemic.util.CustomRealm;
 /**
  * Shiro的配置类
  */
-@Configuration
+//@Configuration
 public class ShiroConfig {
 
 	// 创建自定义Realm

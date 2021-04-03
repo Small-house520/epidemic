@@ -18,13 +18,18 @@ public class IndexController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping("/index")
-	public String toLogin() {
-		return "index";
-	}
+	// @RequestMapping("/index")
+	// public String toIndex() {
+	// return "index";
+	// }
+
+	// @RequestMapping("/login")
+	// public String toLogin() {
+	// return "login";
+	// }
 
 	// 用户登录
-	@RequestMapping("/login")
+	@RequestMapping("/loginCheck")
 	public String login(CampusUser campusUser, Model model, HttpSession session) {
 		// 输出账号密码日志
 		// logger.debug("login()方法 account=" + userInfo.getAccount() + ",password:" +
@@ -42,7 +47,7 @@ public class IndexController {
 			// 将当前用户的信息保存到Session中
 			session.setAttribute(Constants.GLOBLE_USER_SESSION, user);
 			// 重定向到后台首页
-			return "redirect:/home";
+			return "redirect:/home/home";
 		}
 		// 登录失败
 		model.addAttribute("msg", "账号或密码不正确！");
@@ -54,6 +59,6 @@ public class IndexController {
 	public String logout(HttpSession session) {
 		// 清理session
 		session.invalidate();
-		return "redirect:/index";
+		return "redirect:/home/index";
 	}
 }

@@ -49,8 +49,8 @@
 
 							<div class="col-md-2 title">编号</div>
 							<div class="col-md-10 data">
-								<input type="number" id="campusId" name="campusId"
-									class="form-control" placeholder="编号" value="">
+								<input type="text" id="campusId" name="campusId"
+									class="form-control" placeholder="编号" value="" maxlength="12">
 							</div>
 
 							<div class="col-md-2 title">密码</div>
@@ -90,5 +90,18 @@
 
 
 </body>
-
+<script type="text/javascript">
+	$("#campusId").keyup(function() {//控制输入的账号只能为数字，且第一位不能为0
+		var value = $(this);
+		//替换非数字字符
+		var temp = "";
+		if (value.val().length == 1) {
+			temp = value.val().replace(/[^1-9]/g, '');
+			$(this).val(temp);
+		} else if (/[^\d]/.test(value.val())) {
+			temp = value.val().replace(/[^\d]/g, '');
+			$(this).val(temp);
+		}
+	})
+</script>
 </html>

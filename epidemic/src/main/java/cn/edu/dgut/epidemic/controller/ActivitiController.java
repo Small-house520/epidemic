@@ -251,7 +251,7 @@ public class ActivitiController {
 		mv.addObject("depList", depList);
 		mv.addObject("pdList", pdList);
 
-		mv.setViewName("jsp/workflow_list");
+		mv.setViewName("process/process_list");
 		return mv;
 	}
 

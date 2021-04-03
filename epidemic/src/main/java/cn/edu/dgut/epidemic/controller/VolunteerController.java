@@ -14,6 +14,7 @@ import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
 import cn.edu.dgut.epidemic.pojo.VolunteerService;
 import cn.edu.dgut.epidemic.service.UserService;
 import cn.edu.dgut.epidemic.service.VolunteersService;
+import cn.edu.dgut.epidemic.util.Constants;
 
 @Controller
 @RequestMapping("/volunteer")
@@ -30,7 +31,7 @@ public class VolunteerController {
 	@RequestMapping("/tostart")
 	public String toStart(Model model, HttpSession session) {
 		// 取出session中的账号信息
-		CampusUser campusUser = (CampusUser) session.getAttribute("loginedUser");
+		CampusUser campusUser = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
 
 		CampusUserInfo userInfo = this.userService.getUserInfo(campusUser.getCampusId());
 

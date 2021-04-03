@@ -91,7 +91,8 @@ public class RoleController {
 	// 查询所有角色及其权限关系
 	@RequestMapping("/findRoles")
 	public ModelAndView findRoles() {
-		CustomUser customUser = (CustomUser) SecurityUtils.getSubject().getPrincipal();
+		// CustomUser customUser = (CustomUser)
+		// SecurityUtils.getSubject().getPrincipal();
 		// 查询出所有角色信息
 		List<Role> roles = this.roleService.findAllRoles();
 		// 查询所有菜单和权限信息
@@ -99,7 +100,7 @@ public class RoleController {
 
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("allRoles", roles);
-		mv.addObject("customUser", customUser);
+		// mv.addObject("customUser", customUser);
 		mv.addObject("allMenuAndPermissions", allMenuAndPermissions);
 
 		mv.setViewName("permission/permission_list");

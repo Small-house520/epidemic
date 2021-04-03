@@ -60,7 +60,7 @@ public class UserController {
 	@RequestMapping("/getuser")
 	public String getUserInfo(Model model, HttpSession session) {
 		// 取出session中的账号信息
-		CampusUser campusUser = (CampusUser) session.getAttribute("loginedUser");
+		CampusUser campusUser = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
 
 		// 根据编号获取用户信息
 		CampusUserInfo userInfo = this.userService.getUserInfo(campusUser.getCampusId());
