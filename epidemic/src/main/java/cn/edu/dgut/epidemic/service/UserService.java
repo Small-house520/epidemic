@@ -15,6 +15,13 @@ public interface UserService {
 	void accountAdd(CampusUser campusUser);
 
 	/**
+	 * 删除账号（账号信息）
+	 * 
+	 * @param ids
+	 */
+	void accountDel(String ids);
+
+	/**
 	 * 根据用户的账号获取用户信息
 	 *
 	 * @param campusId

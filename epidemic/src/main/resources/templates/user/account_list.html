@@ -22,6 +22,80 @@
 <script src="../bootstrap/js/bootstrap-table.min.js"></script>
 <script src="../bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
 
+<script type="text/javascript">
+	
+		/** 给全选按钮绑定点击事件  */
+	    function setChecked(obj) {
+		    var boxs=document.getElementsByName("box");//获取到复选框的名称
+		    
+			//全选
+			//JS的if判断中Undefined类型视为false，其他类型视为true；
+			//obj.id是定义过的值，类型为非Undefined，所以视为true。
+		    if(obj.id) {
+				for(var i=1;i<boxs.length;i++) {
+				//若全选框的结果为选中，则进行全选操作,否则进入下一步
+				//obj.checked表示复选框当前状态，已选为true，未选为false。
+				    if(obj.checked == true) {
+						var box = boxs[i];
+						box.checked = true;
+					}
+				}
+				
+				//全不选
+				for(var i=1;i<boxs.length;i++) {
+					//若全选框的结果为没选中，则进行全不选操作,否则进入下一步	
+					if(obj.checked == false) {
+						var box = boxs[i];
+						box.checked = false;
+					}
+				}
+			}else {
+				for(var i=1;i<boxs.length;i++) {
+					//若子选择全选，全选框也选中。
+				    if(boxs[i].checked) {
+				    	boxs[0].checked = true;			
+				    }else {//若子选项没有全选，全选框不选中。
+				    	boxs[0].checked = false;			  
+				    }
+				}
+			}
+		}
+	    $(function(){
+		    /** 给数据行绑定鼠标覆盖以及鼠标移开事件  */
+		    $(document).on("mouseover mouseout click","tr[name='trCheck']",function(event){
+		    	if(event.type == "mouseover"){
+				  	//鼠标悬浮
+		    		$(this).css("backgroundColor","#DCDCDC");
+				 }else if(event.type == "mouseout"){
+				  	//鼠标离开
+					$(this).css("backgroundColor","#ffffff");
+				 }else if (event.type == "click") {
+				 	/** 控制该行是否需要被选中 */
+					/** 获取此行的复选框id */
+					var checkboxName = this.name.replace("trCheck", "box");
+					/** 触发本行的复选点击 */
+					$("input[name='"+checkboxName+"']").trigger("click");
+				}
+		    })
+		
+		   /** 删除员工绑定点击事件 */
+		   $("#delete").click(function(){
+			   /** 获取到用户选中的复选框  */
+			   var checkedBoxs = $("input[name='box']:checked");
+			   if(checkedBoxs.length < 1){
+				   alert("请选择需要删除的用户！");
+			   }else{
+				  if(confirm("请确定是否删除该用户吗？")){
+					var ids = checkedBoxs.map(function() {
+						return this.value;
+					})
+					window.location.href = "../user/accountdel?ids="+ids.toArray().join(",");
+				  }
+			   }
+		   })
+		})
+</script>
+
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
@@ -39,11 +113,11 @@
 			<div class="pull-left">
 				<div class="form-group form-inline">
 					<div class="btn-group">
-						<button type="button" class="btn btn-default" title="新建"
+						<!-- <button type="button" class="btn btn-default" title="新建"
 							data-toggle="modal" data-target="#addModal">
 							<i class="fa fa-file-o"></i> 新建
-						</button>
-						<button type="button" class="btn btn-default" title="删除">
+						</button> -->
+						<button type="button" class="btn btn-default" id="delete" title="删除">
 							<i class="fa fa-trash-o"></i> 删除
 						</button>
 						<button type="button" class="btn btn-default" title="刷新"
@@ -70,8 +144,8 @@
 				class="table table-bordered table-striped table-hover dataTable">
 				<thead>
 					<tr>
-						<th class="" style="padding-right: 0px"><input id="selall"
-							type="checkbox" class="icheckbox_square-blue"></th>
+						<th class="" style="padding-right: 0px"><input id="selall" name="box"
+							type="checkbox" class="icheckbox_square-blue" onclick="setChecked(this)"></th>
 						<th class="sorting_asc">用户编号</th>
 						<th class="sorting">账号</th>
 						<th class="sorting">密码</th>
@@ -82,8 +156,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="user:${users}">
-						<td><input type="checkbox"></td>
+					<tr th:each="user:${users}" name="trCheck">
+						<td><input type="checkbox" name="box" th:value="${user.userId}" onclick="setChecked(this)"></td>
 						<td th:text="${user.userId}"></td>
 						<td th:text="${user.campusId}"></td>
 						<td th:text="${user.userPassword}"></td>
@@ -93,7 +167,7 @@
 						<td class="text-center">
 							<button type="button" class="btn bg-olive btn-xs"
 								data-toggle="modal" data-target="#editModal"
-								th:onclick="'javascript:fillTable('+${user.userId}+');'">编辑</button>
+								th:onclick="fillTable([[${user}]])">编辑</button>
 							<button type="button" onclick="viewPermission('${user.name}')"
 								class="btn bg-olive btn-xs" data-toggle="modal"
 								data-target="#editModal2">查看权限</button>
@@ -111,7 +185,7 @@
 
 
 	<!-- 新建窗口 -->
-	<div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+	<!-- <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
 		aria-labelledby="addModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -153,7 +227,7 @@
 				</form>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 
 	<!-- 编辑窗口 -->
@@ -188,8 +262,9 @@
 							</tr>
 							<tr>
 								<td>对应的角色ID</td>
-								<td><input type="number" id="roleId2" name="roleId"
-									class="form-control"></td>
+								<td><select id="roleId" name="roleId"  class="form-control">
+										<option th:each="role:${roles}" th:value="${role.roleId}" th:text="${role.roleName}"></option>
+								</select></td>
 							</tr>
 						</table>
 					</div>
@@ -204,15 +279,13 @@
 	</div>
 
 	<script th:inline="javascript">
-			var users= [[${users}]];
-			function fillTable(index) {
-				$("#userId2").val(users[index-1].userId);
-				$("#campusId2").val(users[index-1].campusId);
-				$("#userPassword2").val(users[index-1].userPassword);
-				$("#username2").val(users[index-1].username);
-				$("#roleId2").val(users[index-1].roleId);
-			}
-		</script>
+		function fillTable(user) {
+			$("#userId2").val(user.userId);
+			$("#campusId2").val(user.campusId);
+			$("#userPassword2").val(user.userPassword);
+			$("#username2").val(user.username);
+		}
+	</script>
 
 	<!-- 查看用户角色权限窗口 -->
 	<div class="modal fade" id="editModal2" tabindex="-1" role="dialog"

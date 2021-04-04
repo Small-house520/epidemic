@@ -112,4 +112,5 @@ public interface RoleService {
 	List<Permission> findMenuAndPermissionByUserId(String userId);
 
 	Role findRoleById(Short roleId);
+
 }

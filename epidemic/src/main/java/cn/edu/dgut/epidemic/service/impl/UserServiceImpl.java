@@ -31,6 +31,22 @@ public class UserServiceImpl implements UserService {
 		this.userMapper.insertSelective(campusUser);
 	}
 
+	// 删除账号（账号信息）
+	@Override
+	public void accountDel(String ids) {
+		// 把传过来的id串拆分，并转成short[]
+		String[] strs = ids.split(",");
+		List<Short> sids = new ArrayList<Short>();
+		for (int i = 0; i < strs.length; i++) {
+			sids.add(Short.parseShort(strs[i]));
+		}
+		CampusUserExample campusUserExample = new CampusUserExample();
+		CampusUserExample.Criteria criteria = campusUserExample.createCriteria();
+		criteria.andUserIdIn(sids);
+		this.userMapper.deleteByExample(campusUserExample);
+
+	}
+
 	// 根据用户的账号获取用户信息
 	@Override
 	public CampusUser findByCampusId(Long campusId) {

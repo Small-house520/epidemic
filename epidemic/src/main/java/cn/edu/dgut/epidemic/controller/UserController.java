@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.edu.dgut.epidemic.pojo.CampusUser;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
+import cn.edu.dgut.epidemic.pojo.Role;
+import cn.edu.dgut.epidemic.service.RoleService;
 import cn.edu.dgut.epidemic.service.UserService;
 import cn.edu.dgut.epidemic.util.Constants;
 
@@ -23,12 +25,21 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RoleService roleService;
 
 	// 添加账号（账号信息）
 	@RequestMapping("/accountadd")
 	public String accountAdd(CampusUser campusUser) {
 		this.userService.accountAdd(campusUser);
-		return "/accountlist";
+		return "forward:/accountlist";
+	}
+
+	// 删除账号（账号信息）
+	@RequestMapping("/accountdel")
+	public String accountDel(String ids) {
+		this.userService.accountDel(ids);
+		return "forward:/accountlist";
 	}
 
 	// 添加用户（包括账号信息和个人信息）
@@ -66,7 +77,9 @@ public class UserController {
 	@RequestMapping("/accountlist")
 	public String accountList(CampusUser user, Model model) {
 		List<CampusUser> list = this.userService.accountList(user);
+		List<Role> roles = this.roleService.findAllRoles();
 		model.addAttribute("users", list);
+		model.addAttribute("roles", roles);
 		return "user/account_list";
 	}
 
