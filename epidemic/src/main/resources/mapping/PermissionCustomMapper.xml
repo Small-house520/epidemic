@@ -38,8 +38,8 @@
 	</resultMap>
 
 	<resultMap type="cn.edu.dgut.epidemic.pojo.Role" id="roleAndPermissionResult">
-		<id column="id" property="id" />
-		<result column="name" property="name" />
+		<id column="ROLE_ID" property="roleId" />
+		<result column="ROLE_NAME" property="roleName" />
 		<collection property="permissionList" ofType="cn.edu.dgut.epidemic.pojo.Permission">
 			<id column="PERMISSION_ID" property="permissionId" />
 			<result column="PERMISSION_NAME" property="permissionName" />
@@ -163,8 +163,8 @@
 		s1.sys_role_id=s2.id
 	</select>
 
-	<select id="findRoleAndPermissionListByUserId" resultMap="roleAndPermissionResult"
-		parameterType="java.lang.String">
+	<select id="findRoleAndPermissionListById" resultMap="roleAndPermissionResult"
+		parameterType="java.lang.Long">
 		SELECT r.*,
 		p.PERMISSION_ID,
 		p.PERMISSION_NAME,
@@ -180,7 +180,7 @@
 		INNER JOIN
 		campus_user cu ON
 		cu.ROLE_ID=r.ROLE_ID
-		WHERE cu.CAMPUS_ID=#{userId}
+		WHERE cu.CAMPUS_ID=#{id}
 	</select>
 
 	<select id="findRoleAndPermissionList" resultMap="roleAndPermissionResult">

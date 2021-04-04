@@ -80,7 +80,7 @@ public interface UserService {
 	 * @param campusId
 	 * @param roleId
 	 */
-	void updateUserRole(Long campusId, Short roleId);
+	void updateUserRole(Long campusId,Short roleId);
 
 	/**
 	 * 根据用户名到数据库查询用户信息

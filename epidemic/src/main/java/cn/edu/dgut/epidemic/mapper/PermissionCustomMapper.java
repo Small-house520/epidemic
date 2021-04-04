@@ -16,7 +16,7 @@ public interface PermissionCustomMapper {
 
 	List<Permission> getSubMenu();
 
-	Role findRoleAndPermissionListByUserId(String userId);
+	Role findRoleAndPermissionListById(Long id);
 
 	List<Role> findRoleAndPermissionList();
 

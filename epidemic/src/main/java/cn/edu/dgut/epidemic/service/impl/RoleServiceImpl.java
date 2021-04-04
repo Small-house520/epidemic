@@ -123,8 +123,8 @@ public class RoleServiceImpl implements RoleService {
 
 	// 根据用户帐号，查询所有角色和其权限列表
 	@Override
-	public Role findRolesAndPermissionsByUserName(String userName) {
-		return this.permissionCustomMapper.findRoleAndPermissionListByUserId(userName);
+	public Role findRolesAndPermissionsById(Long id) {
+		return this.permissionCustomMapper.findRoleAndPermissionListById(id);
 	}
 
 	// 根据id删除角色

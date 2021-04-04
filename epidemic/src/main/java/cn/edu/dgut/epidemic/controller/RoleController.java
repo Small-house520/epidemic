@@ -53,10 +53,10 @@ public class RoleController {
 		try {
 			// 更新用户角色关系
 			this.userService.updateUserRole(campusId, roleId);
-			map.put("msg", "分配权限成功");
+			map.put("msg", "角色权限更新成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			map.put("msg", "分配权限失败");
+			map.put("msg", "角色权限更新失败");
 		}
 		return map;
 	}
@@ -127,11 +127,11 @@ public class RoleController {
 		return "redirect:/findRoles";
 	}
 
-	// 根据用户名查询角色和权限关系
-	@RequestMapping("/viewPermissionByUser")
+	// 根据账号（编号）查询角色和权限关系
+	@RequestMapping("/viewPermissionById")
 	@ResponseBody
-	public Role viewPermissionByUser(String userName) {
-		Role role = this.roleService.findRolesAndPermissionsByUserName(userName);
+	public Role viewPermissionById(Long id) {
+		Role role = this.roleService.findRolesAndPermissionsById(id);
 
 		System.out.println(role.getRoleName() + "," + role.getPermissionList());
 		return role;

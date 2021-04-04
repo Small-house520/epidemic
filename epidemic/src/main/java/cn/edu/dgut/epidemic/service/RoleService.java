@@ -87,7 +87,7 @@ public interface RoleService {
 	 * @param userId
 	 * @return
 	 */
-	Role findRolesAndPermissionsByUserName(String userName);
+	Role findRolesAndPermissionsById(Long id);
 
 	/**
 	 * 删除角色

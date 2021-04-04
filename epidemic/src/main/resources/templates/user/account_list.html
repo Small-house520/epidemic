@@ -24,76 +24,163 @@
 
 <script type="text/javascript">
 	
-		/** 给全选按钮绑定点击事件  */
-	    function setChecked(obj) {
-		    var boxs=document.getElementsByName("box");//获取到复选框的名称
-		    
-			//全选
-			//JS的if判断中Undefined类型视为false，其他类型视为true；
-			//obj.id是定义过的值，类型为非Undefined，所以视为true。
-		    if(obj.id) {
-				for(var i=1;i<boxs.length;i++) {
-				//若全选框的结果为选中，则进行全选操作,否则进入下一步
-				//obj.checked表示复选框当前状态，已选为true，未选为false。
-				    if(obj.checked == true) {
-						var box = boxs[i];
-						box.checked = true;
-					}
-				}
-				
-				//全不选
-				for(var i=1;i<boxs.length;i++) {
-					//若全选框的结果为没选中，则进行全不选操作,否则进入下一步	
-					if(obj.checked == false) {
-						var box = boxs[i];
-						box.checked = false;
-					}
-				}
-			}else {
-				for(var i=1;i<boxs.length;i++) {
-					//若子选择全选，全选框也选中。
-				    if(boxs[i].checked) {
-				    	boxs[0].checked = true;			
-				    }else {//若子选项没有全选，全选框不选中。
-				    	boxs[0].checked = false;			  
-				    }
+	/** 给全选按钮绑定点击事件  */
+    function setChecked(obj) {
+	    var boxs=document.getElementsByName("box");//获取到复选框的名称
+	    
+		//全选
+		//JS的if判断中Undefined类型视为false，其他类型视为true；
+		//obj.id是定义过的值，类型为非Undefined，所以视为true。
+	    if(obj.id) {
+			for(var i=1;i<boxs.length;i++) {
+			//若全选框的结果为选中，则进行全选操作,否则进入下一步
+			//obj.checked表示复选框当前状态，已选为true，未选为false。
+			    if(obj.checked == true) {
+					var box = boxs[i];
+					box.checked = true;
 				}
 			}
-		}
-	    $(function(){
-		    /** 给数据行绑定鼠标覆盖以及鼠标移开事件  */
-		    $(document).on("mouseover mouseout click","tr[name='trCheck']",function(event){
-		    	if(event.type == "mouseover"){
-				  	//鼠标悬浮
-		    		$(this).css("backgroundColor","#DCDCDC");
-				 }else if(event.type == "mouseout"){
-				  	//鼠标离开
-					$(this).css("backgroundColor","#ffffff");
-				 }else if (event.type == "click") {
-				 	/** 控制该行是否需要被选中 */
-					/** 获取此行的复选框id */
-					var checkboxName = this.name.replace("trCheck", "box");
-					/** 触发本行的复选点击 */
-					$("input[name='"+checkboxName+"']").trigger("click");
+			
+			//全不选
+			for(var i=1;i<boxs.length;i++) {
+				//若全选框的结果为没选中，则进行全不选操作,否则进入下一步	
+				if(obj.checked == false) {
+					var box = boxs[i];
+					box.checked = false;
 				}
-		    })
-		
-		   /** 删除员工绑定点击事件 */
-		   $("#delete").click(function(){
-			   /** 获取到用户选中的复选框  */
-			   var checkedBoxs = $("input[name='box']:checked");
-			   if(checkedBoxs.length < 1){
-				   alert("请选择需要删除的用户！");
-			   }else{
-				  if(confirm("请确定是否删除该用户吗？")){
-					var ids = checkedBoxs.map(function() {
-						return this.value;
-					})
-					window.location.href = "../user/accountdel?ids="+ids.toArray().join(",");
-				  }
+			}
+		}else {
+			var cheakFlag = 1;
+			for(var i=1;i<boxs.length;i++) {
+			    if(!boxs[i].checked) {
+			    	cheakFlag = 0;
+			    	break;
+			    }
+			}
+			if(cheakFlag==1){//若子选择全选，全选框也选中。
+				boxs[0].checked = true;
+			}else{//若子选项没有全选，全选框不选中。
+				boxs[0].checked = false;
+			}
+		}
+	}
+	
+    $(function(){
+    	// 加载表格数据
+    	doAjax();
+    	
+	    /** 给数据行绑定鼠标覆盖以及鼠标移开事件  */
+	    $(document).on("mouseover mouseout","tr[name='trCheck']",function(event){
+	    	if(event.type == "mouseover"){
+			  	//鼠标悬浮
+	    		$(this).css("backgroundColor","#DCDCDC");
+			 }else if(event.type == "mouseout"){
+			  	//鼠标离开
+				$(this).css("backgroundColor","#ffffff");
+			 }
+	    })
+	
+	   /** 删除绑定点击事件 */
+	   $("#delete").click(function(){
+		   /** 获取到用户选中的复选框  */
+		   var checkedBoxs = $("input[name='box']:checked");
+		   if(checkedBoxs.length < 1){
+			   alert("请选择需要删除的用户！");
+		   }else{
+			  if(confirm("请确定是否删除该用户吗？")){
+				var ids = checkedBoxs.map(function() {
+					return this.value;
+				})
+				window.location.href = "../user/accountdel?ids="+ids.toArray().join(",");
+			  }
+		   }
+	   })
+	   
+	   /** 查询绑定点击事件 */
+	   $("#query").click(function(){
+		   doAjax();
+	   })
+	})
+
+	// 利用Ajax实现分页
+	function doAjax(){
+    	var campusId = $("#campusIdFind").val();
+		   var username = $("#usernameFind").val();
+		   // 异步获取查询数据
+		   $.ajax({
+			   url: "../user/accountlist",
+			   type: "get",
+			   data: {"campusId":campusId,"username":username},
+			   dataType: "json",
+			   success: function(){
+				   
 			   }
 		   })
-		})
+    	
+		var account = $("[name=account]").val();
+		var username = $("[name=username]").val();
+		var status = $("[name=status]").val();
+		if (account == "" && username == "" && status == "") {
+			$.ajax({
+				url: "${path }/userlist.action",
+				type: "get",
+				data: {"usercheck":4,"pageNow":pageNow},
+				dataType: "json",
+				success: function(pb){
+					show(pb);
+				}
+			})
+		}else {
+			$.ajax({
+				url: "${path }/userlist.action",
+				type: "get",
+				data: {"usercheck":4, "pageNow":pageNow, "account":account, "username":username, "status":status},
+				dataType: "json",
+				success: function(pb){
+					show(pb);
+				}
+			})
+		}
+		
+	}
+	function show(pb){
+		var list = pb.list; //获取到pb中的list集合
+		var tr = "";
+		var status = "";
+		tr = "<tr class='main_trbg_tit' align='center'>"
+			+"<td><input type='checkbox' name='checkAll' id='checkAll'></td>"
+			+"<td>账号</td>"
+			+"<td>密码</td>"
+			+"<td>用户名</td>"
+			+"<td>状态</td>"
+			+"<td>创建时间</td>"
+			+"<td align='center'>操作</td></tr>"
+		if (list.length>0) {
+			for (var i = 0; i < list.length; i++) {
+				if (list[i].status==1) {
+					status = "已审核（1）";
+				}else {
+					status = "未审核（0）";
+				}
+				tr = tr + "<tr id=data_"+i+" align='center' class='main_trbg' >"
+				+"<td><input type='checkbox' id='box_"+i+"'"
+				+"value="+list[i].id +" name='userIds' /></td>"
+				+"<td>"+list[i].account +"</td>"
+				+"<td>"+list[i].password +"</td>"
+				+"<td>"+list[i].username +"</td>"
+				+"<td>"+status +"</td>"
+				+"<td>"+list[i].createdate +"</td>"
+				+"<td align='center' width='40px;'>"
+				+"<a href='${path}/useredit.action?id="+list[i].id +"'>"
+				+"<img title=' 修 改 ' src='${path}/images/update.gif' /></a></td>"
+				+"</tr>";
+			}
+		}else {
+			tr = tr + "<tr style='text-align: center;'><td colspan='7'>没有查询到相关记录！</td></tr>";
+		}
+		$("#tb").html(tr);
+		pageing(pb);
+	}
 </script>
 
 </head>
@@ -134,7 +221,7 @@
 						placeholder="编号" value="" maxlength="12"> 用户名： <input
 						type="text" id="usernameFind" name="username" placeholder="用户名"
 						value="">
-					<button class="btn btn-default">查询</button>
+					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
 			<!--工具栏/-->
@@ -150,7 +237,7 @@
 						<th class="sorting">账号</th>
 						<th class="sorting">密码</th>
 						<th class="sorting">用户名</th>
-						<th class="sorting">对应的角色ID</th>
+						<th class="sorting">角色</th>
 
 						<th class="text-center">操作</th>
 					</tr>
@@ -162,15 +249,20 @@
 						<td th:text="${user.campusId}"></td>
 						<td th:text="${user.userPassword}"></td>
 						<td th:text="${user.username}"></td>
-						<td th:text="${user.roleId}"></td>
+						<td>
+							<select class="form-control" th:onchange="assignRole(this.value,[[${user.campusId}]])">
+										<option th:each="role:${roles}" th:value="${role.roleId}"
+												th:text="${role.roleName}"  th:selected="${user.roleId}==${role.roleId}?true:false"></option>
+							</select>
+						</td>
 
 						<td class="text-center">
 							<button type="button" class="btn bg-olive btn-xs"
 								data-toggle="modal" data-target="#editModal"
 								th:onclick="fillTable([[${user}]])">编辑</button>
-							<button type="button" onclick="viewPermission('${user.name}')"
+							<button type="button" th:onclick="viewPermission([[${user.campusId}]])"
 								class="btn bg-olive btn-xs" data-toggle="modal"
-								data-target="#editModal2">查看权限</button>
+								data-target="#viewModal">查看权限</button>
 						</td>
 					</tr>
 				</tbody>
@@ -261,9 +353,10 @@
 									class="form-control"></td>
 							</tr>
 							<tr>
-								<td>对应的角色ID</td>
+								<td>角色</td>
 								<td><select id="roleId" name="roleId"  class="form-control">
-										<option th:each="role:${roles}" th:value="${role.roleId}" th:text="${role.roleName}"></option>
+										<option th:each="role:${roles}" th:value="${role.roleId}" 
+												th:text="${role.roleName}"></option>
 								</select></td>
 							</tr>
 						</table>
@@ -278,17 +371,8 @@
 		</div>
 	</div>
 
-	<script th:inline="javascript">
-		function fillTable(user) {
-			$("#userId2").val(user.userId);
-			$("#campusId2").val(user.campusId);
-			$("#userPassword2").val(user.userPassword);
-			$("#username2").val(user.username);
-		}
-	</script>
-
 	<!-- 查看用户角色权限窗口 -->
-	<div class="modal fade" id="editModal2" tabindex="-1" role="dialog"
+	<div class="modal fade" id="viewModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -317,92 +401,82 @@
 			</div>
 		</div>
 
-		<script type="text/javascript">
-			$("#campusId,#campusId2").keyup(function() {//控制输入的账号只能为数字
-				var value = $(this);
-				//替换非数字字符
-				var temp = "";
-				if (value.val().length == 1) {
-					temp = value.val().replace(/[^1-9]/g, '');
-					$(this).val(temp);
-				} else if (/[^\d]/.test(value.val())) {
-					temp = value.val().replace(/[^\d]/g, '');
-					$(this).val(temp);
-				}
-			})
-		</script>
-
-		<script type="text/javascript">
-			//查看当前员工的角色和权限列表
-			function viewPermission(user_name) {
-				$.ajax({
-					url : 'viewPermissionByUser',
-					type : 'post',
-					data : {
-						userName : user_name
-					},
-					dataType : 'json',
-					success : function(sysRole) {
-						//先清空原来的内容
-						$("#roleListBody").empty();
-
-						var role_td = "<td>" + sysRole.name + "</td>";
-						var permission_td = "<td>";
-						var permission_list = sysRole.permissionList;
-						$.each(permission_list, function(i, perm) {
-							permission_td += perm.name + "【" + perm.type
-									+ "】 <br/>"
-						});
-						permission_td += "</td>";
-
-						var roleRow = $("<tr>" + role_td + permission_td
-								+ "</tr>");
-						$("#roleListBody").append($(roleRow));
-					},
-					error : function(req, error) {
-						alert(req.status + ':' + error);
-					}
-				});
-			}
-
-			//重新分配待办人
-			function assignRole(rid, uname) {
-				var url = "assignRole";
-				var params = {
-					roleId : rid,
-					userId : uname
-				};
-				$.getJSON(url, params, function(result) {
-					alert(result.msg);
-					role = rid;
-				});
-			}
-
-			/* $(function() {
-				var levelNo = $("select[name=role]").val();
-				getNextManager(levelNo);
-			}) */
-
-			//根据员工级别查找下一级别主管
-			/* function getNextManager(levelNo) {
-				var url = "findNextManager";
-				var params = {
-					level : levelNo
-				};
-				$.getJSON(url, params, function(managerList) {
-					$("#selManager").empty();
-					$.each(managerList, function(i, manager) {
-						var opt = $("<option value='"+manager.id+"'>"
-								+ manager.name + "</option>");
-						$("#selManager").append($(opt));
-					});
-				});
-			} */
-		</script>
 	</div>
 </body>
 
-<script>
+<script type="text/javascript">
+	$("#campusId,#campusId2,#campusIdFind").keyup(function() {//控制输入的账号只能为数字
+		var value = $(this);
+		//替换非数字字符
+		var temp = "";
+		if (value.val().length == 1) {
+			temp = value.val().replace(/[^1-9]/g, '');
+			$(this).val(temp);
+		} else if (/[^\d]/.test(value.val())) {
+			temp = value.val().replace(/[^\d]/g, '');
+			$(this).val(temp);
+		}
+	})
+	
+	
+	//重新分配角色权限
+	function assignRole(rid, id) {
+		var url = "../role/assignRole";
+		var params = {
+			campusId : id,
+			roleId : rid
+		};
+		$.getJSON(url, params, function(result) {
+			alert(result.msg);
+		});
+	}
+</script>
+
+<script th:inline="javascript">
+	// 设置表单的默认值
+	function fillTable(user) {
+		$("#userId2").val(user.userId);
+		$("#campusId2").val(user.campusId);
+		$("#userPassword2").val(user.userPassword);
+		$("#username2").val(user.username);
+		$("#roleId").val(user.roleId);
+	}
+	
+</script>
+
+<script type="text/javascript">
+	//查看当前员工的角色和权限列表
+	function viewPermission(campusId) {
+		$.ajax({
+			url : '../role/viewPermissionById',
+			type : 'post',
+			data : {
+				id : campusId
+			},
+			dataType : 'json',
+			success : function(role) {
+				//先清空原来的内容
+				$("#roleListBody").empty();
+
+				var role_td = "<td>" + role.roleName + "</td>";
+				var permission_td = "<td>";
+				var permission_list = role.permissionList;
+				$.each(permission_list, function(i, permission) {
+					permission_td += permission.permissionName + "【" + permission.permissionType + "】 <br/>"
+				});
+				permission_td += "</td>";
+
+				var roleRow = $("<tr>" + role_td + permission_td + "</tr>");
+				$("#roleListBody").append($(roleRow));
+			},
+			error : function(req, error) {
+				alert(req.status + ':' + error);
+			}
+		});
+	}
+</script>
+
+<script type="text/javascript">
 	//实现表格分页
 	$("#dataList").bootstrapTable({
 		//点击行事件,element为被点击行的tr元素对象
