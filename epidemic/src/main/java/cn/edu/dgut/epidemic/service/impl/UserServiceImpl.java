@@ -25,6 +25,12 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private CampusUserInfoMapper userInfoMapper;
 
+	// 添加账号（账号信息）
+	@Override
+	public void accountAdd(CampusUser campusUser) {
+		this.userMapper.insertSelective(campusUser);
+	}
+
 	// 根据用户的账号获取用户信息
 	@Override
 	public CampusUser findByCampusId(Long campusId) {
@@ -140,4 +146,5 @@ public class UserServiceImpl implements UserService {
 		}
 		return null;
 	}
+
 }

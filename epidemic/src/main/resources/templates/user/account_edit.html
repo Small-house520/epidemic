@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.thymeleaf.org">
 
 <head>
 <!-- 页面meta -->
@@ -46,25 +46,41 @@
 					<!--表单内容-->
 					<div class="tab-pane active" id="home">
 						<div class="row data-type">
+							<form action="../user/accountedit" method="post" onsubmit="return verify()">
+								<input type="hidden" id="userId" name="userId"
+									class="form-control" placeholder="用户编号"
+									th:value="${user.userId}">
 
-							<div class="col-md-2 title">编号</div>
-							<div class="col-md-10 data">
-								<input type="text" id="campusId" name="campusId"
-									class="form-control" placeholder="编号" value="" maxlength="12">
-							</div>
+								<div class="col-md-2 title">编号</div>
+								<div class="col-md-10 data">
+									<input type="text" id="campusId" name="campusId"
+										class="form-control" placeholder="编号"
+										th:value="${user.campusId}" maxlength="12" readonly="readonly">
+								</div>
 
-							<div class="col-md-2 title">密码</div>
-							<div class="col-md-10 data">
-								<input type="text" id="userPassword" name="userPassword"
-									class="form-control" placeholder="密码" value="">
-							</div>
+								<div class="col-md-2 title">用户名</div>
+								<div class="col-md-6 data">
+									<input type="text" id="username" name="username"
+										class="form-control" placeholder="用户名"
+										th:value="${user.username}" required="required">
+								</div>
+								<div class="col-md-4 data">
+									<span id="usernameCheck"></span>
+								</div>
 
-							<div class="col-md-2 title">用户名</div>
-							<div class="col-md-10 data">
-								<input type="text" id="username" name="username"
-									class="form-control" placeholder="用户名" value="">
-							</div>
+								<div class="col-md-2 title">密码</div>
+								<div class="col-md-10 data">
+									<input type="text" id="userPassword" name="userPassword"
+										class="form-control" placeholder="密码"
+										th:value="${user.userPassword}" required="required">
+								</div>
 
+								<div class="btn-toolbar list-toolbar">
+									<button type="submit" class="btn btn-primary">修 改</button>
+									&nbsp;&nbsp;
+									<button type="reset" class="btn btn-danger">重 置</button>
+								</div>
+							</form>
 						</div>
 					</div>
 
@@ -78,12 +94,7 @@
 
 
 		</div>
-		<div class="btn-toolbar list-toolbar">
-			<button class="btn btn-primary">
-				<i class="fa fa-save"></i>修改
-			</button>
-			<a data-toggle="modal" class="btn btn-danger">重置</a>
-		</div>
+
 
 	</section>
 	<!-- 正文区域 /-->
@@ -101,6 +112,41 @@
 		} else if (/[^\d]/.test(value.val())) {
 			temp = value.val().replace(/[^\d]/g, '');
 			$(this).val(temp);
+		}
+	})
+</script>
+<script type="text/javascript">
+	$(function() {
+		var flag = 0;
+		// 使用Ajax异步获取后台用户账号注册情况
+		$("#username").keyup(function() {
+			var username = this.value;
+			// get的方式向后台发送请求，第一个参数为发送的地址，第二个参数为发送的数据，function表示执行成功返回的数据
+			$.ajax({
+				url: "../user/usernameCheack",
+				type: "post",
+				data: {"username":username},
+				dataType: "json",
+				
+				success: function(num) {
+					if (num == "0") {
+						$("#usernameCheck").html("<span style='color: red;'>账号已存在！</span>");
+						flag = 0;
+					} else {
+						$("#usernameCheck").html("<span style='color: green;'>账号可使用！</span>");
+						flag = 1;
+					}
+				}
+			})
+		});
+
+		// form表单提交时先进行判断
+		function verify() {
+			if (flag == 0) {
+				alert("账号已存在");
+				return false;
+			}
+			return true;
 		}
 	})
 </script>

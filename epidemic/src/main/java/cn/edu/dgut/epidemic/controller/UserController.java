@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.edu.dgut.epidemic.pojo.CampusUser;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
@@ -22,6 +24,13 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	// 添加账号（账号信息）
+	@RequestMapping("/accountadd")
+	public String accountAdd(CampusUser campusUser) {
+		this.userService.accountAdd(campusUser);
+		return "/accountlist";
+	}
+
 	// 添加用户（包括账号信息和个人信息）
 	@RequestMapping("/useradd")
 	public String userAdd(CampusUser campusUser, CampusUserInfo campusUserInfo) {
@@ -34,6 +43,7 @@ public class UserController {
 	public String accountEdit(Model model, HttpSession session) {
 		// 取出session中的账号信息
 		CampusUser campusUser = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		campusUser = this.userService.findByCampusId(campusUser.getCampusId());
 
 		model.addAttribute("user", campusUser);
 
@@ -42,10 +52,14 @@ public class UserController {
 
 	// 编辑账号信息
 	@RequestMapping("/accountedit")
-	public String accountEdit(CampusUser campusUser) {
-		// 清理session
+	public String accountEdit(CampusUser campusUser, HttpSession session) {
+		CampusUser user = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		// 更新账号信息
 		this.userService.accountEdit(campusUser);
-		return "redirect:/getaccount";
+		if (user.getCampusId() == campusUser.getCampusId()) {
+			return "redirect:/user/getaccount";
+		}
+		return "redirect:/user/accountlist";
 	}
 
 	// 查看账号信息
@@ -84,5 +98,15 @@ public class UserController {
 		List<CampusUserInfo> list = this.userService.userList(userInfo);
 		model.addAttribute("users", list);
 		return "user/user_list";
+	}
+
+	@RequestMapping("/usernameCheack")
+	@ResponseBody
+	public String usernameCheack(@RequestParam("username") String username) {
+		CampusUser user = this.userService.findUserByName(username);
+		if (user != null) {
+			return "0";
+		}
+		return "1";
 	}
 }

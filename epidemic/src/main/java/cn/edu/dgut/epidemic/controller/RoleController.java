@@ -4,14 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import cn.edu.dgut.epidemic.pojo.CustomUser;
 import cn.edu.dgut.epidemic.pojo.Permission;
 import cn.edu.dgut.epidemic.pojo.Role;
 import cn.edu.dgut.epidemic.pojo.TreeMenu;
@@ -138,21 +136,6 @@ public class RoleController {
 		System.out.println(role.getRoleName() + "," + role.getPermissionList());
 		return role;
 	}
-
-	// 查询上级列表
-	// @RequestMapping("/findNextManager")
-	// @ResponseBody
-	// public List<Employee> findNextManager(int level) {
-	// if (level < 3) {
-	// level++; // 加一，表示上一个级别
-	// } else if (level == 4 || level == 3) {
-	// level = 3;
-	// }
-	// // 查询上级列表
-	// List<Employee> list = employeeService.findEmployeeByLevel(level);
-	// return list;
-	//
-	// }
 
 	// 删除角色
 	@RequestMapping("/roledel")

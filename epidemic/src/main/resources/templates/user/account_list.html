@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 <!-- 页面meta -->
@@ -12,11 +12,15 @@
 	name="viewport">
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+<link rel="stylesheet" href="../css/content.css">
 <link rel="stylesheet"
 	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 <link rel="stylesheet" href="../css/style.css">
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../bootstrap/css/bootstrap-table.min.css">
+<script src="../bootstrap/js/bootstrap-table.min.js"></script>
+<script src="../bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
 
 </head>
 
@@ -36,7 +40,7 @@
 				<div class="form-group form-inline">
 					<div class="btn-group">
 						<button type="button" class="btn btn-default" title="新建"
-							data-toggle="modal" data-target="#editModal">
+							data-toggle="modal" data-target="#addModal">
 							<i class="fa fa-file-o"></i> 新建
 						</button>
 						<button type="button" class="btn btn-default" title="删除">
@@ -52,9 +56,10 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					账号：<input type="number" id="campusId" name="campusId"
-						placeholder="编号" value=""> 用户名： <input type="text"
-						id="username" name="username" placeholder="用户名" value="">
+					账号：<input type="text" id="campusIdFind" name="campusId"
+						placeholder="编号" value="" maxlength="12"> 用户名： <input
+						type="text" id="usernameFind" name="username" placeholder="用户名"
+						value="">
 					<button class="btn btn-default">查询</button>
 				</div>
 			</div>
@@ -67,7 +72,7 @@
 					<tr>
 						<th class="" style="padding-right: 0px"><input id="selall"
 							type="checkbox" class="icheckbox_square-blue"></th>
-						<th class="sorting_asc">编号</th>
+						<th class="sorting_asc">用户编号</th>
 						<th class="sorting">账号</th>
 						<th class="sorting">密码</th>
 						<th class="sorting">用户名</th>
@@ -77,47 +82,78 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
+					<tr th:each="user:${users}">
 						<td><input type="checkbox"></td>
-						<td>1</td>
-						<td>梦琪琪商贸有限公司</td>
-						<td>梦琪琪</td>
-						<td>李梦琪</td>
-						<td>13402312232</td>
+						<td th:text="${user.userId}"></td>
+						<td th:text="${user.campusId}"></td>
+						<td th:text="${user.userPassword}"></td>
+						<td th:text="${user.username}"></td>
+						<td th:text="${user.roleId}"></td>
 
 						<td class="text-center">
 							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#editModal">编辑</button>
+								data-toggle="modal" data-target="#editModal"
+								th:onclick="'javascript:fillTable('+${user.userId}+');'">编辑</button>
 							<button type="button" onclick="viewPermission('${user.name}')"
 								class="btn bg-olive btn-xs" data-toggle="modal"
-								data-target="#editModal">查看权限</button>
-						</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>2</td>
-						<td>黑瞎子苹果专卖店</td>
-						<td>黑瞎子</td>
-						<td>孙大鹏</td>
-						<td>13622244111</td>
-
-						<td class="text-center">
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#editModal">编辑</button>
+								data-target="#editModal2">查看权限</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<!--数据列表/-->
 
-
 		</div>
 		<!-- 数据表格 /-->
 
-
-
 	</div>
 	<!-- /.box-body -->
+
+
+	<!-- 新建窗口 -->
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+		aria-labelledby="addModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 id="addModalLabel">新建账号</h3>
+				</div>
+				<form action="../user/accountadd" method="post">
+					<div class="modal-body">
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>账号</td>
+								<td><input type="text" id="campusId" name="campusId"
+									class="form-control" maxlength="12"></td>
+							</tr>
+							<tr>
+								<td>密码</td>
+								<td><input type="text" id="userPassword"
+									name="userPassword" class="form-control"></td>
+							</tr>
+							<tr>
+								<td>用户名</td>
+								<td><input type="text" id="username" name="username"
+									class="form-control"></td>
+							</tr>
+							<tr>
+								<td>对应的角色ID</td>
+								<td><input type="number" id="roleId" name="roleId"
+									class="form-control"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">保 存</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关 闭</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
 
 	<!-- 编辑窗口 -->
@@ -130,44 +166,56 @@
 						aria-hidden="true">×</button>
 					<h3 id="myModalLabel">账号编辑</h3>
 				</div>
-				<div class="modal-body">
-
-					<table class="table table-bordered table-striped" width="800px">
-						<tr>
-							<td>账号</td>
-							<td><input type="number" id="campusId" name="campusId"
-								class="form-control" placeholder="账号"></td>
-						</tr>
-						<tr>
-							<td>密码</td>
-							<td><input type="text" id="userPassword" name="userPassword"
-								class="form-control" placeholder="密码"></td>
-						</tr>
-						<tr>
-							<td>用户名</td>
-							<td><input type="text" id="username" name="username"
-								class="form-control" placeholder="用户名"></td>
-						</tr>
-						<tr>
-							<td>对应的角色ID</td>
-							<td><input type="number" id="roleId" name="roleId"
-								class="form-control" placeholder="对应的角色ID"></td>
-						</tr>
-					</table>
-
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-success" data-dismiss="modal"
-						aria-hidden="true">保存</button>
-					<button class="btn btn-default" data-dismiss="modal"
-						aria-hidden="true">关闭</button>
-				</div>
+				<form action="../user/accountedit" method="post">
+					<input type="hidden" id="userId2" name="userId"
+						class="form-control">
+					<div class="modal-body">
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>账号</td>
+								<td><input type="text" id="campusId2" name="campusId"
+									class="form-control" maxlength="12"></td>
+							</tr>
+							<tr>
+								<td>密码</td>
+								<td><input type="text" id="userPassword2"
+									name="userPassword" class="form-control"></td>
+							</tr>
+							<tr>
+								<td>用户名</td>
+								<td><input type="text" id="username2" name="username"
+									class="form-control"></td>
+							</tr>
+							<tr>
+								<td>对应的角色ID</td>
+								<td><input type="number" id="roleId2" name="roleId"
+									class="form-control"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">保 存</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关 闭</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
 
+	<script th:inline="javascript">
+			var users= [[${users}]];
+			function fillTable(index) {
+				$("#userId2").val(users[index-1].userId);
+				$("#campusId2").val(users[index-1].campusId);
+				$("#userPassword2").val(users[index-1].userPassword);
+				$("#username2").val(users[index-1].username);
+				$("#roleId2").val(users[index-1].roleId);
+			}
+		</script>
+
 	<!-- 查看用户角色权限窗口 -->
-	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+	<div class="modal fade" id="editModal2" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -195,6 +243,22 @@
 				</div>
 			</div>
 		</div>
+
+		<script type="text/javascript">
+			$("#campusId,#campusId2").keyup(function() {//控制输入的账号只能为数字
+				var value = $(this);
+				//替换非数字字符
+				var temp = "";
+				if (value.val().length == 1) {
+					temp = value.val().replace(/[^1-9]/g, '');
+					$(this).val(temp);
+				} else if (/[^\d]/.test(value.val())) {
+					temp = value.val().replace(/[^\d]/g, '');
+					$(this).val(temp);
+				}
+			})
+		</script>
+
 		<script type="text/javascript">
 			//查看当前员工的角色和权限列表
 			function viewPermission(user_name) {
@@ -241,13 +305,13 @@
 				});
 			}
 
-			$(function() {
+			/* $(function() {
 				var levelNo = $("select[name=role]").val();
 				getNextManager(levelNo);
-			})
+			}) */
 
 			//根据员工级别查找下一级别主管
-			function getNextManager(levelNo) {
+			/* function getNextManager(levelNo) {
 				var url = "findNextManager";
 				var params = {
 					level : levelNo
@@ -260,14 +324,14 @@
 						$("#selManager").append($(opt));
 					});
 				});
-			}
+			} */
 		</script>
 	</div>
 </body>
 
 <script>
 	//实现表格分页
-	$("#tb").bootstrapTable({
+	$("#dataList").bootstrapTable({
 		//点击行事件,element为被点击行的tr元素对象
 		onClickRow : function(row, $element) {
 			$element.each(function() {
@@ -286,7 +350,7 @@
 		pageSize : 5, //默认一页显示的行数
 		paginationLoop : false, //是否开启分页条无限循环，最后一页时点击下一页是否转到第一页
 		pageList : [ 5, 10, 20 ], //选择每页显示多少行
-		search : true, //启用关键字搜索框
+		search : false, //启用关键字搜索框
 		sortable : true
 	// 是否启用排序
 

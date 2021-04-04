@@ -33,7 +33,7 @@
 						<label class="col-md-2 control-label" for="campusId">账号:</label>
 						<div class="col-md-8">
 							<input type="text" name="campusId" id="campusId"
-								class="form-control" required="required">
+								class="form-control" required="required" maxlength="12">
 						</div>
 					</div>
 					<div class="form-group">
@@ -71,11 +71,12 @@
 	$("#campusId").keyup(function() {//控制输入的账号只能为数字
 		var value = $(this);
 		//替换非数字字符
+		var temp = "";
 		if (value.val().length == 1) {
-			var temp = value.val().replace(/[^1-9]/g, '');
+			temp = value.val().replace(/[^1-9]/g, '');
 			$(this).val(temp);
 		} else if (/[^\d]/.test(value.val())) {
-			var temp = value.val().replace(/[^\d]/g, '');
+			temp = value.val().replace(/[^\d]/g, '');
 			$(this).val(temp);
 		}
 	})

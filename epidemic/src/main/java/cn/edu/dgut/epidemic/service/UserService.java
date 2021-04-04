@@ -7,6 +7,14 @@ import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
 
 public interface UserService {
 	/**
+	 * 添加账号（账号信息）
+	 * 
+	 * @param campusUser
+	 * @return
+	 */
+	void accountAdd(CampusUser campusUser);
+
+	/**
 	 * 根据用户的账号获取用户信息
 	 *
 	 * @param campusId

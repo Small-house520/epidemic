@@ -54,6 +54,14 @@ public class IndexController {
 		return "login";
 	}
 
+	@RequestMapping("/home")
+	public String toHome(Model model, HttpSession session) {
+		CampusUser user = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		user = this.userService.findByCampusId(user.getCampusId());
+		model.addAttribute("user", user);
+		return "home";
+	}
+
 	// 退出登录
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
