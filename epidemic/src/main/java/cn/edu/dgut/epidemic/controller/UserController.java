@@ -1,6 +1,8 @@
 package cn.edu.dgut.epidemic.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.edu.dgut.epidemic.pojo.CampusUser;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
+import cn.edu.dgut.epidemic.pojo.GradeClass;
 import cn.edu.dgut.epidemic.pojo.Role;
 import cn.edu.dgut.epidemic.service.RoleService;
 import cn.edu.dgut.epidemic.service.UserService;
@@ -42,13 +44,6 @@ public class UserController {
 		return "forward:/accountlist";
 	}
 
-	// 添加用户（包括账号信息和个人信息）
-	@RequestMapping("/useradd")
-	public String userAdd(CampusUser campusUser, CampusUserInfo campusUserInfo) {
-		this.userService.userAdd(campusUser, campusUserInfo);
-		return "user/user_list";
-	}
-
 	// 获取个人账号信息
 	@RequestMapping("/getaccount")
 	public String accountEdit(Model model, HttpSession session) {
@@ -75,12 +70,39 @@ public class UserController {
 
 	// 查看账号信息
 	@RequestMapping("/accountlist")
-	public String accountList(CampusUser user, Model model) {
-		List<CampusUser> list = this.userService.accountList(user);
+	public String accountList(Model model) {
+		List<CampusUser> list = this.userService.accountList(null);
 		List<Role> roles = this.roleService.findAllRoles();
 		model.addAttribute("users", list);
 		model.addAttribute("roles", roles);
 		return "user/account_list";
+	}
+
+	// 查询账号信息
+	@RequestMapping("/findAccount")
+	@ResponseBody
+	public Map<String, Object> findAccount(CampusUser user) {
+		List<CampusUser> list = this.userService.accountList(user);
+		List<Role> roles = this.roleService.findAllRoles();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("users", list);
+		map.put("roles", roles);
+		return map;
+	}
+
+	// 跳转到添加用户页面
+	@RequestMapping("/touseradd")
+	public String toUserAdd(Model model) {
+		List<GradeClass> classes= this.userService.findClasses();
+		model.addAttribute("classes", classes);
+		return "user/user_add";
+	}
+
+	// 添加用户（包括账号信息和个人信息）
+	@RequestMapping("/useradd")
+	public String userAdd(CampusUser campusUser, CampusUserInfo campusUserInfo) {
+		this.userService.userAdd(campusUser, campusUserInfo);
+		return "user/user_list";
 	}
 
 	// 获取个人信息
@@ -113,13 +135,28 @@ public class UserController {
 		return "user/user_list";
 	}
 
-	@RequestMapping("/usernameCheack")
+	@RequestMapping("/idCheack")
 	@ResponseBody
-	public String usernameCheack(@RequestParam("username") String username) {
-		CampusUser user = this.userService.findUserByName(username);
-		if (user != null) {
-			return "0";
+	public String idCheack(Long campusId) {
+		if (campusId != null && campusId > 0) {
+			CampusUser user = this.userService.findByCampusId(campusId);
+			if (user != null) {
+				return "1";
+			}
 		}
-		return "1";
+		return "0";
+	}
+
+	@RequestMapping("/nameCheack")
+	@ResponseBody
+	public String nameCheack(String username) {
+
+		if (username != null && !"".equals(username)) {
+			CampusUser user = this.userService.findUserByName(username);
+			if (user != null) {
+				return "2";
+			}
+		}
+		return "0";
 	}
 }

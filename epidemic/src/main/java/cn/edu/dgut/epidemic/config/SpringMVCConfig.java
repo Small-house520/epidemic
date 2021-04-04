@@ -20,8 +20,6 @@ public class SpringMVCConfig implements WebMvcConfigurer {
 		registry.addViewController("/home/panel").setViewName("panel");
 		registry.addViewController("/home/login").setViewName("login");
 
-		registry.addViewController("/user/touseradd").setViewName("user/user_add");
-
 		registry.addViewController("/process/processadd").setViewName("process/process_add");
 		
 		

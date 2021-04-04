@@ -9,11 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.edu.dgut.epidemic.mapper.CampusUserInfoMapper;
 import cn.edu.dgut.epidemic.mapper.CampusUserMapper;
+import cn.edu.dgut.epidemic.mapper.GradeClassMapper;
 import cn.edu.dgut.epidemic.pojo.CampusUser;
 import cn.edu.dgut.epidemic.pojo.CampusUserExample;
 import cn.edu.dgut.epidemic.pojo.CampusUserExample.Criteria;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfoExample;
+import cn.edu.dgut.epidemic.pojo.GradeClass;
 import cn.edu.dgut.epidemic.service.UserService;
 
 @Service
@@ -24,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private CampusUserInfoMapper userInfoMapper;
+
+	@Autowired
+	private GradeClassMapper classMapper;
 
 	// 添加账号（账号信息）
 	@Override
@@ -54,7 +59,10 @@ public class UserServiceImpl implements UserService {
 		CampusUserExample.Criteria criteria = userExample.createCriteria();
 
 		// 关联查询条件
-		criteria.andCampusIdEqualTo(campusId);
+		if (campusId != null && campusId > 0) {
+			criteria.andCampusIdEqualTo(campusId);
+		}
+
 		// 根据账号查询用户信息
 		List<CampusUser> users = this.userMapper.selectByExample(userExample);
 		if (users != null && users.size() > 0) {
@@ -90,7 +98,7 @@ public class UserServiceImpl implements UserService {
 			criteria.andCampusIdEqualTo(user.getCampusId());
 		}
 		if (user.getUsername() != null && !"".equals(user.getUsername())) {
-			criteria.andUsernameLike(user.getUsername());
+			criteria.andUsernameLike("%" + user.getUsername() + "%");
 		}
 		list = this.userMapper.selectByExample(userExample);
 		return list;
@@ -154,13 +162,22 @@ public class UserServiceImpl implements UserService {
 	public CampusUser findUserByName(String username) {
 		CampusUserExample userExample = new CampusUserExample();
 		CampusUserExample.Criteria criteria = userExample.createCriteria();
-		criteria.andUsernameEqualTo(username);
+
+		if (username != null && !"".equals(username)) {
+			criteria.andUsernameEqualTo(username);
+		}
 		List<CampusUser> list = this.userMapper.selectByExample(userExample);
 		// 如果查询结果不为空
 		if (list != null && list.size() > 0) {
 			return list.get(0);
 		}
 		return null;
+	}
+
+	// 获取年级班级信息
+	@Override
+	public List<GradeClass> findClasses() {
+		return this.classMapper.selectByExample(null);
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.edu.dgut.epidemic.pojo.CampusUser;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
+import cn.edu.dgut.epidemic.pojo.GradeClass;
 
 public interface UserService {
 	/**
@@ -80,7 +81,7 @@ public interface UserService {
 	 * @param campusId
 	 * @param roleId
 	 */
-	void updateUserRole(Long campusId,Short roleId);
+	void updateUserRole(Long campusId, Short roleId);
 
 	/**
 	 * 根据用户名到数据库查询用户信息
@@ -89,4 +90,11 @@ public interface UserService {
 	 * @return
 	 */
 	CampusUser findUserByName(String username);
+
+	/**
+	 * 获取年级班级
+	 * 
+	 * @return
+	 */
+	List<GradeClass> findClasses();
 }

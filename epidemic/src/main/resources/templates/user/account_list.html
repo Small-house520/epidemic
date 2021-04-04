@@ -67,7 +67,7 @@
 	
     $(function(){
     	// 加载表格数据
-    	doAjax();
+    	//doAjax();
     	
 	    /** 给数据行绑定鼠标覆盖以及鼠标移开事件  */
 	    $(document).on("mouseover mouseout","tr[name='trCheck']",function(event){
@@ -105,81 +105,79 @@
 	// 利用Ajax实现分页
 	function doAjax(){
     	var campusId = $("#campusIdFind").val();
-		   var username = $("#usernameFind").val();
+		var username = $("#usernameFind").val();
+		   
 		   // 异步获取查询数据
-		   $.ajax({
-			   url: "../user/accountlist",
-			   type: "get",
-			   data: {"campusId":campusId,"username":username},
-			   dataType: "json",
-			   success: function(){
-				   
-			   }
-		   })
-    	
-		var account = $("[name=account]").val();
-		var username = $("[name=username]").val();
-		var status = $("[name=status]").val();
-		if (account == "" && username == "" && status == "") {
+		/* if (campusId == "" && username == "" ) {
 			$.ajax({
-				url: "${path }/userlist.action",
+				url: "../user/accountlist",
 				type: "get",
-				data: {"usercheck":4,"pageNow":pageNow},
+				data: {},
 				dataType: "json",
-				success: function(pb){
-					show(pb);
+				success: function(list){
+					show(list);
 				}
 			})
-		}else {
+		}else { */
 			$.ajax({
-				url: "${path }/userlist.action",
+				url: "../user/findAccount",
 				type: "get",
-				data: {"usercheck":4, "pageNow":pageNow, "account":account, "username":username, "status":status},
+				data: {"campusId":campusId, "username":username},
 				dataType: "json",
-				success: function(pb){
-					show(pb);
+				success: function(map){
+					show(map);
 				}
 			})
-		}
+		//}
 		
 	}
-	function show(pb){
-		var list = pb.list; //获取到pb中的list集合
-		var tr = "";
-		var status = "";
-		tr = "<tr class='main_trbg_tit' align='center'>"
-			+"<td><input type='checkbox' name='checkAll' id='checkAll'></td>"
-			+"<td>账号</td>"
-			+"<td>密码</td>"
-			+"<td>用户名</td>"
-			+"<td>状态</td>"
-			+"<td>创建时间</td>"
-			+"<td align='center'>操作</td></tr>"
-		if (list.length>0) {
-			for (var i = 0; i < list.length; i++) {
-				if (list[i].status==1) {
-					status = "已审核（1）";
-				}else {
-					status = "未审核（0）";
-				}
-				tr = tr + "<tr id=data_"+i+" align='center' class='main_trbg' >"
-				+"<td><input type='checkbox' id='box_"+i+"'"
-				+"value="+list[i].id +" name='userIds' /></td>"
-				+"<td>"+list[i].account +"</td>"
-				+"<td>"+list[i].password +"</td>"
-				+"<td>"+list[i].username +"</td>"
-				+"<td>"+status +"</td>"
-				+"<td>"+list[i].createdate +"</td>"
-				+"<td align='center' width='40px;'>"
-				+"<a href='${path}/useredit.action?id="+list[i].id +"'>"
-				+"<img title=' 修 改 ' src='${path}/images/update.gif' /></a></td>"
-				+"</tr>";
-			}
-		}else {
-			tr = tr + "<tr style='text-align: center;'><td colspan='7'>没有查询到相关记录！</td></tr>";
+    
+	function show(map){
+		var users = map.users; //获取到map中的users集合
+		var roles = map.roles; //获取到map中的roles集合
+		
+		// 先清空原来的内容
+		$("#tb").empty();
+		var user_tr = "<tr name='trCheck'>";
+		if(users!=null && users.length>0){
+			// 拼接内容
+			$.each(users, function(i, user) {
+				user_tr += "<td><input type='checkbox' name='box' th:value='"+ user.userId +"' onclick='setChecked(this)'>";
+				user_tr += "</td><td>";
+				user_tr += user.userId;
+				user_tr += "</td><td>";
+				user_tr += user.campusId;
+				user_tr += "</td><td>";
+				user_tr += user.userPassword;
+				user_tr += "</td><td>";
+				user_tr += user.username;
+				user_tr += "</td><td>";
+				user_tr += "<select class='form-control' th:onchange='assignRole(this.value,"+user.campusId+")'>";
+				$.each(roles, function(i, role) {
+					user_tr += "<option value="+ role.roleId;
+					if(user.roleId == role.roleId){
+						user_tr += " selected>"+ role.roleName +"</option>";
+					}else{
+						user_tr += ">"+ role.roleName +"</option>";
+					}
+				})
+				user_tr += "</select></td><td class='text-center'>";
+				user_tr += "<button type='button' class='btn bg-olive btn-xs'";
+				user_tr += "data-toggle='modal' data-target='#editModal'";
+				user_tr += "onclick='fillTable("+ user +")'>编辑</button>";
+				user_tr += "<button type='button' onclick='viewPermission("+ user.campusId +")'";
+				user_tr += "class='btn bg-olive btn-xs' data-toggle='modal'";
+				user_tr += "data-target='#viewModal'>查看权限</button></td></tr>";
+			});
+		}else{
+			user_tr =  "<tr style='text-align: center;'><td colspan='7'>没有查询到相关记录！</td></tr>";
 		}
-		$("#tb").html(tr);
-		pageing(pb);
+		
+		$("#tb").html(user_tr);
+		
+		//var roleRow = $("<tr>" + role_td + permission_td + "</tr>");
+		//$("#roleListBody").append($(roleRow));
+		
 	}
 </script>
 
@@ -242,7 +240,7 @@
 						<th class="text-center">操作</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="tb">
 					<tr th:each="user:${users}" name="trCheck">
 						<td><input type="checkbox" name="box" th:value="${user.userId}" onclick="setChecked(this)"></td>
 						<td th:text="${user.userId}"></td>
@@ -332,7 +330,7 @@
 						aria-hidden="true">×</button>
 					<h3 id="myModalLabel">账号编辑</h3>
 				</div>
-				<form action="../user/accountedit" method="post">
+				<form action="../user/accountedit" method="post" onsubmit="return verify()">
 					<input type="hidden" id="userId2" name="userId"
 						class="form-control">
 					<div class="modal-body">
@@ -341,6 +339,7 @@
 								<td>账号</td>
 								<td><input type="text" id="campusId2" name="campusId"
 									class="form-control" maxlength="12"></td>
+								<td><span id="campusIdCheck"></span></td>
 							</tr>
 							<tr>
 								<td>密码</td>
@@ -351,6 +350,7 @@
 								<td>用户名</td>
 								<td><input type="text" id="username2" name="username"
 									class="form-control"></td>
+								<td><span id="usernameCheck"></span></td>
 							</tr>
 							<tr>
 								<td>角色</td>
@@ -430,6 +430,67 @@
 			alert(result.msg);
 		});
 	}
+	
+	var flag = 0;
+	$(function() {
+		
+		// 使用Ajax异步获取后台用户账号注册情况
+		$("#campusId2").keyup(function() {
+			var campusId = $("#campusId2").val();
+			// get的方式向后台发送请求，第一个参数为发送的地址，第二个参数为发送的数据，function表示执行成功返回的数据
+			$.ajax({
+				url: "../user/idCheack",
+				type: "post",
+				data: {"campusId":campusId},
+				dataType: "json",
+				
+				success: function(num) {
+					if (num == "1") {
+						$("#campusIdCheck").html("<span style='color: red;'>账号已存在！</span>");
+						flag = 1;
+					} else {
+						$("#campusIdCheck").html("<span style='color: green;'>账号可使用！</span>");
+						flag = 0;
+					}
+				}
+			})
+		});
+		$("#username2").keyup(function() {
+			var username = $("#username2").val();
+			// get的方式向后台发送请求，第一个参数为发送的地址，第二个参数为发送的数据，function表示执行成功返回的数据
+			$.ajax({
+				url: "../user/nameCheack",
+				type: "post",
+				data: {"username":username},
+				dataType: "json",
+				
+				success: function(num) {
+					if(num == "2") {
+						$("#usernameCheck").html("<span style='color: red;'>用户名已存在！</span>");
+						flag = 2;
+					} else {
+						$("#usernameCheck").html("<span style='color: green;'>用户名可使用！</span>");
+						flag = 0;
+					}
+				}
+			})
+		});
+
+	})
+	
+	// form表单提交时先进行判断
+	function verify() {
+		if (flag == 1) {
+			alert("账号已存在");
+			return false;
+		}
+		if (flag == 2) {
+			alert("用户名已存在");
+			return false;
+		}
+		return true;
+	}
+	
 </script>
 
 <script th:inline="javascript">
