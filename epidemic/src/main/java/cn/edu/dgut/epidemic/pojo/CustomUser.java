@@ -11,7 +11,7 @@ import java.util.List;
 public class CustomUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Short userId;
+	private Integer userId;
 
 	private Long campusId;
 
@@ -21,15 +21,15 @@ public class CustomUser implements Serializable {
 
 	private Short roleId;
 
-	private List<Permission> menus;
-	private List<Permission> permissions;
+	private List<Permission> menus;// 菜单
+	private List<Permission> permissions;// 权限
 	private List<TreeMenu> treeMenus;
 
-	public Short getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Short userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 

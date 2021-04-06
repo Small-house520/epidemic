@@ -8,12 +8,21 @@ import cn.edu.dgut.epidemic.pojo.EpidemicDiagnosis;
 
 public interface CampusEpidemicService {
 	/**
-	 * 根据查询条件查询校内确诊患者信息
+	 * 查看校内确诊患者信息
 	 * 
 	 * @param epidemicDiagnosis
 	 * @return
 	 */
-	List<EpidemicDiagnosis> getDiagnosis(EpidemicDiagnosis epidemicDiagnosis);
+	List<EpidemicDiagnosis> getDiagnosis();
+
+	/**
+	 * 根据查询条件查询校内确诊患者信息
+	 * 
+	 * @param epidemicDiagnosis
+	 * @param fullName
+	 * @return
+	 */
+	List<EpidemicDiagnosis> findDiagnosis(EpidemicDiagnosis epidemicDiagnosis, String fullName);
 
 	/**
 	 * 根据查询条件查询校内密切接触者信息

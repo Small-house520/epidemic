@@ -10,7 +10,7 @@ public interface PermissionCustomMapper {
 
 	List<Permission> findMenuListByUserId(String userid) throws Exception;
 
-	List<Permission> findPermissionListByUserId(Short userid) throws Exception;
+	List<Permission> findPermissionListByUserId(Integer userid) throws Exception;
 
 	List<TreeMenu> getMenuTree();
 

@@ -54,7 +54,7 @@ public class ActivitiController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "redirect:/processDefinitionList";
+		return "redirect:/activiti/processDefinitionList";
 	}
 
 	// 保存活动信息，开启活动审核流程
@@ -79,7 +79,7 @@ public class ActivitiController {
 
 		// 这种方法相当于在重定向链接地址上追加传递的参数
 		redirectAttributes.addFlashAttribute("flag", 1);
-		return "redirect:/myTaskList";
+		return "redirect:/activiti/myTaskList";
 	}
 
 	// 保存报名信息，开启报名审核流程
@@ -106,7 +106,7 @@ public class ActivitiController {
 
 		// 这种方法相当于在重定向链接地址上追加传递的参数
 		redirectAttributes.addFlashAttribute("flag", 2);
-		return "redirect:/myTaskList";
+		return "redirect:/activiti/myTaskList";
 	}
 
 	// 根据待办人名称查询流程任务，并跳转到前台显示
@@ -179,7 +179,7 @@ public class ActivitiController {
 		this.activitiService.submitTask(id, taskId, comment, outcome, userInfo, flag);
 
 		model.addAttribute("flag", flag);
-		return "forward:/myprocess";
+		return "redirect:/process/myprocess";
 	}
 
 	// 查看当前流程图（查看当前活动节点，并使用红色的框标注）
@@ -259,14 +259,14 @@ public class ActivitiController {
 	@RequestMapping("/viewHisComment")
 	public String viewHisComment(Integer id, Integer flag, ModelMap model) {
 
-		String uri = "jsp/leave_commentlist";
+		String uri = "transaction/activity_comments";
 		// 1：根据活动ID，查询活动信息对象
 		VolunteerService volunteerService = this.processService.findActivityById(id);
 		model.addAttribute("volunteerService", volunteerService);
 		// 2：使用活动ID，查询历史的批注信息
 		List<Comment> commentList = this.activitiService.findCommentById(id, flag);
 		if (flag == 2) {
-			uri = "jsp/baoxiao_commentlist";
+			uri = "transaction/enroll_comments";
 			// 1：使用报名ID，查询报名对象
 			VolunteerEnroll volunteerEnroll = this.processService.findEnrollById(id);
 			model.addAttribute("volunteerEnroll", volunteerEnroll);
@@ -284,7 +284,7 @@ public class ActivitiController {
 	public String delDeployment(String deploymentId) {
 		// 使用部署对象ID，删除流程定义
 		this.activitiService.deleteProcessDefinitionByDeploymentId(deploymentId);
-		return "redirect:/processDefinitionList";
+		return "redirect:/activiti/processDefinitionList";
 	}
 
 }

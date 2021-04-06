@@ -93,7 +93,7 @@ public class UserController {
 	// 跳转到添加用户页面
 	@RequestMapping("/touseradd")
 	public String toUserAdd(Model model) {
-		List<GradeClass> classes= this.userService.findClasses();
+		List<GradeClass> classes = this.userService.findClasses();
 		model.addAttribute("classes", classes);
 		return "user/user_add";
 	}
@@ -105,6 +105,20 @@ public class UserController {
 		return "user/user_list";
 	}
 
+	// 添加用户（用户个人信息）
+	@RequestMapping("/userinfoadd")
+	public String userInfoAdd(CampusUserInfo userInfo) {
+		this.userService.userInfoAdd(userInfo);
+		return "redirect:/user/userlist";
+	}
+
+	// 删除个人信息
+	@RequestMapping("/userdel")
+	public String userDel(String ids) {
+		this.userService.userDel(ids);
+		return "forward:/accountlist";
+	}
+
 	// 获取个人信息
 	@RequestMapping("/getuser")
 	public String getUserInfo(Model model, HttpSession session) {
@@ -113,6 +127,9 @@ public class UserController {
 
 		// 根据编号获取用户信息
 		CampusUserInfo userInfo = this.userService.getUserInfo(campusUser.getCampusId());
+
+		List<GradeClass> classes = this.userService.findClasses();
+		model.addAttribute("classes", classes);
 
 		model.addAttribute("userinfo", userInfo);
 
@@ -124,7 +141,7 @@ public class UserController {
 	public String userEdit(CampusUserInfo userInfo) {
 		// 清理session
 		this.userService.userEdit(userInfo);
-		return "redirect:/getuser";
+		return "redirect:/user/userlist";
 	}
 
 	// 查看个人信息
@@ -132,9 +149,25 @@ public class UserController {
 	public String userList(CampusUserInfo userInfo, Model model) {
 		List<CampusUserInfo> list = this.userService.userList(userInfo);
 		model.addAttribute("users", list);
+
+		List<GradeClass> classes = this.userService.findClasses();
+		model.addAttribute("classes", classes);
 		return "user/user_list";
 	}
 
+	// 查询个人信息
+	@RequestMapping("/findUsers")
+	@ResponseBody
+	public Map<String, Object> findUsers(CampusUserInfo userInfo) {
+		List<CampusUserInfo> list = this.userService.userList(userInfo);
+		List<GradeClass> classes = this.userService.findClasses();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("users", list);
+		map.put("classes", classes);
+		return map;
+	}
+
+	// 验证账号是否已存在
 	@RequestMapping("/idCheack")
 	@ResponseBody
 	public String idCheack(Long campusId) {
@@ -147,6 +180,7 @@ public class UserController {
 		return "0";
 	}
 
+	// 验证用户名是否已存在
 	@RequestMapping("/nameCheack")
 	@ResponseBody
 	public String nameCheack(String username) {

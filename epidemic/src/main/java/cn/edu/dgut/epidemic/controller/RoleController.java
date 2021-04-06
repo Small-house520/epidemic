@@ -63,7 +63,7 @@ public class RoleController {
 
 	// 添加角色和角色权限关系
 	@RequestMapping("/saveRoleAndPermissions")
-	public String saveRoleAndPermissions(Role role, short[] permissionIds) {
+	public String saveRoleAndPermissions(Role role, int[] permissionIds) {
 		short id = this.roleService.findLastId();
 		// 设置role主键，查询出最后一条记录的id，然后加一
 		id = (short) (id + 1);
@@ -122,7 +122,7 @@ public class RoleController {
 
 	// 更新角色和权限关系
 	@RequestMapping("/updateRoleAndPermission")
-	public String updateRoleAndPermission(Short roleId, short[] permissionIds) {
+	public String updateRoleAndPermission(Short roleId, int[] permissionIds) {
 		this.roleService.updateRoleAndPermissions(roleId, permissionIds);
 		return "redirect:/findRoles";
 	}
@@ -133,7 +133,6 @@ public class RoleController {
 	public Role viewPermissionById(Long id) {
 		Role role = this.roleService.findRolesAndPermissionsById(id);
 
-		System.out.println(role.getRoleName() + "," + role.getPermissionList());
 		return role;
 	}
 

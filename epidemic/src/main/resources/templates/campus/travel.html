@@ -23,7 +23,7 @@
 <body class="hold-transition skin-red sidebar-mini">
 	<!-- .box-body -->
 	<div class="box-header with-border">
-		<h3 class="box-title">体温记录</h3>
+		<h3 class="box-title">行程记录</h3>
 	</div>
 
 	<div class="box-body">
@@ -45,12 +45,15 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					编号：<input type="number" id="campusId" name="campusId"
-						placeholder="编号" value=""> 是否在校： <input type="text"
-						id="returnedToSchool" name="returnedToSchool" placeholder="是否在校"
-						value=""> 填报日期： <input type="datetime" id="uploadDate"
-						name="uploadDate" placeholder="填报日期" value="">
-					<button class="btn btn-default">查询</button>
+					编号：<input type="text" id="campusId" name="campusId"
+						placeholder="编号" maxlength="12" value=""> 是否在校：<select
+						id="returnedToSchool" name="returnedToSchool">
+						<option value="" selected="selected">请选择</option>
+						<option value="y">是</option>
+						<option value="n">否</option>
+					</select> 填报日期(及之后)：<input type="date" id="uploadDate" name="uploadDate"
+						value="">
+					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
 			<!--工具栏/-->
@@ -60,51 +63,121 @@
 				class="table table-bordered table-striped table-hover dataTable">
 				<thead>
 					<tr>
-						<th class="" style="padding-right: 0px"><input id="selall"
-							type="checkbox" class="icheckbox_square-blue"></th>
 						<th class="sorting_asc">编号</th>
+						<th class="sorting">姓名</th>
 						<th class="sorting">近14天的行程记录</th>
 						<th class="sorting">是否在校</th>
 						<th class="sorting">目前所在地址</th>
 						<th class="sorting">填报日期</th>
-
-						<th class="text-center">操作</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>1</td>
-						<td>梦琪琪商贸有限公司</td>
-						<td>梦琪琪</td>
-						<td>李梦琪</td>
-						<td>13402312232</td>
-
-					</tr>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>2</td>
-						<td>黑瞎子苹果专卖店</td>
-						<td>黑瞎子</td>
-						<td>孙大鹏</td>
-						<td>13622244111</td>
-
+				<tbody id="tb">
+					<tr th:each="temperature:${healthInfo}">
+						<td th:text="${temperature.campusId}"></td>
+						<td><span th:each="user:${userInfo}"
+							th:text="${user.campusId==temperature.campusId?user.fullName:''}"></span></td>
+						<td th:text="${temperature.itineraryRecords}"></td>
+						<td th:text="${temperature.returnedToSchool=='y'?'是':'否'}"></td>
+						<td th:text="${temperature.currentAddress}"></td>
+						<td
+							th:text="${#dates.format(temperature.uploadDate,'yyyy-MM-dd HH:mm:ss')}"></td>
 					</tr>
 				</tbody>
 			</table>
 			<!--数据列表/-->
 
-
 		</div>
 		<!-- 数据表格 /-->
-
-
-
 
 	</div>
 	<!-- /.box-body -->
 
-
 </body>
+
+<script th:inline="javascript">
+	//控制输入的账号只能为数字
+	$("#campusId").keyup(function() {
+		var value = $(this);
+		//替换非数字字符
+		var temp = "";
+		if (value.val().length == 1) {
+			temp = value.val().replace(/[^1-9]/g, '');
+			$(this).val(temp);
+		} else if (/[^\d]/.test(value.val())) {
+			temp = value.val().replace(/[^\d]/g, '');
+			$(this).val(temp);
+		}
+	})
+</script>
+
+<script th:inline="javascript">
+	// 查询绑定点击事件
+	$("#query").click(function() {
+		doAjax();
+	})
+
+	// 利用Ajax实现分页
+	function doAjax() {
+		var campusId = $("#campusId").val();
+		var returnedToSchool = $("#returnedToSchool").val();
+		var uploadDate = $("#uploadDate").val();
+
+		$.ajax({
+			url : "../campus/healthinfo",
+			type : "post",
+			data : {
+				"campusId" : campusId,
+				"returnedToSchool" : returnedToSchool,
+				"uploadDate" : uploadDate
+			},
+			dataType : "json",
+			success : function(map) {
+				show(map);
+			}
+		})
+	}
+
+	function show(map) {
+		var healthInfo = map.healthInfo; //获取到map中的healthInfo集合
+		var userInfo = map.userInfo; //获取到map中的userInfo集合
+
+		// 先清空原来的内容
+		$("#tb").empty();
+		var user_tr = "<tr>";
+		if (healthInfo != null && healthInfo.length > 0) {
+			// 拼接内容
+			$.each(healthInfo, function(i, temperature) {
+				user_tr += "<td>";
+				user_tr += temperature.campusId;
+				user_tr += "</td><td>";
+				$.each(userInfo, function(i, user) {
+					if (temperature.campusId == user.campusId) {
+						user_tr += user.fullName;
+						return false;//break;
+					}
+				})
+				user_tr += "</td><td>";
+				user_tr += temperature.itineraryRecords;
+				user_tr += "</td><td>";
+				if(temperature.returnedToSchool == "y"){
+					user_tr += "是";
+				}else{
+					user_tr += "否";
+				}
+				user_tr += "</td><td>";
+				user_tr += temperature.currentAddress;
+				user_tr += "</td><td>";
+				user_tr += temperature.uploadDate;
+				user_tr += "</td></tr>";
+				
+			});
+		} else {
+			user_tr = "<tr style='text-align: center;'><td colspan='12'>没有查询到相关记录！</td></tr>";
+		}
+
+		$("#tb").html(user_tr);
+
+	}
+</script>
 
 </html>

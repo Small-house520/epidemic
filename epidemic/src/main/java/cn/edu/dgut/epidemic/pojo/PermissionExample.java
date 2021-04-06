@@ -114,52 +114,52 @@ public class PermissionExample {
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdEqualTo(Short value) {
+        public Criteria andPermissionIdEqualTo(Integer value) {
             addCriterion("PERMISSION_ID =", value, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdNotEqualTo(Short value) {
+        public Criteria andPermissionIdNotEqualTo(Integer value) {
             addCriterion("PERMISSION_ID <>", value, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdGreaterThan(Short value) {
+        public Criteria andPermissionIdGreaterThan(Integer value) {
             addCriterion("PERMISSION_ID >", value, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdGreaterThanOrEqualTo(Short value) {
+        public Criteria andPermissionIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("PERMISSION_ID >=", value, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdLessThan(Short value) {
+        public Criteria andPermissionIdLessThan(Integer value) {
             addCriterion("PERMISSION_ID <", value, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdLessThanOrEqualTo(Short value) {
+        public Criteria andPermissionIdLessThanOrEqualTo(Integer value) {
             addCriterion("PERMISSION_ID <=", value, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdIn(List<Short> values) {
+        public Criteria andPermissionIdIn(List<Integer> values) {
             addCriterion("PERMISSION_ID in", values, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdNotIn(List<Short> values) {
+        public Criteria andPermissionIdNotIn(List<Integer> values) {
             addCriterion("PERMISSION_ID not in", values, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdBetween(Short value1, Short value2) {
+        public Criteria andPermissionIdBetween(Integer value1, Integer value2) {
             addCriterion("PERMISSION_ID between", value1, value2, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdNotBetween(Short value1, Short value2) {
+        public Criteria andPermissionIdNotBetween(Integer value1, Integer value2) {
             addCriterion("PERMISSION_ID not between", value1, value2, "permissionId");
             return (Criteria) this;
         }
@@ -454,52 +454,52 @@ public class PermissionExample {
             return (Criteria) this;
         }
 
-        public Criteria andParentIdEqualTo(Short value) {
+        public Criteria andParentIdEqualTo(Integer value) {
             addCriterion("PARENT_ID =", value, "parentId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdNotEqualTo(Short value) {
+        public Criteria andParentIdNotEqualTo(Integer value) {
             addCriterion("PARENT_ID <>", value, "parentId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdGreaterThan(Short value) {
+        public Criteria andParentIdGreaterThan(Integer value) {
             addCriterion("PARENT_ID >", value, "parentId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdGreaterThanOrEqualTo(Short value) {
+        public Criteria andParentIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("PARENT_ID >=", value, "parentId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdLessThan(Short value) {
+        public Criteria andParentIdLessThan(Integer value) {
             addCriterion("PARENT_ID <", value, "parentId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdLessThanOrEqualTo(Short value) {
+        public Criteria andParentIdLessThanOrEqualTo(Integer value) {
             addCriterion("PARENT_ID <=", value, "parentId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdIn(List<Short> values) {
+        public Criteria andParentIdIn(List<Integer> values) {
             addCriterion("PARENT_ID in", values, "parentId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdNotIn(List<Short> values) {
+        public Criteria andParentIdNotIn(List<Integer> values) {
             addCriterion("PARENT_ID not in", values, "parentId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdBetween(Short value1, Short value2) {
+        public Criteria andParentIdBetween(Integer value1, Integer value2) {
             addCriterion("PARENT_ID between", value1, value2, "parentId");
             return (Criteria) this;
         }
 
-        public Criteria andParentIdNotBetween(Short value1, Short value2) {
+        public Criteria andParentIdNotBetween(Integer value1, Integer value2) {
             addCriterion("PARENT_ID not between", value1, value2, "parentId");
             return (Criteria) this;
         }
@@ -574,73 +574,73 @@ public class PermissionExample {
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingIsNull() {
-            addCriterion("PERMISSION_MENU_SORTING is null");
+        public Criteria andMenuSortingIsNull() {
+            addCriterion("MENU_SORTING is null");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingIsNotNull() {
-            addCriterion("PERMISSION_MENU_SORTING is not null");
+        public Criteria andMenuSortingIsNotNull() {
+            addCriterion("MENU_SORTING is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingEqualTo(String value) {
-            addCriterion("PERMISSION_MENU_SORTING =", value, "permissionMenuSorting");
+        public Criteria andMenuSortingEqualTo(String value) {
+            addCriterion("MENU_SORTING =", value, "menuSorting");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingNotEqualTo(String value) {
-            addCriterion("PERMISSION_MENU_SORTING <>", value, "permissionMenuSorting");
+        public Criteria andMenuSortingNotEqualTo(String value) {
+            addCriterion("MENU_SORTING <>", value, "menuSorting");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingGreaterThan(String value) {
-            addCriterion("PERMISSION_MENU_SORTING >", value, "permissionMenuSorting");
+        public Criteria andMenuSortingGreaterThan(String value) {
+            addCriterion("MENU_SORTING >", value, "menuSorting");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingGreaterThanOrEqualTo(String value) {
-            addCriterion("PERMISSION_MENU_SORTING >=", value, "permissionMenuSorting");
+        public Criteria andMenuSortingGreaterThanOrEqualTo(String value) {
+            addCriterion("MENU_SORTING >=", value, "menuSorting");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingLessThan(String value) {
-            addCriterion("PERMISSION_MENU_SORTING <", value, "permissionMenuSorting");
+        public Criteria andMenuSortingLessThan(String value) {
+            addCriterion("MENU_SORTING <", value, "menuSorting");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingLessThanOrEqualTo(String value) {
-            addCriterion("PERMISSION_MENU_SORTING <=", value, "permissionMenuSorting");
+        public Criteria andMenuSortingLessThanOrEqualTo(String value) {
+            addCriterion("MENU_SORTING <=", value, "menuSorting");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingLike(String value) {
-            addCriterion("PERMISSION_MENU_SORTING like", value, "permissionMenuSorting");
+        public Criteria andMenuSortingLike(String value) {
+            addCriterion("MENU_SORTING like", value, "menuSorting");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingNotLike(String value) {
-            addCriterion("PERMISSION_MENU_SORTING not like", value, "permissionMenuSorting");
+        public Criteria andMenuSortingNotLike(String value) {
+            addCriterion("MENU_SORTING not like", value, "menuSorting");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingIn(List<String> values) {
-            addCriterion("PERMISSION_MENU_SORTING in", values, "permissionMenuSorting");
+        public Criteria andMenuSortingIn(List<String> values) {
+            addCriterion("MENU_SORTING in", values, "menuSorting");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingNotIn(List<String> values) {
-            addCriterion("PERMISSION_MENU_SORTING not in", values, "permissionMenuSorting");
+        public Criteria andMenuSortingNotIn(List<String> values) {
+            addCriterion("MENU_SORTING not in", values, "menuSorting");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingBetween(String value1, String value2) {
-            addCriterion("PERMISSION_MENU_SORTING between", value1, value2, "permissionMenuSorting");
+        public Criteria andMenuSortingBetween(String value1, String value2) {
+            addCriterion("MENU_SORTING between", value1, value2, "menuSorting");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionMenuSortingNotBetween(String value1, String value2) {
-            addCriterion("PERMISSION_MENU_SORTING not between", value1, value2, "permissionMenuSorting");
+        public Criteria andMenuSortingNotBetween(String value1, String value2) {
+            addCriterion("MENU_SORTING not between", value1, value2, "menuSorting");
             return (Criteria) this;
         }
 

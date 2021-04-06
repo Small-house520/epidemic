@@ -1,6 +1,9 @@
 package cn.edu.dgut.epidemic.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,27 +11,56 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
 import cn.edu.dgut.epidemic.pojo.EpidemicContact;
 import cn.edu.dgut.epidemic.pojo.EpidemicCureDeath;
 import cn.edu.dgut.epidemic.pojo.EpidemicDiagnosis;
 import cn.edu.dgut.epidemic.service.CampusEpidemicService;
+import cn.edu.dgut.epidemic.service.UserService;
 
 @Controller
 @RequestMapping("/campusEpidemic")
 public class CampusEpidemicController {
-	// public static Logger logger = Logger.getLogger(UserController.class);
 
 	@Autowired
 	private CampusEpidemicService campusEpidemicService;
+	
+	@Autowired
+	private UserService userService;
+
+	// 查看校内现有确诊患者信息
+	@RequestMapping("/diagnosis")
+	public String getDiagnosis(Model model) {
+		// 获取确诊患者信息
+		List<EpidemicDiagnosis> list = this.campusEpidemicService.getDiagnosis();
+		List<Long> ids = new ArrayList<Long>();
+		for (EpidemicDiagnosis diagnosis : list) {
+			ids.add(diagnosis.getCampusId());
+		}
+		List<CampusUserInfo> userInfos = this.userService.findUserByIds(ids);
+		model.addAttribute("diagnoses", list);
+		model.addAttribute("userInfo", userInfos);
+		return "epidemic/diagnosis";
+	}
 
 	// 查询校内现有确诊患者信息
-	@RequestMapping("/diagnosis")
-	public String getDiagnosis(EpidemicDiagnosis epidemicDiagnosis, Model model, HttpSession session) {
+	@RequestMapping("/findDiagnosis")
+	@ResponseBody
+	public Map<String, Object> findDiagnosis(EpidemicDiagnosis epidemicDiagnosis, String fullName) {
+		// 根据查询条件获取确诊患者信息
+		List<EpidemicDiagnosis> list = this.campusEpidemicService.findDiagnosis(epidemicDiagnosis, fullName);
 
-		List<EpidemicDiagnosis> list = this.campusEpidemicService.getDiagnosis(epidemicDiagnosis);
-		model.addAttribute("epidemicDiagnosis", list);
-		return "epidemic/diagnosis";
+		List<Long> ids = new ArrayList<Long>();
+		for (EpidemicDiagnosis diagnosis : list) {
+			ids.add(diagnosis.getCampusId());
+		}
+		List<CampusUserInfo> userInfos = this.userService.findUserByIds(ids);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("diagnoses", list);
+		map.put("userInfo", userInfos);
+		return map;
 	}
 
 	// 查询校内密切接触者信息

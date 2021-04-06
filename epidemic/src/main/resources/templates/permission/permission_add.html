@@ -46,7 +46,7 @@
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					权限分配列表&nbsp;&nbsp;&nbsp;
+					角色权限列表&nbsp;&nbsp;&nbsp;
 					<button type="button" class="btn btn-primary" title="新建"
 						data-toggle="modal" data-target="#editModal">新建权限</button>
 				</div>
@@ -59,18 +59,15 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="menu" items="${allPermissions}">
-								<tr>
-									<td><input type="checkbox" name="permissionIds"
-										value="${menu.id}" /> ${menu.name}</td>
-									<td><c:forEach var="subPermission"
-											items="${menu.children}">
-											<input type="checkbox" name="permissionIds"
-												value="${subPermission.id}" /> 
-		                        		&nbsp;&nbsp;${subPermission.name} [${subPermission.type}]<br />
-										</c:forEach></td>
-								</tr>
-							</c:forEach>
+							<tr th:each="menu:${allPermissions}">
+								<td><input type="checkbox" name="permissionIds"
+									th:value="${menu.id}" /></td>
+								<td th:each="subPermission:${menu.subMenu}"><input
+									type="checkbox" name="permissionIds"
+									th:value="${subPermission.permissionId}" /> &nbsp;&nbsp;<span
+									th:text="${subPermission.permissionName}">[${subPermission.type}]</span><br />
+								</td>
+							</tr>
 						</tbody>
 					</table>
 
@@ -95,12 +92,12 @@
 						<table class="table table-bordered table-striped" width="800px">
 							<tr>
 								<td>名称</td>
-								<td><input class="form-control" name="name" required
-									placeholder="名称"></td>
+								<td><input class="form-control" name="permissionName"
+									required placeholder="名称"></td>
 							</tr>
 							<tr>
 								<td>类型</td>
-								<td><select class="form-control" name="type">
+								<td><select class="form-control" name="permissionType">
 										<option value="menu">菜单</option>
 										<option value="permission">权限</option>
 										<option value="menu|permission">菜单|权限</option>
@@ -108,26 +105,26 @@
 							</tr>
 							<tr>
 								<td>链接</td>
-								<td><input class="form-control" name="url" placeholder="链接">
-								</td>
+								<td><input class="form-control" name="accessUrl"
+									placeholder="链接"></td>
 							</tr>
 							<tr>
 								<td>权限标识</td>
-								<td><input class="form-control" name="percode"
+								<td><input class="form-control" name="permissionCode"
 									placeholder="权限标识"></td>
 							</tr>
 							<tr>
 								<td>父节点</td>
-								<td><select class="form-control" name="parentid">
+								<td><select class="form-control" name="parentId">
 										<option value="1">权限</option>
-										<c:forEach var="menu" items="${menuTypes}">
-											<option value="${menu.id}">${menu.name}</option>
-										</c:forEach>
+										<option th:each="menu:${menuTypes}"
+											th:value=${menu.permissionId}
+											th:text="${menu.permissionName}"></option>
 								</select></td>
 							</tr>
 							<tr>
-								<td>是否可用</td>
-								<td><input type="checkbox" name="available" value="1" /></td>
+								<td>备注</td>
+								<td><input type="checkbox" name="remarks" /></td>
 							</tr>
 
 						</table>

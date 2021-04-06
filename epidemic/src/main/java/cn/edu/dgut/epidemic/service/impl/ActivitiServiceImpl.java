@@ -59,7 +59,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		try {
 			// 将File类型的文件转化成ZipInputStream流
 			ZipInputStream zipInputStream = new ZipInputStream(in);
-			repositoryService.createDeployment()// 创建部署对象
+			this.repositoryService.createDeployment()// 创建部署对象
 					.name(filename)// 添加部署名称
 					.addZipInputStream(zipInputStream).deploy();// 完成部署
 		} catch (Exception e) {

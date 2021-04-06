@@ -234,52 +234,52 @@ public class RolePermissionExample {
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdEqualTo(Short value) {
+        public Criteria andPermissionIdEqualTo(Integer value) {
             addCriterion("PERMISSION_ID =", value, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdNotEqualTo(Short value) {
+        public Criteria andPermissionIdNotEqualTo(Integer value) {
             addCriterion("PERMISSION_ID <>", value, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdGreaterThan(Short value) {
+        public Criteria andPermissionIdGreaterThan(Integer value) {
             addCriterion("PERMISSION_ID >", value, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdGreaterThanOrEqualTo(Short value) {
+        public Criteria andPermissionIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("PERMISSION_ID >=", value, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdLessThan(Short value) {
+        public Criteria andPermissionIdLessThan(Integer value) {
             addCriterion("PERMISSION_ID <", value, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdLessThanOrEqualTo(Short value) {
+        public Criteria andPermissionIdLessThanOrEqualTo(Integer value) {
             addCriterion("PERMISSION_ID <=", value, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdIn(List<Short> values) {
+        public Criteria andPermissionIdIn(List<Integer> values) {
             addCriterion("PERMISSION_ID in", values, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdNotIn(List<Short> values) {
+        public Criteria andPermissionIdNotIn(List<Integer> values) {
             addCriterion("PERMISSION_ID not in", values, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdBetween(Short value1, Short value2) {
+        public Criteria andPermissionIdBetween(Integer value1, Integer value2) {
             addCriterion("PERMISSION_ID between", value1, value2, "permissionId");
             return (Criteria) this;
         }
 
-        public Criteria andPermissionIdNotBetween(Short value1, Short value2) {
+        public Criteria andPermissionIdNotBetween(Integer value1, Integer value2) {
             addCriterion("PERMISSION_ID not between", value1, value2, "permissionId");
             return (Criteria) this;
         }

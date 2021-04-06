@@ -6,7 +6,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>出入校园记录</title>
-<!-- Tell the browser to be responsive to screen width -->
 <meta
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
@@ -46,12 +45,14 @@
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
 					姓名： <input type="text" id="fullName" name="fullName"
-						placeholder="姓名" value=""> 状态：<input type="text"
-						id="state" name="state" placeholder="状态" value=""> 手机号码： <input
-						type="number" id="phoneNumber" name="phoneNumber"
-						placeholder="手机号码" value=""> 记录时间： <input type="datetime"
-						id="recordDate" name="recordDate" placeholder="记录时间" value="">
-					<button class="btn btn-default">查询</button>
+						placeholder="姓名" value=""> 状态：<select id="state"
+						name="state">
+						<option value="" selected="selected">请选择</option>
+						<option value="i">进入学校</option>
+						<option value="o">离开学校</option>
+					</select> 记录时间(及之后)：<input type="date" id="recordDate" name="recordDate"
+						value="">
+					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
 			<!--工具栏/-->
@@ -61,8 +62,6 @@
 				class="table table-bordered table-striped table-hover dataTable">
 				<thead>
 					<tr>
-						<th class="" style="padding-right: 0px"><input id="selall"
-							type="checkbox" class="icheckbox_square-blue"></th>
 						<th class="sorting_asc">记录ID</th>
 						<th class="sorting">姓名</th>
 						<th class="sorting">单位</th>
@@ -72,62 +71,39 @@
 						<th class="sorting">状态</th>
 						<th class="sorting">记录时间</th>
 
-
 						<th class="text-center">操作</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>1</td>
-						<td>梦琪琪商贸有限公司</td>
-						<td>梦琪琪</td>
-						<td>李梦琪</td>
-						<td>13402312232</td>
-						<td>梦琪琪</td>
-						<td>李梦琪</td>
-						<td>13402312232</td>
+				<tbody id="tb">
+					<tr th:each="accessRecord:${accessRecords}">
+						<td th:text="${accessRecord.recordId}"></td>
+						<td th:text="${accessRecord.fullName}"></td>
+						<td th:text="${accessRecord.unit}"></td>
+						<td th:text="${accessRecord.phoneNumber}"></td>
+						<td th:text="${accessRecord.reason}"></td>
+						<td th:text="${accessRecord.examiner}"></td>
+						<td th:text="${accessRecord.state=='i'?'进入学校':'离开学校'}"></td>
+						<td th:text="${#dates.format(accessRecord.recordDate,'yyyy-MM-dd HH:mm:ss')}"></td>
 
 						<td class="text-center">
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">详情</button>
-						</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>2</td>
-						<td>黑瞎子苹果专卖店</td>
-						<td>黑瞎子</td>
-						<td>孙大鹏</td>
-						<td>13622244111</td>
-						<td>黑瞎子</td>
-						<td>孙大鹏</td>
-						<td>13622244111</td>
-
-						<td class="text-center">
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">详情</button>
+							<button type="button" class="btn bg-olive btn-xs" th:onclick="fillRecordModal([[${accessRecord}]])"
+								data-toggle="modal" data-target="#recordModal">详情</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<!--数据列表/-->
 
-
 		</div>
 		<!-- 数据表格 /-->
-
-
-
 
 	</div>
 	<!-- /.box-body -->
 
 
 
-
 	<!-- 商家详情 -->
-	<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog"
+	<div class="modal fade" id="recordModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -149,19 +125,19 @@
 							<table class="table table-bordered table-striped">
 								<tr>
 									<td>是否驾车</td>
-									<td>7822332278223322</td>
+									<td id="whetherDrive"></td>
 								</tr>
 								<tr>
 									<td>驾驶人</td>
-									<td>7822332278223322</td>
+									<td id="driver"></td>
 								</tr>
 								<tr>
 									<td>车牌号</td>
-									<td>7822332278223322</td>
+									<td id="carNumber"></td>
 								</tr>
 								<tr>
 									<td>备注</td>
-									<td>7822332278223322</td>
+									<td id="remarks"></td>
 								</tr>
 							</table>
 						</div>
@@ -169,13 +145,8 @@
 					</div>
 					<!-- 选项卡结束 -->
 
-
 				</div>
 				<div class="modal-footer">
-					<!-- <button class="btn btn-success" data-dismiss="modal"
-							aria-hidden="true">审核通过</button>
-						<button class="btn btn-danger" data-dismiss="modal"
-							aria-hidden="true">审核未通过</button> -->
 					<button class="btn btn-default" data-dismiss="modal"
 						aria-hidden="true">关闭</button>
 				</div>
@@ -183,7 +154,100 @@
 		</div>
 	</div>
 
-
 </body>
+
+<script th:inline="javascript">
+	$(function() {
+		// 查询绑定点击事件
+		$("#query").click(function() {
+			doAjax();
+		})
+	})
+
+	// 利用Ajax实现分页
+	function doAjax() {
+		var fullName = $("#fullName").val();
+		var state = $("#state").val();
+		var recordDate = $("#recordDate").val();
+
+		$.ajax({
+			url : "../campus/findrecords",
+			type : "post",
+			data : {
+				"fullName" : fullName,
+				"state" : state,
+				"recordDate" : recordDate
+			},
+			dataType : "json",
+			success : function(map) {
+				show(map);
+			}
+		})
+	}
+
+	function show(map) {
+		var accessRecords = map.accessRecords; //获取到map中的accessRecords集合
+
+		// 先清空原来的内容
+		$("#tb").empty();
+		var user_tr = "<tr>";
+		if (accessRecords != null && accessRecords.length > 0) {
+			// 拼接内容
+			$.each(accessRecords, function(i, accessRecord) {
+				user_tr += "<td>";
+				user_tr += accessRecord.recordId;
+				user_tr += "</td><td>";
+				user_tr += accessRecord.fullName;
+				user_tr += "</td><td>";
+				user_tr += accessRecord.unit;
+				user_tr += "</td><td>";
+				user_tr += accessRecord.phoneNumber;
+				user_tr += "</td><td>";
+				user_tr += accessRecord.reason;
+				user_tr += "</td><td>";
+				user_tr += accessRecord.examiner;
+				user_tr += "</td><td>";
+				if (accessRecord.state == "i") {
+					user_tr += "进入学校";
+				} else {
+					user_tr += "离开学校";
+				}
+				user_tr += "</td><td>";
+				user_tr += accessRecord.recordDate;
+				user_tr += "</td><td>";
+				user_tr += "</td><td class='text-center'>";
+				user_tr += "<button type='button' class='btn bg-olive btn-xs' onclick='fillRecordModal("+ accessRecord+")'";
+				user_tr += "data-toggle='modal' data-target='#recordModal'>详情</button></td></tr>";
+
+			});
+		} else {
+			user_tr = "<tr style='text-align: center;'><td colspan='12'>没有查询到相关记录！</td></tr>";
+		}
+
+		$("#tb").html(user_tr);
+
+	}
+</script>
+
+<script th:inline="javascript">
+	//设置记录详情的值
+	function fillRecordModal(accessRecord) {
+		// 根据id获取各对象
+		var whetherDrive = document.getElementById("whetherDrive");
+		var driver = document.getElementById("driver");
+		var carNumber = document.getElementById("carNumber");
+		var remarks = document.getElementById("remarks");
+		
+		// 设置td的值
+		if(accessRecord.whetherDrive == "y"){
+			whetherDrive.innerText = "是";
+			driver.innerText = accessRecord.driver;
+			carNumber.innerText = accessRecord.carNumber;
+		}else{
+			whetherDrive.innerText = "否";
+		}
+		remarks.innerText = accessRecord.remarks;
+	}
+</script>
 
 </html>

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.RolePermission" >
     <id column="ROLE_PERMISSION_ID" property="rolePermissionId" jdbcType="SMALLINT" />
     <result column="ROLE_ID" property="roleId" jdbcType="SMALLINT" />
-    <result column="PERMISSION_ID" property="permissionId" jdbcType="SMALLINT" />
+    <result column="PERMISSION_ID" property="permissionId" jdbcType="INTEGER" />
     <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -101,7 +101,7 @@
   <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.RolePermission" >
     insert into role_permission (ROLE_PERMISSION_ID, ROLE_ID, PERMISSION_ID, 
       REMARKS)
-    values (#{rolePermissionId,jdbcType=SMALLINT}, #{roleId,jdbcType=SMALLINT}, #{permissionId,jdbcType=SMALLINT}, 
+    values (#{rolePermissionId,jdbcType=SMALLINT}, #{roleId,jdbcType=SMALLINT}, #{permissionId,jdbcType=INTEGER}, 
       #{remarks,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.RolePermission" >
@@ -128,7 +128,7 @@
         #{roleId,jdbcType=SMALLINT},
       </if>
       <if test="permissionId != null" >
-        #{permissionId,jdbcType=SMALLINT},
+        #{permissionId,jdbcType=INTEGER},
       </if>
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
@@ -151,7 +151,7 @@
         ROLE_ID = #{record.roleId,jdbcType=SMALLINT},
       </if>
       <if test="record.permissionId != null" >
-        PERMISSION_ID = #{record.permissionId,jdbcType=SMALLINT},
+        PERMISSION_ID = #{record.permissionId,jdbcType=INTEGER},
       </if>
       <if test="record.remarks != null" >
         REMARKS = #{record.remarks,jdbcType=VARCHAR},
@@ -165,7 +165,7 @@
     update role_permission
     set ROLE_PERMISSION_ID = #{record.rolePermissionId,jdbcType=SMALLINT},
       ROLE_ID = #{record.roleId,jdbcType=SMALLINT},
-      PERMISSION_ID = #{record.permissionId,jdbcType=SMALLINT},
+      PERMISSION_ID = #{record.permissionId,jdbcType=INTEGER},
       REMARKS = #{record.remarks,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -178,7 +178,7 @@
         ROLE_ID = #{roleId,jdbcType=SMALLINT},
       </if>
       <if test="permissionId != null" >
-        PERMISSION_ID = #{permissionId,jdbcType=SMALLINT},
+        PERMISSION_ID = #{permissionId,jdbcType=INTEGER},
       </if>
       <if test="remarks != null" >
         REMARKS = #{remarks,jdbcType=VARCHAR},
@@ -189,7 +189,7 @@
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.RolePermission" >
     update role_permission
     set ROLE_ID = #{roleId,jdbcType=SMALLINT},
-      PERMISSION_ID = #{permissionId,jdbcType=SMALLINT},
+      PERMISSION_ID = #{permissionId,jdbcType=INTEGER},
       REMARKS = #{remarks,jdbcType=VARCHAR}
     where ROLE_PERMISSION_ID = #{rolePermissionId,jdbcType=SMALLINT}
   </update>

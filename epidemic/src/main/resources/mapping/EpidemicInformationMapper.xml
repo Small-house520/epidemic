@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.edu.dgut.epidemic.mapper.EpidemicInformationMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.EpidemicInformation" >
-    <id column="INFORMATION_ID" property="informationId" jdbcType="SMALLINT" />
+    <id column="INFORMATION_ID" property="informationId" jdbcType="INTEGER" />
     <result column="TITLE" property="title" jdbcType="VARCHAR" />
     <result column="CORRESPONDING_LINK" property="correspondingLink" jdbcType="VARCHAR" />
     <result column="RELEASE_TIME" property="releaseTime" jdbcType="TIMESTAMP" />
@@ -84,15 +84,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from epidemic_information
-    where INFORMATION_ID = #{informationId,jdbcType=SMALLINT}
+    where INFORMATION_ID = #{informationId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from epidemic_information
-    where INFORMATION_ID = #{informationId,jdbcType=SMALLINT}
+    where INFORMATION_ID = #{informationId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicInformationExample" >
     delete from epidemic_information
@@ -104,7 +104,7 @@
     insert into epidemic_information (INFORMATION_ID, TITLE, CORRESPONDING_LINK, 
       RELEASE_TIME, INFORMATION_FLAG, REMARKS
       )
-    values (#{informationId,jdbcType=SMALLINT}, #{title,jdbcType=VARCHAR}, #{correspondingLink,jdbcType=VARCHAR}, 
+    values (#{informationId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{correspondingLink,jdbcType=VARCHAR}, 
       #{releaseTime,jdbcType=TIMESTAMP}, #{informationFlag,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
       )
   </insert>
@@ -132,7 +132,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="informationId != null" >
-        #{informationId,jdbcType=SMALLINT},
+        #{informationId,jdbcType=INTEGER},
       </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
@@ -161,7 +161,7 @@
     update epidemic_information
     <set >
       <if test="record.informationId != null" >
-        INFORMATION_ID = #{record.informationId,jdbcType=SMALLINT},
+        INFORMATION_ID = #{record.informationId,jdbcType=INTEGER},
       </if>
       <if test="record.title != null" >
         TITLE = #{record.title,jdbcType=VARCHAR},
@@ -185,7 +185,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update epidemic_information
-    set INFORMATION_ID = #{record.informationId,jdbcType=SMALLINT},
+    set INFORMATION_ID = #{record.informationId,jdbcType=INTEGER},
       TITLE = #{record.title,jdbcType=VARCHAR},
       CORRESPONDING_LINK = #{record.correspondingLink,jdbcType=VARCHAR},
       RELEASE_TIME = #{record.releaseTime,jdbcType=TIMESTAMP},
@@ -214,7 +214,7 @@
         REMARKS = #{remarks,jdbcType=VARCHAR},
       </if>
     </set>
-    where INFORMATION_ID = #{informationId,jdbcType=SMALLINT}
+    where INFORMATION_ID = #{informationId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicInformation" >
     update epidemic_information
@@ -223,6 +223,6 @@
       RELEASE_TIME = #{releaseTime,jdbcType=TIMESTAMP},
       INFORMATION_FLAG = #{informationFlag,jdbcType=VARCHAR},
       REMARKS = #{remarks,jdbcType=VARCHAR}
-    where INFORMATION_ID = #{informationId,jdbcType=SMALLINT}
+    where INFORMATION_ID = #{informationId,jdbcType=INTEGER}
   </update>
 </mapper>

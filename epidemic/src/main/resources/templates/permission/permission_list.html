@@ -32,8 +32,7 @@ th, td {
 	//确认删除函数
 	function delConf(id) {
 		if (confirm("是否删除该角色")) {
-			window.location.href = "${pageContext.request.contextPath}/roledel?id="
-					+ id;
+			window.location.href = "../roledel?id=" + id;
 		}
 	}
 </script>
@@ -61,18 +60,17 @@ th, td {
 							<th width="50%">操作</th>
 						</tr>
 					</thead>
-					<tbody>
-						<c:forEach var="role" items="${allRoles}">
-							<tr id="${role.id}">
-								<td>${role.name}</td>
-								<td><a href="#" onclick="viewPermissions('${role.id}')"
-									class="btn btn-info btn-xs"><span
-										class="glyphicon glyphicon-edit"></span> 编辑</a> &nbsp;&nbsp;<a
-									href="#" onclick="delConf(${role.id})"
-									class="btn btn-danger btn-xs"><span
-										class="glyphicon glyphicon-remove"></span> 删除</a></td>
-							</tr>
-						</c:forEach>
+					<tbody th:each="role:${allRoles}">
+						<tr id="${role.roleId}">
+							<td th:text="${role.roleName}"></td>
+							<td><a href="#"
+								onclick="viewPermissions([[${role.roleId}]])"
+								class="btn btn-info btn-xs"><span
+									class="glyphicon glyphicon-edit"></span> 编辑</a> &nbsp;&nbsp;<a
+								href="#" onclick="delConf([[${role.roleId}]])"
+								class="btn btn-danger btn-xs"><span
+									class="glyphicon glyphicon-remove"></span> 删除</a></td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -81,12 +79,12 @@ th, td {
 
 	<!-- 编辑窗口 -->
 	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
+		aria-labelledby="editModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" onclick="closePanel()">×</button>
-					<h3 id="myModalLabel">权限列表</h3>
+					<h3 id="editModalLabel">权限列表</h3>
 				</div>
 				<form id="permissionForm" action="updateRoleAndPermission"
 					method="post">
@@ -95,24 +93,21 @@ th, td {
 						<table class="table table-bordered" width="800px">
 							<thead>
 								<tr>
-									<th width="30%">角色
-									</td>
+									<th width="30%">角色</th>
 									<th width="70%">权限</th>
 								</tr>
 							</thead>
 							<tbody id="roleListBody">
-								<c:forEach var="menu" items="${allMenuAndPermissions}">
-									<tr>
-										<td><input id="chk${menu.id}" type="checkbox"
-											name="permissionIds" value="${menu.id}" /> ${menu.name}</td>
-										<td><c:forEach var="permission" items="${menu.children}">
-												<input id="chk${permission.id}" type="checkbox"
-													name="permissionIds" value="${permission.id}" />
-                					${permission.name}[${permission.type}]
-                					<br />
-											</c:forEach></td>
-									</tr>
-								</c:forEach>
+								<tr th:each="menu:${allMenuAndPermissions}">
+									<td th:text="${menu.name}"><input
+										id="chk${menu.id}" type="checkbox" name="permissionIds"
+										th:value="${menu.id}" /></td>
+									<td th:each="permission:${menu.subMenu}"
+										th:text="${permission.permissionName}"><input
+										id="chk${permission.permissionId}" type="checkbox"
+										name="permissionIds" value="${permission.permissionId}" />
+										[${permission.type}] <br /></td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -130,7 +125,7 @@ th, td {
 			function viewPermissions(role_id) {
 				$('#roleId').val(role_id);
 				$.ajax({
-					url : 'loadMyPermissions',
+					url : '../role/loadMyPermissions',
 					type : 'post',
 					data : {
 						roleId : role_id
@@ -138,8 +133,8 @@ th, td {
 					dataType : 'json',
 					success : function(permissionList) {
 						//$("input[type=checkbox]").attr('checked',false);
-						$.each(permissionList, function(i, perm) {
-							$('#chk' + perm.id).attr('checked', true);
+						$.each(permissionList, function(i, permission) {
+							$('#chk' + permission.id).attr('checked', true);
 						});
 						$("#editModal").modal("show");
 					},
@@ -150,7 +145,7 @@ th, td {
 			}
 
 			function closePanel() {
-				location = "findRoles";
+				location = "../role/findRoles";
 			}
 		</script>
 </body>
@@ -176,7 +171,7 @@ th, td {
         pageSize: 5,         	//默认一页显示的行数
         paginationLoop: false,  //是否开启分页条无限循环，最后一页时点击下一页是否转到第一页
         pageList: [5,10,20],   	//选择每页显示多少行
-        search: true,			//启用关键字搜索框
+        search: false,			//启用关键字搜索框
         sortable: true	 		// 是否启用排序
         
     });

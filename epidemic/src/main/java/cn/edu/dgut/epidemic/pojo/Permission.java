@@ -1,7 +1,7 @@
 package cn.edu.dgut.epidemic.pojo;
 
 public class Permission {
-    private Short permissionId;
+    private Integer permissionId;
 
     private String permissionName;
 
@@ -11,19 +11,19 @@ public class Permission {
 
     private String permissionCode;
 
-    private Short parentId;
+    private Integer parentId;
 
     private String parentIdList;
 
-    private String permissionMenuSorting;
+    private String menuSorting;
 
     private String remarks;
 
-    public Short getPermissionId() {
+    public Integer getPermissionId() {
         return permissionId;
     }
 
-    public void setPermissionId(Short permissionId) {
+    public void setPermissionId(Integer permissionId) {
         this.permissionId = permissionId;
     }
 
@@ -59,11 +59,11 @@ public class Permission {
         this.permissionCode = permissionCode == null ? null : permissionCode.trim();
     }
 
-    public Short getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(Short parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
@@ -75,12 +75,12 @@ public class Permission {
         this.parentIdList = parentIdList == null ? null : parentIdList.trim();
     }
 
-    public String getPermissionMenuSorting() {
-        return permissionMenuSorting;
+    public String getMenuSorting() {
+        return menuSorting;
     }
 
-    public void setPermissionMenuSorting(String permissionMenuSorting) {
-        this.permissionMenuSorting = permissionMenuSorting == null ? null : permissionMenuSorting.trim();
+    public void setMenuSorting(String menuSorting) {
+        this.menuSorting = menuSorting == null ? null : menuSorting.trim();
     }
 
     public String getRemarks() {

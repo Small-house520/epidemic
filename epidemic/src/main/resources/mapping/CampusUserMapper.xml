@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.edu.dgut.epidemic.mapper.CampusUserMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.CampusUser" >
-    <id column="USER_ID" property="userId" jdbcType="SMALLINT" />
+    <id column="USER_ID" property="userId" jdbcType="INTEGER" />
     <result column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
     <result column="USER_PASSWORD" property="userPassword" jdbcType="VARCHAR" />
     <result column="USERNAME" property="username" jdbcType="VARCHAR" />
@@ -83,15 +83,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from campus_user
-    where USER_ID = #{userId,jdbcType=SMALLINT}
+    where USER_ID = #{userId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from campus_user
-    where USER_ID = #{userId,jdbcType=SMALLINT}
+    where USER_ID = #{userId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.CampusUserExample" >
     delete from campus_user
@@ -102,7 +102,7 @@
   <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.CampusUser" >
     insert into campus_user (USER_ID, CAMPUS_ID, USER_PASSWORD, 
       USERNAME, ROLE_ID)
-    values (#{userId,jdbcType=SMALLINT}, #{campusId,jdbcType=BIGINT}, #{userPassword,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{campusId,jdbcType=BIGINT}, #{userPassword,jdbcType=VARCHAR}, 
       #{username,jdbcType=VARCHAR}, #{roleId,jdbcType=SMALLINT})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.CampusUser" >
@@ -126,7 +126,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
-        #{userId,jdbcType=SMALLINT},
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="campusId != null" >
         #{campusId,jdbcType=BIGINT},
@@ -152,7 +152,7 @@
     update campus_user
     <set >
       <if test="record.userId != null" >
-        USER_ID = #{record.userId,jdbcType=SMALLINT},
+        USER_ID = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.campusId != null" >
         CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
@@ -173,7 +173,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update campus_user
-    set USER_ID = #{record.userId,jdbcType=SMALLINT},
+    set USER_ID = #{record.userId,jdbcType=INTEGER},
       CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
       USER_PASSWORD = #{record.userPassword,jdbcType=VARCHAR},
       USERNAME = #{record.username,jdbcType=VARCHAR},
@@ -198,7 +198,7 @@
         ROLE_ID = #{roleId,jdbcType=SMALLINT},
       </if>
     </set>
-    where USER_ID = #{userId,jdbcType=SMALLINT}
+    where USER_ID = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.CampusUser" >
     update campus_user
@@ -206,6 +206,6 @@
       USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
       USERNAME = #{username,jdbcType=VARCHAR},
       ROLE_ID = #{roleId,jdbcType=SMALLINT}
-    where USER_ID = #{userId,jdbcType=SMALLINT}
+    where USER_ID = #{userId,jdbcType=INTEGER}
   </update>
 </mapper>

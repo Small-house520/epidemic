@@ -114,52 +114,52 @@ public class CampusUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andUserIdEqualTo(Short value) {
+        public Criteria andUserIdEqualTo(Integer value) {
             addCriterion("USER_ID =", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdNotEqualTo(Short value) {
+        public Criteria andUserIdNotEqualTo(Integer value) {
             addCriterion("USER_ID <>", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdGreaterThan(Short value) {
+        public Criteria andUserIdGreaterThan(Integer value) {
             addCriterion("USER_ID >", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdGreaterThanOrEqualTo(Short value) {
+        public Criteria andUserIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("USER_ID >=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdLessThan(Short value) {
+        public Criteria andUserIdLessThan(Integer value) {
             addCriterion("USER_ID <", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdLessThanOrEqualTo(Short value) {
+        public Criteria andUserIdLessThanOrEqualTo(Integer value) {
             addCriterion("USER_ID <=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdIn(List<Short> values) {
+        public Criteria andUserIdIn(List<Integer> values) {
             addCriterion("USER_ID in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdNotIn(List<Short> values) {
+        public Criteria andUserIdNotIn(List<Integer> values) {
             addCriterion("USER_ID not in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdBetween(Short value1, Short value2) {
+        public Criteria andUserIdBetween(Integer value1, Integer value2) {
             addCriterion("USER_ID between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdNotBetween(Short value1, Short value2) {
+        public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
             addCriterion("USER_ID not between", value1, value2, "userId");
             return (Criteria) this;
         }

@@ -22,6 +22,336 @@
 <script src="../bootstrap/js/bootstrap-table.min.js"></script>
 <script src="../bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
 
+</head>
+
+<body class="hold-transition skin-red sidebar-mini">
+	<!-- .box-body -->
+	<div class="box-header with-border">
+		<h3 class="box-title">账号信息</h3>
+	</div>
+
+	<div class="box-body">
+
+		<!-- 数据表格 -->
+		<div class="table-box">
+
+			<!--工具栏-->
+			<div class="pull-left">
+				<div class="form-group form-inline">
+					<div class="btn-group">
+						<!-- <button type="button" class="btn btn-default" title="新建"
+							data-toggle="modal" data-target="#addModal">
+							<i class="fa fa-file-o"></i> 新建
+						</button> -->
+						<button type="button" class="btn btn-default" id="delete" title="删除">
+							<i class="fa fa-trash-o"></i> 删除
+						</button>
+						<button type="button" class="btn btn-default" title="刷新"
+							onclick="window.location.reload();">
+							<i class="fa fa-refresh"></i> 刷新
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="box-tools pull-right">
+				<div class="has-feedback">
+					账号：<input type="text" id="campusIdFind" name="campusId"
+						placeholder="编号" value="" maxlength="12"> 用户名： <input
+						type="text" id="usernameFind" name="username" placeholder="用户名"
+						value="">
+					<button id="query" class="btn btn-default">查询</button>
+				</div>
+			</div>
+			<!--工具栏/-->
+
+			<!--数据列表-->
+			<table id="dataList"
+				class="table table-bordered table-striped table-hover dataTable">
+				<thead>
+					<tr>
+						<th class="" style="padding-right: 0px"><input id="selall" name="box"
+							type="checkbox" class="icheckbox_square-blue" onclick="setChecked(this)"></th>
+						<th class="sorting_asc">用户编号</th>
+						<th class="sorting">账号</th>
+						<th class="sorting">密码</th>
+						<th class="sorting">用户名</th>
+						<th class="sorting">角色</th>
+
+						<th class="text-center">操作</th>
+					</tr>
+				</thead>
+				<tbody id="tb">
+					<tr th:each="user:${users}" name="trCheck">
+						<td><input type="checkbox" name="box" th:value="${user.userId}" onclick="setChecked(this)"></td>
+						<td th:text="${user.userId}"></td>
+						<td th:text="${user.campusId}"></td>
+						<td th:text="${user.userPassword}"></td>
+						<td th:text="${user.username}"></td>
+						<td>
+							<select class="form-control" th:onchange="assignRole(this.value,[[${user.campusId}]])">
+								<option>未分配</option>
+								<option th:each="role:${roles}" th:value="${role.roleId}"
+										th:text="${role.roleName}"  th:selected="${user.roleId}==${role.roleId}?true:false"></option>
+							</select>
+						</td>
+
+						<td class="text-center">
+							<button type="button" class="btn bg-olive btn-xs"
+								data-toggle="modal" data-target="#editModal"
+								th:onclick="fillTable([[${user}]])">编辑</button>
+							<button type="button" th:onclick="viewPermission([[${user.campusId}]])"
+								class="btn bg-olive btn-xs" data-toggle="modal"
+								data-target="#viewModal">查看权限</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!--数据列表/-->
+
+		</div>
+		<!-- 数据表格 /-->
+
+	</div>
+	<!-- /.box-body -->
+
+
+	<!-- 新建窗口 -->
+	<!-- <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+		aria-labelledby="addModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 id="addModalLabel">新建账号</h3>
+				</div>
+				<form action="../user/accountadd" method="post">
+					<div class="modal-body">
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>账号</td>
+								<td><input type="text" id="campusId" name="campusId"
+									class="form-control" maxlength="12"></td>
+							</tr>
+							<tr>
+								<td>密码</td>
+								<td><input type="text" id="userPassword"
+									name="userPassword" class="form-control"></td>
+							</tr>
+							<tr>
+								<td>用户名</td>
+								<td><input type="text" id="username" name="username"
+									class="form-control"></td>
+							</tr>
+							<tr>
+								<td>对应的角色ID</td>
+								<td><input type="number" id="roleId" name="roleId"
+									class="form-control"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">保 存</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关 闭</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div> -->
+
+
+	<!-- 编辑窗口 -->
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 id="myModalLabel">账号编辑</h3>
+				</div>
+				<form action="../user/accountedit" method="post" onsubmit="return verify()">
+					<input type="hidden" id="userId2" name="userId"
+						class="form-control">
+					<div class="modal-body">
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>账号</td>
+								<td><input type="text" id="campusId2" name="campusId"
+									class="form-control" maxlength="12" readonly="readonly"></td>
+								<td><span id="campusIdCheck"></span></td>
+							</tr>
+							<tr>
+								<td>密码</td>
+								<td><input type="text" id="userPassword2"
+									name="userPassword" class="form-control"></td>
+							</tr>
+							<tr>
+								<td>用户名</td>
+								<td><input type="text" id="username2" name="username"
+									class="form-control"></td>
+								<td><span id="usernameCheck"></span></td>
+							</tr>
+							<tr>
+								<td>角色</td>
+								<td><select id="roleId" name="roleId"  class="form-control">
+									<option value="">未分配</option>
+									<option th:each="role:${roles}" th:value="${role.roleId}" 
+											th:text="${role.roleName}"></option>
+								</select></td>
+							</tr>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">保 存</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关 闭</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 查看用户角色权限窗口 -->
+	<div class="modal fade" id="viewModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 id="myModalLabel">权限列表</h3>
+				</div>
+				<div class="modal-body" id="roleList">
+					<table class="table table-bordered" width="800px">
+						<thead>
+							<tr>
+								<th>角色
+								</td>
+								<th>权限</th>
+							</tr>
+						</thead>
+						<tbody id="roleListBody">
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-default" data-dismiss="modal"
+						aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+
+<script type="text/javascript">
+	$("#campusId,#campusIdFind").keyup(function() {//控制输入的账号只能为数字
+		var value = $(this);
+		//替换非数字字符
+		var temp = "";
+		if (value.val().length == 1) {
+			temp = value.val().replace(/[^1-9]/g, '');
+			$(this).val(temp);
+		} else if (/[^\d]/.test(value.val())) {
+			temp = value.val().replace(/[^\d]/g, '');
+			$(this).val(temp);
+		}
+	})
+	
+	
+	//重新分配角色权限
+	function assignRole(rid, id) {
+		var url = "../role/assignRole";
+		var params = {
+			campusId : id,
+			roleId : rid
+		};
+		$.getJSON(url, params, function(result) {
+			alert(result.msg);
+		});
+	}
+	
+	var flag = 0;
+	$(function() {
+		
+		// 使用Ajax异步获取后台用户账号注册情况
+		/* $("#campusId2").keyup(function() {
+			var campusId = $("#campusId2").val();
+			
+			var value = $(this);
+			//替换非数字字符
+			var temp = "";
+			if (value.val().length == 1) {
+				temp = value.val().replace(/[^1-9]/g, '');
+				$(this).val(temp);
+			} else if (/[^\d]/.test(value.val())) {
+				temp = value.val().replace(/[^\d]/g, '');
+				$(this).val(temp);
+			}
+			
+			// get的方式向后台发送请求，第一个参数为发送的地址，第二个参数为发送的数据，function表示执行成功返回的数据
+			$.ajax({
+				url: "../user/idCheack",
+				type: "post",
+				data: {"campusId":campusId},
+				dataType: "json",
+				
+				success: function(num) {
+					if (num == "1") {
+						$("#campusIdCheck").html("<span style='color: red;'>账号已存在！</span>");
+						flag = 1;
+					} else {
+						$("#campusIdCheck").html("<span style='color: green;'>账号可使用！</span>");
+						if(flag != 2){
+							flag = 0;
+						}
+					}
+				}
+			})
+		}); */
+		$("#username2").keyup(function() {
+			var username = $("#username2").val();
+			// get的方式向后台发送请求，第一个参数为发送的地址，第二个参数为发送的数据，function表示执行成功返回的数据
+			$.ajax({
+				url: "../user/nameCheack",
+				type: "post",
+				data: {"username":username},
+				dataType: "json",
+				
+				success: function(num) {
+					if(num == "2") {
+						$("#usernameCheck").html("<span style='color: red;'>用户名已存在！</span>");
+						flag = 2;
+					} else {
+						$("#usernameCheck").html("<span style='color: green;'>用户名可使用！</span>");
+						if(flag != 1){
+							flag = 0;
+						}
+					}
+				}
+			})
+		});
+
+	})
+	
+	// form表单提交时先进行判断
+	function verify() {
+		/* if (flag == 1) {
+			alert("账号已存在");
+			return false;
+		} */
+		if (flag == 2) {
+			alert("用户名已存在");
+			return false;
+		}
+		return true;
+	}
+	
+</script>
+
 <script type="text/javascript">
 	
 	/** 给全选按钮绑定点击事件  */
@@ -85,9 +415,9 @@
 		   /** 获取到用户选中的复选框  */
 		   var checkedBoxs = $("input[name='box']:checked");
 		   if(checkedBoxs.length < 1){
-			   alert("请选择需要删除的用户！");
+			   alert("请选择需要删除的账号！");
 		   }else{
-			  if(confirm("请确定是否删除该用户吗？")){
+			  if(confirm("请确定是否删除选中账号？")){
 				var ids = checkedBoxs.map(function() {
 					return this.value;
 				})
@@ -181,317 +511,6 @@
 	}
 </script>
 
-</head>
-
-<body class="hold-transition skin-red sidebar-mini">
-	<!-- .box-body -->
-	<div class="box-header with-border">
-		<h3 class="box-title">账号信息</h3>
-	</div>
-
-	<div class="box-body">
-
-		<!-- 数据表格 -->
-		<div class="table-box">
-
-			<!--工具栏-->
-			<div class="pull-left">
-				<div class="form-group form-inline">
-					<div class="btn-group">
-						<!-- <button type="button" class="btn btn-default" title="新建"
-							data-toggle="modal" data-target="#addModal">
-							<i class="fa fa-file-o"></i> 新建
-						</button> -->
-						<button type="button" class="btn btn-default" id="delete" title="删除">
-							<i class="fa fa-trash-o"></i> 删除
-						</button>
-						<button type="button" class="btn btn-default" title="刷新"
-							onclick="window.location.reload();">
-							<i class="fa fa-refresh"></i> 刷新
-						</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="box-tools pull-right">
-				<div class="has-feedback">
-					账号：<input type="text" id="campusIdFind" name="campusId"
-						placeholder="编号" value="" maxlength="12"> 用户名： <input
-						type="text" id="usernameFind" name="username" placeholder="用户名"
-						value="">
-					<button id="query" class="btn btn-default">查询</button>
-				</div>
-			</div>
-			<!--工具栏/-->
-
-			<!--数据列表-->
-			<table id="dataList"
-				class="table table-bordered table-striped table-hover dataTable">
-				<thead>
-					<tr>
-						<th class="" style="padding-right: 0px"><input id="selall" name="box"
-							type="checkbox" class="icheckbox_square-blue" onclick="setChecked(this)"></th>
-						<th class="sorting_asc">用户编号</th>
-						<th class="sorting">账号</th>
-						<th class="sorting">密码</th>
-						<th class="sorting">用户名</th>
-						<th class="sorting">角色</th>
-
-						<th class="text-center">操作</th>
-					</tr>
-				</thead>
-				<tbody id="tb">
-					<tr th:each="user:${users}" name="trCheck">
-						<td><input type="checkbox" name="box" th:value="${user.userId}" onclick="setChecked(this)"></td>
-						<td th:text="${user.userId}"></td>
-						<td th:text="${user.campusId}"></td>
-						<td th:text="${user.userPassword}"></td>
-						<td th:text="${user.username}"></td>
-						<td>
-							<select class="form-control" th:onchange="assignRole(this.value,[[${user.campusId}]])">
-										<option th:each="role:${roles}" th:value="${role.roleId}"
-												th:text="${role.roleName}"  th:selected="${user.roleId}==${role.roleId}?true:false"></option>
-							</select>
-						</td>
-
-						<td class="text-center">
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#editModal"
-								th:onclick="fillTable([[${user}]])">编辑</button>
-							<button type="button" th:onclick="viewPermission([[${user.campusId}]])"
-								class="btn bg-olive btn-xs" data-toggle="modal"
-								data-target="#viewModal">查看权限</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<!--数据列表/-->
-
-		</div>
-		<!-- 数据表格 /-->
-
-	</div>
-	<!-- /.box-body -->
-
-
-	<!-- 新建窗口 -->
-	<!-- <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
-		aria-labelledby="addModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
-					<h3 id="addModalLabel">新建账号</h3>
-				</div>
-				<form action="../user/accountadd" method="post">
-					<div class="modal-body">
-						<table class="table table-bordered table-striped" width="800px">
-							<tr>
-								<td>账号</td>
-								<td><input type="text" id="campusId" name="campusId"
-									class="form-control" maxlength="12"></td>
-							</tr>
-							<tr>
-								<td>密码</td>
-								<td><input type="text" id="userPassword"
-									name="userPassword" class="form-control"></td>
-							</tr>
-							<tr>
-								<td>用户名</td>
-								<td><input type="text" id="username" name="username"
-									class="form-control"></td>
-							</tr>
-							<tr>
-								<td>对应的角色ID</td>
-								<td><input type="number" id="roleId" name="roleId"
-									class="form-control"></td>
-							</tr>
-						</table>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-success">保 存</button>
-						<button class="btn btn-default" data-dismiss="modal"
-							aria-hidden="true">关 闭</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div> -->
-
-
-	<!-- 编辑窗口 -->
-	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
-					<h3 id="myModalLabel">账号编辑</h3>
-				</div>
-				<form action="../user/accountedit" method="post" onsubmit="return verify()">
-					<input type="hidden" id="userId2" name="userId"
-						class="form-control">
-					<div class="modal-body">
-						<table class="table table-bordered table-striped" width="800px">
-							<tr>
-								<td>账号</td>
-								<td><input type="text" id="campusId2" name="campusId"
-									class="form-control" maxlength="12"></td>
-								<td><span id="campusIdCheck"></span></td>
-							</tr>
-							<tr>
-								<td>密码</td>
-								<td><input type="text" id="userPassword2"
-									name="userPassword" class="form-control"></td>
-							</tr>
-							<tr>
-								<td>用户名</td>
-								<td><input type="text" id="username2" name="username"
-									class="form-control"></td>
-								<td><span id="usernameCheck"></span></td>
-							</tr>
-							<tr>
-								<td>角色</td>
-								<td><select id="roleId" name="roleId"  class="form-control">
-										<option th:each="role:${roles}" th:value="${role.roleId}" 
-												th:text="${role.roleName}"></option>
-								</select></td>
-							</tr>
-						</table>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-success">保 存</button>
-						<button class="btn btn-default" data-dismiss="modal"
-							aria-hidden="true">关 闭</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
-	<!-- 查看用户角色权限窗口 -->
-	<div class="modal fade" id="viewModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
-					<h3 id="myModalLabel">权限列表</h3>
-				</div>
-				<div class="modal-body" id="roleList">
-					<table class="table table-bordered" width="800px">
-						<thead>
-							<tr>
-								<th>角色
-								</td>
-								<th>权限</th>
-							</tr>
-						</thead>
-						<tbody id="roleListBody">
-						</tbody>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-default" data-dismiss="modal"
-						aria-hidden="true">关闭</button>
-				</div>
-			</div>
-		</div>
-
-	</div>
-</body>
-
-<script type="text/javascript">
-	$("#campusId,#campusId2,#campusIdFind").keyup(function() {//控制输入的账号只能为数字
-		var value = $(this);
-		//替换非数字字符
-		var temp = "";
-		if (value.val().length == 1) {
-			temp = value.val().replace(/[^1-9]/g, '');
-			$(this).val(temp);
-		} else if (/[^\d]/.test(value.val())) {
-			temp = value.val().replace(/[^\d]/g, '');
-			$(this).val(temp);
-		}
-	})
-	
-	
-	//重新分配角色权限
-	function assignRole(rid, id) {
-		var url = "../role/assignRole";
-		var params = {
-			campusId : id,
-			roleId : rid
-		};
-		$.getJSON(url, params, function(result) {
-			alert(result.msg);
-		});
-	}
-	
-	var flag = 0;
-	$(function() {
-		
-		// 使用Ajax异步获取后台用户账号注册情况
-		$("#campusId2").keyup(function() {
-			var campusId = $("#campusId2").val();
-			// get的方式向后台发送请求，第一个参数为发送的地址，第二个参数为发送的数据，function表示执行成功返回的数据
-			$.ajax({
-				url: "../user/idCheack",
-				type: "post",
-				data: {"campusId":campusId},
-				dataType: "json",
-				
-				success: function(num) {
-					if (num == "1") {
-						$("#campusIdCheck").html("<span style='color: red;'>账号已存在！</span>");
-						flag = 1;
-					} else {
-						$("#campusIdCheck").html("<span style='color: green;'>账号可使用！</span>");
-						flag = 0;
-					}
-				}
-			})
-		});
-		$("#username2").keyup(function() {
-			var username = $("#username2").val();
-			// get的方式向后台发送请求，第一个参数为发送的地址，第二个参数为发送的数据，function表示执行成功返回的数据
-			$.ajax({
-				url: "../user/nameCheack",
-				type: "post",
-				data: {"username":username},
-				dataType: "json",
-				
-				success: function(num) {
-					if(num == "2") {
-						$("#usernameCheck").html("<span style='color: red;'>用户名已存在！</span>");
-						flag = 2;
-					} else {
-						$("#usernameCheck").html("<span style='color: green;'>用户名可使用！</span>");
-						flag = 0;
-					}
-				}
-			})
-		});
-
-	})
-	
-	// form表单提交时先进行判断
-	function verify() {
-		if (flag == 1) {
-			alert("账号已存在");
-			return false;
-		}
-		if (flag == 2) {
-			alert("用户名已存在");
-			return false;
-		}
-		return true;
-	}
-	
-</script>
 
 <script th:inline="javascript">
 	// 设置表单的默认值
@@ -500,7 +519,11 @@
 		$("#campusId2").val(user.campusId);
 		$("#userPassword2").val(user.userPassword);
 		$("#username2").val(user.username);
-		$("#roleId").val(user.roleId);
+		// 先清空角色权限的值
+		$("#roleId").val("");
+		if(user.roleId!=null && user.roleId!=""){
+			$("#roleId").val(user.roleId);
+		}
 	}
 	
 </script>
@@ -518,20 +541,29 @@
 			success : function(role) {
 				//先清空原来的内容
 				$("#roleListBody").empty();
+				
+				if(role!=null && role.roleName!=null){
+					var role_td = "<td>" + role.roleName + "</td>";
+					var permission_td = "<td>";
+					var permission_list = role.permissionList;
+					$.each(permission_list, function(i, permission) {
+						permission_td += permission.permissionName + "【" + permission.permissionType + "】 <br/>"
+					});
+					permission_td += "</td>";
 
-				var role_td = "<td>" + role.roleName + "</td>";
-				var permission_td = "<td>";
-				var permission_list = role.permissionList;
-				$.each(permission_list, function(i, permission) {
-					permission_td += permission.permissionName + "【" + permission.permissionType + "】 <br/>"
-				});
-				permission_td += "</td>";
-
-				var roleRow = $("<tr>" + role_td + permission_td + "</tr>");
-				$("#roleListBody").append($(roleRow));
+					var roleRow = $("<tr>" + role_td + permission_td + "</tr>");
+					$("#roleListBody").append($(roleRow));
+				} else {
+					
+				}
+				
 			},
 			error : function(req, error) {
-				alert(req.status + ':' + error);
+				if(req.status == 200){
+					alert("该账号未分配角色权限！");
+				}else{
+					alert(req.status + ':' + error);
+				}
 			}
 		});
 	}

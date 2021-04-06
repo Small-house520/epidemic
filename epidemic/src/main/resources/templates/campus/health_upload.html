@@ -20,92 +20,130 @@
 <body class="hold-transition skin-red sidebar-mini">
 	<!-- 正文区域 -->
 	<section class="content">
+		<form action="../campus/healthupload" method="post">
+			<div class="box-body">
 
-		<div class="box-body">
+				<!--tab页-->
+				<div class="nav-tabs-custom">
 
-			<!--tab页-->
-			<div class="nav-tabs-custom">
+					<!--tab头-->
+					<ul class="nav nav-tabs">
 
-				<!--tab头-->
-				<ul class="nav nav-tabs">
+						<li class="active"><a href="#home" data-toggle="tab">体温行程填报</a>
+						</li>
+					</ul>
+					<!--tab头/-->
 
-					<li class="active"><a href="#home" data-toggle="tab">体温行程填报</a>
-					</li>
-				</ul>
-				<!--tab头/-->
+					<!--tab内容-->
+					<div class="tab-content">
 
-				<!--tab内容-->
-				<div class="tab-content">
+						<!--表单内容-->
+						<div class="tab-pane active" id="home">
+							<div class="row data-type">
 
-					<!--表单内容-->
-					<div class="tab-pane active" id="home">
-						<div class="row data-type">
+								<div class="col-md-2 title">编号</div>
+								<div class="col-md-10 data">
+									<input type="text" id="campusId" name="campusId"
+										readonly="readonly" class="form-control"
+										th:value="${userInfo.campusId}">
+								</div>
 
-							<div class="col-md-2 title">编号</div>
-							<div class="col-md-10 data">
-								<input type="number" id="campusId" name="campusId"
-									class="form-control" placeholder="编号" value="">
+								<div class="col-md-2 title">姓名</div>
+								<div class="col-md-10 data">
+									<input type="text" id="campusId" name="campusId"
+										readonly="readonly" class="form-control"
+										th:value="${userInfo.fullName}">
+								</div>
+
+								<div class="col-md-2 title">身体状况</div>
+								<div class="col-md-10 data">
+									<input type="text" id="physicalCondition" required="required"
+										name="physicalCondition" class="form-control" placeholder="良好">
+								</div>
+
+								<div class="col-md-2 title">近14天的行程记录</div>
+								<div class="col-md-10 data">
+									<input type="text" id="itineraryRecords"
+										name="itineraryRecords" class="form-control"
+										placeholder="近14天的行程记录" required="required">
+								</div>
+
+								<div class="col-md-2 title">是否已经返校</div>
+								<div class="col-md-10 data">
+									<select id="returnedToSchool" name="returnedToSchool"
+										class="form-control">
+										<option value="y" selected="selected">是</option>
+										<option value="n">否</option>
+								</div>
+
+								<div class="col-md-2 title">当前所在地</div>
+								<div class="col-md-10 data">
+									<input type="text" id="currentAddress" name="currentAddress"
+										class="form-control" placeholder="当前所在地" required="required">
+								</div>
+
+								<div class="col-md-2 title">今日体温（℃）</div>
+								<div class="col-md-10 data">
+									<input type="number" id="temperature" name="temperature"
+										min="30" max="45" step="0.1" class="form-control"
+										placeholder="今日体温" required="required">
+								</div>
+
+								<div class="col-md-2 title">备注</div>
+								<div class="col-md-10 data">
+									<input type="text" id="remarks" name="remarks"
+										class="form-control" placeholder="备注">
+								</div>
+
+
 							</div>
-
-							<div class="col-md-2 title">身体状况</div>
-							<div class="col-md-10 data">
-								<input type="text" id="physicalCondition"
-									name="physicalCondition" class="form-control" placeholder="密码"
-									value="">
-							</div>
-
-							<div class="col-md-2 title">近14天的行程记录</div>
-							<div class="col-md-10 data">
-								<input type="text" id="itineraryRecords" name="itineraryRecords"
-									class="form-control" placeholder="近14天的行程记录" value="">
-							</div>
-
-							<div class="col-md-2 title">是否已经返校</div>
-							<div class="col-md-10 data">
-								<input type="text" id="returnedToSchool" name="returnedToSchool"
-									class="form-control" placeholder="是否已经返校" value="">
-							</div>
-
-							<div class="col-md-2 title">当前所在地</div>
-							<div class="col-md-10 data">
-								<input type="text" id="currentAddress" name="currentAddress"
-									class="form-control" placeholder="当前所在地" value="">
-							</div>
-
-							<div class="col-md-2 title">今日体温</div>
-							<div class="col-md-10 data">
-								<input type="number" id="temperature" name="temperature"
-									class="form-control" placeholder="今日体温" value="">
-							</div>
-
-							<div class="col-md-2 title">备注</div>
-							<div class="col-md-10 data">
-								<input type="text" id="remarks" name="remarks"
-									class="form-control" placeholder="备注" value="">
-							</div>
-
-
 						</div>
-					</div>
 
+
+					</div>
+					<!--tab内容/-->
+					<!--表单内容/-->
 
 				</div>
-				<!--tab内容/-->
-				<!--表单内容/-->
+
 
 			</div>
-
-
-		</div>
-		<div class="btn-toolbar list-toolbar">
-			<button class="btn btn-primary">
-				<i class="fa fa-save"></i>保存
-			</button>
-			<a data-toggle="modal" class="btn btn-danger">提交</a>
-		</div>
-
+			<div class="btn-toolbar list-toolbar">
+				<button type="submit" id="sub" class="btn btn-primary">
+					<i class="fa fa-save"></i>保 存
+				</button>
+				<button type="reset" id="res" class="btn btn-danger">
+					<i class="fa fa-save"></i>清 空
+				</button>
+			</div>
+		</form>
 	</section>
 	<!-- 正文区域 /-->
 
 </body>
+
+<script th:inline="javascript">
+	$(function(){
+		// 获取到体温行程信息，如果不为空，则填充到表单
+		var healthInfo = [[${healthInfo}]];
+		if(healthInfo!=null){
+			$("#physicalCondition").val();
+			$("#itineraryRecords").val();
+			$("#returnedToSchool").val();
+			$("#currentAddress").val();
+			$("#temperature").val();
+			$("#remarks").val();
+			// 设置表单元素不可编辑
+			$("#physicalCondition").prop('readonly',true);
+			$("#itineraryRecords").prop('readonly',true);
+			$("#returnedToSchool").prop('disabled',true);
+			$("#currentAddress").prop('readonly',true);
+			$("#temperature").prop('readonly',true);
+			$("#remarks").prop('readonly',true);
+			$("#sub").prop('disabled',true);
+			$("#res").prop('disabled',true);
+		}
+	})
+</script>
+
 </html>

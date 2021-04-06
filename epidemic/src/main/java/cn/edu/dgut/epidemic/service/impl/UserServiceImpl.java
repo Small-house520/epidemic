@@ -41,13 +41,13 @@ public class UserServiceImpl implements UserService {
 	public void accountDel(String ids) {
 		// 把传过来的id串拆分，并转成short[]
 		String[] strs = ids.split(",");
-		List<Short> sids = new ArrayList<Short>();
+		List<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < strs.length; i++) {
-			sids.add(Short.parseShort(strs[i]));
+			list.add(Integer.parseInt(strs[i]));
 		}
 		CampusUserExample campusUserExample = new CampusUserExample();
 		CampusUserExample.Criteria criteria = campusUserExample.createCriteria();
-		criteria.andUserIdIn(sids);
+		criteria.andUserIdIn(list);
 		this.userMapper.deleteByExample(campusUserExample);
 
 	}
@@ -74,8 +74,29 @@ public class UserServiceImpl implements UserService {
 	// 添加用户（包括账号信息和个人信息）
 	@Override
 	public void userAdd(CampusUser campusUser, CampusUserInfo campusUserInfo) {
-		this.userMapper.insertSelective(campusUser);
 		this.userInfoMapper.insertSelective(campusUserInfo);
+		this.userMapper.insertSelective(campusUser);
+	}
+
+	// 添加用户（用户个人信息）
+	@Override
+	public void userInfoAdd(CampusUserInfo userInfo) {
+		this.userInfoMapper.insertSelective(userInfo);
+	}
+
+	// 删除个人信息
+	@Override
+	public void userDel(String ids) {
+		// 把传过来的id串拆分，并转成short[]
+		String[] strs = ids.split(",");
+		List<Long> campusIds = new ArrayList<Long>();
+		for (int i = 0; i < strs.length; i++) {
+			campusIds.add(Long.parseLong(strs[i]));
+		}
+		CampusUserInfoExample userInfoExample = new CampusUserInfoExample();
+		CampusUserInfoExample.Criteria criteria = userInfoExample.createCriteria();
+		criteria.andCampusIdIn(campusIds);
+		this.userInfoMapper.deleteByExample(userInfoExample);
 	}
 
 	// 编辑账号信息
@@ -131,14 +152,15 @@ public class UserServiceImpl implements UserService {
 			criteria.andCampusIdEqualTo(userInfo.getCampusId());
 		}
 		if (userInfo.getFullName() != null && !"".equals(userInfo.getFullName())) {
-			criteria.andFullNameLike(userInfo.getFullName());
+			criteria.andFullNameLike("%" + userInfo.getFullName() + "%");
+		}
+		if (userInfo.getPost() != null && !"".equals(userInfo.getPost())) {
+			criteria.andPostEqualTo(userInfo.getPost());
 		}
 		if (userInfo.getClassId() != null && userInfo.getClassId() > 0) {
 			criteria.andClassIdEqualTo(userInfo.getClassId());
 		}
-		if (userInfo.getPhoneNumber() != null && !"".equals(userInfo.getPhoneNumber())) {
-			criteria.andPhoneNumberLike(userInfo.getPhoneNumber());
-		}
+
 		list = this.userInfoMapper.selectByExample(userInfoExample);
 		return list;
 	}
@@ -178,6 +200,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<GradeClass> findClasses() {
 		return this.classMapper.selectByExample(null);
+	}
+
+	// 根据id查询用户信息
+	@Override
+	public List<CampusUserInfo> findUserByIds(List<Long> ids) {
+		CampusUserInfoExample userInfoExample = new CampusUserInfoExample();
+		CampusUserInfoExample.Criteria criteria = userInfoExample.createCriteria();
+		if (ids != null && ids.size() > 0) {
+			criteria.andCampusIdIn(ids);
+		}
+
+		return this.userInfoMapper.selectByExample(userInfoExample);
 	}
 
 }

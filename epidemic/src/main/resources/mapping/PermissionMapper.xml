@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.edu.dgut.epidemic.mapper.PermissionMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.Permission" >
-    <id column="PERMISSION_ID" property="permissionId" jdbcType="SMALLINT" />
+    <id column="PERMISSION_ID" property="permissionId" jdbcType="INTEGER" />
     <result column="PERMISSION_NAME" property="permissionName" jdbcType="VARCHAR" />
     <result column="PERMISSION_TYPE" property="permissionType" jdbcType="VARCHAR" />
     <result column="ACCESS_URL" property="accessUrl" jdbcType="VARCHAR" />
     <result column="PERMISSION_CODE" property="permissionCode" jdbcType="VARCHAR" />
-    <result column="PARENT_ID" property="parentId" jdbcType="SMALLINT" />
+    <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
     <result column="PARENT_ID_LIST" property="parentIdList" jdbcType="VARCHAR" />
-    <result column="PERMISSION_MENU_SORTING" property="permissionMenuSorting" jdbcType="VARCHAR" />
+    <result column="MENU_SORTING" property="menuSorting" jdbcType="VARCHAR" />
     <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -72,7 +72,7 @@
   </sql>
   <sql id="Base_Column_List" >
     PERMISSION_ID, PERMISSION_NAME, PERMISSION_TYPE, ACCESS_URL, PERMISSION_CODE, PARENT_ID, 
-    PARENT_ID_LIST, PERMISSION_MENU_SORTING, REMARKS
+    PARENT_ID_LIST, MENU_SORTING, REMARKS
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.PermissionExample" >
     select
@@ -88,15 +88,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from permission
-    where PERMISSION_ID = #{permissionId,jdbcType=SMALLINT}
+    where PERMISSION_ID = #{permissionId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from permission
-    where PERMISSION_ID = #{permissionId,jdbcType=SMALLINT}
+    where PERMISSION_ID = #{permissionId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.PermissionExample" >
     delete from permission
@@ -107,11 +107,11 @@
   <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.Permission" >
     insert into permission (PERMISSION_ID, PERMISSION_NAME, PERMISSION_TYPE, 
       ACCESS_URL, PERMISSION_CODE, PARENT_ID, 
-      PARENT_ID_LIST, PERMISSION_MENU_SORTING, REMARKS
+      PARENT_ID_LIST, MENU_SORTING, REMARKS
       )
-    values (#{permissionId,jdbcType=SMALLINT}, #{permissionName,jdbcType=VARCHAR}, #{permissionType,jdbcType=VARCHAR}, 
-      #{accessUrl,jdbcType=VARCHAR}, #{permissionCode,jdbcType=VARCHAR}, #{parentId,jdbcType=SMALLINT}, 
-      #{parentIdList,jdbcType=VARCHAR}, #{permissionMenuSorting,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
+    values (#{permissionId,jdbcType=INTEGER}, #{permissionName,jdbcType=VARCHAR}, #{permissionType,jdbcType=VARCHAR}, 
+      #{accessUrl,jdbcType=VARCHAR}, #{permissionCode,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{parentIdList,jdbcType=VARCHAR}, #{menuSorting,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.Permission" >
@@ -138,8 +138,8 @@
       <if test="parentIdList != null" >
         PARENT_ID_LIST,
       </if>
-      <if test="permissionMenuSorting != null" >
-        PERMISSION_MENU_SORTING,
+      <if test="menuSorting != null" >
+        MENU_SORTING,
       </if>
       <if test="remarks != null" >
         REMARKS,
@@ -147,7 +147,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="permissionId != null" >
-        #{permissionId,jdbcType=SMALLINT},
+        #{permissionId,jdbcType=INTEGER},
       </if>
       <if test="permissionName != null" >
         #{permissionName,jdbcType=VARCHAR},
@@ -162,13 +162,13 @@
         #{permissionCode,jdbcType=VARCHAR},
       </if>
       <if test="parentId != null" >
-        #{parentId,jdbcType=SMALLINT},
+        #{parentId,jdbcType=INTEGER},
       </if>
       <if test="parentIdList != null" >
         #{parentIdList,jdbcType=VARCHAR},
       </if>
-      <if test="permissionMenuSorting != null" >
-        #{permissionMenuSorting,jdbcType=VARCHAR},
+      <if test="menuSorting != null" >
+        #{menuSorting,jdbcType=VARCHAR},
       </if>
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
@@ -185,7 +185,7 @@
     update permission
     <set >
       <if test="record.permissionId != null" >
-        PERMISSION_ID = #{record.permissionId,jdbcType=SMALLINT},
+        PERMISSION_ID = #{record.permissionId,jdbcType=INTEGER},
       </if>
       <if test="record.permissionName != null" >
         PERMISSION_NAME = #{record.permissionName,jdbcType=VARCHAR},
@@ -200,13 +200,13 @@
         PERMISSION_CODE = #{record.permissionCode,jdbcType=VARCHAR},
       </if>
       <if test="record.parentId != null" >
-        PARENT_ID = #{record.parentId,jdbcType=SMALLINT},
+        PARENT_ID = #{record.parentId,jdbcType=INTEGER},
       </if>
       <if test="record.parentIdList != null" >
         PARENT_ID_LIST = #{record.parentIdList,jdbcType=VARCHAR},
       </if>
-      <if test="record.permissionMenuSorting != null" >
-        PERMISSION_MENU_SORTING = #{record.permissionMenuSorting,jdbcType=VARCHAR},
+      <if test="record.menuSorting != null" >
+        MENU_SORTING = #{record.menuSorting,jdbcType=VARCHAR},
       </if>
       <if test="record.remarks != null" >
         REMARKS = #{record.remarks,jdbcType=VARCHAR},
@@ -218,14 +218,14 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update permission
-    set PERMISSION_ID = #{record.permissionId,jdbcType=SMALLINT},
+    set PERMISSION_ID = #{record.permissionId,jdbcType=INTEGER},
       PERMISSION_NAME = #{record.permissionName,jdbcType=VARCHAR},
       PERMISSION_TYPE = #{record.permissionType,jdbcType=VARCHAR},
       ACCESS_URL = #{record.accessUrl,jdbcType=VARCHAR},
       PERMISSION_CODE = #{record.permissionCode,jdbcType=VARCHAR},
-      PARENT_ID = #{record.parentId,jdbcType=SMALLINT},
+      PARENT_ID = #{record.parentId,jdbcType=INTEGER},
       PARENT_ID_LIST = #{record.parentIdList,jdbcType=VARCHAR},
-      PERMISSION_MENU_SORTING = #{record.permissionMenuSorting,jdbcType=VARCHAR},
+      MENU_SORTING = #{record.menuSorting,jdbcType=VARCHAR},
       REMARKS = #{record.remarks,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -247,19 +247,19 @@
         PERMISSION_CODE = #{permissionCode,jdbcType=VARCHAR},
       </if>
       <if test="parentId != null" >
-        PARENT_ID = #{parentId,jdbcType=SMALLINT},
+        PARENT_ID = #{parentId,jdbcType=INTEGER},
       </if>
       <if test="parentIdList != null" >
         PARENT_ID_LIST = #{parentIdList,jdbcType=VARCHAR},
       </if>
-      <if test="permissionMenuSorting != null" >
-        PERMISSION_MENU_SORTING = #{permissionMenuSorting,jdbcType=VARCHAR},
+      <if test="menuSorting != null" >
+        MENU_SORTING = #{menuSorting,jdbcType=VARCHAR},
       </if>
       <if test="remarks != null" >
         REMARKS = #{remarks,jdbcType=VARCHAR},
       </if>
     </set>
-    where PERMISSION_ID = #{permissionId,jdbcType=SMALLINT}
+    where PERMISSION_ID = #{permissionId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.Permission" >
     update permission
@@ -267,10 +267,10 @@
       PERMISSION_TYPE = #{permissionType,jdbcType=VARCHAR},
       ACCESS_URL = #{accessUrl,jdbcType=VARCHAR},
       PERMISSION_CODE = #{permissionCode,jdbcType=VARCHAR},
-      PARENT_ID = #{parentId,jdbcType=SMALLINT},
+      PARENT_ID = #{parentId,jdbcType=INTEGER},
       PARENT_ID_LIST = #{parentIdList,jdbcType=VARCHAR},
-      PERMISSION_MENU_SORTING = #{permissionMenuSorting,jdbcType=VARCHAR},
+      MENU_SORTING = #{menuSorting,jdbcType=VARCHAR},
       REMARKS = #{remarks,jdbcType=VARCHAR}
-    where PERMISSION_ID = #{permissionId,jdbcType=SMALLINT}
+    where PERMISSION_ID = #{permissionId,jdbcType=INTEGER}
   </update>
 </mapper>

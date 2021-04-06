@@ -1,7 +1,7 @@
 package cn.edu.dgut.epidemic.pojo;
 
 public class CampusUser {
-    private Short userId;
+    private Integer userId;
 
     private Long campusId;
 
@@ -11,11 +11,11 @@ public class CampusUser {
 
     private Short roleId;
 
-    public Short getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Short userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

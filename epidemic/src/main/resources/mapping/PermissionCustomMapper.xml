@@ -4,9 +4,9 @@
 
 	<resultMap type="cn.edu.dgut.epidemic.pojo.TreeMenu" id="menuTreeResultMap">
 
-		<id column="id" property="id" />
-		<result column="name" property="name" />
-		<collection property="children" select="getSubMenu" column="id">
+		<id column="PERMISSION_ID" property="id" />
+		<result column="PERMISSION_NAME" property="name" />
+		<collection property="subMenu" select="getSubMenu" column="PERMISSION_ID">
 			<id column="PERMISSION_ID" property="permissionId" />
 			<result column="PERMISSION_NAME" property="permissionName" />
 			<result column="PERMISSION_TYPE" property="permissionType" />
@@ -21,10 +21,10 @@
 
 	<resultMap type="cn.edu.dgut.epidemic.pojo.TreeMenu" id="menuAndPermissionResultMap">
 
-		<id column="id" property="id" />
-		<result column="name" property="name" />
-		<collection property="children" select="getSubMenuAndPermissions"
-			column="id">
+		<id column="PERMISSION_ID" property="id" />
+		<result column="PERMISSION_NAME" property="name" />
+		<collection property="subMenu" select="getSubMenuAndPermissions"
+			column="{id=PERMISSION_ID}">
 			<id column="PERMISSION_ID" property="permissionId" />
 			<result column="PERMISSION_NAME" property="permissionName" />
 			<result column="PERMISSION_TYPE" property="permissionType" />

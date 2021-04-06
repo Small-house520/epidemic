@@ -35,7 +35,7 @@
 				<div class="form-group form-inline">
 					<div class="btn-group">
 						<button type="button" class="btn btn-default" title="新建"
-							data-toggle="modal" data-target="#editModal">
+							data-toggle="modal" data-target="#addModal">
 							<i class="fa fa-file-o"></i> 新建
 						</button>
 						<button type="button" class="btn btn-default" title="刷新"
@@ -48,11 +48,16 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					编号：<input type="number" id="campusId" name="campusId"
-						placeholder="编号" value=""> 感染源： <input type="text"
-						id="sourceOfInfection" name="sourceOfInfection" placeholder="感染源"
-						value="">
-					<button class="btn btn-default">查询</button>
+					编号：<input type="text" id="campusId" name="campusId" maxlength="12"
+						placeholder="编号" value=""> 姓名：<input type="text"
+						id="fullName" name="fullName" placeholder="姓名" value="">
+					是否重症：<select>
+						<option value="" selected="selected">请选择</option>
+						<option value="y">是</option>
+						<option value="n">否</option>
+					</select> 感染源：<input type="text" id="sourceOfInfection"
+						name="sourceOfInfection" placeholder="感染来源" value="">
+					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
 			<!--工具栏/-->
@@ -62,74 +67,50 @@
 				class="table table-bordered table-striped table-hover dataTable">
 				<thead>
 					<tr>
-						<th class="" style="padding-right: 0px"><input id="selall"
-							type="checkbox" class="icheckbox_square-blue"></th>
 						<th class="sorting_asc">编号</th>
 						<th class="sorting">姓名</th>
 						<th class="sorting">症状</th>
 						<th class="sorting">住址</th>
 						<th class="sorting">确诊时间</th>
-						<th class="sorting">感染源</th>
+						<th class="sorting">是否重症</th>
 
 						<th class="text-center">操作</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>1</td>
-						<td>梦琪琪商贸有限公司</td>
-						<td>梦琪琪</td>
-						<td>李梦琪</td>
-						<td>李梦琪</td>
-						<td>13402312232</td>
+				<tbody id="tb">
+					<tr th:each="diagnosis:${diagnoses}">
+						<td th:text="${diagnosis.campusId}"></td>
+						<td><span th:each="user:${userInfo}"
+							th:text="${user.campusId==diagnosis.campusId?user.fullName:''}"></span></td>
+						<td th:text="${diagnosis.symptoms}"></td>
+						<td><span th:each="user:${userInfo}"
+							th:text="${user.campusId==diagnosis.campusId?user.address:''}"></span></td>
+						<td th:text="${#dates.format(diagnosis.diagnosisTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td th:text="${diagnosis.whetherSevere=='y'?'是':'否'}"></td>
 
 						<td class="text-center">
+							<button type="button" class="btn bg-olive btn-xs" th:onclick="fillDetail([[${diagnosis}]])"
+								data-toggle="modal" data-target="#detailModal">详情</button>
 							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">详情</button>
+								data-toggle="modal" data-target="#cureModal">转为治愈</button>
 							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">转为治愈</button>
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">转为死亡</button>
-						</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>2</td>
-						<td>黑瞎子苹果专卖店</td>
-						<td>黑瞎子</td>
-						<td>李梦琪</td>
-						<td>孙大鹏</td>
-						<td>13622244111</td>
-
-						<td class="text-center">
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">详情</button>
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">转为治愈</button>
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">转为死亡</button>
+								data-toggle="modal" data-target="#deathModal">转为死亡</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<!--数据列表/-->
 
-
 		</div>
 		<!-- 数据表格 /-->
-
-
-
 
 	</div>
 	<!-- /.box-body -->
 
 
 
-
-	<!-- 商家详情 -->
-	<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog"
+	<!-- 患者详情 -->
+	<div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -147,45 +128,45 @@
 
 					<!-- 选项卡开始 -->
 					<div id="myTabContent" class="tab-content">
-						<div class="tab-pane fade" id="personal">
+						<div class="tab-pane active in" id="personal">
 							<br>
 							<table class="table table-bordered table-striped">
 								<tr>
 									<td>年龄</td>
-									<td>7822332278223322</td>
+									<td id="age"></td>
 								</tr>
 								<tr>
 									<td>性别</td>
-									<td>7822332278223322</td>
+									<td id="gender"></td>
 								</tr>
 								<tr>
 									<td>岗位/职称</td>
-									<td>7822332278223322</td>
+									<td id="post"></td>
 								</tr>
 								<tr>
 									<td>身份证</td>
-									<td>7822332278223322</td>
+									<td id="idNumber"></td>
 								</tr>
 								<tr>
 									<td>手机号码</td>
-									<td>7822332278223322</td>
+									<td id="phoneNumber"></td>
 								</tr>
 							</table>
 						</div>
-						<div class="tab-pane active in" id="diagnosis">
+						<div class="tab-pane fade" id="diagnosis">
 							<br>
 							<table class="table table-bordered table-striped" width="800px">
 								<tr>
 									<td>诊治医院</td>
-									<td>美琪数码</td>
+									<td id="hospital"></td>
 								</tr>
 								<tr>
-									<td>是否重症</td>
-									<td>13900221212</td>
+									<td>感染来源</td>
+									<td id="sourceOfInfection"></td>
 								</tr>
 								<tr>
 									<td>备注</td>
-									<td>13900221212</td>
+									<td id="remarks"></td>
 								</tr>
 							</table>
 						</div>
@@ -193,11 +174,8 @@
 					</div>
 					<!-- 选项卡结束 -->
 
-
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" data-dismiss="modal"
-						aria-hidden="true">保存</button>
 					<button class="btn btn-default" data-dismiss="modal"
 						aria-hidden="true">关闭</button>
 				</div>
@@ -205,4 +183,126 @@
 		</div>
 	</div>
 </body>
+
+<script type="text/javascript">
+	$("#campusId").keyup(function() {//控制输入的账号只能为数字
+		var value = $(this);
+		//替换非数字字符
+		var temp = "";
+		if (value.val().length == 1) {
+			temp = value.val().replace(/[^1-9]/g, '');
+			$(this).val(temp);
+		} else if (/[^\d]/.test(value.val())) {
+			temp = value.val().replace(/[^\d]/g, '');
+			$(this).val(temp);
+		}
+	})
+	
+	// 查询绑定点击事件
+   	$("#query").click(function(){
+	   	doAjax();
+   	})
+   
+   	// 利用Ajax实现分页
+	function doAjax(){
+    	var campusId = $("#campusIdFind").val();
+		var fullName = $("#fullNameFind").val();
+		var post = $("#postFind").val();
+		var classId = $("#classIdFind").val();
+		   
+		$.ajax({
+			url: "../user/findUsers",
+			type: "get",
+			data: {"campusId":campusId, "fullName":fullName,"post":post, "classId":classId},
+			dataType: "json",
+			success: function(map){
+				show(map);
+			}
+		})
+		
+	}
+    
+	function show(map){
+		var users = map.users; //获取到map中的users集合
+		var classes = map.classes; //获取到map中的roles集合
+		
+		// 先清空原来的内容
+		$("#tb").empty();
+		var user_tr = "<tr name='trCheck'>";
+		if(users!=null && users.length>0){
+			// 拼接内容
+			$.each(users, function(i, user) {
+				user_tr += "<td><input type='checkbox' name='box' th:value='"+ user.campusId +"' onclick='setChecked(this)'>";
+				user_tr += "</td><td>";
+				user_tr += user.campusId;
+				user_tr += "</td><td>";
+				user_tr += user.fullName;
+				user_tr += "</td><td>";
+				user_tr += user.gender;
+				user_tr += "</td><td>";
+				user_tr += user.age;
+				user_tr += "</td><td>";
+				user_tr += user.post;
+				user_tr += "</td><td>";
+				user_tr += user.phoneNumber;
+				user_tr += "</td><td>";
+				user_tr += user.address;
+				user_tr += "</td><td class='text-center'>";
+				user_tr += "<button type='button' class='btn bg-olive btn-xs' ";
+				user_tr += "data-toggle='modal' data-target='#infoModal'";
+				user_tr += "onclick='fillInfoTable("+ user +")'>详情</button>&nbsp;&nbsp;";
+				user_tr += "<button type='button' onclick='fillEditTable("+ user +")' ";
+				user_tr += "class='btn bg-olive btn-xs' data-toggle='modal'";
+				user_tr += "data-target='#editModal'>编辑</button></td></tr>";
+			});
+		}else{
+			user_tr =  "<tr style='text-align: center;'><td colspan='12'>没有查询到相关记录！</td></tr>";
+		}
+		
+		$("#tb").html(user_tr);
+	}
+</script>
+
+<script th:inline="javascript">
+	//设置详情表单的默认值
+	function fillDetail(diagnosis) {
+		// 获取用户信息
+		var userInfos = [[${userInfo}]];
+		// 匹配当前选中用户信息
+		var user = null;
+		for(var i=0; i<userInfos.length; i++){
+			if(diagnosis.campusId == userInfos[i].campusId){
+				user = userInfos[i];
+			}
+		}
+		
+		// 根据id获取各对象
+		var age = document.getElementById("age");
+		var gender = document.getElementById("gender");
+		var post = document.getElementById("post");
+		var idNumber = document.getElementById("idNumber");
+		var phoneNumber = document.getElementById("phoneNumber");
+		
+		var hospital = document.getElementById("hospital");
+		var sourceOfInfection = document.getElementById("sourceOfInfection");
+		var remarks = document.getElementById("remarks");
+		
+		// 设置td的值
+		age.innerText = user.age;
+		// 判断是男还是女
+		if(user.gender == "m"){
+			gender.innerText = "男";
+		}else{
+			gender.innerText = "女";
+		}
+		post.innerText = user.post;
+		idNumber.innerText = user.idNumber;
+		phoneNumber.innerText = user.phoneNumber;
+		
+		hospital.innerText = diagnosis.hospital;
+		sourceOfInfection.innerText = diagnosis.sourceOfInfection;
+		remarks.innerText = diagnosis.remarks;
+	}
+</script>
+
 </html>

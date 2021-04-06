@@ -5,7 +5,7 @@ public class RolePermission {
 
     private Short roleId;
 
-    private Short permissionId;
+    private Integer permissionId;
 
     private String remarks;
 
@@ -25,11 +25,11 @@ public class RolePermission {
         this.roleId = roleId;
     }
 
-    public Short getPermissionId() {
+    public Integer getPermissionId() {
         return permissionId;
     }
 
-    public void setPermissionId(Short permissionId) {
+    public void setPermissionId(Integer permissionId) {
         this.permissionId = permissionId;
     }
 

@@ -3,7 +3,7 @@ package cn.edu.dgut.epidemic.pojo;
 import java.util.Date;
 
 public class EpidemicInformation {
-    private Short informationId;
+    private Integer informationId;
 
     private String title;
 
@@ -15,11 +15,11 @@ public class EpidemicInformation {
 
     private String remarks;
 
-    public Short getInformationId() {
+    public Integer getInformationId() {
         return informationId;
     }
 
-    public void setInformationId(Short informationId) {
+    public void setInformationId(Integer informationId) {
         this.informationId = informationId;
     }
 

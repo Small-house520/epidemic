@@ -35,11 +35,12 @@
 			<div class="pull-left">
 				<div class="form-group form-inline">
 					<div class="btn-group">
-						<button type="button" class="btn btn-default" title="新建"
-							data-toggle="modal" data-target="#editModal">
+						<button type="button" id="addUser" class="btn btn-default"
+							title="新建" data-toggle="modal" data-target="#addModal">
 							<i class="fa fa-file-o"></i> 新建
 						</button>
-						<button type="button" class="btn btn-default" title="删除">
+						<button type="button" id="delete" class="btn btn-default"
+							title="删除">
 							<i class="fa fa-trash-o"></i> 删除
 						</button>
 						<button type="button" class="btn btn-default" title="刷新"
@@ -52,13 +53,23 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					编号：<input type="number" id="campusId" name="campusId"
-						placeholder="编号" value=""> 姓名： <input type="text"
-						id="fullName" name="fullName" placeholder="姓名" value="">
-					班级编号： <input type="number" id="classId" name="classId"
-						placeholder="班级编号" value=""> 手机号码： <input type="number"
-						id="phoneNumber" name="phoneNumber" placeholder="手机号码" value="">
-					<button class="btn btn-default">查询</button>
+					编号：<input type="text" id="campusIdFind" name="campusId"
+						placeholder="编号" value="">&nbsp;&nbsp; 姓名：<input type="text"
+						id="fullNameFind" name="fullName" placeholder="姓名" value="">&nbsp;&nbsp;
+					岗位/职称：<select id="postFind" name="post" onchange="setClass(this);">
+						<option value="" selected="selected">请选择</option>
+						<option value="学生">学生</option>
+						<option value="讲师">讲师</option>
+						<option value="副教授">副教授</option>
+						<option value="教授">教授</option>
+						<option value="教师">教师（教务、辅导员等）</option>
+						<option value="职工">职工（保安、食堂职工等）</option>
+					</select>&nbsp;&nbsp; 班级：<select id="classIdFind" name="classId">
+						<option value="" selected="selected">请选择</option>
+						<option th:each="class:${classes}" th:value=${class.classId}
+							th:text="${class.gradeClass}"></option>
+					</select>
+					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
 			<!--工具栏/-->
@@ -69,214 +80,651 @@
 				<thead>
 					<tr>
 						<th class="" style="padding-right: 0px"><input id="selall"
-							type="checkbox" class="icheckbox_square-blue"></th>
+							name="box" type="checkbox" class="icheckbox_square-blue"
+							onclick="setChecked(this)"></th>
 						<th class="sorting_asc">编号</th>
 						<th class="sorting">姓名</th>
 						<th class="sorting">性别</th>
 						<th class="sorting">年龄</th>
 						<th class="sorting">职称/岗位</th>
-						<th class="sorting">班级编号</th>
 						<th class="sorting">手机号码</th>
-						<th class="sorting">现住址</th>
+						<th class="sorting">住址</th>
 
 
 						<th class="text-center">操作</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>1</td>
-						<td>梦琪琪商贸有限公司</td>
-						<td>梦琪琪</td>
-						<td>李梦琪</td>
-						<td>13402312232</td>
-						<td>梦琪琪</td>
-						<td>李梦琪</td>
-						<td>13402312232</td>
+				<tbody id="tb">
+					<tr th:each="user:${users}" name="trCheck">
+						<td><input type="checkbox" name="box"
+							th:value="${user.campusId}" onclick="setChecked(this)"></td>
+						<td th:text="${user.campusId}"></td>
+						<td th:text="${user.fullName}"></td>
+						<td th:text="${user.gender}"></td>
+						<td th:text="${user.age}"></td>
+						<td th:text="${user.post}"></td>
+						<td th:text="${user.phoneNumber}"></td>
+						<td th:text="${user.address}"></td>
 
 						<td class="text-center">
 							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">详情</button>
-						</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>2</td>
-						<td>黑瞎子苹果专卖店</td>
-						<td>黑瞎子</td>
-						<td>孙大鹏</td>
-						<td>13622244111</td>
-						<td>黑瞎子</td>
-						<td>孙大鹏</td>
-						<td>13622244111</td>
-
-						<td class="text-center">
+								data-toggle="modal" data-target="#infoModal"
+								th:onclick="fillInfoTable([[${user}]])">详情</button>&nbsp;&nbsp;
 							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">详情</button>
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#editModal">编辑</button>
+								data-toggle="modal" data-target="#editModal"
+								th:onclick="fillEditTable([[${user}]])">编辑</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<!--数据列表/-->
 
-
 		</div>
 		<!-- 数据表格 /-->
-
-
-
 
 	</div>
 	<!-- /.box-body -->
 
 
 
-
-	<!-- 商家详情 -->
-	<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
+	<!-- 用户详情 -->
+	<div class="modal fade" id="infoModal" tabindex="-1" role="dialog"
+		aria-labelledby="infoModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">×</button>
-					<h3 id="myModalLabel">用户详情</h3>
+					<h3 id="infoModalLabel">用户详情</h3>
 				</div>
 				<div class="modal-body">
 
 					<ul class="nav nav-tabs">
 						<li class="active"><a href="#certificate" data-toggle="tab">证件信息</a></li>
 						<li><a href="#contact" data-toggle="tab">紧急联系人</a></li>
+						<li><a href="#classInfo" data-toggle="tab">班级信息</a></li>
 					</ul>
 
 					<!-- 选项卡开始 -->
 					<div id="myTabContent" class="tab-content">
-						<div class="tab-pane fade" id="certificate">
+						<div class="tab-pane active in" id="certificate">
 							<br>
 							<table class="table table-bordered table-striped">
 								<tr>
 									<td>身份证号</td>
-									<td>7822332278223322</td>
+									<td id="idNumber1"></td>
 								</tr>
 							</table>
 						</div>
-						<div class="tab-pane active in" id="contact">
+						<div class="tab-pane fade" id="contact">
 							<br>
 							<table class="table table-bordered table-striped" width="800px">
 								<tr>
 									<td>紧急联系人</td>
-									<td>美琪数码</td>
+									<td id="emergencyContact1"></td>
 								</tr>
 								<tr>
 									<td>紧急联系人手机号码</td>
-									<td>13900221212</td>
+									<td id="emergencyContactPhone1"></td>
 								</tr>
 							</table>
 						</div>
-
+						<div class="tab-pane fade" id="classInfo">
+							<br>
+							<table class="table table-bordered table-striped">
+								<tr>
+									<td>班级编号</td>
+									<td id="classId1"></td>
+								</tr>
+								<tr>
+									<td>班级名称</td>
+									<td id="gradeClass1"></td>
+								</tr>
+							</table>
+						</div>
 					</div>
 					<!-- 选项卡结束 -->
 
-
 				</div>
 				<div class="modal-footer">
-					<!-- <button class="btn btn-success" data-dismiss="modal"
-							aria-hidden="true">审核通过</button>
-						<button class="btn btn-danger" data-dismiss="modal"
-							aria-hidden="true">审核未通过</button> -->
 					<button class="btn btn-default" data-dismiss="modal"
-						aria-hidden="true">关闭</button>
+						aria-hidden="true">关 闭</button>
 				</div>
 			</div>
+		</div>
+	</div>
+
+	<!-- 新建窗口 -->
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+		aria-labelledby="addModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<form action="../user/userinfoadd" method="post"
+				onsubmit="return verify()">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h3 id="addModalLabel">添加用户</h3>
+					</div>
+
+					<div class="modal-body">
+
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>编号</td>
+								<td><input type="text" id="campusId" name="campusId"
+									class="form-control" placeholder="编号" maxlength="12" required="required"></td>
+								<td><span id="campusIdCheck"></span></td>
+							</tr>
+							<tr>
+								<td>姓名</td>
+								<td><input type="text" id="fullName" name="fullName"
+									class="form-control" placeholder="姓名" required="required"></td>
+							</tr>
+							<tr>
+								<td>性别</td>
+								<td><select id="gender" name="gender" class="form-control">
+										<option value="男" selected="selected">男</option>
+										<option value="女">女</option>
+								</select></td>
+
+							</tr>
+							<tr>
+								<td>年龄</td>
+								<td><input type="number" id="age" name="age" required="required"
+									class="form-control" placeholder="年龄" min="1" max="200" maxlength="3"></td>
+							</tr>
+							<tr>
+								<td>身份证号</td>
+								<td><input type="text" id="idNumber" name="idNumber" maxlength="18"
+									class="form-control" placeholder="身份证号" required="required"></td>
+							</tr>
+							<tr>
+								<td>职称/岗位</td>
+								<td><select id="post" name="post" class="form-control" onchange="setClass(this);">
+										<option value="学生" selected="selected">学生</option>
+										<option value="讲师">讲师</option>
+										<option value="副教授">副教授</option>
+										<option value="教授">教授</option>
+										<option value="教师">教师（教务、辅导员等）</option>
+										<option value="职工">职工（保安、食堂职工等）</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td>班级编号</td>
+								<td><select id="classId" name="classId" class="form-control">
+										<option th:each="class:${classes}" th:value=${class.classId}
+											th:text="${class.gradeClass}"></option>
+								</select></td>
+							</tr>
+							<tr>
+								<td>手机号码</td>
+								<td><input type="text" id="phoneNumber" name="phoneNumber" maxlength="11"
+									class="form-control" placeholder="手机号码" required="required"></td>
+							</tr>
+							<tr>
+								<td>紧急联系人</td>
+								<td><input type="text" id="emergencyContact"
+									name="emergencyContact" class="form-control"
+									placeholder="紧急联系人" required="required"></td>
+							</tr>
+							<tr>
+								<td>紧急联系人手机号码</td>
+								<td><input type="text" id="emergencyContactPhone"
+									name="emergencyContactPhone" class="form-control" maxlength="11"
+									placeholder="紧急联系人手机号码" required="required"></td>
+							</tr>
+							<tr>
+								<td>住址</td>
+								<td><input type="text" id="address" name="address"
+									class="form-control" placeholder="住址" required="required"></td>
+							</tr>
+						</table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">保 存</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关 闭</button>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 
 	<!-- 编辑窗口 -->
 	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
+		aria-labelledby="editModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
-					<h3 id="myModalLabel">用户编辑</h3>
-				</div>
-				<div class="modal-body">
+			<form action="../user/useredit" method="post"
+				onsubmit="return verify()">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h3 id="editModalLabel">用户编辑</h3>
+					</div>
 
-					<table class="table table-bordered table-striped" width="800px">
-						<tr>
-							<td>编号</td>
-							<td><input type="number" id="campusId" name="campusId"
-								class="form-control" placeholder="编号"></td>
-						</tr>
-						<tr>
-							<td>姓名</td>
-							<td><input type="text" id="fullName" name="fullName"
-								class="form-control" placeholder="姓名"></td>
-						</tr>
-						<tr>
-							<td>性别</td>
-							<td><input type="text" id="gender" name="gender"
-								class="form-control" placeholder="性别"></td>
-						</tr>
-						<tr>
-							<td>年龄</td>
-							<td><input type="number" id="age" name="age"
-								class="form-control" placeholder="年龄"></td>
-						</tr>
-						<tr>
-							<td>身份证号</td>
-							<td><input type="text" id="idNumber" name="idNumber"
-								class="form-control" placeholder="身份证号"></td>
-						</tr>
-						<tr>
-							<td>职称/岗位</td>
-							<td><input type="text" id="post" name="post"
-								class="form-control" placeholder="职称/岗位"></td>
-						</tr>
-						<tr>
-							<td>班级编号</td>
-							<td><input type="number" id="classId" name="classId"
-								class="form-control" placeholder="班级编号"></td>
-						</tr>
-						<tr>
-							<td>手机号码</td>
-							<td><input type="text" id="phoneNumber" name="phoneNumber"
-								class="form-control" placeholder="手机号码"></td>
-						</tr>
-						<tr>
-							<td>紧急联系人</td>
-							<td><input type="text" id="emergencyContact"
-								name="emergencyContact" class="form-control" placeholder="紧急联系人">
-							</td>
-						</tr>
-						<tr>
-							<td>紧急联系人手机号码</td>
-							<td><input type="text" id="emergencyContactPhone"
-								name="emergencyContactPhone" class="form-control"
-								placeholder="紧急联系人手机号码"></td>
-						</tr>
-						<tr>
-							<td>现住址</td>
-							<td><input type="text" id="address" name="address"
-								class="form-control" placeholder="现住址"></td>
-						</tr>
-					</table>
+					<div class="modal-body">
 
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>编号</td>
+								<td><input type="text" id="campusId2" name="campusId"
+									class="form-control" placeholder="编号" maxlength="12" required="required"></td>
+								<td><span id="campusIdCheck"></span></td>
+							</tr>
+							<tr>
+								<td>姓名</td>
+								<td><input type="text" id="fullName2" name="fullName"
+									class="form-control" placeholder="姓名" required="required"></td>
+							</tr>
+							<tr>
+								<td>性别</td>
+								<td><select id="gender2" name="gender" class="form-control">
+										<option value="男" selected="selected">男</option>
+										<option value="女">女</option>
+								</select></td>
+
+							</tr>
+							<tr>
+								<td>年龄</td>
+								<td><input type="number" id="age2" name="age" required="required"
+									class="form-control" placeholder="年龄" min="1" max="200" maxlength="3"></td>
+							</tr>
+							<tr>
+								<td>身份证号</td>
+								<td><input type="text" id="idNumber2" name="idNumber" maxlength="18"
+									class="form-control" placeholder="身份证号" required="required"></td>
+							</tr>
+							<tr>
+								<td>职称/岗位</td>
+								<td><select id="post2" name="post" class="form-control" onchange="setClass(this);">
+										<option value="学生" selected="selected">学生</option>
+										<option value="讲师">讲师</option>
+										<option value="副教授">副教授</option>
+										<option value="教授">教授</option>
+										<option value="教师">教师（教务、辅导员等）</option>
+										<option value="职工">职工（保安、食堂职工等）</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td>班级编号</td>
+								<td><select id="classId2" name="classId" class="form-control">
+										<option th:each="class:${classes}" th:value=${class.classId}
+											th:text="${class.gradeClass}"></option>
+								</select></td>
+							</tr>
+							<tr>
+								<td>手机号码</td>
+								<td><input type="text" id="phoneNumber2" name="phoneNumber" maxlength="11"
+									class="form-control" placeholder="手机号码" required="required"></td>
+							</tr>
+							<tr>
+								<td>紧急联系人</td>
+								<td><input type="text" id="emergencyContact2"
+									name="emergencyContact" class="form-control"
+									placeholder="紧急联系人" required="required"></td>
+							</tr>
+							<tr>
+								<td>紧急联系人手机号码</td>
+								<td><input type="text" id="emergencyContactPhone2"
+									name="emergencyContactPhone" class="form-control" maxlength="11"
+									placeholder="紧急联系人手机号码" required="required"></td>
+							</tr>
+							<tr>
+								<td>住址</td>
+								<td><input type="text" id="address2" name="address"
+									class="form-control" placeholder="住址" required="required"></td>
+							</tr>
+						</table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">保 存</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关 闭</button>
+					</div>
 				</div>
-				<div class="modal-footer">
-					<button class="btn btn-success" data-dismiss="modal"
-						aria-hidden="true">保存</button>
-					<button class="btn btn-default" data-dismiss="modal"
-						aria-hidden="true">关闭</button>
-				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 
 </body>
+
+<script type="text/javascript">
+	$("#campusIdFind").keyup(function() {//控制输入的账号只能为数字
+		var value = $(this);
+		//替换非数字字符
+		var temp = "";
+		if (value.val().length == 1) {
+			temp = value.val().replace(/[^1-9]/g, '');
+			$(this).val(temp);
+		} else if (/[^\d]/.test(value.val())) {
+			temp = value.val().replace(/[^\d]/g, '');
+			$(this).val(temp);
+		}
+	})
+	
+	var flag = 0;
+	$(function() {
+		
+		// 使用Ajax异步获取后台用户账号注册情况
+		$("#campusId,#campusId2").keyup(function() {
+			var campusId = $("#campusId").val();
+			if(campusId == null){
+				campusId = $("#campusId2").val();
+			}
+			
+			var value = $(this);
+			//替换非数字字符
+			var temp = "";
+			if (value.val().length == 1) {
+				temp = value.val().replace(/[^1-9]/g, '');
+				$(this).val(temp);
+			} else if (/[^\d]/.test(value.val())) {
+				temp = value.val().replace(/[^\d]/g, '');
+				$(this).val(temp);
+			}
+			
+			// get的方式向后台发送请求，第一个参数为发送的地址，第二个参数为发送的数据，function表示执行成功返回的数据
+			$.ajax({
+				url: "../user/idCheack",
+				type: "post",
+				data: {"campusId":campusId},
+				dataType: "json",
+				
+				success: function(num) {
+					if (num == "1") {
+						$("#campusIdCheck").html("<span style='color: red;'>账号已存在！</span>");
+						flag = 1;
+					} else {
+						$("#campusIdCheck").html("<span style='color: green;'>账号可使用！</span>");
+						if(flag != 2){
+							flag = 0;
+						}
+					}
+				}
+			})
+		});
+		$("#username,#username2").keyup(function() {
+			var username = $("#username").val();
+			if(username == null){
+				username = $("#username2").val();
+			}
+			// get的方式向后台发送请求，第一个参数为发送的地址，第二个参数为发送的数据，function表示执行成功返回的数据
+			$.ajax({
+				url: "../user/nameCheack",
+				type: "post",
+				data: {"username":username},
+				dataType: "json",
+				
+				success: function(num) {
+					if(num == "2") {
+						$("#usernameCheck").html("<span style='color: red;'>用户名已存在！</span>");
+						flag = 2;
+					} else {
+						$("#usernameCheck").html("<span style='color: green;'>用户名可使用！</span>");
+						if(flag != 1){
+							flag = 0;
+						}
+					}
+				}
+			})
+		});
+
+	})
+	
+	// form表单提交时先进行判断
+	function verify() {
+		if (flag == 1) {
+			alert("账号已存在");
+			return false;
+		}
+		if (flag == 2) {
+			alert("用户名已存在");
+			return false;
+		}
+		return true;
+	}
+	
+</script>
+
+<script type="text/javascript">
+	
+	/** 给全选按钮绑定点击事件  */
+    function setChecked(obj) {
+	    var boxs=document.getElementsByName("box");//获取到复选框的名称
+	    
+		//全选
+		//JS的if判断中Undefined类型视为false，其他类型视为true；
+		//obj.id是定义过的值，类型为非Undefined，所以视为true。
+	    if(obj.id) {
+			for(var i=1;i<boxs.length;i++) {
+			//若全选框的结果为选中，则进行全选操作,否则进入下一步
+			//obj.checked表示复选框当前状态，已选为true，未选为false。
+			    if(obj.checked == true) {
+					var box = boxs[i];
+					box.checked = true;
+				}
+			}
+			
+			//全不选
+			for(var i=1;i<boxs.length;i++) {
+				//若全选框的结果为没选中，则进行全不选操作,否则进入下一步	
+				if(obj.checked == false) {
+					var box = boxs[i];
+					box.checked = false;
+				}
+			}
+		}else {
+			var cheakFlag = 1;
+			for(var i=1;i<boxs.length;i++) {
+			    if(!boxs[i].checked) {
+			    	cheakFlag = 0;
+			    	break;
+			    }
+			}
+			if(cheakFlag==1){//若子选择全选，全选框也选中。
+				boxs[0].checked = true;
+			}else{//若子选项没有全选，全选框不选中。
+				boxs[0].checked = false;
+			}
+		}
+	}
+	
+    $(function(){
+    	// 加载表格数据
+    	//doAjax();
+    	
+	    /** 给数据行绑定鼠标覆盖以及鼠标移开事件  */
+	    $(document).on("mouseover mouseout","tr[name='trCheck']",function(event){
+	    	if(event.type == "mouseover"){
+			  	//鼠标悬浮
+	    		$(this).css("backgroundColor","#DCDCDC");
+			 }else if(event.type == "mouseout"){
+			  	//鼠标离开
+				$(this).css("backgroundColor","#ffffff");
+			 }
+	    })
+	
+	   /** 删除绑定点击事件 */
+	   $("#delete").click(function(){
+		   /** 获取到用户选中的复选框  */
+		   var checkedBoxs = $("input[name='box']:checked");
+		   if(checkedBoxs.length < 1){
+			   alert("请选择需要删除的用户！");
+		   }else{
+			  if(confirm("请确定是否删除选中用户？")){
+				var ids = checkedBoxs.map(function() {
+					return this.value;
+				})
+				window.location.href = "../user/userdel?ids="+ids.toArray().join(",");
+			  }
+		   }
+	   })
+	   
+	   /** 查询绑定点击事件 */
+	   $("#query").click(function(){
+		   doAjax();
+	   })
+	})
+
+	// 利用Ajax实现分页
+	function doAjax(){
+    	var campusId = $("#campusIdFind").val();
+		var fullName = $("#fullNameFind").val();
+		var post = $("#postFind").val();
+		var classId = $("#classIdFind").val();
+		   
+		$.ajax({
+			url: "../user/findUsers",
+			type: "get",
+			data: {"campusId":campusId, "fullName":fullName,"post":post, "classId":classId},
+			dataType: "json",
+			success: function(map){
+				show(map);
+			}
+		})
+		
+	}
+    
+	function show(map){
+		var users = map.users; //获取到map中的users集合
+		var classes = map.classes; //获取到map中的roles集合
+		
+		// 先清空原来的内容
+		$("#tb").empty();
+		var user_tr = "<tr name='trCheck'>";
+		if(users!=null && users.length>0){
+			// 拼接内容
+			$.each(users, function(i, user) {
+				user_tr += "<td><input type='checkbox' name='box' th:value='"+ user.campusId +"' onclick='setChecked(this)'>";
+				user_tr += "</td><td>";
+				user_tr += user.campusId;
+				user_tr += "</td><td>";
+				user_tr += user.fullName;
+				user_tr += "</td><td>";
+				user_tr += user.gender;
+				user_tr += "</td><td>";
+				user_tr += user.age;
+				user_tr += "</td><td>";
+				user_tr += user.post;
+				user_tr += "</td><td>";
+				user_tr += user.phoneNumber;
+				user_tr += "</td><td>";
+				user_tr += user.address;
+				user_tr += "</td><td class='text-center'>";
+				user_tr += "<button type='button' class='btn bg-olive btn-xs' ";
+				user_tr += "data-toggle='modal' data-target='#infoModal'";
+				user_tr += "onclick='fillInfoTable("+ user +")'>详情</button>&nbsp;&nbsp;";
+				user_tr += "<button type='button' onclick='fillEditTable("+ user +")' ";
+				user_tr += "class='btn bg-olive btn-xs' data-toggle='modal'";
+				user_tr += "data-target='#editModal'>编辑</button></td></tr>";
+			});
+		}else{
+			user_tr =  "<tr style='text-align: center;'><td colspan='12'>没有查询到相关记录！</td></tr>";
+		}
+		
+		$("#tb").html(user_tr);
+		
+	}
+</script>
+
+<script th:inline="javascript">
+	// 设置详情表单的默认值
+	function fillInfoTable(user) {
+		// 获取班级信息
+		var classes = [[${classes}]];
+		// 根据id获取各对象
+		var idNumber1 = document.getElementById("idNumber1");
+		var emergencyContact1 = document.getElementById("emergencyContact1");
+		var emergencyContactPhone1 = document.getElementById("emergencyContactPhone1");
+		var classId1 = document.getElementById("classId1");
+		var gradeClass1 = document.getElementById("gradeClass1");
+		
+		// 设置td的值
+		idNumber1.innerText = user.idNumber;
+		emergencyContact1.innerText = user.emergencyContact;
+		emergencyContactPhone1.innerText = user.emergencyContactPhone;
+		if(user.classId!=null){
+			classId1.innerText = user.classId;
+			for(var i=0; i<classes.length; i++){
+				if(user.classId == classes[i].classId){
+					gradeClass1.innerText = classes[i].gradeClass;
+				}
+			}
+		}else{
+			classId1.innerText = "无";
+			gradeClass1.innerText = "无";
+		}
+	}
+	
+	// 设置编辑表单的默认值
+	function fillEditTable(user) {
+		$("#campusId2").val(user.campusId);
+		$("#fullName2").val(user.fullName);
+		$("#gender2").val(user.gender);
+		$("#age2").val(user.age);
+		$("#idNumber2").val(user.idNumber);
+		$("#post2").val(user.post);
+		
+		var classes = [[${classes}]];
+		var sec2 = document.getElementById("classId2");
+		// 判断身份是否为学生，学生才有班级
+		if(user.classId!=null && user.classId>0){
+			sec2.disabled = false;
+			for(var i=0; i<classes.length; i++){
+		    	sec2.options[i] = new Option(classes[i].gradeClass, classes[i].classId);
+		    }
+			$("#classId2").val(user.classId);
+		}else{
+			sec2.length = 0;
+		    sec2.options[0] = new Option("班级编号（学生专属）","");
+		    sec2.disabled = true;
+		}
+		$("#phoneNumber2").val(user.phoneNumber);
+		$("#emergencyContact2").val(user.emergencyContact);
+		$("#emergencyContactPhone2").val(user.emergencyContactPhone);
+		$("#address2").val(user.address);
+	}
+</script>
+
+<script th:inline="javascript">
+	// 设置下拉框二级联动
+	function setClass(obj){
+		// 获取后台传递的值
+		var classes = [[${classes}]];
+	    var val = obj.value;
+	    
+	    var sec = document.getElementById("classId");
+	    var sec2 = document.getElementById("classId2");
+	    var sec3 = document.getElementById("classIdFind");
+	    if(val == "学生"){
+	      // 设置下拉框为可选状态
+	      sec.disabled = false;
+	      sec2.disabled = false;
+	      sec3.disabled = false;
+	      for(var i=0; i<classes.length; i++){
+	    	  sec.options[i] = new Option(classes[i].gradeClass, classes[i].classId);
+	    	  sec2.options[i] = new Option(classes[i].gradeClass, classes[i].classId);
+	    	  sec3.options[i] = new Option(classes[i].gradeClass, classes[i].classId);
+	      }
+	    }else{
+	      // 清空下拉框
+	      sec.length = 0;
+	      sec.options[0] = new Option("班级编号（学生专属）","");
+	      sec2.length = 0;
+	      sec2.options[0] = new Option("班级编号（学生专属）","");
+	      sec3.length = 0;
+	      sec3.options[0] = new Option("班级编号（学生专属）","");
+	      // 设置下拉框为不可选状态
+	      sec.disabled = true;
+	      sec2.disabled = true;
+	      sec3.disabled = true;
+	    }
+	}
+	
+</script>
 
 </html>

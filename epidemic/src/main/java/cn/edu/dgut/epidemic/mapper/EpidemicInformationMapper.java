@@ -10,7 +10,7 @@ public interface EpidemicInformationMapper {
 
     int deleteByExample(EpidemicInformationExample example);
 
-    int deleteByPrimaryKey(Short informationId);
+    int deleteByPrimaryKey(Integer informationId);
 
     int insert(EpidemicInformation record);
 
@@ -18,7 +18,7 @@ public interface EpidemicInformationMapper {
 
     List<EpidemicInformation> selectByExample(EpidemicInformationExample example);
 
-    EpidemicInformation selectByPrimaryKey(Short informationId);
+    EpidemicInformation selectByPrimaryKey(Integer informationId);
 
     int updateByExampleSelective(@Param("record") EpidemicInformation record, @Param("example") EpidemicInformationExample example);
 

@@ -71,6 +71,7 @@ public interface UserService {
 	/**
 	 * 查看个人信息
 	 * 
+	 * @param userInfo
 	 * @return
 	 */
 	List<CampusUserInfo> userList(CampusUserInfo userInfo);
@@ -97,4 +98,25 @@ public interface UserService {
 	 * @return
 	 */
 	List<GradeClass> findClasses();
+
+	/**
+	 * 添加用户（用户个人信息）
+	 * 
+	 * @param userInfo
+	 */
+	void userInfoAdd(CampusUserInfo userInfo);
+
+	/**
+	 * 删除个人信息
+	 * 
+	 * @param ids
+	 */
+	void userDel(String ids);
+
+	/**
+	 * 根据id查询用户信息
+	 * 
+	 * @param ids
+	 */
+	List<CampusUserInfo> findUserByIds(List<Long> ids);
 }

@@ -42,8 +42,8 @@ public class RoleServiceImpl implements RoleService {
 	public List<Permission> findAllMenus() {
 		PermissionExample example = new PermissionExample();
 		PermissionExample.Criteria criteria = example.createCriteria();
-		// criteria.andTypeLike("%menu%");
-		criteria.andPermissionTypeEqualTo("menu");
+		criteria.andPermissionTypeLike("%menu%");
+		// criteria.andPermissionTypeEqualTo("menu");
 		return this.permissionMapper.selectByExample(example);
 	}
 
@@ -61,7 +61,7 @@ public class RoleServiceImpl implements RoleService {
 
 	// 添加角色和角色权限关系
 	@Override
-	public void addRoleAndPermissions(Role role, short[] permissionIds) {
+	public void addRoleAndPermissions(Role role, int[] permissionIds) {
 		// 添加角色
 		this.roleMapper.insert(role);
 		// 添加角色和权限关系表
@@ -104,14 +104,14 @@ public class RoleServiceImpl implements RoleService {
 
 	// 更新角色和权限关系
 	@Override
-	public void updateRoleAndPermissions(Short roleId, short[] permissionIds) {
+	public void updateRoleAndPermissions(Short roleId, int[] permissionIds) {
 		// 先删除角色权限关系表中角色的权限关系
 		RolePermissionExample example = new RolePermissionExample();
 		RolePermissionExample.Criteria criteria = example.createCriteria();
 		criteria.andRoleIdEqualTo(roleId);
 		this.rolePermissionMapper.deleteByExample(example);
 		// 重新创建角色权限关系
-		for (short pid : permissionIds) {
+		for (int pid : permissionIds) {
 			RolePermission rolePermission = new RolePermission();
 			// String uuid = UUID.randomUUID().toString();
 			rolePermission.setRoleId(roleId);
@@ -135,7 +135,7 @@ public class RoleServiceImpl implements RoleService {
 
 	// 查询权限列表
 	@Override
-	public List<Permission> findPermissionListByUserId(Short userid) throws Exception {
+	public List<Permission> findPermissionListByUserId(Integer userid) throws Exception {
 		return this.permissionCustomMapper.findPermissionListByUserId(userid);
 	}
 

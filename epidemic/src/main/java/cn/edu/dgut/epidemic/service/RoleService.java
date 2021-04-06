@@ -42,7 +42,7 @@ public interface RoleService {
 	 * @param role
 	 * @param permissionIds
 	 */
-	void addRoleAndPermissions(Role role, short[] permissionIds);
+	void addRoleAndPermissions(Role role, int[] permissionIds);
 
 	/**
 	 * 添加权限
@@ -79,7 +79,7 @@ public interface RoleService {
 	 * @param roleId
 	 * @param permissionIds
 	 */
-	void updateRoleAndPermissions(Short roleId, short[] permissionIds);
+	void updateRoleAndPermissions(Short roleId, int[] permissionIds);
 
 	/**
 	 * 根据用户名查询角色和权限关系
@@ -103,7 +103,7 @@ public interface RoleService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<Permission> findPermissionListByUserId(Short userid) throws Exception;
+	List<Permission> findPermissionListByUserId(Integer userid) throws Exception;
 
 	// 根据用户id查询权限范围的菜单
 	List<Permission> findMenuListByUserId(String userid) throws Exception;

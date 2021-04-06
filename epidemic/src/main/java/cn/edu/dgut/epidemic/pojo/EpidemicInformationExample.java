@@ -115,52 +115,52 @@ public class EpidemicInformationExample {
             return (Criteria) this;
         }
 
-        public Criteria andInformationIdEqualTo(Short value) {
+        public Criteria andInformationIdEqualTo(Integer value) {
             addCriterion("INFORMATION_ID =", value, "informationId");
             return (Criteria) this;
         }
 
-        public Criteria andInformationIdNotEqualTo(Short value) {
+        public Criteria andInformationIdNotEqualTo(Integer value) {
             addCriterion("INFORMATION_ID <>", value, "informationId");
             return (Criteria) this;
         }
 
-        public Criteria andInformationIdGreaterThan(Short value) {
+        public Criteria andInformationIdGreaterThan(Integer value) {
             addCriterion("INFORMATION_ID >", value, "informationId");
             return (Criteria) this;
         }
 
-        public Criteria andInformationIdGreaterThanOrEqualTo(Short value) {
+        public Criteria andInformationIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("INFORMATION_ID >=", value, "informationId");
             return (Criteria) this;
         }
 
-        public Criteria andInformationIdLessThan(Short value) {
+        public Criteria andInformationIdLessThan(Integer value) {
             addCriterion("INFORMATION_ID <", value, "informationId");
             return (Criteria) this;
         }
 
-        public Criteria andInformationIdLessThanOrEqualTo(Short value) {
+        public Criteria andInformationIdLessThanOrEqualTo(Integer value) {
             addCriterion("INFORMATION_ID <=", value, "informationId");
             return (Criteria) this;
         }
 
-        public Criteria andInformationIdIn(List<Short> values) {
+        public Criteria andInformationIdIn(List<Integer> values) {
             addCriterion("INFORMATION_ID in", values, "informationId");
             return (Criteria) this;
         }
 
-        public Criteria andInformationIdNotIn(List<Short> values) {
+        public Criteria andInformationIdNotIn(List<Integer> values) {
             addCriterion("INFORMATION_ID not in", values, "informationId");
             return (Criteria) this;
         }
 
-        public Criteria andInformationIdBetween(Short value1, Short value2) {
+        public Criteria andInformationIdBetween(Integer value1, Integer value2) {
             addCriterion("INFORMATION_ID between", value1, value2, "informationId");
             return (Criteria) this;
         }
 
-        public Criteria andInformationIdNotBetween(Short value1, Short value2) {
+        public Criteria andInformationIdNotBetween(Integer value1, Integer value2) {
             addCriterion("INFORMATION_ID not between", value1, value2, "informationId");
             return (Criteria) this;
         }
