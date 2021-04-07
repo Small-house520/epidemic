@@ -23,7 +23,6 @@ import cn.edu.dgut.epidemic.util.Constants;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	// public static Logger logger = Logger.getLogger(UserController.class);
 
 	@Autowired
 	private UserService userService;

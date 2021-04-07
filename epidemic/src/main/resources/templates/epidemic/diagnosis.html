@@ -48,14 +48,15 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					编号：<input type="text" id="campusId" name="campusId" maxlength="12"
-						placeholder="编号" value=""> 姓名：<input type="text"
-						id="fullName" name="fullName" placeholder="姓名" value="">
-					是否重症：<select>
+					编号：<input type="text" id="campusIdFind" name="campusId"
+						maxlength="12" placeholder="编号" value=""> 姓名：<input
+						type="text" id="fullName" name="fullName" placeholder="姓名"
+						value=""> 是否重症：<select id="whetherSevereFind"
+						name="whetherSevere">
 						<option value="" selected="selected">请选择</option>
 						<option value="y">是</option>
 						<option value="n">否</option>
-					</select> 感染源：<input type="text" id="sourceOfInfection"
+					</select> 感染源：<input type="text" id="sourceOfInfectionFind"
 						name="sourceOfInfection" placeholder="感染来源" value="">
 					<button id="query" class="btn btn-default">查询</button>
 				</div>
@@ -85,12 +86,14 @@
 						<td th:text="${diagnosis.symptoms}"></td>
 						<td><span th:each="user:${userInfo}"
 							th:text="${user.campusId==diagnosis.campusId?user.address:''}"></span></td>
-						<td th:text="${#dates.format(diagnosis.diagnosisTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td
+							th:text="${#dates.format(diagnosis.diagnosisTime,'yyyy-MM-dd HH:mm:ss')}"></td>
 						<td th:text="${diagnosis.whetherSevere=='y'?'是':'否'}"></td>
 
 						<td class="text-center">
-							<button type="button" class="btn bg-olive btn-xs" th:onclick="fillDetail([[${diagnosis}]])"
-								data-toggle="modal" data-target="#detailModal">详情</button>
+							<button type="button" class="btn bg-olive btn-xs"
+								th:onclick="fillDetail([[${diagnosis}]])" data-toggle="modal"
+								data-target="#detailModal">详情</button>
 							<button type="button" class="btn bg-olive btn-xs"
 								data-toggle="modal" data-target="#cureModal">转为治愈</button>
 							<button type="button" class="btn bg-olive btn-xs"
@@ -117,7 +120,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">×</button>
-					<h3 id="myModalLabel">患者信息</h3>
+					<h3 id="myModalLabel">确诊患者信息</h3>
 				</div>
 				<div class="modal-body">
 
@@ -182,10 +185,81 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- 新建窗口 -->
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+		aria-labelledby="addModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<form action="../campusEpidemic/diagnosesAdd" method="post"
+				onsubmit="return verify()">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h3 id="addModalLabel">新增确诊患者</h3>
+					</div>
+
+					<div class="modal-body">
+
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>编号</td>
+								<td><input type="text" id="campusId" name="campusId"
+									class="form-control" placeholder="编号" maxlength="12"
+									required="required"></td>
+								<td><span id="campusIdCheck"></span></td>
+							</tr>
+							<tr>
+								<td>症状</td>
+								<td><input type="text" id="symptoms" name="symptoms"
+									class="form-control" placeholder="症状" required="required"></td>
+							</tr>
+							<tr>
+								<td>是否重症</td>
+								<td><select id="whetherSevere" name="whetherSevere"
+									class="form-control">
+										<option value="y">是</option>
+										<option value="n" selected="selected">否</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td>诊治医院</td>
+								<td><input type="text" id="hospital" name="hospital"
+									required="required" class="form-control" placeholder="诊治医院"></td>
+							</tr>
+							<tr>
+								<td>确诊时间</td>
+								<td><input type="datetime-local" id="diagnosisTime"
+									name="diagnosisTime" class="form-control" required="required"></td>
+							</tr>
+							<tr>
+								<td>感染源</td>
+								<td><input type="text" id="sourceOfInfection"
+									name="sourceOfInfection" class="form-control"
+									placeholder="感染来源" required="required"></td>
+							</tr>
+							<tr>
+								<td>备注</td>
+								<td><input type="text" id="remarks" name="remarks"
+									class="form-control" placeholder="备注"></td>
+							</tr>
+						</table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">保 存</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关 闭</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
 </body>
 
 <script type="text/javascript">
-	$("#campusId").keyup(function() {//控制输入的账号只能为数字
+	$("#campusIdFind").keyup(function() {//控制输入的账号只能为数字
 		var value = $(this);
 		//替换非数字字符
 		var temp = "";
@@ -198,6 +272,57 @@
 		}
 	})
 	
+	var flag = 0;
+	$(function() {
+		
+		// 使用Ajax异步获取后台用户是否存在
+		$("#campusId").keyup(function() {
+			var campusId = $("#campusId").val();
+			
+			var value = $(this);
+			//替换非数字字符
+			var temp = "";
+			if (value.val().length == 1) {
+				temp = value.val().replace(/[^1-9]/g, '');
+				$(this).val(temp);
+			} else if (/[^\d]/.test(value.val())) {
+				temp = value.val().replace(/[^\d]/g, '');
+				$(this).val(temp);
+			}
+			
+			// post的方式向后台发送请求，第一个参数为发送的地址，第二个参数为发送的数据，function表示执行成功返回的数据
+			$.ajax({
+				url: "../user/idCheack",
+				type: "post",
+				data: {"campusId":campusId},
+				dataType: "json",
+				
+				success: function(num) {
+					if (num == "1") {
+						$("#campusIdCheck").html("<span></span>");
+						flag = 0;
+					} else {
+						$("#campusIdCheck").html("<span style='color: red;'>未找到该用户！</span>");
+						flag = 1;
+					}
+				}
+			})
+		});
+
+	})
+	
+	// form表单提交时先进行判断
+	function verify() {
+		if (flag == 1) {
+			alert("未找到该用户");
+			return false;
+		}
+		return true;
+	}
+</script>
+
+<script type="text/javascript">
+	
 	// 查询绑定点击事件
    	$("#query").click(function(){
 	   	doAjax();
@@ -206,14 +331,14 @@
    	// 利用Ajax实现分页
 	function doAjax(){
     	var campusId = $("#campusIdFind").val();
-		var fullName = $("#fullNameFind").val();
-		var post = $("#postFind").val();
-		var classId = $("#classIdFind").val();
-		   
+		var fullName = $("#fullName").val();
+		var whetherSevere = $("#whetherSevereFind").val();
+		var sourceOfInfection = $("#sourceOfInfectionFind").val();
+		
 		$.ajax({
-			url: "../user/findUsers",
-			type: "get",
-			data: {"campusId":campusId, "fullName":fullName,"post":post, "classId":classId},
+			url: "../campusEpidemic/findDiagnosis",
+			type: "post",
+			data: {"campusId":campusId, "fullName":fullName,"whetherSevere":whetherSevere, "sourceOfInfection":sourceOfInfection},
 			dataType: "json",
 			success: function(map){
 				show(map);
@@ -223,37 +348,52 @@
 	}
     
 	function show(map){
-		var users = map.users; //获取到map中的users集合
-		var classes = map.classes; //获取到map中的roles集合
+		var diagnoses = map.diagnoses; //获取到map中的diagnoses集合
+		var userInfo = map.userInfo; //获取到map中的userInfo集合
 		
 		// 先清空原来的内容
 		$("#tb").empty();
-		var user_tr = "<tr name='trCheck'>";
-		if(users!=null && users.length>0){
+		var user_tr = "<tr>";
+		if(diagnoses!=null && diagnoses.length>0){
 			// 拼接内容
-			$.each(users, function(i, user) {
-				user_tr += "<td><input type='checkbox' name='box' th:value='"+ user.campusId +"' onclick='setChecked(this)'>";
+			$.each(diagnoses, function(i, diagnosis) {
+				user_tr += "<td>";
+				user_tr += diagnosis.campusId;
 				user_tr += "</td><td>";
-				user_tr += user.campusId;
+				for(var i=0; i<userInfo.length; i++){
+					if(userInfo[i].campusId==diagnosis.campusId){
+						user_tr += userInfo[i].fullName;
+						break;
+					}
+				}
 				user_tr += "</td><td>";
-				user_tr += user.fullName;
+				user_tr += diagnosis.symptoms;
 				user_tr += "</td><td>";
-				user_tr += user.gender;
+				for(var i=0; i<userInfo.length; i++){
+					if(userInfo[i].campusId==diagnosis.campusId){
+						user_tr += userInfo[i].address;
+						break;
+					}
+				}
 				user_tr += "</td><td>";
-				user_tr += user.age;
+				user_tr += diagnosis.diagnosisTime;
 				user_tr += "</td><td>";
-				user_tr += user.post;
-				user_tr += "</td><td>";
-				user_tr += user.phoneNumber;
-				user_tr += "</td><td>";
-				user_tr += user.address;
+				if(diagnosis.whetherSevere=='y'){
+					user_tr += "是";
+				}else{
+					user_tr += "否";
+				}
 				user_tr += "</td><td class='text-center'>";
 				user_tr += "<button type='button' class='btn bg-olive btn-xs' ";
-				user_tr += "data-toggle='modal' data-target='#infoModal'";
-				user_tr += "onclick='fillInfoTable("+ user +")'>详情</button>&nbsp;&nbsp;";
-				user_tr += "<button type='button' onclick='fillEditTable("+ user +")' ";
+				user_tr += "data-toggle='modal' data-target='#detailModal'";
+				user_tr += "onclick='fillDetail("+ diagnosis +")'>详情</button>&nbsp;&nbsp;";
+				user_tr += "<button type='button' onclick='fillEditTable()' ";
 				user_tr += "class='btn bg-olive btn-xs' data-toggle='modal'";
-				user_tr += "data-target='#editModal'>编辑</button></td></tr>";
+				user_tr += "data-target='#cureModal'>转为治愈</button>&nbsp;&nbsp;";
+				user_tr += "<button type='button' onclick='fillEditTable()' ";
+				user_tr += "class='btn bg-olive btn-xs' data-toggle='modal'";
+				user_tr += "data-target='#deathModal'>转为死亡</button></td></tr>";
+			
 			});
 		}else{
 			user_tr =  "<tr style='text-align: center;'><td colspan='12'>没有查询到相关记录！</td></tr>";

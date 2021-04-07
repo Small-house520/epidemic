@@ -209,9 +209,10 @@ public class UserServiceImpl implements UserService {
 		CampusUserInfoExample.Criteria criteria = userInfoExample.createCriteria();
 		if (ids != null && ids.size() > 0) {
 			criteria.andCampusIdIn(ids);
+			return this.userInfoMapper.selectByExample(userInfoExample);
 		}
 
-		return this.userInfoMapper.selectByExample(userInfoExample);
+		return null;
 	}
 
 }

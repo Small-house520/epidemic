@@ -6,7 +6,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>死亡管理</title>
-<!-- Tell the browser to be responsive to screen width -->
 <meta
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
@@ -48,12 +47,12 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					编号：<input type="number" id="campusId" name="campusId"
-						placeholder="编号" value=""> 姓名： <input type="text"
-						id="fullName" name="fullName" placeholder="姓名" value="">
-					死亡时间： <input type="datetime" id="timeOfDeath" name="timeOfDeath"
-						placeholder="死亡时间" value="">
-					<button class="btn btn-default">查询</button>
+					编号：<input type="text" id="campusId" name="campusId"
+						placeholder="编号" maxlength="12" value=""> 姓名：<input
+						type="text" id="fullName" name="fullName" placeholder="姓名"
+						value=""> 死亡时间：<input type="date" id="timeOfDeath"
+						name="timeOfDeath" placeholder="死亡时间" value="">
+					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
 			<!--工具栏/-->
@@ -63,60 +62,49 @@
 				class="table table-bordered table-striped table-hover dataTable">
 				<thead>
 					<tr>
-						<th class="" style="padding-right: 0px"><input id="selall"
-							type="checkbox" class="icheckbox_square-blue"></th>
 						<th class="sorting_asc">编号</th>
 						<th class="sorting">姓名</th>
+						<th class="sorting">性别</th>
+						<th class="sorting">年龄</th>
+						<th class="sorting">联系方式</th>
 						<th class="sorting">死亡日期</th>
 						<th class="sorting">备注</th>
 
 						<th class="text-center">操作</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>1</td>
-						<td>梦琪琪商贸有限公司</td>
-						<td>梦琪琪</td>
-						<td>13402312232</td>
+				<tbody id="tb">
+					<tr th:each="user:${userInfo}">
+						<td th:text="${user.campusId}"></td>
+						<td th:text="${user.fullName}"></td>
+						<td th:text="${user.gender=='m'?'男':'女'}"></td>
+						<td th:text="${user.age}"></td>
+						<td th:text="${user.phoneNumber}"></td>
+						<td><span th:each="cure:${cureDeath}"
+							th:text="${user.campusId==cure.campusId?#dates.format(cure.timeOfDeath,'yyyy-MM-dd HH:mm:ss'):''}"></span></td>
+						<td><span th:each="cure:${cureDeath}"
+							th:text="${user.campusId==cure.campusId?cure.remarks:''}"></span></td>
 
 						<td class="text-center">
 							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">详情</button>
-						</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>2</td>
-						<td>黑瞎子苹果专卖店</td>
-						<td>孙大鹏</td>
-						<td>13622244111</td>
-
-						<td class="text-center">
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">详情</button>
+								th:onclick="fillDetail([[${user}]])" data-toggle="modal"
+								data-target="#detailModal">详情</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<!--数据列表/-->
 
-
 		</div>
 		<!-- 数据表格 /-->
-
-
-
 
 	</div>
 	<!-- /.box-body -->
 
 
 
-
-	<!-- 商家详情 -->
-	<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog"
+	<!-- 死亡者信息详情 -->
+	<div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -133,44 +121,146 @@
 
 					<!-- 选项卡开始 -->
 					<div id="myTabContent" class="tab-content">
-						<div class="tab-pane fade" id="personal">
+						<div class="tab-pane active in" id="personal">
 							<br>
 							<table class="table table-bordered table-striped">
 								<tr>
-									<td>年龄</td>
-									<td>7822332278223322</td>
-								</tr>
-								<tr>
-									<td>性别</td>
-									<td>7822332278223322</td>
-								</tr>
-								<tr>
 									<td>岗位/职称</td>
-									<td>7822332278223322</td>
+									<td id="post"></td>
 								</tr>
 								<tr>
 									<td>身份证</td>
-									<td>7822332278223322</td>
+									<td id="idNumber"></td>
 								</tr>
 								<tr>
-									<td>手机号码</td>
-									<td>7822332278223322</td>
+									<td>住址</td>
+									<td id="address"></td>
 								</tr>
 							</table>
 						</div>
 						<!-- 选项卡结束 -->
 
-
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-success" data-dismiss="modal"
-							aria-hidden="true">保存</button>
 						<button class="btn btn-default" data-dismiss="modal"
 							aria-hidden="true">关闭</button>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+
 </body>
+
+<script type="text/javascript">
+	$("#campusId").keyup(function() {//控制输入的账号只能为数字
+		var value = $(this);
+		//替换非数字字符
+		var temp = "";
+		if (value.val().length == 1) {
+			temp = value.val().replace(/[^1-9]/g, '');
+			$(this).val(temp);
+		} else if (/[^\d]/.test(value.val())) {
+			temp = value.val().replace(/[^\d]/g, '');
+			$(this).val(temp);
+		}
+	})
+</script>
+
+<script type="text/javascript">
+	// 查询绑定点击事件
+	$("#query").click(function() {
+		doAjax();
+	})
+
+	// 利用Ajax实现分页
+	function doAjax() {
+		var campusId = $("#campusId").val();
+		var fullName = $("#fullName").val();
+		var timeOfDeath = $("#timeOfDeath").val();
+
+		$.ajax({
+			url : "../campusEpidemic/findCureDeath",
+			type : "post",
+			data : {
+				"campusId" : campusId,
+				"fullName" : fullName,
+				"timeOfDeath" : timeOfDeath,
+				"flag" : 2
+			},
+			dataType : "json",
+			success : function(map) {
+				show(map);
+			}
+		})
+
+	}
+
+	function show(map) {
+		var cureDeath = map.cureDeath; //获取到map中的cureDeath集合
+		var userInfo = map.userInfo; //获取到map中的userInfo集合
+
+		// 先清空原来的内容
+		$("#tb").empty();
+		var user_tr = "<tr>";
+		if (userInfo != null && userInfo.length > 0) {
+			// 拼接内容
+			$
+					.each(
+							userInfo,
+							function(i, user) {
+								user_tr += "<td>";
+								user_tr += user.campusId;
+								user_tr += "</td><td>";
+								user_tr += user.fullName;
+								user_tr += "</td><td>";
+								if (user.gender == 'm') {
+									user_tr += '男';
+								} else {
+									user_tr += '女';
+								}
+								user_tr += "</td><td>";
+								user_tr += user.age;
+								user_tr += "</td><td>";
+								user_tr += user.phoneNumber;
+								user_tr += "</td><td>";
+								for (var i = 0; i < cureDeath.length; i++) {
+									if (cureDeath[i].campusId == user.campusId) {
+										user_tr += cureDeath[i].timeOfCure;
+										user_tr += "</td><td>";
+										user_tr += cureDeath[i].remarks;
+										break;
+									}
+								}
+								user_tr += "</td><td class='text-center'>";
+								user_tr += "<button type='button' class='btn bg-olive btn-xs' ";
+								user_tr += "data-toggle='modal' data-target='#detailModal'";
+								user_tr += "onclick='fillDetail(" + user
+										+ ")'>详情</button></td></tr>";
+
+							});
+		} else {
+			user_tr = "<tr style='text-align: center;'><td colspan='12'>没有查询到相关记录！</td></tr>";
+		}
+
+		$("#tb").html(user_tr);
+	}
+</script>
+
+<script th:inline="javascript">
+	//设置详情表单的值
+	function fillDetail(user) {
+
+		// 根据id获取各对象
+		var post = document.getElementById("post");
+		var idNumber = document.getElementById("idNumber");
+		var address = document.getElementById("address");
+
+		// 设置td的值
+		post.innerText = user.post;
+		idNumber.innerText = user.idNumber;
+		address.innerText = user.address;
+	}
+</script>
 
 </html>

@@ -7,9 +7,9 @@ public class EpidemicCureDeath {
 
     private Long campusId;
 
-    private String status;
+    private String state;
 
-    private Date timeOfDischarge;
+    private Date timeOfCure;
 
     private Date timeOfDeath;
 
@@ -31,20 +31,20 @@ public class EpidemicCureDeath {
         this.campusId = campusId;
     }
 
-    public String getStatus() {
-        return status;
+    public String getState() {
+        return state;
     }
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+    public void setState(String state) {
+        this.state = state == null ? null : state.trim();
     }
 
-    public Date getTimeOfDischarge() {
-        return timeOfDischarge;
+    public Date getTimeOfCure() {
+        return timeOfCure;
     }
 
-    public void setTimeOfDischarge(Date timeOfDischarge) {
-        this.timeOfDischarge = timeOfDischarge;
+    public void setTimeOfCure(Date timeOfCure) {
+        this.timeOfCure = timeOfCure;
     }
 
     public Date getTimeOfDeath() {

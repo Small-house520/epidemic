@@ -25,26 +25,50 @@ public interface CampusEpidemicService {
 	List<EpidemicDiagnosis> findDiagnosis(EpidemicDiagnosis epidemicDiagnosis, String fullName);
 
 	/**
-	 * 根据查询条件查询校内密切接触者信息
+	 * 查询校内密切接触者信息
 	 * 
 	 * @param epidemicContact
 	 * @return
 	 */
-	List<EpidemicContact> getContact(EpidemicContact epidemicContact);
+	List<EpidemicContact> getContact();
 
 	/**
-	 * 查询校内治愈者信息
+	 * 根据查询条件查询校内密切接触者信息
 	 * 
-	 * @param epidemicCure
+	 * @param epidemicContact
+	 * @param fullName
 	 * @return
 	 */
-	List<EpidemicCureDeath> getCure(EpidemicCureDeath epidemicCure);
+	List<EpidemicContact> findContact(EpidemicContact epidemicContact, String fullName);
 
 	/**
-	 * 查询校内死亡者信息
+	 * 查看校内治愈者信息或死亡者信息
 	 * 
-	 * @param epidemicDeath
 	 * @return
 	 */
-	List<EpidemicCureDeath> getDeath(EpidemicCureDeath epidemicDeath);
+	List<EpidemicCureDeath> getCureDeath(Integer flag);
+
+	/**
+	 * 根据查询条件查询校内治愈者信息或死亡者信息
+	 * 
+	 * @param cureDeath
+	 * @param fullName
+	 * @param flag
+	 * @return
+	 */
+	List<EpidemicCureDeath> findCureDeath(EpidemicCureDeath cureDeath, String fullName, Integer flag);
+
+	/**
+	 * 新增确诊患者信息
+	 * 
+	 * @param diagnosis
+	 */
+	void diagnosesAdd(EpidemicDiagnosis diagnosis);
+
+	/**
+	 * 新增密切接触者信息
+	 * 
+	 * @param epidemicContact
+	 */
+	void contactAdd(EpidemicContact epidemicContact);
 }

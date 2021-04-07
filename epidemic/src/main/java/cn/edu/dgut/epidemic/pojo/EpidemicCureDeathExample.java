@@ -225,133 +225,133 @@ public class EpidemicCureDeathExample {
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNull() {
-            addCriterion("STATUS is null");
+        public Criteria andStateIsNull() {
+            addCriterion("STATE is null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNotNull() {
-            addCriterion("STATUS is not null");
+        public Criteria andStateIsNotNull() {
+            addCriterion("STATE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(String value) {
-            addCriterion("STATUS =", value, "status");
+        public Criteria andStateEqualTo(String value) {
+            addCriterion("STATE =", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(String value) {
-            addCriterion("STATUS <>", value, "status");
+        public Criteria andStateNotEqualTo(String value) {
+            addCriterion("STATE <>", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(String value) {
-            addCriterion("STATUS >", value, "status");
+        public Criteria andStateGreaterThan(String value) {
+            addCriterion("STATE >", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(String value) {
-            addCriterion("STATUS >=", value, "status");
+        public Criteria andStateGreaterThanOrEqualTo(String value) {
+            addCriterion("STATE >=", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(String value) {
-            addCriterion("STATUS <", value, "status");
+        public Criteria andStateLessThan(String value) {
+            addCriterion("STATE <", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(String value) {
-            addCriterion("STATUS <=", value, "status");
+        public Criteria andStateLessThanOrEqualTo(String value) {
+            addCriterion("STATE <=", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLike(String value) {
-            addCriterion("STATUS like", value, "status");
+        public Criteria andStateLike(String value) {
+            addCriterion("STATE like", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotLike(String value) {
-            addCriterion("STATUS not like", value, "status");
+        public Criteria andStateNotLike(String value) {
+            addCriterion("STATE not like", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<String> values) {
-            addCriterion("STATUS in", values, "status");
+        public Criteria andStateIn(List<String> values) {
+            addCriterion("STATE in", values, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<String> values) {
-            addCriterion("STATUS not in", values, "status");
+        public Criteria andStateNotIn(List<String> values) {
+            addCriterion("STATE not in", values, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStatusBetween(String value1, String value2) {
-            addCriterion("STATUS between", value1, value2, "status");
+        public Criteria andStateBetween(String value1, String value2) {
+            addCriterion("STATE between", value1, value2, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotBetween(String value1, String value2) {
-            addCriterion("STATUS not between", value1, value2, "status");
+        public Criteria andStateNotBetween(String value1, String value2) {
+            addCriterion("STATE not between", value1, value2, "state");
             return (Criteria) this;
         }
 
-        public Criteria andTimeOfDischargeIsNull() {
-            addCriterion("TIME_OF_DISCHARGE is null");
+        public Criteria andTimeOfCureIsNull() {
+            addCriterion("TIME_OF_CURE is null");
             return (Criteria) this;
         }
 
-        public Criteria andTimeOfDischargeIsNotNull() {
-            addCriterion("TIME_OF_DISCHARGE is not null");
+        public Criteria andTimeOfCureIsNotNull() {
+            addCriterion("TIME_OF_CURE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTimeOfDischargeEqualTo(Date value) {
-            addCriterion("TIME_OF_DISCHARGE =", value, "timeOfDischarge");
+        public Criteria andTimeOfCureEqualTo(Date value) {
+            addCriterion("TIME_OF_CURE =", value, "timeOfCure");
             return (Criteria) this;
         }
 
-        public Criteria andTimeOfDischargeNotEqualTo(Date value) {
-            addCriterion("TIME_OF_DISCHARGE <>", value, "timeOfDischarge");
+        public Criteria andTimeOfCureNotEqualTo(Date value) {
+            addCriterion("TIME_OF_CURE <>", value, "timeOfCure");
             return (Criteria) this;
         }
 
-        public Criteria andTimeOfDischargeGreaterThan(Date value) {
-            addCriterion("TIME_OF_DISCHARGE >", value, "timeOfDischarge");
+        public Criteria andTimeOfCureGreaterThan(Date value) {
+            addCriterion("TIME_OF_CURE >", value, "timeOfCure");
             return (Criteria) this;
         }
 
-        public Criteria andTimeOfDischargeGreaterThanOrEqualTo(Date value) {
-            addCriterion("TIME_OF_DISCHARGE >=", value, "timeOfDischarge");
+        public Criteria andTimeOfCureGreaterThanOrEqualTo(Date value) {
+            addCriterion("TIME_OF_CURE >=", value, "timeOfCure");
             return (Criteria) this;
         }
 
-        public Criteria andTimeOfDischargeLessThan(Date value) {
-            addCriterion("TIME_OF_DISCHARGE <", value, "timeOfDischarge");
+        public Criteria andTimeOfCureLessThan(Date value) {
+            addCriterion("TIME_OF_CURE <", value, "timeOfCure");
             return (Criteria) this;
         }
 
-        public Criteria andTimeOfDischargeLessThanOrEqualTo(Date value) {
-            addCriterion("TIME_OF_DISCHARGE <=", value, "timeOfDischarge");
+        public Criteria andTimeOfCureLessThanOrEqualTo(Date value) {
+            addCriterion("TIME_OF_CURE <=", value, "timeOfCure");
             return (Criteria) this;
         }
 
-        public Criteria andTimeOfDischargeIn(List<Date> values) {
-            addCriterion("TIME_OF_DISCHARGE in", values, "timeOfDischarge");
+        public Criteria andTimeOfCureIn(List<Date> values) {
+            addCriterion("TIME_OF_CURE in", values, "timeOfCure");
             return (Criteria) this;
         }
 
-        public Criteria andTimeOfDischargeNotIn(List<Date> values) {
-            addCriterion("TIME_OF_DISCHARGE not in", values, "timeOfDischarge");
+        public Criteria andTimeOfCureNotIn(List<Date> values) {
+            addCriterion("TIME_OF_CURE not in", values, "timeOfCure");
             return (Criteria) this;
         }
 
-        public Criteria andTimeOfDischargeBetween(Date value1, Date value2) {
-            addCriterion("TIME_OF_DISCHARGE between", value1, value2, "timeOfDischarge");
+        public Criteria andTimeOfCureBetween(Date value1, Date value2) {
+            addCriterion("TIME_OF_CURE between", value1, value2, "timeOfCure");
             return (Criteria) this;
         }
 
-        public Criteria andTimeOfDischargeNotBetween(Date value1, Date value2) {
-            addCriterion("TIME_OF_DISCHARGE not between", value1, value2, "timeOfDischarge");
+        public Criteria andTimeOfCureNotBetween(Date value1, Date value2) {
+            addCriterion("TIME_OF_CURE not between", value1, value2, "timeOfCure");
             return (Criteria) this;
         }
 

@@ -6,7 +6,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>密切接触者管理</title>
-<!-- Tell the browser to be responsive to screen width -->
 <meta
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
@@ -36,7 +35,7 @@
 				<div class="form-group form-inline">
 					<div class="btn-group">
 						<button type="button" class="btn btn-default" title="新建"
-							data-toggle="modal" data-target="#editModal">
+							data-toggle="modal" data-target="#addModal">
 							<i class="fa fa-file-o"></i> 新建
 						</button>
 						<button type="button" class="btn btn-default" title="刷新"
@@ -49,12 +48,14 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					编号：<input type="number" id="campusId" name="campusId"
-						placeholder="编号" value=""> 接触来源： <input type="text"
-						id="contactSource" name="contactSource" placeholder="接触来源"
-						value=""> 隔离时间： <input type="datetime" id="isolationTime"
-						name="isolationTime" placeholder="隔离时间" value="">
-					<button class="btn btn-default">查询</button>
+					编号：<input type="text" id="campusIdFind" name="campusId"
+						placeholder="编号" value="" maxlength="12"> 姓名：<input type="text"
+						id="fullName" name="fullName" placeholder="姓名" value="">
+					接触来源：<input type="text" id="contactSourceFind" name="contactSource"
+						placeholder="接触来源" value=""> 隔离时间：<input type="date"
+						id="isolationTimeFind" name="isolationTime" placeholder="隔离时间"
+						value="">
+					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
 			<!--工具栏/-->
@@ -64,8 +65,6 @@
 				class="table table-bordered table-striped table-hover dataTable">
 				<thead>
 					<tr>
-						<th class="" style="padding-right: 0px"><input id="selall"
-							type="checkbox" class="icheckbox_square-blue"></th>
 						<th class="sorting_asc">编号</th>
 						<th class="sorting">姓名</th>
 						<th class="sorting">接触来源</th>
@@ -76,60 +75,41 @@
 						<th class="text-center">操作</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>1</td>
-						<td>梦琪琪商贸有限公司</td>
-						<td>梦琪琪</td>
-						<td>李梦琪</td>
-						<td>13402312232</td>
+				<tbody id="tb">
+					<tr th:each="contact:${epidemicContact}">
+						<td th:text="${contact.campusId}"></td>
+						<td><span th:each="user:${userInfo}"
+							th:text="${user.campusId==contact.campusId?user.fullName:''}"></span></td>
+						<td th:text="${contact.contactSource}"></td>
+						<td th:text="${contact.isolationAddress}"></td>
+						<td
+							th:text="${#dates.format(contact.isolationTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td th:text="${contact.remarks}"></td>
 
 						<td class="text-center">
 							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">详情</button>
+								th:onclick="fillDetail([[${contact}]])" data-toggle="modal"
+								data-target="#detailModal">详情</button>
 							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">隔离结束</button>
+								data-toggle="modal" data-target="#cureModal">隔离结束</button>
 							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">转为确诊</button>
-						</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>2</td>
-						<td>黑瞎子苹果专卖店</td>
-						<td>李梦琪</td>
-						<td>孙大鹏</td>
-						<td>13622244111</td>
-
-						<td class="text-center">
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">详情</button>
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">隔离结束</button>
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">转为确诊</button>
+								data-toggle="modal" data-target="#diagnosisModal">转为确诊</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<!--数据列表/-->
 
-
 		</div>
 		<!-- 数据表格 /-->
-
-
-
 
 	</div>
 	<!-- /.box-body -->
 
 
 
-
-	<!-- 商家详情 -->
-	<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog"
+	<!-- 密切接触者详情 -->
+	<div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -146,28 +126,32 @@
 
 					<!-- 选项卡开始 -->
 					<div id="myTabContent" class="tab-content">
-						<div class="tab-pane fade" id="personal">
+						<div class="tab-pane active in" id="personal">
 							<br>
 							<table class="table table-bordered table-striped">
 								<tr>
 									<td>年龄</td>
-									<td>7822332278223322</td>
+									<td id="age"></td>
 								</tr>
 								<tr>
 									<td>性别</td>
-									<td>7822332278223322</td>
+									<td id="gender"></td>
 								</tr>
 								<tr>
 									<td>岗位/职称</td>
-									<td>7822332278223322</td>
+									<td id="post"></td>
 								</tr>
 								<tr>
 									<td>身份证</td>
-									<td>7822332278223322</td>
+									<td id="idNumber"></td>
 								</tr>
 								<tr>
 									<td>手机号码</td>
-									<td>7822332278223322</td>
+									<td id="phoneNumber"></td>
+								</tr>
+								<tr>
+									<td>住址</td>
+									<td id="address"></td>
 								</tr>
 							</table>
 						</div>
@@ -175,11 +159,8 @@
 					</div>
 					<!-- 选项卡结束 -->
 
-
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" data-dismiss="modal"
-						aria-hidden="true">保存</button>
 					<button class="btn btn-default" data-dismiss="modal"
 						aria-hidden="true">关闭</button>
 				</div>
@@ -187,7 +168,238 @@
 		</div>
 	</div>
 
+	<!-- 新建窗口 -->
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+		aria-labelledby="addModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<form action="../campusEpidemic/contactAdd" method="post"
+				onsubmit="return verify()">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h3 id="addModalLabel">新增密切接触者</h3>
+					</div>
+
+					<div class="modal-body">
+
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>编号</td>
+								<td><input type="text" id="campusId" name="campusId"
+									class="form-control" placeholder="编号" maxlength="12"
+									required="required"></td>
+								<td><span id="campusIdCheck"></span></td>
+							</tr>
+							<tr>
+								<td>接触来源</td>
+								<td><input type="text" id="contactSource"
+									name="contactSource" class="form-control" placeholder="接触来源"
+									required="required"></td>
+							</tr>
+							<tr>
+								<td>隔离地址</td>
+								<td><input type="text" id="isolationAddress"
+									name="isolationAddress" required="required"
+									class="form-control" placeholder="隔离地址"></td>
+							</tr>
+							<tr>
+								<td>隔离时间</td>
+								<td><input type="datetime-local" id="isolationTime"
+									name="isolationTime" class="form-control" required="required"></td>
+							</tr>
+							<tr>
+								<td>备注</td>
+								<td><input type="text" id="remarks" name="remarks"
+									class="form-control" placeholder="备注"></td>
+							</tr>
+						</table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">保 存</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关 闭</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
 
 </body>
+
+<script type="text/javascript">
+	$("#campusIdFind").keyup(function() {//控制输入的账号只能为数字
+		var value = $(this);
+		//替换非数字字符
+		var temp = "";
+		if (value.val().length == 1) {
+			temp = value.val().replace(/[^1-9]/g, '');
+			$(this).val(temp);
+		} else if (/[^\d]/.test(value.val())) {
+			temp = value.val().replace(/[^\d]/g, '');
+			$(this).val(temp);
+		}
+	})
+	
+	var flag = 0;
+	$(function() {
+		
+		// 使用Ajax异步获取后台用户是否存在
+		$("#campusId").keyup(function() {
+			var campusId = $("#campusId").val();
+			
+			var value = $(this);
+			//替换非数字字符
+			var temp = "";
+			if (value.val().length == 1) {
+				temp = value.val().replace(/[^1-9]/g, '');
+				$(this).val(temp);
+			} else if (/[^\d]/.test(value.val())) {
+				temp = value.val().replace(/[^\d]/g, '');
+				$(this).val(temp);
+			}
+			
+			// post的方式向后台发送请求，第一个参数为发送的地址，第二个参数为发送的数据，function表示执行成功返回的数据
+			$.ajax({
+				url: "../user/idCheack",
+				type: "post",
+				data: {"campusId":campusId},
+				dataType: "json",
+				
+				success: function(num) {
+					if (num == "1") {
+						$("#campusIdCheck").html("<span></span>");
+						flag = 0;
+					} else {
+						$("#campusIdCheck").html("<span style='color: red;'>未找到该用户！</span>");
+						flag = 1;
+					}
+				}
+			})
+		});
+
+	})
+	
+	// form表单提交时先进行判断
+	function verify() {
+		if (flag == 1) {
+			alert("未找到该用户");
+			return false;
+		}
+		return true;
+	}
+</script>
+
+<script type="text/javascript">
+	
+	// 查询绑定点击事件
+   	$("#query").click(function(){
+	   	doAjax();
+   	})
+   
+   	// 利用Ajax实现分页
+	function doAjax(){
+    	var campusId = $("#campusIdFind").val();
+		var fullName = $("#fullName").val();
+		var contactSource = $("#contactSourceFind").val();
+		var isolationTime = $("#isolationTimeFind").val();
+		
+		$.ajax({
+			url: "../campusEpidemic/findContact",
+			type: "post",
+			data: {"campusId":campusId, "fullName":fullName,"contactSource":contactSource, "isolationTime":isolationTime},
+			dataType: "json",
+			success: function(map){
+				show(map);
+			}
+		})
+		
+	}
+    
+	function show(map){
+		var epidemicContact = map.epidemicContact; //获取到map中的epidemicContact集合
+		var userInfo = map.userInfo; //获取到map中的userInfo集合
+		
+		// 先清空原来的内容
+		$("#tb").empty();
+		var user_tr = "<tr>";
+		if(epidemicContact!=null && epidemicContact.length>0){
+			// 拼接内容
+			$.each(epidemicContact, function(i, contact) {
+				user_tr += "<td>";
+				user_tr += contact.campusId;
+				user_tr += "</td><td>";
+				for(var i=0; i<userInfo.length; i++){
+					if(userInfo[i].campusId==contact.campusId){
+						user_tr += userInfo[i].fullName;
+						break;
+					}
+				}
+				user_tr += "</td><td>";
+				user_tr += contact.contactSource;
+				user_tr += "</td><td>";
+				user_tr += contact.isolationAddress;
+				user_tr += "</td><td>";
+				user_tr += contact.isolationTime;
+				user_tr += "</td><td>";
+				user_tr += contact.remarks;
+				user_tr += "</td><td class='text-center'>";
+				user_tr += "<button type='button' class='btn bg-olive btn-xs' ";
+				user_tr += "data-toggle='modal' data-target='#detailModal'";
+				user_tr += "onclick='fillDetail("+ contact +")'>详情</button>&nbsp;&nbsp;";
+				user_tr += "<button type='button' onclick='fillEditTable()' ";
+				user_tr += "class='btn bg-olive btn-xs' data-toggle='modal'";
+				user_tr += "data-target='#cureModal'>隔离结束</button>&nbsp;&nbsp;";
+				user_tr += "<button type='button' onclick='fillEditTable()' ";
+				user_tr += "class='btn bg-olive btn-xs' data-toggle='modal'";
+				user_tr += "data-target='#diagnosisModal'>转为确诊</button></td></tr>";
+			
+			});
+		}else{
+			user_tr =  "<tr style='text-align: center;'><td colspan='12'>没有查询到相关记录！</td></tr>";
+		}
+		
+		$("#tb").html(user_tr);
+	}
+</script>
+
+<script th:inline="javascript">
+	//设置详情表单的值
+	function fillDetail(contact) {
+		// 获取用户信息
+		var userInfos = [[${userInfo}]];
+		// 匹配当前选中用户信息
+		var user = null;
+		for(var i=0; i<userInfos.length; i++){
+			if(contact.campusId == userInfos[i].campusId){
+				user = userInfos[i];
+			}
+		}
+		
+		// 根据id获取各对象
+		var age = document.getElementById("age");
+		var gender = document.getElementById("gender");
+		var post = document.getElementById("post");
+		var idNumber = document.getElementById("idNumber");
+		var phoneNumber = document.getElementById("phoneNumber");
+		var address = document.getElementById("address");
+		
+		// 设置td的值
+		age.innerText = user.age;
+		// 判断是男还是女
+		if(user.gender == "m"){
+			gender.innerText = "男";
+		}else{
+			gender.innerText = "女";
+		}
+		post.innerText = user.post;
+		idNumber.innerText = user.idNumber;
+		phoneNumber.innerText = user.phoneNumber;
+		address.innerText = user.address;
+		
+	}
+</script>
 
 </html>
