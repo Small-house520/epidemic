@@ -3,7 +3,7 @@
 <mapper namespace="cn.edu.dgut.epidemic.mapper.VolunteerEnrollMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
     <id column="VOLUNTEER_ID" property="volunteerId" jdbcType="INTEGER" />
-    <result column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <result column="CAMPUS_ID" property="campusId" jdbcType="VARCHAR" />
     <result column="VOLUNTEER_SERVICE_ID" property="volunteerServiceId" jdbcType="INTEGER" />
     <result column="IS_QUALIFIED" property="isQualified" jdbcType="VARCHAR" />
     <result column="ENROLL_TIME" property="enrollTime" jdbcType="TIMESTAMP" />
@@ -104,17 +104,21 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
+  <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" useGeneratedKeys="true" keyProperty="volunteerId">
     insert into volunteer_enroll (VOLUNTEER_ID, CAMPUS_ID, VOLUNTEER_SERVICE_ID, 
       IS_QUALIFIED, ENROLL_TIME, EMPLOY_OR_NOT, 
       VOLUNTEER_REMARKS, SPONSOR_REMARKS, STATE
       )
-    values (#{volunteerId,jdbcType=INTEGER}, #{campusId,jdbcType=BIGINT}, #{volunteerServiceId,jdbcType=INTEGER}, 
+    values (#{volunteerId,jdbcType=INTEGER}, #{campusId,jdbcType=VARCHAR}, #{volunteerServiceId,jdbcType=INTEGER}, 
       #{isQualified,jdbcType=VARCHAR}, #{enrollTime,jdbcType=TIMESTAMP}, #{employOrNot,jdbcType=VARCHAR}, 
       #{volunteerRemarks,jdbcType=VARCHAR}, #{sponsorRemarks,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}
       )
+
+    <!-- <selectKey keyProperty="volunteerId" resultType="java.lang.Integer" order="AFTER">
+     SELECT LAST_INSERT_ID()
+    </selectKey> -->
   </insert>
-  <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
+  <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" useGeneratedKeys="true" keyProperty="volunteerId">
     insert into volunteer_enroll
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="volunteerId != null" >
@@ -150,7 +154,7 @@
         #{volunteerId,jdbcType=INTEGER},
       </if>
       <if test="campusId != null" >
-        #{campusId,jdbcType=BIGINT},
+        #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="volunteerServiceId != null" >
         #{volunteerServiceId,jdbcType=INTEGER},
@@ -188,7 +192,7 @@
         VOLUNTEER_ID = #{record.volunteerId,jdbcType=INTEGER},
       </if>
       <if test="record.campusId != null" >
-        CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       </if>
       <if test="record.volunteerServiceId != null" >
         VOLUNTEER_SERVICE_ID = #{record.volunteerServiceId,jdbcType=INTEGER},
@@ -219,7 +223,7 @@
   <update id="updateByExample" parameterType="map" >
     update volunteer_enroll
     set VOLUNTEER_ID = #{record.volunteerId,jdbcType=INTEGER},
-      CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       VOLUNTEER_SERVICE_ID = #{record.volunteerServiceId,jdbcType=INTEGER},
       IS_QUALIFIED = #{record.isQualified,jdbcType=VARCHAR},
       ENROLL_TIME = #{record.enrollTime,jdbcType=TIMESTAMP},
@@ -235,7 +239,7 @@
     update volunteer_enroll
     <set >
       <if test="campusId != null" >
-        CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="volunteerServiceId != null" >
         VOLUNTEER_SERVICE_ID = #{volunteerServiceId,jdbcType=INTEGER},
@@ -263,7 +267,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerEnroll" >
     update volunteer_enroll
-    set CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+    set CAMPUS_ID = #{campusId,jdbcType=VARCHAR},
       VOLUNTEER_SERVICE_ID = #{volunteerServiceId,jdbcType=INTEGER},
       IS_QUALIFIED = #{isQualified,jdbcType=VARCHAR},
       ENROLL_TIME = #{enrollTime,jdbcType=TIMESTAMP},

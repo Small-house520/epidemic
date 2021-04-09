@@ -5,7 +5,7 @@ import java.util.Date;
 public class EpidemicContact {
     private Integer epidemicContactId;
 
-    private Long campusId;
+    private String campusId;
 
     private String contactSource;
 
@@ -23,12 +23,12 @@ public class EpidemicContact {
         this.epidemicContactId = epidemicContactId;
     }
 
-    public Long getCampusId() {
+    public String getCampusId() {
         return campusId;
     }
 
-    public void setCampusId(Long campusId) {
-        this.campusId = campusId;
+    public void setCampusId(String campusId) {
+        this.campusId = campusId == null ? null : campusId.trim();
     }
 
     public String getContactSource() {

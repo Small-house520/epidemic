@@ -1,9 +1,13 @@
 package cn.edu.dgut.epidemic.util;
 
-import java.util.Arrays;
+import java.util.List;
 
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
+
+import cn.edu.dgut.epidemic.service.UserService;
 
 /**
  * 监听类：activiti 工作流会签，一人通过即可进入下一环节
@@ -14,9 +18,16 @@ public class MangerTaskHandlerCandidateUsers implements TaskListener {
 
 	@Override
 	public void notify(DelegateTask delegateTask) {
+		// 获取到spring容器
+		WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+		UserService userService = (UserService) webApplicationContext.getBean("userService");
+		// 根据roleId查询管理员的用户名
+		short roleId = 4;
+		List<String> admin = userService.findAdmin(roleId);
 		// 添加审批的人员，以下任何一人通过即可进入下一环节
-		String[] admin = { "admin", "管理员" };
-		delegateTask.addCandidateUsers(Arrays.asList(admin));
+		delegateTask.addCandidateUsers(admin);
+		// String[] admin = { "admin", "管理员" };
+		// delegateTask.addCandidateUsers(Arrays.asList(admin));
 
 	}
 

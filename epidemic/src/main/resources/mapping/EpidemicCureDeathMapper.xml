@@ -3,7 +3,7 @@
 <mapper namespace="cn.edu.dgut.epidemic.mapper.EpidemicCureDeathMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.EpidemicCureDeath" >
     <id column="EPIDEMIC_CURE_ID" property="epidemicCureId" jdbcType="INTEGER" />
-    <result column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <result column="CAMPUS_ID" property="campusId" jdbcType="VARCHAR" />
     <result column="STATE" property="state" jdbcType="VARCHAR" />
     <result column="TIME_OF_CURE" property="timeOfCure" jdbcType="TIMESTAMP" />
     <result column="TIME_OF_DEATH" property="timeOfDeath" jdbcType="TIMESTAMP" />
@@ -104,7 +104,7 @@
     insert into epidemic_cure_death (EPIDEMIC_CURE_ID, CAMPUS_ID, STATE, 
       TIME_OF_CURE, TIME_OF_DEATH, REMARKS
       )
-    values (#{epidemicCureId,jdbcType=INTEGER}, #{campusId,jdbcType=BIGINT}, #{state,jdbcType=VARCHAR}, 
+    values (#{epidemicCureId,jdbcType=INTEGER}, #{campusId,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
       #{timeOfCure,jdbcType=TIMESTAMP}, #{timeOfDeath,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
       )
   </insert>
@@ -135,7 +135,7 @@
         #{epidemicCureId,jdbcType=INTEGER},
       </if>
       <if test="campusId != null" >
-        #{campusId,jdbcType=BIGINT},
+        #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
         #{state,jdbcType=VARCHAR},
@@ -164,7 +164,7 @@
         EPIDEMIC_CURE_ID = #{record.epidemicCureId,jdbcType=INTEGER},
       </if>
       <if test="record.campusId != null" >
-        CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       </if>
       <if test="record.state != null" >
         STATE = #{record.state,jdbcType=VARCHAR},
@@ -186,7 +186,7 @@
   <update id="updateByExample" parameterType="map" >
     update epidemic_cure_death
     set EPIDEMIC_CURE_ID = #{record.epidemicCureId,jdbcType=INTEGER},
-      CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       STATE = #{record.state,jdbcType=VARCHAR},
       TIME_OF_CURE = #{record.timeOfCure,jdbcType=TIMESTAMP},
       TIME_OF_DEATH = #{record.timeOfDeath,jdbcType=TIMESTAMP},
@@ -199,7 +199,7 @@
     update epidemic_cure_death
     <set >
       <if test="campusId != null" >
-        CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
         STATE = #{state,jdbcType=VARCHAR},
@@ -218,7 +218,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicCureDeath" >
     update epidemic_cure_death
-    set CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+    set CAMPUS_ID = #{campusId,jdbcType=VARCHAR},
       STATE = #{state,jdbcType=VARCHAR},
       TIME_OF_CURE = #{timeOfCure,jdbcType=TIMESTAMP},
       TIME_OF_DEATH = #{timeOfDeath,jdbcType=TIMESTAMP},

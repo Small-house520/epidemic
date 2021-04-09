@@ -5,7 +5,7 @@
     <id column="VOLUNTEER_SERVICE_ID" property="volunteerServiceId" jdbcType="INTEGER" />
     <result column="TITLE" property="title" jdbcType="VARCHAR" />
     <result column="DETAILS" property="details" jdbcType="VARCHAR" />
-    <result column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <result column="CAMPUS_ID" property="campusId" jdbcType="VARCHAR" />
     <result column="SPONSOR_ORG" property="sponsorOrg" jdbcType="VARCHAR" />
     <result column="EXPECTED_VOLUNTEERS" property="expectedVolunteers" jdbcType="SMALLINT" />
     <result column="CONDITIONS" property="conditions" jdbcType="VARCHAR" />
@@ -111,7 +111,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerService" >
+  <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerService" useGeneratedKeys="true" keyProperty="volunteerServiceId">
     insert into volunteer_service (VOLUNTEER_SERVICE_ID, TITLE, DETAILS, 
       CAMPUS_ID, SPONSOR_ORG, EXPECTED_VOLUNTEERS, 
       CONDITIONS, PARTICIPATED_VOLUNTEERS, LOCATION, 
@@ -119,13 +119,13 @@
       END_TIME, REMARKS, STATE
       )
     values (#{volunteerServiceId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{details,jdbcType=VARCHAR}, 
-      #{campusId,jdbcType=BIGINT}, #{sponsorOrg,jdbcType=VARCHAR}, #{expectedVolunteers,jdbcType=SMALLINT}, 
+      #{campusId,jdbcType=VARCHAR}, #{sponsorOrg,jdbcType=VARCHAR}, #{expectedVolunteers,jdbcType=SMALLINT}, 
       #{conditions,jdbcType=VARCHAR}, #{participatedVolunteers,jdbcType=SMALLINT}, #{location,jdbcType=VARCHAR}, 
       #{initiateTime,jdbcType=TIMESTAMP}, #{deadline,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerService" >
+  <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.VolunteerService" useGeneratedKeys="true" keyProperty="volunteerServiceId">
     insert into volunteer_service
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="volunteerServiceId != null" >
@@ -185,7 +185,7 @@
         #{details,jdbcType=VARCHAR},
       </if>
       <if test="campusId != null" >
-        #{campusId,jdbcType=BIGINT},
+        #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="sponsorOrg != null" >
         #{sponsorOrg,jdbcType=VARCHAR},
@@ -241,7 +241,7 @@
         DETAILS = #{record.details,jdbcType=VARCHAR},
       </if>
       <if test="record.campusId != null" >
-        CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       </if>
       <if test="record.sponsorOrg != null" >
         SPONSOR_ORG = #{record.sponsorOrg,jdbcType=VARCHAR},
@@ -286,7 +286,7 @@
     set VOLUNTEER_SERVICE_ID = #{record.volunteerServiceId,jdbcType=INTEGER},
       TITLE = #{record.title,jdbcType=VARCHAR},
       DETAILS = #{record.details,jdbcType=VARCHAR},
-      CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       SPONSOR_ORG = #{record.sponsorOrg,jdbcType=VARCHAR},
       EXPECTED_VOLUNTEERS = #{record.expectedVolunteers,jdbcType=SMALLINT},
       CONDITIONS = #{record.conditions,jdbcType=VARCHAR},
@@ -312,7 +312,7 @@
         DETAILS = #{details,jdbcType=VARCHAR},
       </if>
       <if test="campusId != null" >
-        CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="sponsorOrg != null" >
         SPONSOR_ORG = #{sponsorOrg,jdbcType=VARCHAR},
@@ -354,7 +354,7 @@
     update volunteer_service
     set TITLE = #{title,jdbcType=VARCHAR},
       DETAILS = #{details,jdbcType=VARCHAR},
-      CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+      CAMPUS_ID = #{campusId,jdbcType=VARCHAR},
       SPONSOR_ORG = #{sponsorOrg,jdbcType=VARCHAR},
       EXPECTED_VOLUNTEERS = #{expectedVolunteers,jdbcType=SMALLINT},
       CONDITIONS = #{conditions,jdbcType=VARCHAR},

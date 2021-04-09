@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/epidemicData")
 public class EpidemicController {
-	// private Logger logger = Logger.getLogger(EpidemicController.class);
 
 	@Autowired
 	private EpidemicService epidemicService;

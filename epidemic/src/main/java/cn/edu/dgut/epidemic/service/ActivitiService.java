@@ -28,9 +28,10 @@ public interface ActivitiService {
 	 * 
 	 * @param id
 	 * @param name
-	 * @param flag：1为活动审核流程，2为报名流程
+	 * @param sponsor
+	 * @param flag:1为活动审核流程，2为报名流程
 	 */
-	void startProcess(Long id, String name, Integer flag);
+	void startProcess(Integer id, String name, String sponsor, Integer flag);
 
 	/**
 	 * 根据待办人查询任务

@@ -393,7 +393,8 @@
 				user_tr += "<button type='button' onclick='fillEditTable()' ";
 				user_tr += "class='btn bg-olive btn-xs' data-toggle='modal'";
 				user_tr += "data-target='#deathModal'>转为死亡</button></td></tr>";
-			
+				//<fmt:formatDate value="${task.createTime}"
+				//th:text=""	pattern="yyyy-MM-dd hh:mm:ss" />
 			});
 		}else{
 			user_tr =  "<tr style='text-align: center;'><td colspan='12'>没有查询到相关记录！</td></tr>";

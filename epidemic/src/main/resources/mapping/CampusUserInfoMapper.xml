@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.edu.dgut.epidemic.mapper.CampusUserInfoMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.CampusUserInfo" >
-    <id column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <id column="CAMPUS_ID" property="campusId" jdbcType="VARCHAR" />
     <result column="FULL_NAME" property="fullName" jdbcType="VARCHAR" />
     <result column="GENDER" property="gender" jdbcType="VARCHAR" />
     <result column="AGE" property="age" jdbcType="SMALLINT" />
@@ -90,15 +90,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from campus_user_info
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where CAMPUS_ID = #{campusId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from campus_user_info
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where CAMPUS_ID = #{campusId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="cn.edu.dgut.epidemic.pojo.CampusUserInfoExample" >
     delete from campus_user_info
@@ -111,7 +111,7 @@
       AGE, ID_NUMBER, POST, 
       CLASS_ID, PHONE_NUMBER, EMERGENCY_CONTACT, 
       EMERGENCY_CONTACT_PHONE, ADDRESS)
-    values (#{campusId,jdbcType=BIGINT}, #{fullName,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+    values (#{campusId,jdbcType=VARCHAR}, #{fullName,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
       #{age,jdbcType=SMALLINT}, #{idNumber,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, 
       #{classId,jdbcType=INTEGER}, #{phoneNumber,jdbcType=CHAR}, #{emergencyContact,jdbcType=VARCHAR}, 
       #{emergencyContactPhone,jdbcType=CHAR}, #{address,jdbcType=VARCHAR})
@@ -155,7 +155,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="campusId != null" >
-        #{campusId,jdbcType=BIGINT},
+        #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="fullName != null" >
         #{fullName,jdbcType=VARCHAR},
@@ -199,7 +199,7 @@
     update campus_user_info
     <set >
       <if test="record.campusId != null" >
-        CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       </if>
       <if test="record.fullName != null" >
         FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
@@ -238,7 +238,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update campus_user_info
-    set CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+    set CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
       GENDER = #{record.gender,jdbcType=VARCHAR},
       AGE = #{record.age,jdbcType=SMALLINT},
@@ -287,7 +287,7 @@
         ADDRESS = #{address,jdbcType=VARCHAR},
       </if>
     </set>
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where CAMPUS_ID = #{campusId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.CampusUserInfo" >
     update campus_user_info
@@ -301,6 +301,6 @@
       EMERGENCY_CONTACT = #{emergencyContact,jdbcType=VARCHAR},
       EMERGENCY_CONTACT_PHONE = #{emergencyContactPhone,jdbcType=CHAR},
       ADDRESS = #{address,jdbcType=VARCHAR}
-    where CAMPUS_ID = #{campusId,jdbcType=BIGINT}
+    where CAMPUS_ID = #{campusId,jdbcType=VARCHAR}
   </update>
 </mapper>

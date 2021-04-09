@@ -45,7 +45,7 @@ public class ProcesslServiceImpl implements ProcessService {
 
 	// 根据campusId查询出活动信息
 	@Override
-	public List<VolunteerService> getVolunteersService(Long campusId) {
+	public List<VolunteerService> getVolunteersService(String campusId) {
 		VolunteerServiceExample example = new VolunteerServiceExample();
 		VolunteerServiceExample.Criteria criteria = example.createCriteria();
 		criteria.andCampusIdEqualTo(campusId);
@@ -54,7 +54,7 @@ public class ProcesslServiceImpl implements ProcessService {
 
 	// 根据campusId查询出报名信息
 	@Override
-	public List<VolunteerEnroll> getVolunteerEnroll(Long campusId) {
+	public List<VolunteerEnroll> getVolunteerEnroll(String campusId) {
 		VolunteerEnrollExample example = new VolunteerEnrollExample();
 		VolunteerEnrollExample.Criteria criteria = example.createCriteria();
 		criteria.andCampusIdEqualTo(campusId);

@@ -12,7 +12,7 @@
 </style>
 <!-- Bootstrap -->
 <link rel="stylesheet" type="text/css"
-	href="../bootstrap/css/bootstrap.css">
+	href="bootstrap/css/bootstrap.css">
 </head>
 <body id="body1">
 	<div class="container">
@@ -123,9 +123,9 @@
 		<div class="row"></div>
 	</div>
 
-	<script type="text/javascript" src="../bootstrap/js/jquery-1.11.2.js"></script>
-	<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
-	<script type="text/javascript" src="../echarts/echarts.js"></script>
+	<script type="text/javascript" src="bootstrap/js/jquery-1.11.2.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+	<script type="text/javascript" src="echarts/echarts.js"></script>
 	<script type="text/javascript">
 		$(function() {
 			//国内疫情信息展示
@@ -171,7 +171,7 @@
 			//中国地图显示疫情严重程度
 			var myMap = echarts.init($("#myMap").get(0));
 			//获取地图json数据，显示中国地图
-			$.getJSON("../echarts/china.json", {}, function(chinaJson) {
+			$.getJSON("echarts/china.json", {}, function(chinaJson) {
 				echarts.registerMap("china", chinaJson);
 				var option = {
 					title : {
@@ -382,7 +382,7 @@
 		        }
 
 		        $.ajax({
-		            url : '../epidemicData/ajax/cityEpidemic?provinceId='+provinceId+'&updateTime='+updateTime,
+		            url : 'epidemicData/ajax/cityEpidemic?provinceId='+provinceId+'&updateTime='+updateTime,
 		            type : 'post',
 		            dataType : 'json',
 		            success : function(cityEpidemic) {
@@ -416,13 +416,13 @@
 			
 			
 			//发送请求获取国内最新疫情数据
-			$.get("../epidemicData/ajax/domesticEpidemic", {}, function(resp) {
+			$.get("epidemicData/ajax/domesticEpidemic", {}, function(resp) {
 				if (resp != null) {
 					fillToDomesticTable(resp);
 				}
 			}, "json");
 			//发送请求获取各省份最新疫情数据
-			$.get("../epidemicData/ajax/provinceEpidemic", {}, function(resp) {
+			$.get("epidemicData/ajax/provinceEpidemic", {}, function(resp) {
 				if (resp != null) {
 					fillToMap(resp);
 					fillToBar(resp);
@@ -430,7 +430,7 @@
 				}
 			}, "json");
 			//发送请求获取各城市最新疫情数据
-			$.get("../epidemicData/ajax/cityEpidemic", {}, function(resp) {
+			$.get("epidemicData/ajax/cityEpidemic", {}, function(resp) {
 				if (resp != null) {
 					//alert(JSON.stringify(resp));
 					//fillToCityTable(resp);

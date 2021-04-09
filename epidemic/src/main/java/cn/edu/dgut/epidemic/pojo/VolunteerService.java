@@ -9,7 +9,7 @@ public class VolunteerService {
 
     private String details;
 
-    private Long campusId;
+    private String campusId;
 
     private String sponsorOrg;
 
@@ -57,12 +57,12 @@ public class VolunteerService {
         this.details = details == null ? null : details.trim();
     }
 
-    public Long getCampusId() {
+    public String getCampusId() {
         return campusId;
     }
 
-    public void setCampusId(Long campusId) {
-        this.campusId = campusId;
+    public void setCampusId(String campusId) {
+        this.campusId = campusId == null ? null : campusId.trim();
     }
 
     public String getSponsorOrg() {

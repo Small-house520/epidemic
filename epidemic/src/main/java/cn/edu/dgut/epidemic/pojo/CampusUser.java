@@ -3,7 +3,7 @@ package cn.edu.dgut.epidemic.pojo;
 public class CampusUser {
     private Integer userId;
 
-    private Long campusId;
+    private String campusId;
 
     private String userPassword;
 
@@ -19,12 +19,12 @@ public class CampusUser {
         this.userId = userId;
     }
 
-    public Long getCampusId() {
+    public String getCampusId() {
         return campusId;
     }
 
-    public void setCampusId(Long campusId) {
-        this.campusId = campusId;
+    public void setCampusId(String campusId) {
+        this.campusId = campusId == null ? null : campusId.trim();
     }
 
     public String getUserPassword() {

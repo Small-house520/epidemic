@@ -34,7 +34,7 @@ public interface ProcessService {
 	 * @param campusId
 	 * @return
 	 */
-	List<VolunteerService> getVolunteersService(Long campusId);
+	List<VolunteerService> getVolunteersService(String campusId);
 
 	/**
 	 * 根据campusId查询出报名信息
@@ -42,7 +42,7 @@ public interface ProcessService {
 	 * @param campusId
 	 * @return
 	 */
-	List<VolunteerEnroll> getVolunteerEnroll(Long campusId);
+	List<VolunteerEnroll> getVolunteerEnroll(String campusId);
 
 	/**
 	 * 根据活动ID，查询活动信息对象

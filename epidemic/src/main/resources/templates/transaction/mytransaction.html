@@ -17,16 +17,13 @@ th, td {
 </style>
 
 <script src="../js/jquery-2.1.0.js"></script>
-<script src="../bootstrap/bootstrap.min.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
 
 <link href="../bootstrap/css/bootstrap-table.min.css" rel="stylesheet">
 <script src="../bootstrap/js/bootstrap-table.min.js"></script>
 <script src="../bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
 </head>
 <body>
-
-	<!--路径导航-->
-
 	<!--路径导航-->
 
 	<div class="page-content">
@@ -46,20 +43,17 @@ th, td {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>${task.id}</td>
-								<td>${task.name}</td>
-								<td><fmt:formatDate value="${task.createTime}"
-										pattern="yyyy-MM-dd hh:mm:ss" /></td>
-								<td>${task.assignee}</td>
-								<td><a
-									href="${pageContext.request.contextPath}/viewTaskForm?taskId=${task.id}&flag=1"
+							<tr th:each="task:${taskList}">
+								<td th:text="${task.id}"></td>
+								<td th:text="${task.name}"></td>
+								<td
+									th:text="${#dates.format(task.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+								<td th:text="${task.assignee}"></td>
+								<td><a href="#"
+									th:onclick="startTask([[${task.id}]],[[${flag}]])"
 									class="btn btn-success btn-xs"><span
 										class="glyphicon glyphicon-plus"></span> 办理任务</a>&nbsp;&nbsp; <a
-									href="${pageContext.request.contextPath}/viewTaskForm?taskId=${task.id}&flag=2"
-									class="btn btn-success btn-xs"><span
-										class="glyphicon glyphicon-plus"></span> 办理任务</a>&nbsp;&nbsp; <a
-									href="${pageContext.request.contextPath}/viewCurrentImage?taskId=${task.id}"
+									href="#" th:onclick="viewCurrentImage([[${task.id}]])"
 									target="_blank" class="btn btn-success btn-xs"><span
 										class="glyphicon glyphicon-eye-open"></span> 当前流程图</a></td>
 							</tr>
@@ -71,6 +65,16 @@ th, td {
 
 	</div>
 </body>
+
+<script type="text/javascript">
+	function startTask(taskId, flag) {
+		window.location.href = "../activiti/viewTaskForm?taskId=" + taskId
+				+ "&flag=" + flag;
+	}
+	function viewCurrentImage(taskId) {
+		window.location.href = "../activiti/viewCurrentImage?taskId=" + taskId;
+	}
+</script>
 
 <script>
 	//实现表格分页
@@ -93,7 +97,7 @@ th, td {
 		pageSize : 5, //默认一页显示的行数
 		paginationLoop : false, //是否开启分页条无限循环，最后一页时点击下一页是否转到第一页
 		pageList : [ 5, 10, 20 ], //选择每页显示多少行
-		search : true, //启用关键字搜索框
+		search : false, //启用关键字搜索框
 		sortable : true
 	// 是否启用排序
 

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.edu.dgut.epidemic.mapper.VolunteerServiceMapper;
 import cn.edu.dgut.epidemic.pojo.VolunteerService;
 import cn.edu.dgut.epidemic.pojo.VolunteerServiceExample;
-import cn.edu.dgut.epidemic.pojo.VolunteerServiceExample.Criteria;
 import cn.edu.dgut.epidemic.service.VolunteersService;
 
 @Service
@@ -36,9 +35,9 @@ public class VolunteersServiceImpl implements VolunteersService {
 		}
 
 		VolunteerServiceExample volunteerExample = new VolunteerServiceExample();
-		Criteria criteria = volunteerExample.createCriteria();
+		VolunteerServiceExample.Criteria criteria = volunteerExample.createCriteria();
 		if (volunteerInfo.getTitle() != null && !"".equals(volunteerInfo.getTitle())) {
-			criteria.andTitleLike(volunteerInfo.getTitle());
+			criteria.andTitleLike("%" + volunteerInfo.getTitle() + "%");
 		}
 		if (volunteerInfo.getStartTime() != null) {
 			criteria.andStartTimeGreaterThanOrEqualTo(volunteerInfo.getStartTime());

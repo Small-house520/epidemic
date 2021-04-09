@@ -34,7 +34,7 @@ public class CampusEpidemicController {
 		// 获取确诊患者信息
 		List<EpidemicDiagnosis> list = this.campusEpidemicService.getDiagnosis();
 		// 根据id获取患者个人信息
-		List<Long> ids = new ArrayList<Long>();
+		List<String> ids = new ArrayList<String>();
 		for (EpidemicDiagnosis diagnosis : list) {
 			ids.add(diagnosis.getCampusId());
 		}
@@ -51,7 +51,7 @@ public class CampusEpidemicController {
 		// 根据查询条件获取确诊患者信息
 		List<EpidemicDiagnosis> list = this.campusEpidemicService.findDiagnosis(epidemicDiagnosis, fullName);
 
-		List<Long> ids = new ArrayList<Long>();
+		List<String> ids = new ArrayList<String>();
 		for (EpidemicDiagnosis diagnosis : list) {
 			ids.add(diagnosis.getCampusId());
 		}
@@ -75,7 +75,7 @@ public class CampusEpidemicController {
 		// 获取密切接触者信息
 		List<EpidemicContact> list = this.campusEpidemicService.getContact();
 		// 根据id获取密切接触者个人信息
-		List<Long> ids = new ArrayList<Long>();
+		List<String> ids = new ArrayList<String>();
 		for (EpidemicContact contact : list) {
 			ids.add(contact.getCampusId());
 		}
@@ -92,7 +92,7 @@ public class CampusEpidemicController {
 		// 根据查询条件获取确诊患者信息
 		List<EpidemicContact> list = this.campusEpidemicService.findContact(epidemicContact, fullName);
 		// 根据id获取密切接触者个人信息
-		List<Long> ids = new ArrayList<Long>();
+		List<String> ids = new ArrayList<String>();
 		for (EpidemicContact contact : list) {
 			ids.add(contact.getCampusId());
 		}
@@ -115,7 +115,7 @@ public class CampusEpidemicController {
 	public String getCureDeath(Integer flag, Model model) {
 		List<EpidemicCureDeath> list = this.campusEpidemicService.getCureDeath(flag);
 		// 根据id获取密切接触者个人信息
-		List<Long> ids = new ArrayList<Long>();
+		List<String> ids = new ArrayList<String>();
 		for (EpidemicCureDeath cureDeath : list) {
 			ids.add(cureDeath.getCampusId());
 		}
@@ -136,7 +136,7 @@ public class CampusEpidemicController {
 		// 根据查询条件获取确诊患者信息
 		List<EpidemicCureDeath> list = this.campusEpidemicService.findCureDeath(cureDeath, fullName, flag);
 
-		List<Long> ids = new ArrayList<Long>();
+		List<String> ids = new ArrayList<String>();
 		for (EpidemicCureDeath cureDeath2 : list) {
 			ids.add(cureDeath2.getCampusId());
 		}

@@ -3,7 +3,7 @@
 <mapper namespace="cn.edu.dgut.epidemic.mapper.EpidemicContactMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.EpidemicContact" >
     <id column="EPIDEMIC_CONTACT_ID" property="epidemicContactId" jdbcType="INTEGER" />
-    <result column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <result column="CAMPUS_ID" property="campusId" jdbcType="VARCHAR" />
     <result column="CONTACT_SOURCE" property="contactSource" jdbcType="VARCHAR" />
     <result column="ISOLATION_ADDRESS" property="isolationAddress" jdbcType="VARCHAR" />
     <result column="ISOLATION_TIME" property="isolationTime" jdbcType="TIMESTAMP" />
@@ -105,7 +105,7 @@
     insert into epidemic_contact (EPIDEMIC_CONTACT_ID, CAMPUS_ID, CONTACT_SOURCE, 
       ISOLATION_ADDRESS, ISOLATION_TIME, REMARKS
       )
-    values (#{epidemicContactId,jdbcType=INTEGER}, #{campusId,jdbcType=BIGINT}, #{contactSource,jdbcType=VARCHAR}, 
+    values (#{epidemicContactId,jdbcType=INTEGER}, #{campusId,jdbcType=VARCHAR}, #{contactSource,jdbcType=VARCHAR}, 
       #{isolationAddress,jdbcType=VARCHAR}, #{isolationTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
       )
   </insert>
@@ -136,7 +136,7 @@
         #{epidemicContactId,jdbcType=INTEGER},
       </if>
       <if test="campusId != null" >
-        #{campusId,jdbcType=BIGINT},
+        #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="contactSource != null" >
         #{contactSource,jdbcType=VARCHAR},
@@ -165,7 +165,7 @@
         EPIDEMIC_CONTACT_ID = #{record.epidemicContactId,jdbcType=INTEGER},
       </if>
       <if test="record.campusId != null" >
-        CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       </if>
       <if test="record.contactSource != null" >
         CONTACT_SOURCE = #{record.contactSource,jdbcType=VARCHAR},
@@ -187,7 +187,7 @@
   <update id="updateByExample" parameterType="map" >
     update epidemic_contact
     set EPIDEMIC_CONTACT_ID = #{record.epidemicContactId,jdbcType=INTEGER},
-      CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       CONTACT_SOURCE = #{record.contactSource,jdbcType=VARCHAR},
       ISOLATION_ADDRESS = #{record.isolationAddress,jdbcType=VARCHAR},
       ISOLATION_TIME = #{record.isolationTime,jdbcType=TIMESTAMP},
@@ -200,7 +200,7 @@
     update epidemic_contact
     <set >
       <if test="campusId != null" >
-        CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="contactSource != null" >
         CONTACT_SOURCE = #{contactSource,jdbcType=VARCHAR},
@@ -219,7 +219,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicContact" >
     update epidemic_contact
-    set CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+    set CAMPUS_ID = #{campusId,jdbcType=VARCHAR},
       CONTACT_SOURCE = #{contactSource,jdbcType=VARCHAR},
       ISOLATION_ADDRESS = #{isolationAddress,jdbcType=VARCHAR},
       ISOLATION_TIME = #{isolationTime,jdbcType=TIMESTAMP},

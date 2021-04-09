@@ -55,7 +55,7 @@ public class CampusEpidemicServiceImpl implements CampusEpidemicService {
 
 		EpidemicDiagnosisExample diagnosisExample = new EpidemicDiagnosisExample();
 		EpidemicDiagnosisExample.Criteria dCriteria = diagnosisExample.createCriteria();
-		List<Long> ids = new ArrayList<Long>();
+		List<String> ids = new ArrayList<String>();
 		// 如果根据姓名查询，则先根据姓名查询出对应id，封装到list
 		if (fullName != null && !"".equals(fullName)) {
 			CampusUserInfoExample userInfoExample = new CampusUserInfoExample();
@@ -108,7 +108,7 @@ public class CampusEpidemicServiceImpl implements CampusEpidemicService {
 
 		EpidemicContactExample contactExample = new EpidemicContactExample();
 		EpidemicContactExample.Criteria cCriteria = contactExample.createCriteria();
-		List<Long> ids = new ArrayList<Long>();
+		List<String> ids = new ArrayList<String>();
 		// 如果根据姓名查询，则先根据姓名查询出对应id，封装到list
 		if (fullName != null && !"".equals(fullName)) {
 			CampusUserInfoExample userInfoExample = new CampusUserInfoExample();
@@ -121,7 +121,7 @@ public class CampusEpidemicServiceImpl implements CampusEpidemicService {
 				}
 			}
 			if (ids.size() <= 0) {
-				cCriteria.andCampusIdEqualTo(1L);
+				cCriteria.andCampusIdEqualTo("1");
 			} else {
 				cCriteria.andCampusIdIn(ids);
 			}
@@ -174,7 +174,7 @@ public class CampusEpidemicServiceImpl implements CampusEpidemicService {
 		}
 		EpidemicCureDeathExample cureDeathExample = new EpidemicCureDeathExample();
 		EpidemicCureDeathExample.Criteria cCriteria = cureDeathExample.createCriteria();
-		List<Long> ids = new ArrayList<Long>();
+		List<String> ids = new ArrayList<String>();
 		// 如果根据姓名查询，则先根据姓名查询出对应id，封装到list
 		if (fullName != null && !"".equals(fullName.trim())) {
 			CampusUserInfoExample userInfoExample = new CampusUserInfoExample();
@@ -187,7 +187,7 @@ public class CampusEpidemicServiceImpl implements CampusEpidemicService {
 				}
 			}
 			if (ids.size() <= 0) {
-				cCriteria.andCampusIdEqualTo(1L);
+				cCriteria.andCampusIdEqualTo("1");
 			} else {
 				cCriteria.andCampusIdIn(ids);
 			}

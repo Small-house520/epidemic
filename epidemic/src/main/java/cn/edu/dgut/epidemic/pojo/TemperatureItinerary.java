@@ -6,7 +6,7 @@ import java.util.Date;
 public class TemperatureItinerary {
     private Integer healthId;
 
-    private Long campusId;
+    private String campusId;
 
     private String physicalCondition;
 
@@ -30,12 +30,12 @@ public class TemperatureItinerary {
         this.healthId = healthId;
     }
 
-    public Long getCampusId() {
+    public String getCampusId() {
         return campusId;
     }
 
-    public void setCampusId(Long campusId) {
-        this.campusId = campusId;
+    public void setCampusId(String campusId) {
+        this.campusId = campusId == null ? null : campusId.trim();
     }
 
     public String getPhysicalCondition() {

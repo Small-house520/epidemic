@@ -3,7 +3,7 @@
   <process id="volunteer" name="volunteerActivity" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <endEvent id="endevent1" name="End"></endEvent>
-    <userTask id="usertask1" name="活动发起人（老师）" activiti:assignee="${userId}"></userTask>
+    <userTask id="usertask1" name="活动发起人（老师）" activiti:assignee="${userName}"></userTask>
     <userTask id="usertask2" name="管理员">
       <extensionElements>
         <activiti:taskListener event="create" class="cn.edu.dgut.epidemic.util.MangerTaskHandlerCandidateUsers"></activiti:taskListener>
@@ -40,7 +40,7 @@
         <omgdi:waypoint x="401.0" y="217.0"></omgdi:waypoint>
         <omgdi:waypoint x="550.0" y="217.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="64.0" x="419.0" y="190.0"></omgdc:Bounds>
+          <omgdc:Bounds height="16.0" width="100.0" x="419.0" y="190.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">

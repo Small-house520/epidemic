@@ -3,7 +3,7 @@
 <mapper namespace="cn.edu.dgut.epidemic.mapper.CampusUserMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.CampusUser" >
     <id column="USER_ID" property="userId" jdbcType="INTEGER" />
-    <result column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <result column="CAMPUS_ID" property="campusId" jdbcType="VARCHAR" />
     <result column="USER_PASSWORD" property="userPassword" jdbcType="VARCHAR" />
     <result column="USERNAME" property="username" jdbcType="VARCHAR" />
     <result column="ROLE_ID" property="roleId" jdbcType="SMALLINT" />
@@ -102,7 +102,7 @@
   <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.CampusUser" >
     insert into campus_user (USER_ID, CAMPUS_ID, USER_PASSWORD, 
       USERNAME, ROLE_ID)
-    values (#{userId,jdbcType=INTEGER}, #{campusId,jdbcType=BIGINT}, #{userPassword,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{campusId,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
       #{username,jdbcType=VARCHAR}, #{roleId,jdbcType=SMALLINT})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.CampusUser" >
@@ -129,7 +129,7 @@
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="campusId != null" >
-        #{campusId,jdbcType=BIGINT},
+        #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="userPassword != null" >
         #{userPassword,jdbcType=VARCHAR},
@@ -155,7 +155,7 @@
         USER_ID = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.campusId != null" >
-        CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       </if>
       <if test="record.userPassword != null" >
         USER_PASSWORD = #{record.userPassword,jdbcType=VARCHAR},
@@ -174,7 +174,7 @@
   <update id="updateByExample" parameterType="map" >
     update campus_user
     set USER_ID = #{record.userId,jdbcType=INTEGER},
-      CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       USER_PASSWORD = #{record.userPassword,jdbcType=VARCHAR},
       USERNAME = #{record.username,jdbcType=VARCHAR},
       ROLE_ID = #{record.roleId,jdbcType=SMALLINT}
@@ -186,7 +186,7 @@
     update campus_user
     <set >
       <if test="campusId != null" >
-        CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="userPassword != null" >
         USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
@@ -202,7 +202,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.CampusUser" >
     update campus_user
-    set CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+    set CAMPUS_ID = #{campusId,jdbcType=VARCHAR},
       USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
       USERNAME = #{username,jdbcType=VARCHAR},
       ROLE_ID = #{roleId,jdbcType=SMALLINT}

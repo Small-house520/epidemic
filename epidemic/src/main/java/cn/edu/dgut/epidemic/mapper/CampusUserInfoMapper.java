@@ -10,7 +10,7 @@ public interface CampusUserInfoMapper {
 
     int deleteByExample(CampusUserInfoExample example);
 
-    int deleteByPrimaryKey(Long campusId);
+    int deleteByPrimaryKey(String campusId);
 
     int insert(CampusUserInfo record);
 
@@ -18,7 +18,7 @@ public interface CampusUserInfoMapper {
 
     List<CampusUserInfo> selectByExample(CampusUserInfoExample example);
 
-    CampusUserInfo selectByPrimaryKey(Long campusId);
+    CampusUserInfo selectByPrimaryKey(String campusId);
 
     int updateByExampleSelective(@Param("record") CampusUserInfo record, @Param("example") CampusUserInfoExample example);
 

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.edu.dgut.epidemic.pojo.CampusUser;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
+import cn.edu.dgut.epidemic.pojo.CustomUser;
 import cn.edu.dgut.epidemic.pojo.GradeClass;
 import cn.edu.dgut.epidemic.pojo.Role;
 import cn.edu.dgut.epidemic.service.RoleService;
 import cn.edu.dgut.epidemic.service.UserService;
-import cn.edu.dgut.epidemic.util.Constants;
 
 @Controller
 @RequestMapping("/user")
@@ -47,8 +48,10 @@ public class UserController {
 	@RequestMapping("/getaccount")
 	public String accountEdit(Model model, HttpSession session) {
 		// 取出session中的账号信息
-		CampusUser campusUser = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
-		campusUser = this.userService.findByCampusId(campusUser.getCampusId());
+		// CampusUser campusUser = (CampusUser)
+		// session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		CustomUser customUser = (CustomUser) SecurityUtils.getSubject().getPrincipal();
+		CampusUser campusUser = this.userService.findByCampusId(customUser.getCampusId());
 
 		model.addAttribute("user", campusUser);
 
@@ -58,10 +61,12 @@ public class UserController {
 	// 编辑账号信息
 	@RequestMapping("/accountedit")
 	public String accountEdit(CampusUser campusUser, HttpSession session) {
-		CampusUser user = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		// CampusUser user = (CampusUser)
+		// session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		CustomUser customUser = (CustomUser) SecurityUtils.getSubject().getPrincipal();
 		// 更新账号信息
 		this.userService.accountEdit(campusUser);
-		if (user.getCampusId() == campusUser.getCampusId()) {
+		if (customUser.getCampusId() == campusUser.getCampusId()) {
 			return "redirect:/user/getaccount";
 		}
 		return "redirect:/user/accountlist";
@@ -122,10 +127,12 @@ public class UserController {
 	@RequestMapping("/getuser")
 	public String getUserInfo(Model model, HttpSession session) {
 		// 取出session中的账号信息
-		CampusUser campusUser = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		// CampusUser campusUser = (CampusUser)
+		// session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		CustomUser customUser = (CustomUser) SecurityUtils.getSubject().getPrincipal();
 
 		// 根据编号获取用户信息
-		CampusUserInfo userInfo = this.userService.getUserInfo(campusUser.getCampusId());
+		CampusUserInfo userInfo = this.userService.getUserInfo(customUser.getCampusId());
 
 		List<GradeClass> classes = this.userService.findClasses();
 		model.addAttribute("classes", classes);
@@ -169,8 +176,8 @@ public class UserController {
 	// 验证账号是否已存在
 	@RequestMapping("/idCheack")
 	@ResponseBody
-	public String idCheack(Long campusId) {
-		if (campusId != null && campusId > 0) {
+	public String idCheack(String campusId) {
+		if (campusId != null && !"".equals(campusId)) {
 			CampusUser user = this.userService.findByCampusId(campusId);
 			if (user != null) {
 				return "1";

@@ -3,7 +3,7 @@
 <mapper namespace="cn.edu.dgut.epidemic.mapper.TemperatureItineraryMapper" >
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.TemperatureItinerary" >
     <id column="HEALTH_ID" property="healthId" jdbcType="INTEGER" />
-    <result column="CAMPUS_ID" property="campusId" jdbcType="BIGINT" />
+    <result column="CAMPUS_ID" property="campusId" jdbcType="VARCHAR" />
     <result column="PHYSICAL_CONDITION" property="physicalCondition" jdbcType="VARCHAR" />
     <result column="ITINERARY_RECORDS" property="itineraryRecords" jdbcType="VARCHAR" />
     <result column="RETURNED_TO_SCHOOL" property="returnedToSchool" jdbcType="VARCHAR" />
@@ -109,7 +109,7 @@
       ITINERARY_RECORDS, RETURNED_TO_SCHOOL, CURRENT_ADDRESS, 
       TEMPERATURE, UPLOAD_DATE, REMARKS
       )
-    values (#{healthId,jdbcType=INTEGER}, #{campusId,jdbcType=BIGINT}, #{physicalCondition,jdbcType=VARCHAR}, 
+    values (#{healthId,jdbcType=INTEGER}, #{campusId,jdbcType=VARCHAR}, #{physicalCondition,jdbcType=VARCHAR}, 
       #{itineraryRecords,jdbcType=VARCHAR}, #{returnedToSchool,jdbcType=VARCHAR}, #{currentAddress,jdbcType=VARCHAR}, 
       #{temperature,jdbcType=DECIMAL}, #{uploadDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
       )
@@ -150,7 +150,7 @@
         #{healthId,jdbcType=INTEGER},
       </if>
       <if test="campusId != null" >
-        #{campusId,jdbcType=BIGINT},
+        #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="physicalCondition != null" >
         #{physicalCondition,jdbcType=VARCHAR},
@@ -188,7 +188,7 @@
         HEALTH_ID = #{record.healthId,jdbcType=INTEGER},
       </if>
       <if test="record.campusId != null" >
-        CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       </if>
       <if test="record.physicalCondition != null" >
         PHYSICAL_CONDITION = #{record.physicalCondition,jdbcType=VARCHAR},
@@ -219,7 +219,7 @@
   <update id="updateByExample" parameterType="map" >
     update temperature_itinerary
     set HEALTH_ID = #{record.healthId,jdbcType=INTEGER},
-      CAMPUS_ID = #{record.campusId,jdbcType=BIGINT},
+      CAMPUS_ID = #{record.campusId,jdbcType=VARCHAR},
       PHYSICAL_CONDITION = #{record.physicalCondition,jdbcType=VARCHAR},
       ITINERARY_RECORDS = #{record.itineraryRecords,jdbcType=VARCHAR},
       RETURNED_TO_SCHOOL = #{record.returnedToSchool,jdbcType=VARCHAR},
@@ -235,7 +235,7 @@
     update temperature_itinerary
     <set >
       <if test="campusId != null" >
-        CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+        CAMPUS_ID = #{campusId,jdbcType=VARCHAR},
       </if>
       <if test="physicalCondition != null" >
         PHYSICAL_CONDITION = #{physicalCondition,jdbcType=VARCHAR},
@@ -263,7 +263,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.TemperatureItinerary" >
     update temperature_itinerary
-    set CAMPUS_ID = #{campusId,jdbcType=BIGINT},
+    set CAMPUS_ID = #{campusId,jdbcType=VARCHAR},
       PHYSICAL_CONDITION = #{physicalCondition,jdbcType=VARCHAR},
       ITINERARY_RECORDS = #{itineraryRecords,jdbcType=VARCHAR},
       RETURNED_TO_SCHOOL = #{returnedToSchool,jdbcType=VARCHAR},

@@ -56,7 +56,7 @@ public class CampusServiceImpl implements CampusService {
 
 	// 根据编号查询用户体温行程信息
 	@Override
-	public TemperatureItinerary getHealthInfo(Long campusId) {
+	public TemperatureItinerary getHealthInfo(String campusId) {
 		// 创建SimpleDateFormat对象实例并定义好转换格式
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		TemperatureItineraryExample healthExample = new TemperatureItineraryExample();
@@ -96,7 +96,7 @@ public class CampusServiceImpl implements CampusService {
 
 		TemperatureItineraryExample healthInfoExample = new TemperatureItineraryExample();
 		TemperatureItineraryExample.Criteria criteria = healthInfoExample.createCriteria();
-		if (healthInfo.getCampusId() != null && healthInfo.getCampusId() > 0) {
+		if (healthInfo.getCampusId() != null && !"".equals(healthInfo.getCampusId())) {
 			criteria.andCampusIdEqualTo(healthInfo.getCampusId());
 		}
 		if (healthInfo.getTemperature() != null) {

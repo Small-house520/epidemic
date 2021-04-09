@@ -29,7 +29,7 @@ public interface UserService {
 	 *            账号，即校内人员编号
 	 * @return 用户信息
 	 */
-	CampusUser findByCampusId(Long campusId);
+	CampusUser findByCampusId(String campusId);
 
 	/**
 	 * 添加用户（包括账号信息和个人信息）
@@ -59,7 +59,7 @@ public interface UserService {
 	 * @param campusId
 	 * @return
 	 */
-	CampusUserInfo getUserInfo(Long campusId);
+	CampusUserInfo getUserInfo(String campusId);
 
 	/**
 	 * 编辑个人信息
@@ -82,7 +82,7 @@ public interface UserService {
 	 * @param campusId
 	 * @param roleId
 	 */
-	void updateUserRole(Long campusId, Short roleId);
+	void updateUserRole(String campusId, Short roleId);
 
 	/**
 	 * 根据用户名到数据库查询用户信息
@@ -118,5 +118,13 @@ public interface UserService {
 	 * 
 	 * @param ids
 	 */
-	List<CampusUserInfo> findUserByIds(List<Long> ids);
+	List<CampusUserInfo> findUserByIds(List<String> ids);
+
+	/**
+	 * 根据roleId查询用户名
+	 * 
+	 * @param roleId
+	 * @return
+	 */
+	List<String> findAdmin(Short roleId);
 }

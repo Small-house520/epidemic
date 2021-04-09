@@ -6,7 +6,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>防疫志愿风采展</title>
-<!-- Tell the browser to be responsive to screen width -->
 <meta
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
@@ -35,13 +34,6 @@
 			<div class="pull-left">
 				<div class="form-group form-inline">
 					<div class="btn-group">
-						<button type="button" class="btn btn-default" title="新建"
-							data-toggle="modal" data-target="#editModal">
-							<i class="fa fa-file-o"></i> 新建
-						</button>
-						<button type="button" class="btn btn-default" title="删除">
-							<i class="fa fa-trash-o"></i> 删除
-						</button>
 						<button type="button" class="btn btn-default" title="刷新"
 							onclick="window.location.reload();">
 							<i class="fa fa-refresh"></i> 刷新
@@ -52,13 +44,11 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					志愿服务标题：<input type="text" id="title" name="title" placeholder="标题"
-						value=""> 发起人： <input type="text" id="sponsor"
-						name="sponsor" placeholder="姓名" value=""> 开始时间： <input
-						type="datetime" id="startTime" name="startTime" placeholder="开始时间"
-						value=""> 结束时间： <input type="datetime" id="endTime"
-						name="endTime" placeholder="结束时间" value="">
-					<button class="btn btn-default">查询</button>
+					标题：<input type="text" id="titleFind" name="title"
+						placeholder="志愿服务活动标题" value=""> 开始时间：<input type="date"
+						id="startTimeFind" name="startTime" value=""> 结束时间：<input
+						type="date" id="endTimeFind" name="endTime" value="">
+					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
 			<!--工具栏/-->
@@ -68,71 +58,53 @@
 				class="table table-bordered table-striped table-hover dataTable">
 				<thead>
 					<tr>
-						<th class="" style="padding-right: 0px"><input id="selall"
-							type="checkbox" class="icheckbox_square-blue"></th>
 						<th class="sorting_asc">志愿服务标题</th>
-						<th class="sorting">志愿服务发起人</th>
-						<th class="sorting">志愿者人数</th>
+						<th class="sorting">举办单位</th>
+						<th class="sorting">招募志愿者人数</th>
 						<th class="sorting">志愿服务地点</th>
 						<th class="sorting">志愿服务开始时间</th>
 						<th class="sorting">志愿服务结束时间</th>
-
+						<th class="sorting">报名截止时间</th>
 
 						<th class="text-center">操作</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>1</td>
-						<td>梦琪琪商贸有限公司</td>
-						<td>梦琪琪</td>
-						<td>李梦琪</td>
-						<td>13402312232</td>
-						<td>梦琪琪</td>
+				<tbody id="tb">
+					<tr th:each="volunteer:${volunteerInfo}">
+						<td th:text="${volunteer.title}"></td>
+						<td th:text="${volunteer.sponsorOrg}"></td>
+						<td th:text="${volunteer.expectedVolunteers}"></td>
+						<td th:text="${volunteer.location}"></td>
+						<td
+							th:text="${#dates.format(volunteer.startTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td
+							th:text="${#dates.format(volunteer.endTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td
+							th:text="${#dates.format(volunteer.deadline,'yyyy-MM-dd HH:mm:ss')}"></td>
 
 						<td class="text-center">
 							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">详情</button>
+								th:onclick="fillDetail([[${volunteer}]])" data-toggle="modal"
+								data-target="#detailModal">详情</button>
 							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">报名</button>
-						</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>2</td>
-						<td>黑瞎子苹果专卖店</td>
-						<td>黑瞎子</td>
-						<td>孙大鹏</td>
-						<td>13622244111</td>
-						<td>孙大鹏</td>
-
-						<td class="text-center">
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">详情</button>
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#editModal">编辑</button>
+								th:onclick="fillEnroll([[${volunteer}]])" data-toggle="modal"
+								data-target="#enrollModal">报名</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<!--数据列表/-->
 
-
 		</div>
 		<!-- 数据表格 /-->
-
-
-
 
 	</div>
 	<!-- /.box-body -->
 
 
 
-
-	<!-- 商家详情 -->
-	<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog"
+	<!-- 志愿服务详情 -->
+	<div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -144,33 +116,33 @@
 				<div class="modal-body">
 
 					<ul class="nav nav-tabs">
-						<li class="active"><a href="#detail" data-toggle="tab">志愿服务详情</a></li>
+						<li class="active"><a href="#detail" data-toggle="tab">活动详情</a></li>
 					</ul>
 
 					<!-- 选项卡开始 -->
 					<div id="myTabContent" class="tab-content">
-						<div class="tab-pane fade" id="detail">
+						<div class="tab-pane active in" id="detail">
 							<br>
 							<table class="table table-bordered table-striped">
 								<tr>
-									<td>活动详情</td>
-									<td>7822332278223322</td>
-								</tr>
-								<tr>
-									<td>预期招募志愿者人数</td>
-									<td>13900221212</td>
+									<td>活动内容</td>
+									<td id="details"></td>
 								</tr>
 								<tr>
 									<td>招募志愿者条件</td>
-									<td>13900221212</td>
+									<td id="conditions"></td>
 								</tr>
 								<tr>
 									<td>志愿服务活动发起时间</td>
-									<td>13900221212</td>
+									<td id="initiateTime"></td>
+								</tr>
+								<tr>
+									<td>参加活动志愿者人数</td>
+									<td id="participatedVolunteers"></td>
 								</tr>
 								<tr>
 									<td>备注</td>
-									<td>13900221212</td>
+									<td id="remarks"></td>
 								</tr>
 							</table>
 						</div>
@@ -178,13 +150,8 @@
 					</div>
 					<!-- 选项卡结束 -->
 
-
 				</div>
 				<div class="modal-footer">
-					<!-- <button class="btn btn-success" data-dismiss="modal"
-							aria-hidden="true">审核通过</button>
-						<button class="btn btn-danger" data-dismiss="modal"
-							aria-hidden="true">审核未通过</button> -->
 					<button class="btn btn-default" data-dismiss="modal"
 						aria-hidden="true">关闭</button>
 				</div>
@@ -192,120 +159,198 @@
 		</div>
 	</div>
 
-	<!-- 编辑窗口 -->
-	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+	<!-- 报名窗口 -->
+	<div class="modal fade" id="enrollModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
-					<h3 id="myModalLabel">编辑活动</h3>
-				</div>
-				<div class="modal-body">
+			<form action="../activiti/enrollProcess" method="post">
+				<input type="hidden" id="volunteerServiceId"
+					name="volunteerServiceId"> <input type="hidden"
+					id="sponsor" name="sponsor">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h3 id="myModalLabel">活动报名</h3>
+					</div>
+					<div class="modal-body">
 
-					<table class="table table-bordered table-striped" width="800px">
-						<tr>
-							<td>志愿服务标题</td>
-							<td><input type="text" id="title" name="title"
-								class="form-control" placeholder="志愿服务标题"></td>
-						</tr>
-						<tr>
-							<td>志愿服务详情</td>
-							<td><input type="text" id="details" name="details"
-								class="form-control" placeholder="志愿服务详情"></td>
-						</tr>
-						<tr>
-							<td>招募志愿者人数</td>
-							<td><input type="number" id="expectedVolunteers"
-								name="expectedVolunteers" class="form-control"
-								placeholder="招募志愿者人数"></td>
-						</tr>
-						<tr>
-							<td>招募志愿者条件</td>
-							<td><input type="conditions" id="age" name="conditions"
-								class="form-control" placeholder="招募志愿者条件"></td>
-						</tr>
-						<tr>
-							<td>参加活动志愿者人数</td>
-							<td><input type="number" id="participatedVolunteers"
-								name="participatedVolunteers" class="form-control"
-								placeholder="参加活动志愿者人数"></td>
-						</tr>
-						<tr>
-							<td>志愿服务地点</td>
-							<td><input type="text" id="location" name="location"
-								class="form-control" placeholder="志愿服务地点"></td>
-						</tr>
-						<tr>
-							<td>志愿服务开始时间</td>
-							<td><input type="datetime" id="startTime" name="startTime"
-								class="form-control" placeholder="志愿服务开始时间"></td>
-						</tr>
-						<tr>
-							<td>志愿服务结束时间</td>
-							<td><input type="text" id="endTime" name="endTime"
-								class="form-control" placeholder="志愿服务结束时间"></td>
-						</tr>
-						<tr>
-							<td>备注</td>
-							<td><input type="text" id="remarks" name="remarks"
-								class="form-control" placeholder="备注"></td>
-						</tr>
-					</table>
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>志愿服务标题</td>
+								<td id="title2"></td>
+							</tr>
+							<tr>
+								<td>志愿服务详情</td>
+								<td id="details2"></td>
+							</tr>
+							<tr>
+								<td>志愿服务地点</td>
+								<td id="location2"></td>
+							</tr>
+							<tr>
+								<td>招募志愿者人数</td>
+								<td id="expectedVolunteers2"></td>
+							</tr>
+							<tr>
+								<td>招募志愿者条件</td>
+								<td id="conditions2"></td>
+							</tr>
+							<tr>
+								<td>志愿服务开始时间</td>
+								<td id="startTime2"></td>
+							</tr>
+							<tr>
+								<td>志愿服务结束时间</td>
+								<td id="endTime2"></td>
+							</tr>
+							<tr>
+								<td>是否符合条件</td>
+								<td><select id="participatedVolunteers"
+									name="participatedVolunteers" class="form-control">
+										<option value="y" selected="selected">是</option>
+										<option value="n">否</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td>备注</td>
+								<td><input type="text" id="remarks" name="remarks"
+									class="form-control" placeholder="备注"></td>
+							</tr>
+						</table>
 
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">保 存</button>
+						<button type="reset" class="btn btn-default">重 置</button>
+					</div>
 				</div>
-				<div class="modal-footer">
-					<button class="btn btn-success" data-dismiss="modal"
-						aria-hidden="true">保存</button>
-					<button class="btn btn-default" data-dismiss="modal"
-						aria-hidden="true">关闭</button>
-				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 
-	<!-- 编辑窗口 -->
-	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
-					<h3 id="myModalLabel">报名</h3>
-				</div>
-				<div class="modal-body">
-
-					<table class="table table-bordered table-striped" width="800px">
-						<tr>
-							<td>编号</td>
-							<td><input type="number" id="campusId" name="campusId"
-								class="form-control" placeholder="编号"></td>
-						</tr>
-						<tr>
-							<td>是否符合条件</td>
-							<td><input type="text" id="isQualified" name="isQualified"
-								class="form-control" placeholder="是否符合条件"></td>
-						</tr>
-						<tr>
-							<td>备注</td>
-							<td><input type="text" id="remarks" name="remarks"
-								class="form-control" placeholder="备注"></td>
-						</tr>
-					</table>
-
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-success" data-dismiss="modal"
-						aria-hidden="true">保存</button>
-					<button class="btn btn-default" data-dismiss="modal"
-						aria-hidden="true">关闭</button>
-				</div>
-			</div>
-		</div>
-	</div>
 
 </body>
+
+<script type="text/javascript">
+	
+	// 查询绑定点击事件
+   	$("#query").click(function(){
+	   	doAjax();
+   	})
+   
+   	// 利用Ajax实现分页
+	function doAjax(){
+    	var title = $("#titleFind").val();
+		var startTime = $("#startTimeFind").val();
+		var endTime = $("#endTimeFind").val();
+		
+		$.ajax({
+			url: "../volunteer/findActivities",
+			type: "post",
+			data: {"title":title, "startTime":startTime,"endTime":endTime},
+			dataType: "json",
+			success: function(map){
+				show(map);
+			}
+		})
+		
+	}
+    
+	function show(map){
+		var volunteerInfo = map.volunteerInfo; //获取到map中的volunteerInfo集合
+		var userInfo = map.userInfo; //获取到map中的userInfo集合
+		
+		// 先清空原来的内容
+		$("#tb").empty();
+		var user_tr = "<tr>";
+		if(volunteerInfo!=null && volunteerInfo.length>0){
+			// 拼接内容
+			$.each(volunteerInfo, function(i, volunteer) {
+				user_tr += "<td>";
+				user_tr += volunteer.title;
+				user_tr += "</td><td>";
+				user_tr += volunteer.sponsorOrg;
+				user_tr += "</td><td>";
+				user_tr += volunteer.expectedVolunteers;
+				user_tr += "</td><td>";
+				user_tr += volunteer.location;
+				user_tr += "</td><td>";
+				user_tr += volunteer.startTime;
+				user_tr += "</td><td>";
+				user_tr += volunteer.endTime;
+				user_tr += "</td><td>";
+				user_tr += volunteer.deadline;
+				user_tr += "</td><td class='text-center'>";
+				user_tr += "<button type='button' class='btn bg-olive btn-xs' ";
+				user_tr += "data-toggle='modal' data-target='#detailModal'";
+				user_tr += "onclick='fillDetail("+ volunteer +")'>详情</button>&nbsp;&nbsp;";
+				user_tr += "<button type='button' onclick='fillEnroll("+ volunteer +")' ";
+				user_tr += "class='btn bg-olive btn-xs' data-toggle='modal'";
+				user_tr += "data-target='#enrollModal'>报名</button></td></tr>";
+				//<fmt:formatDate value="${task.createTime}"
+				//th:text=""	pattern="yyyy-MM-dd hh:mm:ss" />
+			});
+		}else{
+			user_tr =  "<tr style='text-align: center;'><td colspan='12'>没有查询到相关记录！</td></tr>";
+		}
+		
+		$("#tb").html(user_tr);
+	}
+</script>
+
+<script th:inline="javascript">
+	//设置详情表单的默认值
+	function fillDetail(volunteer) {
+		// 根据id获取各对象
+		var details = document.getElementById("details");
+		var conditions = document.getElementById("conditions");
+		var initiateTime = document.getElementById("initiateTime");
+		var participatedVolunteers = document.getElementById("participatedVolunteers");
+		var remarks = document.getElementById("remarks");
+		
+		// 设置td的值
+		details.innerText = volunteer.details;
+		conditions.innerText = volunteer.conditions;
+		initiateTime.innerText = volunteer.initiateTime;
+		participatedVolunteers.innerText = volunteer.participatedVolunteers;
+		remarks.innerText = volunteer.remarks;
+	}
+	
+	//设置报名表单的默认值
+	function fillEnroll(volunteer) {
+		// 获取用户信息
+		var userInfos = [[${userInfo}]];
+		// 匹配当前选中用户信息
+		var user = null;
+		for(var i=0; i<userInfos.length; i++){
+			if(volunteer.campusId == userInfos[i].campusId){
+				user = userInfos[i];
+			}
+		}
+		
+		// 设置input的值
+		$("#volunteerServiceId").val(volunteer.volunteerServiceId);
+		$("#sponsor").val(user.fullName);
+		
+		// 根据id获取各对象
+		var title = document.getElementById("title2");
+		var details = document.getElementById("details2");
+		var location = document.getElementById("location2");
+		var expectedVolunteers = document.getElementById("expectedVolunteers2");
+		var conditions = document.getElementById("conditions2");
+		var startTime = document.getElementById("startTime2");
+		var endTime = document.getElementById("endTime2");
+		
+		// 设置td的值
+		title.innerText = volunteer.title;
+		details.innerText = volunteer.details;
+		location.innerText = volunteer.location;
+		expectedVolunteers.innerText = volunteer.expectedVolunteers;
+		conditions.innerText = volunteer.conditions;
+		startTime.innerText = volunteer.startTime;
+		endTime.innerText = volunteer.endTime;
+	}
+</script>
 
 </html>

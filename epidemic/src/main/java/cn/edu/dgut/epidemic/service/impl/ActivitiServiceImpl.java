@@ -31,9 +31,7 @@ import cn.edu.dgut.epidemic.mapper.VolunteerServiceMapper;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
 import cn.edu.dgut.epidemic.pojo.CustomUser;
 import cn.edu.dgut.epidemic.pojo.VolunteerEnroll;
-import cn.edu.dgut.epidemic.pojo.VolunteerEnrollExample;
 import cn.edu.dgut.epidemic.pojo.VolunteerService;
-import cn.edu.dgut.epidemic.pojo.VolunteerServiceExample;
 import cn.edu.dgut.epidemic.service.ActivitiService;
 import cn.edu.dgut.epidemic.util.Constants;
 
@@ -69,7 +67,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	// 保存并启动流程实例
 	@Override
-	public void startProcess(Long id, String name, Integer flag) {
+	public void startProcess(Integer id, String name, String sponsor, Integer flag) {
 		// 活动审核业务和流程信息进行关联 BUSSINSS_KEY
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userName", name);
@@ -83,7 +81,14 @@ public class ActivitiServiceImpl implements ActivitiService {
 		map.put("objId", BUSSINSS_KEY);
 
 		// 使用流程定义的key，启动流程实例，同时设置流程变量，同时向正在执行的执行对象表中的字段BUSINESS_KEY添加业务数据，同时让流程关联业务
-		this.runtimeService.startProcessInstanceByKey(Constants.Activity_KEY, BUSSINSS_KEY, map);
+		ProcessInstance process = this.runtimeService.startProcessInstanceByKey(Constants.Activity_KEY, BUSSINSS_KEY,
+				map);
+		if (flag == 2) {
+			Task task = taskService.createTaskQuery().processInstanceId(process.getId()).active().singleResult();
+			// 此时，不要应删除掉流程图中赋值的角色，否则会重复
+			// taskService.addCandidateGroup(task.getId(), sponsor);
+			taskService.setAssignee(task.getId(), sponsor);
+		}
 	}
 
 	// 根据待办人名称查询任务
@@ -127,14 +132,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 
 		// 根据activityId查询出当前活动信息
-		VolunteerServiceExample volunteerServiceExample = new VolunteerServiceExample();
-		VolunteerServiceExample.Criteria createCriteria = volunteerServiceExample.createCriteria();
-		createCriteria.andCampusIdEqualTo(Long.parseLong(activityId));
-		List<VolunteerService> list = this.volunteerServiceMapper.selectByExample(volunteerServiceExample);
-		if (list != null && list.size() > 0) {
-			return list.get(0);
-		}
-		return null;
+		return this.volunteerServiceMapper.selectByPrimaryKey(Integer.parseInt(activityId));
 
 	}
 
@@ -157,15 +155,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 			enrollId = businessKey.split("\\.")[1];
 		}
 
-		// 根据leaveid 查询出当前请假单信息
-		VolunteerEnrollExample volunteerEnrollExample = new VolunteerEnrollExample();
-		VolunteerEnrollExample.Criteria createCriteria = volunteerEnrollExample.createCriteria();
-		createCriteria.andCampusIdEqualTo(Long.parseLong(enrollId));
-		List<VolunteerEnroll> list = this.volunteerEnrollMapper.selectByExample(volunteerEnrollExample);
-		if (list != null && list.size() > 0) {
-			return list.get(0);
-		}
-		return null;
+		// 根据enrollId 查询出当前报名信息
+		return this.volunteerEnrollMapper.selectByPrimaryKey(Integer.parseInt(enrollId));
 	}
 
 	// 完成任务，推进流程
@@ -187,7 +178,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		 * 所有需要从Session中获取当前登录人，作为该任务的办理人（审核人），对应act_hi_comment表中的User_ID的字段，不过不添加审核人，该字段为null
 		 * 所以要求，添加配置执行使用Authentication.setAuthenticatedUserId();添加当前任务的审核人
 		 */
-		// 加当前任务的审核人
+		// 添加当前任务的审核人
 		Authentication.setAuthenticatedUserId(userInfo.getFullName());
 		// 添加批注
 		taskService.addComment(taskId, processInstanceId, comment);
@@ -201,6 +192,18 @@ public class ActivitiServiceImpl implements ActivitiService {
 		// 判断完成流程是否需要对应参数
 		if (outcome != null && outcome.equals("提交申请")) {
 			map.put("role", customUser.getRoleId());
+			// 在提交申请之后，更新各自的审核状态
+			if (flag == 1) {
+				// 把活动未申请状态更新为审核中
+				VolunteerService volunteerService = this.volunteerServiceMapper.selectByPrimaryKey(id);
+				volunteerService.setState("2");
+				this.volunteerServiceMapper.updateByPrimaryKeySelective(volunteerService);
+			} else if (flag == 2) {
+				// 更新未报名状态为审核中
+				VolunteerEnroll volunteerEnroll = this.volunteerEnrollMapper.selectByPrimaryKey(id);
+				volunteerEnroll.setState("2");
+				this.volunteerEnrollMapper.updateByPrimaryKey(volunteerEnroll);
+			}
 			// 3：使用任务ID，完成当前人的个人任务，同时流程变量
 			taskService.complete(taskId, map);
 		} else if (outcome != null && !outcome.equals("提交")) {
@@ -219,20 +222,17 @@ public class ActivitiServiceImpl implements ActivitiService {
 		/**
 		 * 5：在完成任务之后，判断流程是否结束 如果流程结束了，更新各自的审核状态（审核中-->审核完成）
 		 */
-		if (flag == 1) {
-			if (processInstance == null) {
+		if (processInstance == null) {
+			if (flag == 1) {
 				// 把活动审核状态更新为已完成
-				VolunteerService volunteerService = volunteerServiceMapper.selectByPrimaryKey(id);
+				VolunteerService volunteerService = this.volunteerServiceMapper.selectByPrimaryKey(id);
 				volunteerService.setState("3");
-				volunteerServiceMapper.updateByPrimaryKeySelective(volunteerService);
-			}
-		} else if (flag == 2) {
-			// 流程结束了
-			if (processInstance == null) {
-				// 更新报名状态从1变成2（审核中-->审核完成）
-				VolunteerEnroll volunteerEnroll = volunteerEnrollMapper.selectByPrimaryKey(id);
+				this.volunteerServiceMapper.updateByPrimaryKeySelective(volunteerService);
+			} else if (flag == 2) {
+				// 更新报名状态从2变成3（审核中-->审核完成）
+				VolunteerEnroll volunteerEnroll = this.volunteerEnrollMapper.selectByPrimaryKey(id);
 				volunteerEnroll.setState("3");
-				volunteerEnrollMapper.updateByPrimaryKey(volunteerEnroll);
+				this.volunteerEnrollMapper.updateByPrimaryKey(volunteerEnroll);
 			}
 		}
 
@@ -356,8 +356,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		// 使用任务对象Task获取流程实例ID
 		String processInstanceId = task.getProcessInstanceId();
 		// 使用流程实例ID，查询正在执行的执行对象表，返回流程实例对象
-		ProcessInstance pi = runtimeService.createProcessInstanceQuery()//
-				.processInstanceId(processInstanceId)// 使用流程实例ID查询
+		ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId)// 使用流程实例ID查询
 				.singleResult();
 		// 获取当前活动的id
 		String activityId = pi.getActivityId();

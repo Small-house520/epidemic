@@ -15,18 +15,17 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import cn.edu.dgut.epidemic.pojo.CampusUser;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
+import cn.edu.dgut.epidemic.pojo.CustomUser;
 import cn.edu.dgut.epidemic.pojo.VolunteerEnroll;
 import cn.edu.dgut.epidemic.pojo.VolunteerService;
 import cn.edu.dgut.epidemic.service.ActivitiService;
@@ -59,10 +58,9 @@ public class ActivitiController {
 
 	// 保存活动信息，开启活动审核流程
 	@RequestMapping("/activityProcess")
-	public String saveStartActivity(String sponsor, VolunteerService volunteerService,
-			RedirectAttributes redirectAttributes) {
+	public String saveStartActivity(String sponsor, VolunteerService volunteerService) {
 
-		// 1.将活动信息插入到 VolunteerService表中，2.启动当前流程
+		// 设置活动发起时间
 		volunteerService.setInitiateTime(new Date());
 
 		// 1为未提交申请，2为审核中，3为活动发起成功
@@ -72,26 +70,29 @@ public class ActivitiController {
 		this.processService.saveActivity(volunteerService);
 
 		// 启动流程(待办人)
-		this.activitiService.startProcess(volunteerService.getCampusId(), sponsor, 1);
+		this.activitiService.startProcess(volunteerService.getVolunteerServiceId(), sponsor, null, 1);
 
 		// 这种方法是隐藏了参数，链接地址上不直接暴露，
 		// 用(@ModelAttribute(value = "prama")String prama)的方式获取参数。
 
 		// 这种方法相当于在重定向链接地址上追加传递的参数
-		redirectAttributes.addFlashAttribute("flag", 1);
-		return "redirect:/activiti/myTaskList";
+		// redirectAttributes.addFlashAttribute("flag", 1);
+		return "redirect:/activiti/myTaskList?flag=1";
 	}
 
 	// 保存报名信息，开启报名审核流程
 	@RequestMapping("/enrollProcess")
-	public String saveStartEnroll(VolunteerEnroll volunteerEnroll, HttpSession session,
-			RedirectAttributes redirectAttributes) {
-		CampusUser user = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
-		CampusUserInfo userInfo = this.userService.getUserInfo(user.getCampusId());
+	public String saveStartEnroll(VolunteerEnroll volunteerEnroll, String sponsor, HttpSession session) {
+		// CampusUser user = (CampusUser)
+		// session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		CustomUser customUser = (CustomUser) SecurityUtils.getSubject().getPrincipal();
+		CampusUserInfo userInfo = this.userService.getUserInfo(customUser.getCampusId());
 
-		volunteerEnroll.setCampusId(user.getCampusId());
+		volunteerEnroll.setCampusId(customUser.getCampusId());
 		// 设置当前时间为报名时间
 		volunteerEnroll.setEnrollTime(new Date());
+		// 设置录用状态为待定
+		volunteerEnroll.setEmployOrNot("w");
 
 		// 1为未提交报名，2为审核中，3为已审核
 		volunteerEnroll.setState("1");
@@ -99,25 +100,27 @@ public class ActivitiController {
 		// 保存报名信息
 		this.processService.saveEnroll(volunteerEnroll);
 
-		this.activitiService.startProcess(volunteerEnroll.getCampusId(), userInfo.getFullName(), 2);
+		this.activitiService.startProcess(volunteerEnroll.getVolunteerId(), userInfo.getFullName(), sponsor, 2);
 
 		// 这种方法是隐藏了参数，链接地址上不直接暴露，
 		// 用(@ModelAttribute(value = "prama")String prama)的方式获取参数。
 
 		// 这种方法相当于在重定向链接地址上追加传递的参数
-		redirectAttributes.addFlashAttribute("flag", 2);
-		return "redirect:/activiti/myTaskList";
+		// redirectAttributes.addFlashAttribute("flag", 2);
+		return "redirect:/activiti/myTaskList?flag=2";
 	}
 
 	// 根据待办人名称查询流程任务，并跳转到前台显示
 	@RequestMapping("/myTaskList")
 	// @ModelAttribute("")接收重定向携带的隐藏参数
-	public ModelAndView getTaskList(@ModelAttribute("flag") Integer flag, HttpSession session) {
+	public ModelAndView getTaskList(Integer flag, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 
 		// 获取session中的user
-		CampusUser user = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
-		CampusUserInfo userInfo = this.userService.getUserInfo(user.getCampusId());
+		// CampusUser user = (CampusUser)
+		// session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		CustomUser customUser = (CustomUser) SecurityUtils.getSubject().getPrincipal();
+		CampusUserInfo userInfo = this.userService.getUserInfo(customUser.getCampusId());
 
 		// 根据待办人查询任务
 		List<Task> list = this.activitiService.findTaskListByName(userInfo.getFullName(), flag);
@@ -139,17 +142,21 @@ public class ActivitiController {
 			uri = "transaction/activity_approve";
 			// 获取活动信息
 			VolunteerService volunteerService = this.activitiService.findVolunteerServiceByTaskId(taskId);
+			CampusUserInfo userInfo = this.userService.getUserInfo(volunteerService.getCampusId());
+			map.put("userInfo", userInfo);
 			map.put("volunteerService", volunteerService);
 		} else {
 			uri = "transaction/enroll_approve";
 			// 获取报名信息
 			VolunteerEnroll volunteerEnroll = this.activitiService.findVolunteerEnrollByTaskId(taskId);
+			CampusUserInfo userInfo = this.userService.getUserInfo(volunteerEnroll.getCampusId());
+			map.put("userInfo", userInfo);
 			map.put("volunteerEnroll", volunteerEnroll);
 		}
 
 		// 获取对应身份的审核功能信息
 		List<String> outcomeList = this.activitiService.findOutComeListByTaskId(taskId);
-		if (outcomeList != null && (outcomeList.get(0).contains("活动") || outcomeList.get(0).contains("报名"))) {
+		if (outcomeList != null && (outcomeList.get(0).contains("提交") || outcomeList.get(0).contains("报名"))) {
 			outcomeList.clear();
 			outcomeList.add("提交申请");
 		}
@@ -172,8 +179,10 @@ public class ActivitiController {
 	public String submitTask(Integer id, String taskId, String comment, String outcome, Integer flag,
 			HttpSession session, Model model) {
 		// 获取个人信息
-		CampusUser user = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
-		CampusUserInfo userInfo = this.userService.getUserInfo(user.getCampusId());
+		// CampusUser user = (CampusUser)
+		// session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		CustomUser customUser = (CustomUser) SecurityUtils.getSubject().getPrincipal();
+		CampusUserInfo userInfo = this.userService.getUserInfo(customUser.getCampusId());
 
 		// 添加批注，并把流程往前面推进
 		this.activitiService.submitTask(id, taskId, comment, outcome, userInfo, flag);

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,12 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.edu.dgut.epidemic.pojo.CampusAccessRecords;
-import cn.edu.dgut.epidemic.pojo.CampusUser;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
+import cn.edu.dgut.epidemic.pojo.CustomUser;
 import cn.edu.dgut.epidemic.pojo.TemperatureItinerary;
 import cn.edu.dgut.epidemic.service.CampusService;
 import cn.edu.dgut.epidemic.service.UserService;
-import cn.edu.dgut.epidemic.util.Constants;
 
 @Controller
 @RequestMapping("/campus")
@@ -42,7 +42,7 @@ public class CampusController {
 	// 查询出入校园记录
 	@RequestMapping("/findrecords")
 	@ResponseBody
-	public Map<String, Object> findRecords(CampusAccessRecords accessRecords, HttpSession session) {
+	public Map<String, Object> findRecords(CampusAccessRecords accessRecords) {
 		// 获取出入校园记录
 		List<CampusAccessRecords> list = this.campusService.campusAccess(accessRecords);
 
@@ -55,11 +55,12 @@ public class CampusController {
 	@RequestMapping("/tohealthupload")
 	public String toHealthUpload(Model model, HttpSession session) {
 		// 取出session中的账号信息
-		CampusUser campusUser = (CampusUser) session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		// CampusUser campusUser = (CampusUser)
+		// session.getAttribute(Constants.GLOBLE_USER_SESSION);
+		CustomUser customUser = (CustomUser) SecurityUtils.getSubject().getPrincipal();
+		CampusUserInfo userInfo = this.userService.getUserInfo(customUser.getCampusId());
 
-		CampusUserInfo userInfo = this.userService.getUserInfo(campusUser.getCampusId());
-
-		TemperatureItinerary healthInfo = this.campusService.getHealthInfo(campusUser.getCampusId());
+		TemperatureItinerary healthInfo = this.campusService.getHealthInfo(customUser.getCampusId());
 
 		model.addAttribute("userInfo", userInfo);
 		if (healthInfo != null) {
@@ -71,11 +72,9 @@ public class CampusController {
 
 	// 填报体温行程信息
 	@RequestMapping("/healthupload")
-	public String healthUpload(TemperatureItinerary healthInfo, Model model, HttpSession session) {
+	public String healthUpload(TemperatureItinerary healthInfo) {
 
 		this.campusService.healthUpload(healthInfo);
-
-		// model.addAttribute("", );
 
 		return "redirect:/campus/tohealthupload";
 	}
@@ -98,7 +97,7 @@ public class CampusController {
 	// 查询体温行程信息
 	@RequestMapping("/healthinfo")
 	@ResponseBody
-	public Map<String, Object> findHealthInfo(TemperatureItinerary healthInfo, HttpSession session) {
+	public Map<String, Object> findHealthInfo(TemperatureItinerary healthInfo) {
 		// 获取用户信息
 		List<CampusUserInfo> userInfo = this.userService.userList(null);
 

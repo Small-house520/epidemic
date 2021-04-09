@@ -24,7 +24,7 @@
 		<id column="PERMISSION_ID" property="id" />
 		<result column="PERMISSION_NAME" property="name" />
 		<collection property="subMenu" select="getSubMenuAndPermissions"
-			column="{id=PERMISSION_ID}">
+			column="PERMISSION_ID">
 			<id column="PERMISSION_ID" property="permissionId" />
 			<result column="PERMISSION_NAME" property="permissionName" />
 			<result column="PERMISSION_TYPE" property="permissionType" />
@@ -55,7 +55,7 @@
 		permission WHERE PARENT_ID=1
 	</select>
 
-	<select id="getSubMenu" resultType="cn.edu.dgut.epidemic.pojo.Permission">
+	<select id="getSubMenu" parameterType="java.lang.Integer" resultType="cn.edu.dgut.epidemic.pojo.Permission">
 		SELECT * FROM permission
 		WHERE PARENT_ID=#{id} and PERMISSION_TYPE like '%menu%'
 	</select>
@@ -65,13 +65,13 @@
 		PERMISSION_ID,PERMISSION_NAME
 		FROM permission WHERE PARENT_ID=1
 	</select>
-	<select id="getSubMenuAndPermissions" resultType="cn.edu.dgut.epidemic.pojo.Permission">
+	<select id="getSubMenuAndPermissions" parameterType="java.lang.Integer" resultType="cn.edu.dgut.epidemic.pojo.Permission">
 		SELECT * FROM
 		permission WHERE PARENT_ID=#{id}
 	</select>
 
 	<!-- 根据用户id查询权限 -->
-	<select id="findPermissionListByUserId" parameterType="java.lang.Short"
+	<select id="findPermissionListByUserId" parameterType="java.lang.Integer"
 		resultType="cn.edu.dgut.epidemic.pojo.Permission">
 		SELECT
 		*
@@ -96,7 +96,7 @@
 	</select>
 
 	<!-- 根据用户id查询菜单 -->
-	<select id="findMenuListByUserId" parameterType="string"
+	<select id="findMenuListByUserId" parameterType="java.lang.String"
 		resultType="cn.edu.dgut.epidemic.pojo.Permission">
 		SELECT
 		*
@@ -116,7 +116,7 @@
 		WHERE CAMPUS_ID = #{id}))
 	</select>
 
-	<select id="findMenuAndPermissionByUserId" parameterType="string"
+	<select id="findMenuAndPermissionByUserId" parameterType="java.lang.String"
 		resultType="cn.edu.dgut.epidemic.pojo.Permission">
 		SELECT
 		*
@@ -136,7 +136,7 @@
 	</select>
 
 	<!-- 根据角色ID查询该角色的的权限 -->
-	<select id="findPermissionsByRoleId" parameterType="java.lang.String"
+	<select id="findPermissionsByRoleId" parameterType="java.lang.Short"
 		resultType="cn.edu.dgut.epidemic.pojo.Permission">
 		SELECT
 		*
@@ -164,7 +164,7 @@
 	</select>
 
 	<select id="findRoleAndPermissionListById" resultMap="roleAndPermissionResult"
-		parameterType="java.lang.Long">
+		parameterType="java.lang.String">
 		SELECT r.*,
 		p.PERMISSION_ID,
 		p.PERMISSION_NAME,

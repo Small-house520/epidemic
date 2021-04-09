@@ -6,22 +6,21 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>校园疫情防控后台管理系统</title>
-<!-- Tell the browser to be responsive to screen width -->
 <meta
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 
-<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+<link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="plugins/adminLTE/css/AdminLTE.css">
 <link rel="stylesheet"
-	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
-<link rel="stylesheet" href="../css/style.css">
+	href="plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="css/style.css">
 
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
-<script src="../plugins/jQueryUI/jquery-ui.min.js"></script>
-<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
 
-<script src="../plugins/adminLTE/js/app.min.js"></script>
+<script src="plugins/adminLTE/js/app.min.js"></script>
 
 <script type="text/javascript">
 	function SetIFrameHeight() {
@@ -40,20 +39,16 @@
 
 		<!-- 页面头部 -->
 		<header class="main-header">
-			<!-- Logo -->
-			<a href="../home/home" class="logo"> <span
-				class="logo-mini"><b>防控疫情</b></span> <span class="logo-lg"><b>校园疫情-防控管理后台</b></span>
+			<a href="home" class="logo"> <span class="logo-mini"><b>防控疫情</b></span>
+				<span class="logo-lg"><b>校园疫情-防控管理</b></span>
 			</a>
-			<!-- Header Navbar: style can be found in header.less -->
 			<nav class="navbar navbar-static-top">
-				<!-- Sidebar toggle button-->
 				<a href="#" class="sidebar-toggle" data-toggle="offcanvas"
 					role="button"> <span class="sr-only">切换导航</span>
 				</a>
 
 				<div class="navbar-custom-menu">
 					<ul class="nav navbar-nav">
-						<!-- Messages: style can be found in dropdown.less-->
 						<li class="dropdown messages-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <i
 								class="fa fa-envelope-o"></i> <span class="label label-success">4</span>
@@ -61,24 +56,20 @@
 							<ul class="dropdown-menu">
 								<li class="header">你有4个邮件</li>
 								<li>
-									<!-- inner menu: contains the actual data -->
 									<ul class="menu">
-										<li>
-											<!-- start message --> <a href="#">
+										<li><a href="#">
 												<div class="pull-left">
-													<img src="../images/user2-160x160.jpg" class="img-circle"
+													<img src="images/user2-160x160.jpg" class="img-circle"
 														alt="User Image">
 												</div>
 												<h4>
 													系统消息 <small><i class="fa fa-clock-o"></i> 5 分钟前</small>
 												</h4>
 												<p>欢迎登录系统?</p>
-										</a>
-										</li>
-										<!-- end message -->
+										</a></li>
 										<li><a href="#">
 												<div class="pull-left">
-													<img src="../images/user3-128x128.jpg" class="img-circle"
+													<img src="images/user3-128x128.jpg" class="img-circle"
 														alt="User Image">
 												</div>
 												<h4>
@@ -88,7 +79,7 @@
 										</a></li>
 										<li><a href="#">
 												<div class="pull-left">
-													<img src="../images/user4-128x128.jpg" class="img-circle"
+													<img src="images/user4-128x128.jpg" class="img-circle"
 														alt="User Image">
 												</div>
 												<h4>
@@ -99,7 +90,7 @@
 										</a></li>
 										<li><a href="#">
 												<div class="pull-left">
-													<img src="../images/user3-128x128.jpg" class="img-circle"
+													<img src="images/user3-128x128.jpg" class="img-circle"
 														alt="User Image">
 												</div>
 												<h4>
@@ -110,7 +101,7 @@
 										</a></li>
 										<li><a href="#">
 												<div class="pull-left">
-													<img src="../images/user4-128x128.jpg" class="img-circle"
+													<img src="images/user4-128x128.jpg" class="img-circle"
 														alt="User Image">
 												</div>
 												<h4>
@@ -123,7 +114,6 @@
 								</li>
 								<li class="footer"><a href="#">See All Messages</a></li>
 							</ul></li>
-						<!-- Notifications: style can be found in dropdown.less -->
 						<li class="dropdown notifications-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <i
 								class="fa fa-bell-o"></i> <span class="label label-warning">10</span>
@@ -131,7 +121,6 @@
 							<ul class="dropdown-menu">
 								<li class="header">你有10个新消息</li>
 								<li>
-									<!-- inner menu: contains the actual data -->
 									<ul class="menu">
 										<li><a href="#"> <i class="fa fa-users text-aqua"></i>
 												5 new members joined today
@@ -153,7 +142,6 @@
 								</li>
 								<li class="footer"><a href="#">View all</a></li>
 							</ul></li>
-						<!-- Tasks: style can be found in dropdown.less -->
 						<li class="dropdown tasks-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <i
 								class="fa fa-flag-o"></i> <span class="label label-danger">9</span>
@@ -161,10 +149,8 @@
 							<ul class="dropdown-menu">
 								<li class="header">你有9个新任务</li>
 								<li>
-									<!-- inner menu: contains the actual data -->
 									<ul class="menu">
-										<li>
-											<!-- Task item --> <a href="#">
+										<li><a href="#">
 												<h3>
 													Design some buttons <small class="pull-right">20%</small>
 												</h3>
@@ -175,11 +161,8 @@
 														<span class="sr-only">20% Complete</span>
 													</div>
 												</div>
-										</a>
-										</li>
-										<!-- end task item -->
-										<li>
-											<!-- Task item --> <a href="#">
+										</a></li>
+										<li><a href="#">
 												<h3>
 													Create a nice theme <small class="pull-right">40%</small>
 												</h3>
@@ -190,11 +173,8 @@
 														<span class="sr-only">40% Complete</span>
 													</div>
 												</div>
-										</a>
-										</li>
-										<!-- end task item -->
-										<li>
-											<!-- Task item --> <a href="#">
+										</a></li>
+										<li><a href="#">
 												<h3>
 													Some task I need to do <small class="pull-right">60%</small>
 												</h3>
@@ -205,11 +185,8 @@
 														<span class="sr-only">60% Complete</span>
 													</div>
 												</div>
-										</a>
-										</li>
-										<!-- end task item -->
-										<li>
-											<!-- Task item --> <a href="#">
+										</a></li>
+										<li><a href="#">
 												<h3>
 													Make beautiful transitions <small class="pull-right">80%</small>
 												</h3>
@@ -220,37 +197,32 @@
 														<span class="sr-only">80% Complete</span>
 													</div>
 												</div>
-										</a>
-										</li>
-										<!-- end task item -->
+										</a></li>
 									</ul>
 								</li>
 								<li class="footer"><a href="#">View all tasks</a></li>
 							</ul></li>
-						<!-- User Account: style can be found in dropdown.less -->
 						<li class="dropdown user user-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <img
-								src="../images/user2-160x160.jpg" class="user-image"
+								src="images/user2-160x160.jpg" class="user-image"
 								alt="User Image"> <span class="hidden-xs"
 								th:text="${user.username}"></span>
 						</a>
 							<ul class="dropdown-menu">
-								<!-- User image -->
-								<li class="user-header"><img
-									src="../images/user2-160x160.jpg" class="img-circle"
-									alt="User Image">
+								<li class="user-header"><img src="images/user2-160x160.jpg"
+									class="img-circle" alt="User Image">
 
 									<p>
 										<span th:text="${user.username}"></span> <small></small>
 									</p></li>
 
-								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-left">
-										<a href="../user/getaccount" target="iframe" class="btn btn-default btn-flat">编辑</a>
+										<a href="user/getaccount" target="iframe"
+											class="btn btn-default btn-flat">编辑</a>
 									</div>
 									<div class="pull-right">
-										<a href="../home/logout" class="btn btn-default btn-flat">注销</a>
+										<a href="/logout" class="btn btn-default btn-flat">注销</a>
 									</div>
 								</li>
 							</ul></li>
@@ -263,12 +235,10 @@
 
 		<!-- 导航侧栏 -->
 		<aside class="main-sidebar">
-			<!-- sidebar: style can be found in sidebar.less -->
 			<section class="sidebar">
-				<!-- Sidebar user panel -->
 				<div class="user-panel">
 					<div class="pull-left image">
-						<img src="../images/user2-160x160.jpg" class="img-circle"
+						<img src="images/user2-160x160.jpg" class="img-circle"
 							alt="User Image">
 					</div>
 					<div class="pull-left info">
@@ -277,13 +247,9 @@
 					</div>
 				</div>
 
-				<!-- /.search form -->
-
-
-				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu">
 					<li class="header">菜单</li>
-					<li id="admin-index"><a href="/epidemic/home/home"><i
+					<li id="admin-index"><a href="home"><i
 							class="fa fa-dashboard"></i> <span>首页</span></a></li>
 
 					<!-- 菜单 -->
@@ -297,10 +263,10 @@
 									class="fa fa-circle-o"></i>账号信息管理
 							</a>
 								<ul class="treeview-menu">
-									<li id="admin-login"><a href="../user/getaccount"
+									<li id="admin-login"><a href="user/getaccount"
 										target="iframe"> <i class="fa fa-circle-o"></i>编辑账号信息
 									</a></li>
-									<li id="admin-login"><a href="../user/accountlist"
+									<li id="admin-login"><a href="user/accountlist"
 										target="iframe"> <i class="fa fa-circle-o"></i>查询账号信息
 									</a></li>
 								</ul></li>
@@ -309,13 +275,13 @@
 									class="fa fa-circle-o"></i>用户信息管理
 							</a>
 								<ul class="treeview-menu">
-									<li id="admin-login"><a href="../user/touseradd"
+									<li id="admin-login"><a href="user/touseradd"
 										target="iframe"> <i class="fa fa-circle-o"></i>添加用户
 									</a></li>
-									<li id="admin-login"><a href="../user/getuser"
+									<li id="admin-login"><a href="user/getuser"
 										target="iframe"> <i class="fa fa-circle-o"></i>用户编辑
 									</a></li>
-									<li id="admin-login"><a href="../user/userlist"
+									<li id="admin-login"><a href="user/userlist"
 										target="iframe"> <i class="fa fa-circle-o"></i>用户信息
 									</a></li>
 								</ul></li>
@@ -327,10 +293,10 @@
 						</span>
 					</a>
 						<ul class="treeview-menu">
-							<li id="admin-login"><a href="../role/toAddRole"
+							<li id="admin-login"><a href="role/toAddRole"
 								target="iframe"> <i class="fa fa-circle-o"></i>添加角色
 							</a></li>
-							<li id="admin-login"><a href="../role/findRoles"
+							<li id="admin-login"><a href="role/findRoles"
 								target="iframe"> <i class="fa fa-circle-o"></i>查看角色
 							</a></li>
 						</ul></li>
@@ -342,11 +308,17 @@
 					</a>
 						<ul class="treeview-menu">
 
-							<li id="admin-login"><a href="../activiti/myTaskList"
-								target="iframe"> <i class="fa fa-circle-o"></i>待办事务
+							<li id="admin-login"><a href="activiti/myTaskList?flag=1"
+								target="iframe"> <i class="fa fa-circle-o"></i>待办事务1
 							</a></li>
-							<li id="admin-login"><a href="../process/myprocess"
-								target="iframe"> <i class="fa fa-circle-o"></i>查看事务
+							<li id="admin-login"><a href="activiti/myTaskList?flag=2"
+								target="iframe"> <i class="fa fa-circle-o"></i>待办事务2
+							</a></li>
+							<li id="admin-login"><a href="process/myprocess?flag=1"
+								target="iframe"> <i class="fa fa-circle-o"></i>查看事务1
+							</a></li>
+							<li id="admin-login"><a href="process/myprocess?flag=2"
+								target="iframe"> <i class="fa fa-circle-o"></i>查看事务2
 							</a></li>
 						</ul></li>
 
@@ -357,16 +329,58 @@
 					</a>
 						<ul class="treeview-menu">
 
-							<li id="admin-login"><a href="../process/processadd"
+							<li id="admin-login"><a href="process/processadd"
 								target="iframe"> <i class="fa fa-circle-o"></i>新建流程
 							</a></li>
 							<li id="admin-login"><a
-								href="../activiti/processDefinitionList" target="iframe"> <i
+								href="activiti/processDefinitionList" target="iframe"> <i
 									class="fa fa-circle-o"></i>查看流程
 							</a></li>
 						</ul></li>
 
 					<li class="treeview"><a href="#"> <i class="fa fa-folder"></i>
+							<span>体温行程信息管理</span> <span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li id="admin-login"><a href="campus/tohealthupload"
+								target="iframe"> <i class="fa fa-circle-o"></i>体温行程上报
+							</a></li>
+							<li id="admin-login"><a href="campus/health?flag=1"
+								target="iframe"> <i class="fa fa-circle-o"></i>体温记录管理
+							</a></li>
+							<li id="admin-login"><a href="campus/health?flag=2"
+								target="iframe"> <i class="fa fa-circle-o"></i>行程记录管理
+							</a></li>
+							<li id="admin-login"><a href="campus/campusaccess"
+								target="iframe"> <i class="fa fa-circle-o"></i>出入校园记录管理
+							</a></li>
+						</ul></li>
+
+					<li class="treeview"><a href="#"> <i class="fa fa-folder"></i>
+							<span>校园疫情信息管理</span> <span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li id="admin-login"><a href="campusEpidemic/diagnosis"
+								target="iframe"> <i class="fa fa-circle-o"></i>确诊患者管理
+							</a></li>
+							<li id="admin-login"><a href="campusEpidemic/contact"
+								target="iframe"> <i class="fa fa-circle-o"></i>密切接触管理
+							</a></li>
+							<li id="admin-login"><a
+								href="campusEpidemic/cureOrDeath?flag=1" target="iframe"> <i
+									class="fa fa-circle-o"></i>治愈管理
+							</a></li>
+							<li id="admin-login"><a
+								href="campusEpidemic/cureOrDeath?flag=2" target="iframe"> <i
+									class="fa fa-circle-o"></i>死亡管理
+							</a></li>
+						</ul></li>
+
+					<!-- <li class="treeview"><a href="#"> <i class="fa fa-folder"></i>
 							<span>校园疫情防控管理</span> <span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 						</span>
@@ -376,16 +390,16 @@
 									class="fa fa-circle-o"></i>体温行程信息管理
 							</a>
 								<ul class="treeview-menu">
-									<li id="admin-login"><a href="../campus/tohealthupload"
+									<li id="admin-login"><a href="campus/tohealthupload"
 										target="iframe"> <i class="fa fa-circle-o"></i>体温行程上报
 									</a></li>
-									<li id="admin-login"><a href="../campus/health?flag=1"
+									<li id="admin-login"><a href="campus/health?flag=1"
 										target="iframe"> <i class="fa fa-circle-o"></i>体温记录管理
 									</a></li>
-									<li id="admin-login"><a href="../campus/health?flag=2"
+									<li id="admin-login"><a href="campus/health?flag=2"
 										target="iframe"> <i class="fa fa-circle-o"></i>行程记录管理
 									</a></li>
-									<li id="admin-login"><a href="../campus/campusaccess"
+									<li id="admin-login"><a href="campus/campusaccess"
 										target="iframe"> <i class="fa fa-circle-o"></i>出入校园记录管理
 									</a></li>
 								</ul></li>
@@ -397,20 +411,22 @@
 							</a>
 								<ul class="treeview-menu">
 
-									<li id="admin-login"><a href="../campusEpidemic/diagnosis"
+									<li id="admin-login"><a href="campusEpidemic/diagnosis"
 										target="iframe"> <i class="fa fa-circle-o"></i>确诊患者管理
 									</a></li>
-									<li id="admin-login"><a href="../campusEpidemic/contact"
+									<li id="admin-login"><a href="campusEpidemic/contact"
 										target="iframe"> <i class="fa fa-circle-o"></i>密切接触管理
 									</a></li>
-									<li id="admin-login"><a href="../campusEpidemic/cureOrDeath?flag=1"
-										target="iframe"> <i class="fa fa-circle-o"></i>治愈管理
+									<li id="admin-login"><a
+										href="campusEpidemic/cureOrDeath?flag=1" target="iframe">
+											<i class="fa fa-circle-o"></i>治愈管理
 									</a></li>
-									<li id="admin-login"><a href="../campusEpidemic/cureOrDeath?flag=2"
-										target="iframe"> <i class="fa fa-circle-o"></i>死亡管理
+									<li id="admin-login"><a
+										href="campusEpidemic/cureOrDeath?flag=2" target="iframe">
+											<i class="fa fa-circle-o"></i>死亡管理
 									</a></li>
 								</ul></li>
-						</ul></li>
+						</ul></li> -->
 
 					<li class="treeview"><a href="#"> <i class="fa fa-folder"></i>
 							<span>防疫志愿服务管理</span> <span class="pull-right-container">
@@ -419,10 +435,10 @@
 					</a>
 						<ul class="treeview-menu">
 
-							<li id="admin-login"><a href="../volunteer/tostart"
+							<li id="admin-login"><a href="volunteer/tostart"
 								target="iframe"> <i class="fa fa-circle-o"></i>发起志愿活动
 							</a></li>
-							<li id="admin-login"><a href="../volunteer/activities"
+							<li id="admin-login"><a href="volunteer/activities"
 								target="iframe"> <i class="fa fa-circle-o"></i>防疫志愿风采
 							</a></li>
 						</ul></li>
@@ -430,15 +446,13 @@
 					<!-- 菜单 /-->
 				</ul>
 			</section>
-			<!-- /.sidebar -->
 		</aside>
 		<!-- 导航侧栏 /-->
 
 		<!-- 内容区域 -->
 		<div class="content-wrapper">
 			<iframe width="100%" id="iframe" name="iframe"
-				onload="SetIFrameHeight()" frameborder="0"
-				src="/epidemic/home/panel"></iframe>
+				onload="SetIFrameHeight()" frameborder="0" src="panel"></iframe>
 
 		</div>
 		<!-- 内容区域 /-->
@@ -446,7 +460,7 @@
 		<!-- 底部导航 -->
 		<footer class="main-footer">
 			<div class="pull-right hidden-xs">
-				<b>Version</b> 1.0.1
+				<b>Version</b> 1.0
 			</div>
 			<strong>Copyright &copy; 2021 东莞理工学院-房志坪 </strong>
 		</footer>

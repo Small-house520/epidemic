@@ -175,52 +175,62 @@ public class EpidemicContactExample {
             return (Criteria) this;
         }
 
-        public Criteria andCampusIdEqualTo(Long value) {
+        public Criteria andCampusIdEqualTo(String value) {
             addCriterion("CAMPUS_ID =", value, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andCampusIdNotEqualTo(Long value) {
+        public Criteria andCampusIdNotEqualTo(String value) {
             addCriterion("CAMPUS_ID <>", value, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andCampusIdGreaterThan(Long value) {
+        public Criteria andCampusIdGreaterThan(String value) {
             addCriterion("CAMPUS_ID >", value, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andCampusIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andCampusIdGreaterThanOrEqualTo(String value) {
             addCriterion("CAMPUS_ID >=", value, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andCampusIdLessThan(Long value) {
+        public Criteria andCampusIdLessThan(String value) {
             addCriterion("CAMPUS_ID <", value, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andCampusIdLessThanOrEqualTo(Long value) {
+        public Criteria andCampusIdLessThanOrEqualTo(String value) {
             addCriterion("CAMPUS_ID <=", value, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andCampusIdIn(List<Long> values) {
+        public Criteria andCampusIdLike(String value) {
+            addCriterion("CAMPUS_ID like", value, "campusId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCampusIdNotLike(String value) {
+            addCriterion("CAMPUS_ID not like", value, "campusId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCampusIdIn(List<String> values) {
             addCriterion("CAMPUS_ID in", values, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andCampusIdNotIn(List<Long> values) {
+        public Criteria andCampusIdNotIn(List<String> values) {
             addCriterion("CAMPUS_ID not in", values, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andCampusIdBetween(Long value1, Long value2) {
+        public Criteria andCampusIdBetween(String value1, String value2) {
             addCriterion("CAMPUS_ID between", value1, value2, "campusId");
             return (Criteria) this;
         }
 
-        public Criteria andCampusIdNotBetween(Long value1, Long value2) {
+        public Criteria andCampusIdNotBetween(String value1, String value2) {
             addCriterion("CAMPUS_ID not between", value1, value2, "campusId");
             return (Criteria) this;
         }

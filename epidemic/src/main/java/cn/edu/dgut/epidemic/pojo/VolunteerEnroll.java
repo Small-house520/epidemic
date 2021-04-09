@@ -5,7 +5,7 @@ import java.util.Date;
 public class VolunteerEnroll {
     private Integer volunteerId;
 
-    private Long campusId;
+    private String campusId;
 
     private Integer volunteerServiceId;
 
@@ -29,12 +29,12 @@ public class VolunteerEnroll {
         this.volunteerId = volunteerId;
     }
 
-    public Long getCampusId() {
+    public String getCampusId() {
         return campusId;
     }
 
-    public void setCampusId(Long campusId) {
-        this.campusId = campusId;
+    public void setCampusId(String campusId) {
+        this.campusId = campusId == null ? null : campusId.trim();
     }
 
     public Integer getVolunteerServiceId() {

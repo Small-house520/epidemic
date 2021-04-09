@@ -16,9 +16,10 @@ public class SpringMVCConfig implements WebMvcConfigurer {
 	// 添加视图控制器
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/home/index").setViewName("index");
-		registry.addViewController("/home/panel").setViewName("panel");
-		registry.addViewController("/home/login").setViewName("login");
+		registry.addViewController("/index").setViewName("index");
+		registry.addViewController("/panel").setViewName("panel");
+		registry.addViewController("/login").setViewName("login");
+		registry.addViewController("/unAuth").setViewName("unAuth");
 
 		registry.addViewController("/process/processadd").setViewName("process/process_add");
 		

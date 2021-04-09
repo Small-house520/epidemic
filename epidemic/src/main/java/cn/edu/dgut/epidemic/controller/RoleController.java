@@ -48,7 +48,7 @@ public class RoleController {
 	// 给角色分配权限
 	@RequestMapping("/assignRole")
 	@ResponseBody
-	public Map<String, String> assignRole(Long campusId, Short roleId) {
+	public Map<String, String> assignRole(String campusId, Short roleId) {
 		Map<String, String> map = new HashMap<>();
 		try {
 			// 更新用户角色关系

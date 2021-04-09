@@ -20,7 +20,7 @@ public interface CampusService {
 	 * @param campusId
 	 * @return
 	 */
-	TemperatureItinerary getHealthInfo(Long campusId);
+	TemperatureItinerary getHealthInfo(String campusId);
 
 	/**
 	 * 保存填报上来的体温行程信息

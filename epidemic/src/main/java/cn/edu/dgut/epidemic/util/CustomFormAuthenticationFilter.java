@@ -65,7 +65,7 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
 	protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
 			ServletResponse response) throws Exception {
 		WebUtils.getAndClearSavedRequest(request);
-		WebUtils.redirectToSavedRequest(request, response, "/main");
+		WebUtils.redirectToSavedRequest(request, response, "/home/home");
 		return false;
 	}
 }

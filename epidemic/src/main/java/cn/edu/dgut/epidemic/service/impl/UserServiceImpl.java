@@ -1,6 +1,7 @@
 package cn.edu.dgut.epidemic.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import cn.edu.dgut.epidemic.pojo.CampusUserInfoExample;
 import cn.edu.dgut.epidemic.pojo.GradeClass;
 import cn.edu.dgut.epidemic.service.UserService;
 
-@Service
+@Service("userService")
 @Transactional
 public class UserServiceImpl implements UserService {
 	@Autowired
@@ -54,12 +55,12 @@ public class UserServiceImpl implements UserService {
 
 	// 根据用户的账号获取用户信息
 	@Override
-	public CampusUser findByCampusId(Long campusId) {
+	public CampusUser findByCampusId(String campusId) {
 		CampusUserExample userExample = new CampusUserExample();
 		CampusUserExample.Criteria criteria = userExample.createCriteria();
 
 		// 关联查询条件
-		if (campusId != null && campusId > 0) {
+		if (campusId != null && !"".equals(campusId)) {
 			criteria.andCampusIdEqualTo(campusId);
 		}
 
@@ -87,15 +88,11 @@ public class UserServiceImpl implements UserService {
 	// 删除个人信息
 	@Override
 	public void userDel(String ids) {
-		// 把传过来的id串拆分，并转成short[]
+		// 把传过来的id串拆分，并转成String[]
 		String[] strs = ids.split(",");
-		List<Long> campusIds = new ArrayList<Long>();
-		for (int i = 0; i < strs.length; i++) {
-			campusIds.add(Long.parseLong(strs[i]));
-		}
 		CampusUserInfoExample userInfoExample = new CampusUserInfoExample();
 		CampusUserInfoExample.Criteria criteria = userInfoExample.createCriteria();
-		criteria.andCampusIdIn(campusIds);
+		criteria.andCampusIdIn(Arrays.asList(strs));
 		this.userInfoMapper.deleteByExample(userInfoExample);
 	}
 
@@ -115,7 +112,7 @@ public class UserServiceImpl implements UserService {
 		}
 		CampusUserExample userExample = new CampusUserExample();
 		Criteria criteria = userExample.createCriteria();
-		if (user.getCampusId() != null && user.getCampusId() > 0) {
+		if (user.getCampusId() != null && !"".equals(user.getCampusId())) {
 			criteria.andCampusIdEqualTo(user.getCampusId());
 		}
 		if (user.getUsername() != null && !"".equals(user.getUsername())) {
@@ -127,7 +124,7 @@ public class UserServiceImpl implements UserService {
 
 	// 获取个人信息
 	@Override
-	public CampusUserInfo getUserInfo(Long campusId) {
+	public CampusUserInfo getUserInfo(String campusId) {
 		CampusUserInfo userInfo = this.userInfoMapper.selectByPrimaryKey(campusId);
 		return userInfo;
 	}
@@ -148,7 +145,7 @@ public class UserServiceImpl implements UserService {
 		}
 		CampusUserInfoExample userInfoExample = new CampusUserInfoExample();
 		CampusUserInfoExample.Criteria criteria = userInfoExample.createCriteria();
-		if (userInfo.getCampusId() != null && userInfo.getCampusId() > 0) {
+		if (userInfo.getCampusId() != null && !"".equals(userInfo.getCampusId())) {
 			criteria.andCampusIdEqualTo(userInfo.getCampusId());
 		}
 		if (userInfo.getFullName() != null && !"".equals(userInfo.getFullName())) {
@@ -167,7 +164,7 @@ public class UserServiceImpl implements UserService {
 
 	// 更新用户角色关系
 	@Override
-	public void updateUserRole(Long campusId, Short roleId) {
+	public void updateUserRole(String campusId, Short roleId) {
 		// 根据campusId查询出CampusUser信息
 		CampusUserExample campusUserExample = new CampusUserExample();
 		CampusUserExample.Criteria criteria = campusUserExample.createCriteria();
@@ -204,7 +201,7 @@ public class UserServiceImpl implements UserService {
 
 	// 根据id查询用户信息
 	@Override
-	public List<CampusUserInfo> findUserByIds(List<Long> ids) {
+	public List<CampusUserInfo> findUserByIds(List<String> ids) {
 		CampusUserInfoExample userInfoExample = new CampusUserInfoExample();
 		CampusUserInfoExample.Criteria criteria = userInfoExample.createCriteria();
 		if (ids != null && ids.size() > 0) {
@@ -213,6 +210,22 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return null;
+	}
+
+	// 根据roleId查询管理员的用户名
+	@Override
+	public List<String> findAdmin(Short roleId) {
+		CampusUserExample userExample = new CampusUserExample();
+		CampusUserExample.Criteria criteria = userExample.createCriteria();
+		criteria.andRoleIdEqualTo(roleId);
+		List<CampusUser> list = this.userMapper.selectByExample(userExample);
+		List<String> admin = new ArrayList<String>();
+		if (list != null && list.size() > 0) {
+			for (CampusUser user : list) {
+				admin.add(user.getUsername());
+			}
+		}
+		return admin;
 	}
 
 }

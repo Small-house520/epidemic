@@ -12,6 +12,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import cn.edu.dgut.epidemic.pojo.CampusUser;
 import cn.edu.dgut.epidemic.pojo.CustomUser;
@@ -34,16 +35,18 @@ public class CustomRealm extends AuthorizingRealm {
 	// 认证
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-		// System.out.println("正在认证用户.....");
+		 System.out.println("正在认证用户.....");
 		// 加这一步的目的是在post请求时会先进入认证然后再到请求。
-		if (token.getPrincipal() == null) {
+		if (StringUtils.isEmpty(token.getPrincipal())) {
 			return null;
 		}
 		// 从token获取用户输入的帐号
-		String username = token.getPrincipal().toString();
+		String campusId = token.getPrincipal().toString();
 
 		// 根据用户名到数据库查询用户信息
-		CampusUser user = this.userService.findUserByName(username);
+		//CampusUser user = this.userService.findUserByName(username);
+		// 根据用户账号到数据库查询用户信息
+		CampusUser user = this.userService.findByCampusId(campusId);
 		// 如果用户不存在，直接返回null
 		if (user == null) {
 			return null; // UnknownAccountException
@@ -56,7 +59,6 @@ public class CustomRealm extends AuthorizingRealm {
 		customUser.setUserId(user.getUserId());
 		customUser.setCampusId(user.getCampusId());
 		customUser.setUsername(user.getUsername());
-		customUser.setUserPassword(user.getUserPassword());
 		customUser.setRoleId(user.getRoleId());
 		customUser.setTreeMenus(treeMenus);
 		// 数据库中的密码,密文
@@ -66,7 +68,7 @@ public class CustomRealm extends AuthorizingRealm {
 		// String salt = user.getSalt();
 		// System.out.println(salt);
 
-		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(customUser, password_db, "CustomRealm");
+		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(customUser, password_db, getName());
 		return info;
 	}
 

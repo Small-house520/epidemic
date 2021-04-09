@@ -13,7 +13,7 @@ public class CustomUser implements Serializable {
 
 	private Integer userId;
 
-	private Long campusId;
+	private String campusId;
 
 	private String userPassword;
 
@@ -33,11 +33,11 @@ public class CustomUser implements Serializable {
 		this.userId = userId;
 	}
 
-	public Long getCampusId() {
+	public String getCampusId() {
 		return campusId;
 	}
 
-	public void setCampusId(Long campusId) {
+	public void setCampusId(String campusId) {
 		this.campusId = campusId;
 	}
 
