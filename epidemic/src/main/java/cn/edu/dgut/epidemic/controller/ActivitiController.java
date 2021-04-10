@@ -20,9 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
 import cn.edu.dgut.epidemic.pojo.CustomUser;
@@ -82,7 +84,8 @@ public class ActivitiController {
 
 	// 保存报名信息，开启报名审核流程
 	@RequestMapping("/enrollProcess")
-	public String saveStartEnroll(VolunteerEnroll volunteerEnroll, String sponsor, HttpSession session) {
+	public String saveStartEnroll(VolunteerEnroll volunteerEnroll, String sponsor, HttpSession session, Model model,
+			RedirectAttributes redirectAttributes) {
 		// CampusUser user = (CampusUser)
 		// session.getAttribute(Constants.GLOBLE_USER_SESSION);
 		CustomUser customUser = (CustomUser) SecurityUtils.getSubject().getPrincipal();
@@ -94,20 +97,23 @@ public class ActivitiController {
 		// 设置录用状态为待定
 		volunteerEnroll.setEmployOrNot("w");
 
-		// 1为未提交报名，2为审核中，3为已审核
+		// 1为审核中，2为已审核
 		volunteerEnroll.setState("1");
 
 		// 保存报名信息
 		this.processService.saveEnroll(volunteerEnroll);
 
-		this.activitiService.startProcess(volunteerEnroll.getVolunteerId(), userInfo.getFullName(), sponsor, 2);
+		String taskId = this.activitiService.startProcess(volunteerEnroll.getVolunteerId(), userInfo.getFullName(),
+				sponsor, 2);
 
 		// 这种方法是隐藏了参数，链接地址上不直接暴露，
 		// 用(@ModelAttribute(value = "prama")String prama)的方式获取参数。
 
 		// 这种方法相当于在重定向链接地址上追加传递的参数
-		// redirectAttributes.addFlashAttribute("flag", 2);
-		return "redirect:/activiti/myTaskList?flag=2";
+		redirectAttributes.addFlashAttribute("comment", "报名参加志愿活动");
+		redirectAttributes.addFlashAttribute("outcome", "报名");
+		redirectAttributes.addFlashAttribute("sponsor", sponsor);
+		return "redirect:/activiti/submitTask?id=" + volunteerEnroll.getVolunteerId() + "&taskId=" + taskId + "&flag=2";
 	}
 
 	// 根据待办人名称查询流程任务，并跳转到前台显示
@@ -127,6 +133,7 @@ public class ActivitiController {
 
 		// 将查询到的list 保存model域中
 		mv.addObject("taskList", list);
+		mv.addObject("userInfo", userInfo);
 		mv.addObject("flag", flag);
 
 		mv.setViewName("transaction/mytransaction");
@@ -150,15 +157,22 @@ public class ActivitiController {
 			// 获取报名信息
 			VolunteerEnroll volunteerEnroll = this.activitiService.findVolunteerEnrollByTaskId(taskId);
 			CampusUserInfo userInfo = this.userService.getUserInfo(volunteerEnroll.getCampusId());
+			VolunteerService volunteerService = this.processService
+					.findActivityById(volunteerEnroll.getVolunteerServiceId());
 			map.put("userInfo", userInfo);
+			map.put("activity", volunteerService);
 			map.put("volunteerEnroll", volunteerEnroll);
 		}
 
 		// 获取对应身份的审核功能信息
 		List<String> outcomeList = this.activitiService.findOutComeListByTaskId(taskId);
-		if (outcomeList != null && (outcomeList.get(0).contains("提交") || outcomeList.get(0).contains("报名"))) {
+		if (outcomeList != null && outcomeList.get(0).contains("提交")) {
 			outcomeList.clear();
 			outcomeList.add("提交申请");
+		}
+		if (outcomeList != null && outcomeList.get(0).contains("报名")) {
+			outcomeList.clear();
+			outcomeList.add("报名");
 		}
 		map.put("outcomeList", outcomeList);
 
@@ -176,8 +190,9 @@ public class ActivitiController {
 
 	// 办理任务
 	@RequestMapping("/submitTask")
-	public String submitTask(Integer id, String taskId, String comment, String outcome, Integer flag,
-			HttpSession session, Model model) {
+	public String submitTask(Integer id, String taskId, @ModelAttribute(value = "comment") String comment,
+			@ModelAttribute(value = "outcome") String outcome, @ModelAttribute(value = "sponsor") String sponsor,
+			Integer flag, HttpSession session, Model model) {
 		// 获取个人信息
 		// CampusUser user = (CampusUser)
 		// session.getAttribute(Constants.GLOBLE_USER_SESSION);
@@ -185,10 +200,10 @@ public class ActivitiController {
 		CampusUserInfo userInfo = this.userService.getUserInfo(customUser.getCampusId());
 
 		// 添加批注，并把流程往前面推进
-		this.activitiService.submitTask(id, taskId, comment, outcome, userInfo, flag);
+		this.activitiService.submitTask(id, taskId, comment, outcome, sponsor, userInfo, flag);
 
-		model.addAttribute("flag", flag);
-		return "redirect:/process/myprocess";
+		// model.addAttribute("flag", flag);
+		return "redirect:/process/myprocess?flag=" + flag;
 	}
 
 	// 查看当前流程图（查看当前活动节点，并使用红色的框标注）
@@ -226,7 +241,7 @@ public class ActivitiController {
 
 	// 显示当前流程图的位置
 	@RequestMapping("/viewCurrentImageById")
-	public String viewCurrentImageById(Long id, Integer flag, ModelMap model) {
+	public String viewCurrentImageById(Integer id, Integer flag, ModelMap model) {
 		String BUSSINESS_KEY = Constants.Activity_KEY + "." + id;
 		if (flag == 2) {
 			BUSSINESS_KEY = Constants.Enroll_KEY + "." + id;
@@ -244,7 +259,7 @@ public class ActivitiController {
 		Map<String, Object> map = this.activitiService.findCoordingByTask(task.getId());
 
 		model.addAttribute("acs", map);
-		return "process/viewimage";
+		return "process/imageview";
 	}
 
 	// 查询流程信息
@@ -272,15 +287,17 @@ public class ActivitiController {
 		// 1：根据活动ID，查询活动信息对象
 		VolunteerService volunteerService = this.processService.findActivityById(id);
 		model.addAttribute("volunteerService", volunteerService);
-		// 2：使用活动ID，查询历史的批注信息
+		// 2：使用ID，查询历史的批注信息
 		List<Comment> commentList = this.activitiService.findCommentById(id, flag);
 		if (flag == 2) {
 			uri = "transaction/enroll_comments";
 			// 1：使用报名ID，查询报名对象
 			VolunteerEnroll volunteerEnroll = this.processService.findEnrollById(id);
 			model.addAttribute("volunteerEnroll", volunteerEnroll);
+			VolunteerService activity = this.processService.findActivityById(volunteerEnroll.getVolunteerServiceId());
+			model.addAttribute("activity", activity);
 			// 2：使用报名ID，查询历史的批注信息
-			commentList = this.activitiService.findCommentById(id, flag);
+			//commentList = this.activitiService.findCommentById(id, flag);
 		}
 		model.addAttribute("flag", flag);
 		model.addAttribute("commentList", commentList);

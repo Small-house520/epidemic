@@ -31,7 +31,7 @@ public interface ActivitiService {
 	 * @param sponsor
 	 * @param flag:1为活动审核流程，2为报名流程
 	 */
-	void startProcess(Integer id, String name, String sponsor, Integer flag);
+	String startProcess(Integer id, String name, String sponsor, Integer flag);
 
 	/**
 	 * 根据待办人查询任务
@@ -65,10 +65,12 @@ public interface ActivitiService {
 	 * @param taskId
 	 * @param comemnt
 	 * @param outcome
+	 * @param sponsor
 	 * @param userInfo
 	 * @param flag
 	 */
-	void submitTask(Integer id, String taskId, String comemnt, String outcome, CampusUserInfo userInfo, Integer flag);
+	void submitTask(Integer id, String taskId, String comemnt, String outcome, String sponsor, CampusUserInfo userInfo,
+			Integer flag);
 
 	/**
 	 * 使用任务对象获取流程定义ID，查询流程定义对象

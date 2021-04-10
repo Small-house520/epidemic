@@ -67,28 +67,29 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	// 保存并启动流程实例
 	@Override
-	public void startProcess(Integer id, String name, String sponsor, Integer flag) {
+	public String startProcess(Integer id, String name, String sponsor, Integer flag) {
 		// 活动审核业务和流程信息进行关联 BUSSINSS_KEY
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userName", name);
 
 		// 定义规则
 		String BUSSINSS_KEY = Constants.Activity_KEY + "." + id;
+		if (flag == 1) {
+			map.put("objId", BUSSINSS_KEY);
+			// 使用流程定义的key，启动流程实例，同时设置流程变量，同时向正在执行的执行对象表中的字段BUSINESS_KEY添加业务数据，同时让流程关联业务
+			this.runtimeService.startProcessInstanceByKey(Constants.Activity_KEY, BUSSINSS_KEY, map);
+			return null;
+		}
 		if (flag == 2) {
 			BUSSINSS_KEY = Constants.Enroll_KEY + "." + id;
-		}
-
-		map.put("objId", BUSSINSS_KEY);
-
-		// 使用流程定义的key，启动流程实例，同时设置流程变量，同时向正在执行的执行对象表中的字段BUSINESS_KEY添加业务数据，同时让流程关联业务
-		ProcessInstance process = this.runtimeService.startProcessInstanceByKey(Constants.Activity_KEY, BUSSINSS_KEY,
-				map);
-		if (flag == 2) {
+			map.put("objId", BUSSINSS_KEY);
+			// 使用流程定义的key，启动流程实例，同时设置流程变量，同时向正在执行的执行对象表中的字段BUSINESS_KEY添加业务数据，同时让流程关联业务
+			ProcessInstance process = this.runtimeService.startProcessInstanceByKey(Constants.Enroll_KEY, BUSSINSS_KEY,
+					map);
 			Task task = taskService.createTaskQuery().processInstanceId(process.getId()).active().singleResult();
-			// 此时，不要应删除掉流程图中赋值的角色，否则会重复
-			// taskService.addCandidateGroup(task.getId(), sponsor);
-			taskService.setAssignee(task.getId(), sponsor);
+			return task.getId();
 		}
+		return null;
 	}
 
 	// 根据待办人名称查询任务
@@ -101,12 +102,16 @@ public class ActivitiServiceImpl implements ActivitiService {
 		}
 		// 获得流程定义
 		ProcessDefinition processDefinition = this.repositoryService.createProcessDefinitionQuery()
-				.processDefinitionResourceNameLike("%" + procDeResName + "%").singleResult();
+				.processDefinitionResourceNameLike(procDeResName + "%").singleResult();
 		if (processDefinition != null) {
 			String id = processDefinition.getId();
 			// 根据待办人名称查询任务
 			List<Task> list = this.taskService.createTaskQuery().taskAssignee(name).processDefinitionId(id)
 					.orderByTaskCreateTime().desc().list();
+			if (list == null || list.size() <= 0) {
+				list = this.taskService.createTaskQuery().taskCandidateUser(name).processDefinitionId(id)
+						.orderByTaskCreateTime().desc().list();
+			}
 			return list;
 		}
 		return null;
@@ -161,8 +166,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 
 	// 完成任务，推进流程
 	@Override
-	public void submitTask(Integer id, String taskId, String comment, String outcome, CampusUserInfo userInfo,
-			Integer flag) {
+	public void submitTask(Integer id, String taskId, String comment, String outcome, String sponsor,
+			CampusUserInfo userInfo, Integer flag) {
 		/**
 		 * 1：在完成之前，添加一个批注信息，向act_hi_comment表中添加数据，用于记录对当前申请人的一些审核信息
 		 */
@@ -190,7 +195,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 		CustomUser customUser = (CustomUser) SecurityUtils.getSubject().getPrincipal();
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 判断完成流程是否需要对应参数
-		if (outcome != null && outcome.equals("提交申请")) {
+		if (outcome != null && (outcome.equals("提交申请") || outcome.equals("报名"))) {
 			map.put("role", customUser.getRoleId());
 			// 在提交申请之后，更新各自的审核状态
 			if (flag == 1) {
@@ -198,11 +203,6 @@ public class ActivitiServiceImpl implements ActivitiService {
 				VolunteerService volunteerService = this.volunteerServiceMapper.selectByPrimaryKey(id);
 				volunteerService.setState("2");
 				this.volunteerServiceMapper.updateByPrimaryKeySelective(volunteerService);
-			} else if (flag == 2) {
-				// 更新未报名状态为审核中
-				VolunteerEnroll volunteerEnroll = this.volunteerEnrollMapper.selectByPrimaryKey(id);
-				volunteerEnroll.setState("2");
-				this.volunteerEnrollMapper.updateByPrimaryKey(volunteerEnroll);
 			}
 			// 3：使用任务ID，完成当前人的个人任务，同时流程变量
 			taskService.complete(taskId, map);
@@ -231,8 +231,15 @@ public class ActivitiServiceImpl implements ActivitiService {
 			} else if (flag == 2) {
 				// 更新报名状态从2变成3（审核中-->审核完成）
 				VolunteerEnroll volunteerEnroll = this.volunteerEnrollMapper.selectByPrimaryKey(id);
-				volunteerEnroll.setState("3");
+				volunteerEnroll.setState("2");
 				this.volunteerEnrollMapper.updateByPrimaryKey(volunteerEnroll);
+			}
+		} else {
+			// 如果是报名流程，设置下一个节点待办人
+			if (flag == 2) {
+				Task task2 = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().singleResult();
+				// 此时，不要应删除掉流程图中赋值的角色，否则会重复
+				taskService.setAssignee(task2.getId(), sponsor);
 			}
 		}
 

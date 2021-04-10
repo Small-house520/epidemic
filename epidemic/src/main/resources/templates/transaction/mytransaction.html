@@ -48,13 +48,14 @@ th, td {
 								<td th:text="${task.name}"></td>
 								<td
 									th:text="${#dates.format(task.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
-								<td th:text="${task.assignee}"></td>
+								<td th:if="${task.assignee!=null}" th:text="${task.assignee}"></td>
+								<td th:unless="${task.assignee!=null}" th:text="${userInfo.fullName}"></td>
 								<td><a href="#"
 									th:onclick="startTask([[${task.id}]],[[${flag}]])"
 									class="btn btn-success btn-xs"><span
 										class="glyphicon glyphicon-plus"></span> 办理任务</a>&nbsp;&nbsp; <a
 									href="#" th:onclick="viewCurrentImage([[${task.id}]])"
-									target="_blank" class="btn btn-success btn-xs"><span
+									class="btn btn-success btn-xs"><span
 										class="glyphicon glyphicon-eye-open"></span> 当前流程图</a></td>
 							</tr>
 						</tbody>
@@ -72,7 +73,7 @@ th, td {
 				+ "&flag=" + flag;
 	}
 	function viewCurrentImage(taskId) {
-		window.location.href = "../activiti/viewCurrentImage?taskId=" + taskId;
+		window.open("../activiti/viewCurrentImage?taskId=" + taskId);
 	}
 </script>
 

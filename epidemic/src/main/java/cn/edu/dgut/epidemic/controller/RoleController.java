@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import cn.edu.dgut.epidemic.pojo.CustomUser;
 import cn.edu.dgut.epidemic.pojo.Permission;
 import cn.edu.dgut.epidemic.pojo.Role;
 import cn.edu.dgut.epidemic.pojo.TreeMenu;
@@ -89,8 +91,7 @@ public class RoleController {
 	// 查询所有角色及其权限关系
 	@RequestMapping("/findRoles")
 	public ModelAndView findRoles() {
-		// CustomUser customUser = (CustomUser)
-		// SecurityUtils.getSubject().getPrincipal();
+		CustomUser customUser = (CustomUser) SecurityUtils.getSubject().getPrincipal();
 		// 查询出所有角色信息
 		List<Role> roles = this.roleService.findAllRoles();
 		// 查询所有菜单和权限信息
@@ -98,7 +99,7 @@ public class RoleController {
 
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("allRoles", roles);
-		// mv.addObject("customUser", customUser);
+		mv.addObject("customUser", customUser);
 		mv.addObject("allMenuAndPermissions", allMenuAndPermissions);
 
 		mv.setViewName("permission/permission_list");
@@ -130,7 +131,7 @@ public class RoleController {
 	// 根据账号（编号）查询角色和权限关系
 	@RequestMapping("/viewPermissionById")
 	@ResponseBody
-	public Role viewPermissionById(Long id) {
+	public Role viewPermissionById(String id) {
 		Role role = this.roleService.findRolesAndPermissionsById(id);
 
 		return role;

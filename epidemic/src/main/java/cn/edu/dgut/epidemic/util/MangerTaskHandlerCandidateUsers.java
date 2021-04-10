@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 
 import cn.edu.dgut.epidemic.service.UserService;
 
@@ -19,8 +17,9 @@ public class MangerTaskHandlerCandidateUsers implements TaskListener {
 	@Override
 	public void notify(DelegateTask delegateTask) {
 		// 获取到spring容器
-		WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
-		UserService userService = (UserService) webApplicationContext.getBean("userService");
+		// WebApplicationContext webApplicationContext =
+		// ContextLoader.getCurrentWebApplicationContext();
+		UserService userService = (UserService) SpringUtil.getBean("userService");
 		// 根据roleId查询管理员的用户名
 		short roleId = 4;
 		List<String> admin = userService.findAdmin(roleId);

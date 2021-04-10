@@ -8,21 +8,21 @@ import cn.edu.dgut.epidemic.pojo.TreeMenu;
 
 public interface PermissionCustomMapper {
 
-	List<Permission> findMenuListByUserId(String userid) throws Exception;
+	List<Permission> findMenuListByUserId(String id) throws Exception;
 
-	List<Permission> findPermissionListByUserId(Integer userid) throws Exception;
+	List<Permission> findPermissionListByUserId(Integer id) throws Exception;
 
 	List<TreeMenu> getMenuTree();
 
 	List<Permission> getSubMenu();
 
-	Role findRoleAndPermissionListById(Long id);
+	Role findRoleAndPermissionListById(String id);
 
 	List<Role> findRoleAndPermissionList();
 
-	List<Permission> findMenuAndPermissionByUserId(String userId);
+	List<Permission> findMenuAndPermissionByUserId(String id);
 
 	List<TreeMenu> getAllMenuAndPermision();
 
-	List<Permission> findPermissionsByRoleId(Short roleId);
+	List<Permission> findPermissionsByRoleId(Short id);
 }

@@ -1,5 +1,6 @@
 package cn.edu.dgut.epidemic.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -48,7 +49,13 @@ public class ProcessController {
 		// 根据campusId查询出报名信息
 		List<VolunteerEnroll> list = this.processService.getVolunteerEnroll(customUser.getCampusId());
 		// 把查询出的数据设置到model
-		model.addAttribute("leavebills", list);
+		model.addAttribute("enrolls", list);
+		List<Integer> ids = new ArrayList<Integer>();
+		for (VolunteerEnroll volunteerEnroll : list) {
+			ids.add(volunteerEnroll.getVolunteerServiceId());
+		}
+		List<VolunteerService> vList = this.processService.findActivityByIds(ids);
+		model.addAttribute("activities", vList);
 
 		return "transaction/enroll_list";
 	}

@@ -178,44 +178,52 @@
 						<table class="table table-bordered table-striped" width="800px">
 							<tr>
 								<td>志愿服务标题</td>
-								<td id="title2"></td>
-							</tr>
-							<tr>
-								<td>志愿服务详情</td>
-								<td id="details2"></td>
+								<td><input type="text" id="title2" name="title"
+									readonly="readonly" class="form-control"></td>
 							</tr>
 							<tr>
 								<td>志愿服务地点</td>
-								<td id="location2"></td>
+								<td><input type="text" id="location2" name="location"
+									readonly="readonly" class="form-control"></td>
+								</td>
 							</tr>
 							<tr>
 								<td>招募志愿者人数</td>
-								<td id="expectedVolunteers2"></td>
+								<td><input type="number" id="expectedVolunteers2"
+									name="expectedVolunteers" readonly="readonly"
+									class="form-control"></td>
+								</td>
 							</tr>
 							<tr>
 								<td>招募志愿者条件</td>
-								<td id="conditions2"></td>
+								<td><input type="text" id="conditions2" name="conditions"
+									readonly="readonly" class="form-control"></td>
+								</td>
 							</tr>
 							<tr>
 								<td>志愿服务开始时间</td>
-								<td id="startTime2"></td>
+								<td><input type="text" id="startTime2" name="startTime"
+									readonly="readonly" class="form-control"></td>
+								</td>
 							</tr>
 							<tr>
 								<td>志愿服务结束时间</td>
-								<td id="endTime2"></td>
+								<td id="endTime2"><input type="text" id="endTime2"
+									name="endTime" readonly="readonly" class="form-control"></td>
+								</td>
 							</tr>
 							<tr>
 								<td>是否符合条件</td>
-								<td><select id="participatedVolunteers"
-									name="participatedVolunteers" class="form-control">
+								<td><select id="participatedVolunteers" name="isQualified"
+									class="form-control">
 										<option value="y" selected="selected">是</option>
 										<option value="n">否</option>
 								</select></td>
 							</tr>
 							<tr>
 								<td>备注</td>
-								<td><input type="text" id="remarks" name="remarks"
-									class="form-control" placeholder="备注"></td>
+								<td><input type="text" id="volunteerRemarks"
+									name="volunteerRemarks" class="form-control" placeholder="备注"></td>
 							</tr>
 						</table>
 
@@ -326,6 +334,7 @@
 		for(var i=0; i<userInfos.length; i++){
 			if(volunteer.campusId == userInfos[i].campusId){
 				user = userInfos[i];
+				break;
 			}
 		}
 		
@@ -333,23 +342,30 @@
 		$("#volunteerServiceId").val(volunteer.volunteerServiceId);
 		$("#sponsor").val(user.fullName);
 		
+		$("#title2").val(volunteer.title);
+		$("#location2").val(volunteer.location);
+		$("#expectedVolunteers2").val(volunteer.expectedVolunteers);
+		$("#conditions2").val(volunteer.conditions);
+		$("#startTime2").val(volunteer.startTime);
+		$("#endTime2").val(volunteer.endTime);
+		
 		// 根据id获取各对象
-		var title = document.getElementById("title2");
+		/* var title = document.getElementById("title2");
 		var details = document.getElementById("details2");
 		var location = document.getElementById("location2");
 		var expectedVolunteers = document.getElementById("expectedVolunteers2");
 		var conditions = document.getElementById("conditions2");
 		var startTime = document.getElementById("startTime2");
-		var endTime = document.getElementById("endTime2");
+		var endTime = document.getElementById("endTime2"); */
 		
 		// 设置td的值
-		title.innerText = volunteer.title;
+		/* title.innerText = volunteer.title;
 		details.innerText = volunteer.details;
 		location.innerText = volunteer.location;
 		expectedVolunteers.innerText = volunteer.expectedVolunteers;
 		conditions.innerText = volunteer.conditions;
 		startTime.innerText = volunteer.startTime;
-		endTime.innerText = volunteer.endTime;
+		endTime.innerText = volunteer.endTime; */
 	}
 </script>
 

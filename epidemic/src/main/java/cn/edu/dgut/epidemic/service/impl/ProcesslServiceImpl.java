@@ -73,4 +73,17 @@ public class ProcesslServiceImpl implements ProcessService {
 		return volunteerEnrollMapper.selectByPrimaryKey(id);
 	}
 
+	// 根据id查询志愿活动信息
+	@Override
+	public List<VolunteerService> findActivityByIds(List<Integer> ids) {
+		VolunteerServiceExample volunteerServiceExample = new VolunteerServiceExample();
+		VolunteerServiceExample.Criteria criteria = volunteerServiceExample.createCriteria();
+		if (ids != null && ids.size() > 0) {
+			criteria.andVolunteerServiceIdIn(ids);
+			return this.volunteerServiceMapper.selectByExample(volunteerServiceExample);
+		}
+
+		return null;
+	}
+
 }

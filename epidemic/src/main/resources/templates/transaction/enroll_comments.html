@@ -17,8 +17,6 @@
 
 	<!--路径导航-->
 
-	<!--路径导航-->
-
 	<div class="page-content">
 		<div class="panel panel-default">
 			<div class="panel-heading">报名审核详情</div>
@@ -29,24 +27,24 @@
 							<div class="col-md-8">
 								<div class="form-group">
 									<label>志愿服务标题</label> <input type="text" class="form-control"
-										id="title" readonly="readonly" name="title" value="">
+										id="title" readonly="readonly" name="title" >
 								</div>
 
 								<div class="form-group">
-									<label for="col_name">学号</label> <input type="number"
+									<label for="col_name">学号</label> <input type="text"
 										class="form-control" id="campusId" name="campusId"
-										readonly="readonly" value="">
+										readonly="readonly" th:value="${volunteerEnroll.campusId}">
 								</div>
 
 								<div class="form-group">
 									<label>是否符合条件</label> <input type="text" class="form-control"
 										id="isQualified" readonly="readonly" name="isQualified"
-										value="">
+										th:value="${volunteerEnroll.isQualified=='y'?'是':'否'}">
 								</div>
 
 								<div class="form-group">
 									<label>报名时间</label> <input type="datetime" class="form-control"
-										id="enrollTime" readonly="readonly" name="enrollTime" value="">
+										id="enrollTime" readonly="readonly" name="enrollTime" th:value="${#dates.format(volunteerEnroll.enrollTime,'yyyy-MM-dd HH:mm:ss')}">
 								</div>
 
 								<div class="form-group">
@@ -65,7 +63,7 @@
 			<div class="panel-heading">报名审核信息</div>
 
 			<div class="table-responsive">
-				<table class="table table-striped table-hover">
+				<table class="table table-striped table-hover" th:if="${commentList.size() gt 0}">
 					<thead>
 						<tr>
 							<th width="10%">审核人</th>
@@ -74,15 +72,15 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td></td>
-							<td><fmt:formatDate value="${comment.time}"
-									pattern="yyyy-MM-dd HH:mm:ss" /></td>
-							<td></td>
+						<tr th:each="comment:${commentList}">
+							<td th:text="${comment.userId}"></td>
+							<td
+								th:text="${#dates.format(comment.time,'yyyy-MM-dd HH:mm:ss')}"></td>
+							<td th:text="${comment.fullMessage}"></td>
 						</tr>
 					</tbody>
 				</table>
-				<table class="table table-striped table-hover">
+				<table class="table table-striped table-hover" th:if="${commentList.size() le 0}">
 					<tr>
 						<td>暂无批注信息</td>
 					</tr>
@@ -91,7 +89,26 @@
 		</div>
 	</div>
 
-
-
 </body>
+
+<script th:inline="javascript">
+	$(function(){
+		// 获取volunteerService的值
+		var volunteerEnroll = [[${volunteerEnroll}]];
+		
+		// 获取需要填充元素的id
+		document.getElementById("volunteerRemarks").value = volunteerEnroll.volunteerRemarks;
+		
+		// 填充title
+		// 获取志愿活动信息
+		var activity = [[${activity}]];
+		
+		// 根据id获取各对象
+		$("#title").val(activity.title);
+		//var title = document.getElementById("title");
+		// 设置td的值
+		//title.innerText = activity.title;
+	})
+</script>
+
 </html>

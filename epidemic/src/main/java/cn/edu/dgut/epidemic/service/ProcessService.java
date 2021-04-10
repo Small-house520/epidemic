@@ -60,6 +60,14 @@ public interface ProcessService {
 	 */
 	VolunteerEnroll findEnrollById(Integer id);
 
+	/**
+	 * 根据id查询志愿活动信息
+	 * 
+	 * @param ids
+	 * @return
+	 */
+	List<VolunteerService> findActivityByIds(List<Integer> ids);
+
 	// List<BaoxiaoBill> findBaoxiaoBillListByUser(Long userid);
 
 	// List<BaoxiaoBill> findLeaveBillListByUser(Long id);
