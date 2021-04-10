@@ -12,7 +12,8 @@
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="../css/content.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
-<link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet"
+	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 <link rel="stylesheet" href="../css/style.css">
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -26,14 +27,6 @@ th, td {
 <link href="../bootstrap/css/bootstrap-table.min.css" rel="stylesheet">
 <script src="../bootstrap/js/bootstrap-table.min.js"></script>
 <script src="../bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript">
-	//确认删除函数
-	function delConf(id) {
-		if (confirm("是否删除该角色")) {
-			window.location.href = "../roledel?id=" + id;
-		}
-	}
-</script>
 
 </head>
 
@@ -54,20 +47,24 @@ th, td {
 				<table class="table table-striped table-hover" id="tb">
 					<thead>
 						<tr>
-							<th width="30%">角色名称</th>
-							<th width="50%">操作</th>
+							<th width="35%">角色名称</th>
+							<th width="65%">操作</th>
 						</tr>
 					</thead>
-					<tbody th:each="role:${allRoles}">
-						<tr id="${role.roleId}">
+					<tbody>
+						<tr th:each="role:${allRoles}" id="${role.roleId}">
 							<td th:text="${role.roleName}"></td>
-							<td><a href="#"
-								onclick="viewPermissions([[${role.roleId}]])"
-								class="btn btn-info btn-xs"><span
-									class="glyphicon glyphicon-edit"></span> 编辑</a> &nbsp;&nbsp;<a
-								href="#" onclick="delConf([[${role.roleId}]])"
-								class="btn btn-danger btn-xs"><span
-									class="glyphicon glyphicon-remove"></span> 删除</a></td>
+							<td>
+								<button type="button" class="btn bg-olive btn-xs"
+									data-toggle="modal" data-target="#editModal"
+									th:onclick="viewPermissions([[${role.roleId}]])">
+									<span class="glyphicon glyphicon-edit"></span>编辑
+								</button>&nbsp;&nbsp;
+								<button type="button" th:onclick="delConf([[${role.roleId}]])"
+									class="btn bg-olive btn-xs" data-toggle="modal">
+									<span class="glyphicon glyphicon-remove"></span>删除
+								</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -81,10 +78,11 @@ th, td {
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" onclick="closePanel()">×</button>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
 					<h3 id="editModalLabel">权限列表</h3>
 				</div>
-				<form id="permissionForm" action="updateRoleAndPermission"
+				<form id="permissionForm" action="../role/updateRoleAndPermission"
 					method="post">
 					<input type="hidden" id="roleId" name="roleId" />
 					<div class="modal-body" id="roleList">
@@ -97,82 +95,88 @@ th, td {
 							</thead>
 							<tbody id="roleListBody">
 								<tr th:each="menu:${allMenuAndPermissions}">
-									<td th:text="${menu.name}"><input
-										id="chk${menu.id}" type="checkbox" name="permissionIds"
-										th:value="${menu.id}" /></td>
-									<td th:each="permission:${menu.subMenu}"
-										th:text="${permission.permissionName}"><input
+									<td th:text="${menu.name}"><input id="chk${menu.id}"
+										type="checkbox" name="permissionIds" th:value="${menu.id}" /></td>
+									<td th:each="permission:${menu.subMenu}"><input
 										id="chk${permission.permissionId}" type="checkbox"
-										name="permissionIds" value="${permission.permissionId}" />
-										[${permission.type}] <br /></td>
+										name="permissionIds" value="${permission.permissionId}" /> <span
+										th:text="${permission.permissionName}"></span>[<span
+										th:text="${permission.permissionType}"></span>] <br /></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-success" data-dismiss="modal"
-							aria-hidden="true"
-							onclick="javascript:document.getElementById('permissionForm').submit()">保存</button>
-						<button class="btn btn-default" onclick="closePanel()">关闭</button>
+						<button type="submit" class="btn btn-success" data-dismiss="modal"
+							aria-hidden="true">保存</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关闭</button>
 					</div>
 				</form>
 			</div>
 		</div>
-		<script type="text/javascript">
-			var role_id;
-			function viewPermissions(role_id) {
-				$('#roleId').val(role_id);
-				$.ajax({
-					url : '../role/loadMyPermissions',
-					type : 'post',
-					data : {
-						roleId : role_id
-					},
-					dataType : 'json',
-					success : function(permissionList) {
-						//$("input[type=checkbox]").attr('checked',false);
-						$.each(permissionList, function(i, permission) {
-							$('#chk' + permission.id).attr('checked', true);
-						});
-						$("#editModal").modal("show");
-					},
-					error : function(req, error) {
-						alert(req.status + ':' + error);
-					}
-				});
-			}
+	</div>
 
-			function closePanel() {
-				location = "../role/findRoles";
-			}
-		</script>
 </body>
+
+<script type="text/javascript">
+
+	function viewPermissions(role_id) {
+		$('#roleId').val(role_id);
+		$.ajax({
+			url : '../role/loadMyPermissions',
+			type : 'post',
+			data : {
+				roleId : role_id
+			},
+			dataType : 'json',
+			success : function(permissionList) {
+				//$("input[type=checkbox]").attr('checked',false);
+				$.each(permissionList, function(i, permission) {
+					$('#chk' + permission.id).attr('checked', true);
+				});
+				$("#editModal").modal("show");
+			},
+			error : function(req, error) {
+				alert(req.status + ':' + error);
+			}
+		});
+	}
+
+	//确认删除函数
+	function delConf(id) {
+		if (confirm("是否删除该角色")) {
+			window.location.href = "../role/roledel?id=" + id;
+		}
+	}
+</script>
 
 <script>
 	//实现表格分页
-    $("#tb").bootstrapTable({
-    	//点击行事件,element为被点击行的tr元素对象
-        onClickRow: function (row, $element) {
-            $element.each(function () {
-                //获取所有td的值
-                var tds = $(this).find("td")
-                /* var id = tds.eq(0).text()
-                var title = tds.eq(1).text()
-                var remark = tds.eq(2).text()
-                var money = tds.eq(3).text()
-                var creatdate = tds.eq(4).text()
-                var state = tds.eq(5).text() */
-            })
-        },
-        pageNumber: 1,			//首页页码
-        pagination: true,   	//是否显示分页条
-        pageSize: 5,         	//默认一页显示的行数
-        paginationLoop: false,  //是否开启分页条无限循环，最后一页时点击下一页是否转到第一页
-        pageList: [5,10,20],   	//选择每页显示多少行
-        search: false,			//启用关键字搜索框
-        sortable: true	 		// 是否启用排序
-        
-    });
+	$("#tb").bootstrapTable({
+		//点击行事件,element为被点击行的tr元素对象
+		onClickRow : function(row, $element) {
+			$element.each(function() {
+				//获取所有td的值
+				var tds = $(this).find("td")
+				/* var id = tds.eq(0).text()
+				var title = tds.eq(1).text()
+				var remark = tds.eq(2).text()
+				var money = tds.eq(3).text()
+				var creatdate = tds.eq(4).text()
+				var state = tds.eq(5).text() */
+			})
+		},
+		pageNumber : 1, //首页页码
+		pagination : true, //是否显示分页条
+		pageSize : 5, //默认一页显示的行数
+		paginationLoop : false, //是否开启分页条无限循环，最后一页时点击下一页是否转到第一页
+		pageList : [ 5, 10, 20 ], //选择每页显示多少行
+		search : false, //启用关键字搜索框
+		sortable : true
+	// 是否启用排序
+
+	});
 </script>
 
 </html>

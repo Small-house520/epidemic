@@ -6,7 +6,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>添加权限</title>
-<!-- Tell the browser to be responsive to screen width -->
 <meta
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
@@ -32,7 +31,7 @@
 	<!--路径导航-->
 
 	<div class="page-content">
-		<form class="form-inline" action="saveRoleAndPermissions"
+		<form class="form-inline" action="../role/saveRoleAndPermissions"
 			method="post">
 			<div class="panel panel-default">
 				<div class="panel-heading">添加角色</div>
@@ -61,12 +60,13 @@
 						<tbody>
 							<tr th:each="menu:${allPermissions}">
 								<td><input type="checkbox" name="permissionIds"
-									th:value="${menu.id}" /></td>
-								<td th:each="subPermission:${menu.subMenu}"><input
-									type="checkbox" name="permissionIds"
-									th:value="${subPermission.permissionId}" /> &nbsp;&nbsp;<span
-									th:text="${subPermission.permissionName}">[${subPermission.type}]</span><br />
-								</td>
+									th:value="${menu.id}" />&nbsp;&nbsp;<span
+									th:text="${menu.name}"></span></td>
+								<td><span th:each="subPermission:${menu.subMenu}"><input
+										type="checkbox" name="permissionIds"
+										th:value="${subPermission.permissionId}" /> &nbsp;&nbsp;<span
+										th:text="${subPermission.permissionName}"></span>[<span
+										th:text="${subPermission.permissionType}"></span>]<br /></span></td>
 							</tr>
 						</tbody>
 					</table>
@@ -80,7 +80,7 @@
 	<!-- 编辑窗口 -->
 	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
-		<form id="permissionForm" action="saveSubmitPermission" method="post">
+		<form id="permissionForm" action="../role/savePermission" method="post">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -98,7 +98,7 @@
 							<tr>
 								<td>类型</td>
 								<td><select class="form-control" name="permissionType">
-										<option value="menu">菜单</option>
+										<option value="menu" selected="selected">菜单</option>
 										<option value="permission">权限</option>
 										<option value="menu|permission">菜单|权限</option>
 								</select></td>
@@ -116,7 +116,7 @@
 							<tr>
 								<td>父节点</td>
 								<td><select class="form-control" name="parentId">
-										<option value="1">权限</option>
+										<option value="1" selected="selected">权限</option>
 										<option th:each="menu:${menuTypes}"
 											th:value=${menu.permissionId}
 											th:text="${menu.permissionName}"></option>

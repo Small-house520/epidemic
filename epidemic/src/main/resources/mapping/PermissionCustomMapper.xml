@@ -2,20 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.edu.dgut.epidemic.mapper.PermissionCustomMapper">
 
+	<resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.Permission">
+		<id column="PERMISSION_ID" property="permissionId" jdbcType="INTEGER" />
+		<result column="PERMISSION_NAME" property="permissionName"
+			jdbcType="VARCHAR" />
+		<result column="PERMISSION_TYPE" property="permissionType"
+			jdbcType="VARCHAR" />
+		<result column="ACCESS_URL" property="accessUrl" jdbcType="VARCHAR" />
+		<result column="PERMISSION_CODE" property="permissionCode"
+			jdbcType="VARCHAR" />
+		<result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
+		<result column="PARENT_ID_LIST" property="parentIdList"
+			jdbcType="VARCHAR" />
+		<result column="MENU_SORTING" property="menuSorting" jdbcType="VARCHAR" />
+		<result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+	</resultMap>
+
 	<resultMap type="cn.edu.dgut.epidemic.pojo.TreeMenu" id="menuTreeResultMap">
 
 		<id column="PERMISSION_ID" property="id" />
 		<result column="PERMISSION_NAME" property="name" />
-		<collection property="subMenu" select="getSubMenu" column="PERMISSION_ID">
-			<id column="PERMISSION_ID" property="permissionId" />
-			<result column="PERMISSION_NAME" property="permissionName" />
-			<result column="PERMISSION_TYPE" property="permissionType" />
-			<result column="ACCESS_URL" property="accessUrl" />
-			<result column="PERMISSION_CODE" property="permissionCode" />
-			<result column="PARENT_ID" property="parentId" />
-			<result column="PARENT_ID_LIST" property="parentIdList" />
-			<result column="PERMISSION_MENU_SORTING" property="permissionMenuSorting" />
-			<result column="REMARKS" property="remarks" />
+		<!-- <collection property="subMenu" select="getSubMenu" column="PERMISSION_ID"> -->
+		<collection property="subMenu" ofType="cn.edu.dgut.epidemic.pojo.Permission">
+			<id column="PERMISSION_ID" property="permissionId" jdbcType="INTEGER" />
+			<result column="PERMISSION_NAME" property="permissionName"
+				jdbcType="VARCHAR" />
+			<result column="PERMISSION_TYPE" property="permissionType"
+				jdbcType="VARCHAR" />
+			<result column="ACCESS_URL" property="accessUrl" jdbcType="VARCHAR" />
+			<result column="PERMISSION_CODE" property="permissionCode"
+				jdbcType="VARCHAR" />
+			<result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
+			<result column="PARENT_ID_LIST" property="parentIdList"
+				jdbcType="VARCHAR" />
+			<result column="PERMISSION_MENU_SORTING" property="permissionMenuSorting"
+				jdbcType="VARCHAR" />
+			<result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
 		</collection>
 	</resultMap>
 
@@ -23,8 +45,8 @@
 
 		<id column="PERMISSION_ID" property="id" />
 		<result column="PERMISSION_NAME" property="name" />
-		<collection property="subMenu" select="getSubMenuAndPermissions"
-			column="PERMISSION_ID">
+		<!-- <collection property="subMenu" select="getSubMenuAndPermissions" column="PERMISSION_ID"> -->
+		<collection property="subMenu" ofType="cn.edu.dgut.epidemic.pojo.Permission">
 			<id column="PERMISSION_ID" property="permissionId" />
 			<result column="PERMISSION_NAME" property="permissionName" />
 			<result column="PERMISSION_TYPE" property="permissionType" />
@@ -51,21 +73,29 @@
 
 	<select id="getMenuTree" resultMap="menuTreeResultMap">
 		SELECT
-		PERMISSION_ID,PERMISSION_NAME FROM
-		permission WHERE PARENT_ID=1
+		p1.PERMISSION_ID,p1.PERMISSION_NAME,p2.*
+		FROM permission p1
+		INNER JOIN
+		permission p2 ON p1.PERMISSION_ID=p2.PARENT_ID
+		WHERE p1.PARENT_ID=1 and
+		p2.PERMISSION_TYPE like '%menu%'
 	</select>
 
-	<select id="getSubMenu" parameterType="java.lang.Integer" resultType="cn.edu.dgut.epidemic.pojo.Permission">
+	<select id="getSubMenu" resultType="cn.edu.dgut.epidemic.pojo.Permission">
 		SELECT * FROM permission
-		WHERE PARENT_ID=#{id} and PERMISSION_TYPE like '%menu%'
+		WHERE PARENT_ID=#{id,jdbcType=INTEGER} and PERMISSION_TYPE like
+		'%menu%'
 	</select>
 
 	<select id="getAllMenuAndPermision" resultMap="menuAndPermissionResultMap">
 		SELECT
-		PERMISSION_ID,PERMISSION_NAME
-		FROM permission WHERE PARENT_ID=1
+		p1.PERMISSION_ID,p1.PERMISSION_NAME,p2.*
+		FROM permission p1
+		INNER JOIN
+		permission p2 ON p1.PERMISSION_ID=p2.PARENT_ID
+		WHERE p1.PARENT_ID=1
 	</select>
-	<select id="getSubMenuAndPermissions" parameterType="java.lang.Integer" resultType="cn.edu.dgut.epidemic.pojo.Permission">
+	<select id="getSubMenuAndPermissions" resultType="cn.edu.dgut.epidemic.pojo.Permission">
 		SELECT * FROM
 		permission WHERE PARENT_ID=#{id}
 	</select>
@@ -92,7 +122,7 @@
 		FROM
 		campus_user
 		WHERE
-		USER_ID = #{id}))
+		USER_ID = #{id,jdbcType=INTEGER}))
 	</select>
 
 	<!-- 根据用户id查询菜单 -->
@@ -136,8 +166,7 @@
 	</select>
 
 	<!-- 根据角色ID查询该角色的的权限 -->
-	<select id="findPermissionsByRoleId" parameterType="java.lang.Short"
-		resultType="cn.edu.dgut.epidemic.pojo.Permission">
+	<select id="findPermissionsByRoleId" resultMap="BaseResultMap">
 		SELECT
 		*
 		FROM
@@ -147,7 +176,7 @@
 		PERMISSION_ID
 		FROM
 		role_permission
-		WHERE ROLE_ID =#{id})
+		WHERE ROLE_ID =#{roleId,jdbcType=SMALLINT})
 	</select>
 
 	<select id="findUserAndRoleList" resultType="cn.edu.dgut.epidemic.pojo.CampusUser">

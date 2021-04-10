@@ -81,7 +81,7 @@ public class RoleServiceImpl implements RoleService {
 	// 添加权限
 	@Override
 	public void addPermission(Permission permission) {
-		this.permissionMapper.insert(permission);
+		this.permissionMapper.insertSelective(permission);
 	}
 
 	// 查询出所有角色信息

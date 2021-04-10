@@ -14,7 +14,7 @@ public interface PermissionCustomMapper {
 
 	List<TreeMenu> getMenuTree();
 
-	List<Permission> getSubMenu();
+	List<Permission> getSubMenu(Integer id);
 
 	Role findRoleAndPermissionListById(String id);
 
@@ -24,5 +24,5 @@ public interface PermissionCustomMapper {
 
 	List<TreeMenu> getAllMenuAndPermision();
 
-	List<Permission> findPermissionsByRoleId(Short id);
+	List<Permission> findPermissionsByRoleId(Short roleId);
 }

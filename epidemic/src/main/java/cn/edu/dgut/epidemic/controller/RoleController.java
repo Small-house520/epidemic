@@ -36,12 +36,12 @@ public class RoleController {
 		// 获取菜单
 		List<Permission> menus = this.roleService.findAllMenus();
 		// 获取角色和权限关系
-		List<Role> permissionList = this.roleService.findRolesAndPermissions();
+		// List<Role> permissionList = this.roleService.findRolesAndPermissions();
 
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("allPermissions", allPermissions);
 		mv.addObject("menuTypes", menus);
-		mv.addObject("roleAndPermissionsList", permissionList);
+		// mv.addObject("roleAndPermissionsList", permissionList);
 		mv.setViewName("permission/permission_add");
 
 		return mv;
@@ -78,14 +78,14 @@ public class RoleController {
 		// 添加角色和角色权限关系
 		this.roleService.addRoleAndPermissions(role, permissionIds);
 
-		return "redirect:/toAddRole";
+		return "redirect:/role/toAddRole";
 	}
 
 	// 添加权限
 	@RequestMapping("/savePermission")
 	public String savePermission(Permission permission) {
 		this.roleService.addPermission(permission);
-		return "redirect:/toAddRole";
+		return "redirect:/role/toAddRole";
 	}
 
 	// 查询所有角色及其权限关系
@@ -113,11 +113,6 @@ public class RoleController {
 		// 根据角色id查询权限信息
 		List<Permission> list = this.roleService.findPermissionsByRoleId(roleId);
 
-		for (Permission permission : list) {
-			System.out.println(permission.getPermissionId() + "," + permission.getPermissionType() + "\n"
-					+ permission.getPermissionName() + "," + permission.getAccessUrl() + ","
-					+ permission.getPermissionCode());
-		}
 		return list;
 	}
 
@@ -125,7 +120,7 @@ public class RoleController {
 	@RequestMapping("/updateRoleAndPermission")
 	public String updateRoleAndPermission(Short roleId, int[] permissionIds) {
 		this.roleService.updateRoleAndPermissions(roleId, permissionIds);
-		return "redirect:/findRoles";
+		return "redirect:/role/findRoles";
 	}
 
 	// 根据账号（编号）查询角色和权限关系
@@ -141,6 +136,6 @@ public class RoleController {
 	@RequestMapping("/roledel")
 	public String roledel(Short id) {
 		this.roleService.deleteRole(id);
-		return "redirect:/findRoles";
+		return "redirect:/role/findRoles";
 	}
 }
