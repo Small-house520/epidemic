@@ -14,8 +14,6 @@
 <link rel="stylesheet"
 	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 <link rel="stylesheet" href="../css/style.css">
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
-<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -93,6 +91,10 @@
 
 </body>
 
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/moment.js"></script>
+
 <script th:inline="javascript">
 	//控制输入的账号只能为数字
 	$("#campusId").keyup(function() {
@@ -158,7 +160,7 @@
 				user_tr += "</td><td>";
 				user_tr += temperature.temperature;
 				user_tr += "</td><td>";
-				user_tr += temperature.uploadDate;
+				user_tr += moment(temperature.uploadDate).format("YYYY-MM-DD HH:mm:ss");
 				user_tr += "</td><td>";
 				user_tr += temperature.remarks;
 				user_tr += "</td></tr>";

@@ -421,7 +421,7 @@
 			var cumulativeCure = [];
 			var cumulativeDeath = [];
 			$.each(list, function(index, domesticEpidemic) {
-				datatime.push(moment(domesticEpidemic.updateTime).format("MM-D"));
+				datatime.push(moment(domesticEpidemic.updateTime).format("MM-DD"));
 				existingDiagnosis.push(domesticEpidemic.existingDiagnosis);
 				cumulativeDiagnosis.push(domesticEpidemic.cumulativeDiagnosis);
 				cumulativeCure.push(domesticEpidemic.cumulativeCure);
@@ -534,7 +534,7 @@
     				li += "<div class='timeline-item'>";
     				li += "<span class='time'><i class='fa fa-clock-o'></i>";
     				if(epidemic.releaseTime!=null && epidemic.releaseTime != ""){
-    					li += moment(epidemic.releaseTime).format("YYYY-MM-DD hh:mm");
+    					li += moment(epidemic.releaseTime).format("YYYY-MM-DD HH:mm");
     				}
     				li += "</span><h4 class='timeline-header'>";
     				li += "<a href='#'>" + epidemic.title + "</a>";
@@ -564,7 +564,7 @@
     				li += "<div class='timeline-item'>";
     				li += "<span class='time'><i class='fa fa-clock-o'></i>";
     				if(epidemic.releaseTime!=null && epidemic.releaseTime != ""){
-    					li += moment(epidemic.releaseTime).format("YYYY-MM-DD hh:mm");
+    					li += moment(epidemic.releaseTime).format("YYYY-MM-DD HH:mm");
     				}
     				li += "</span><h4 class='timeline-header'>";
     				li += "<a href='#'>" + epidemic.title + "</a>";
@@ -594,7 +594,7 @@
     				li += "<div class='timeline-item'>";
     				li += "<span class='time'><i class='fa fa-clock-o'></i>";
     				if(epidemic.releaseTime!=null && epidemic.releaseTime != ""){
-    					li += moment(epidemic.releaseTime).format("YYYY-MM-DD hh:mm");
+    					li += moment(epidemic.releaseTime).format("YYYY-MM-DD HH:mm");
     				}
     				li += "</span><h4 class='timeline-header'>";
     				li += "<a href='#'>" + epidemic.title + "</a>";

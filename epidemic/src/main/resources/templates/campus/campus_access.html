@@ -14,8 +14,6 @@
 <link rel="stylesheet"
 	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 <link rel="stylesheet" href="../css/style.css">
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
-<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -156,6 +154,10 @@
 
 </body>
 
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/moment.js"></script>
+
 <script th:inline="javascript">
 	$(function() {
 		// 查询绑定点击事件
@@ -213,8 +215,7 @@
 					user_tr += "离开学校";
 				}
 				user_tr += "</td><td>";
-				user_tr += accessRecord.recordDate;
-				user_tr += "</td><td>";
+				user_tr += moment(accessRecord.recordDate).format("YYYY-MM-DD HH:mm:ss");
 				user_tr += "</td><td class='text-center'>";
 				user_tr += "<button type='button' class='btn bg-olive btn-xs' onclick='fillRecordModal("+ accessRecord+")'";
 				user_tr += "data-toggle='modal' data-target='#recordModal'>详情</button></td></tr>";

@@ -73,7 +73,7 @@
 								<th class="sorting">流程定义的KEY</th>
 								<th class="sorting">流程定义的版本</th>
 								<th class="sorting">流程定义的规则文件名称</th>
-								<th class="sorting">流程定义的规则图片名称</th>
+								<!-- <th class="sorting">流程定义的规则图片名称</th> -->
 								<th class="sorting">部署ID</th>
 								<th class="sorting">操作</th>
 							</tr>
@@ -85,7 +85,7 @@
 								<td th:text="${pd.key}"></td>
 								<td th:text="${pd.version}"></td>
 								<td th:text="${pd.resourceName}"></td>
-								<td th:text="${pd.diagramResourceName}"></td>
+								<!-- <td th:text="${pd.diagramResourceName}"></td> -->
 								<td th:text="${pd.deploymentId}"></td>
 								<td><a href="#"
 									th:onclick="viewImage([[${pd.deploymentId}]],[[${pd.diagramResourceName}]])"

@@ -6,16 +6,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>现有确诊管理</title>
-<meta
-	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
-<link rel="stylesheet"
-	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 <link rel="stylesheet" href="../css/style.css">
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
-<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -258,6 +254,10 @@
 
 </body>
 
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/moment.js"></script>
+
 <script type="text/javascript">
 	$("#campusIdFind").keyup(function() {//控制输入的账号只能为数字
 		var value = $(this);
@@ -376,7 +376,7 @@
 					}
 				}
 				user_tr += "</td><td>";
-				user_tr += diagnosis.diagnosisTime;
+				user_tr += moment(diagnosis.diagnosisTime).format("YYYY-MM-DD HH:mm:ss");
 				user_tr += "</td><td>";
 				if(diagnosis.whetherSevere=='y'){
 					user_tr += "是";

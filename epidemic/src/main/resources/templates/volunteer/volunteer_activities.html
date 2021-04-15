@@ -6,16 +6,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>防疫志愿风采展</title>
-<meta
-	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
-<link rel="stylesheet"
-	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 <link rel="stylesheet" href="../css/style.css">
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
-<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -240,6 +236,10 @@
 
 </body>
 
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/moment.js"></script>
+
 <script type="text/javascript">
 	
 	// 查询绑定点击事件
@@ -284,11 +284,11 @@
 				user_tr += "</td><td>";
 				user_tr += volunteer.location;
 				user_tr += "</td><td>";
-				user_tr += volunteer.startTime;
+				user_tr += moment(volunteer.startTime).format("YYYY-MM-DD HH:mm:ss");
 				user_tr += "</td><td>";
-				user_tr += volunteer.endTime;
+				user_tr += moment(volunteer.endTime).format("YYYY-MM-DD HH:mm:ss");
 				user_tr += "</td><td>";
-				user_tr += volunteer.deadline;
+				user_tr += moment(volunteer.deadline).format("YYYY-MM-DD HH:mm:ss");
 				user_tr += "</td><td class='text-center'>";
 				user_tr += "<button type='button' class='btn bg-olive btn-xs' ";
 				user_tr += "data-toggle='modal' data-target='#detailModal'";
