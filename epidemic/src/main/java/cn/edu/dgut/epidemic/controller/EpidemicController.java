@@ -25,11 +25,27 @@ public class EpidemicController {
 		return domesticEpidemic;
 	}
 
+	// 调用findDomesticEpidemic()，查询国内最新的疫情数据
+	@RequestMapping("/findDomesticEpidemic")
+	@ResponseBody
+	public List<DomesticEpidemic> findDomesticEpidemic() {
+		List<DomesticEpidemic> list = this.epidemicService.findDomesticEpidemic();
+		return list;
+	}
+
 	// 调用getProvinceEpidemic()，查询各省份疫情数据
 	@RequestMapping("/provinceEpidemic")
 	@ResponseBody
 	public List<ProvinceEpidemicDetail> getProvinceEpidemicList() {
 		List<ProvinceEpidemicDetail> list = this.epidemicService.getProvinceEpidemicList();
+		return list;
+	}
+
+	// 调用findProvinceEpidemic()，根据条件查询各省份疫情数据
+	@RequestMapping("/findProvinceEpidemic")
+	@ResponseBody
+	public List<ProvinceEpidemicDetail> findProvinceEpidemic() {
+		List<ProvinceEpidemicDetail> list = this.epidemicService.findProvinceEpidemic();
 		return list;
 	}
 

@@ -210,6 +210,25 @@ public class EpidemicServiceImpl implements EpidemicService {
 		return domesticEpidemic;
 	}
 
+	// 获取一段时间内全国疫情数据
+	@Override
+	public List<DomesticEpidemic> findDomesticEpidemic() {
+		DomesticEpidemicExample domesticEpidemicExample = new DomesticEpidemicExample();
+		DomesticEpidemicExample.Criteria criteria = domesticEpidemicExample.createCriteria();
+		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+		// 获取当前日期的前一个月
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MONTH, -1);
+		Date date = new Date();
+		try {
+			date = sdfDate.parse(sdfDate.format(calendar.getTime()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		criteria.andUpdateTimeGreaterThanOrEqualTo(date);
+		return this.domesticEpidemicMapper.selectByExample(domesticEpidemicExample);
+	}
+
 	// 获取各省份疫情数据
 	@Override
 	public List<ProvinceEpidemicDetail> getProvinceEpidemicList() {
@@ -230,7 +249,7 @@ public class EpidemicServiceImpl implements EpidemicService {
 			date = sdfDate.parse(sdf.format(calendar.getTime()));
 			now = sdfDate.parse(sdfDate.format(now));
 			now2 = sdfTime.parse(sdfTime.format(now2));
-			time = sdfTime.parse("09:00:00");
+			time = sdfTime.parse("08:40:40");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -333,9 +352,11 @@ public class EpidemicServiceImpl implements EpidemicService {
 				pList = this.provinceEpidemicMapper.selectByExample(provinceEpidemicExample);
 			}
 		}
-		ProvinceEpidemicDetail provinceEpidemicDetail = new ProvinceEpidemicDetail();
+
 		// 把查询出来的数据放到集合里
 		for (int i = 0; i < provinces.size(); i++) {
+			// 要把new ProvinceEpidemicDetail()放到循环里面，ArrayList存储的是对象的引用
+			ProvinceEpidemicDetail provinceEpidemicDetail = new ProvinceEpidemicDetail();
 			for (int j = 0; j < pList.size(); j++) {
 				if (provinces.get(i).getProvinceId() == pList.get(j).getProvinceId()) {
 					provinceEpidemicDetail.setProvince(provinces.get(i));
@@ -347,6 +368,73 @@ public class EpidemicServiceImpl implements EpidemicService {
 
 		}
 
+		return list;
+	}
+
+	// 根据条件查询各省份疫情数据
+	@Override
+	public List<ProvinceEpidemicDetail> findProvinceEpidemic() {
+		// 创建SimpleDateFormat对象实例并定义好转换格式
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+
+		// 获取当前系统时间
+		Date date = new Date(), now = new Date();
+		// 获取当前时间前一天的时间
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_MONTH, -1);
+
+		try {
+			date = sdfDate.parse(sdf.format(calendar.getTime()));
+			now = sdfDate.parse(sdfDate.format(now));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		// 根据时间查询各省份当前最新的疫情数据
+		ProvinceEpidemicExample provinceEpidemicExample = new ProvinceEpidemicExample();
+		Criteria criteria = provinceEpidemicExample.createCriteria();
+		criteria.andUpdateTimeGreaterThanOrEqualTo(now);
+		List<ProvinceEpidemic> pList = this.provinceEpidemicMapper.selectByExample(provinceEpidemicExample);
+
+		// 查询出各省份信息
+		List<Province> provinces = this.provinceMapper.selectByExample(null);
+
+		// 定义一个省份疫情信息集合
+		List<ProvinceEpidemicDetail> list = new ArrayList<ProvinceEpidemicDetail>();
+
+		if (pList == null || pList.size() <= 0) {
+			criteria.andUpdateTimeGreaterThanOrEqualTo(date);
+			pList = this.provinceEpidemicMapper.selectByExample(provinceEpidemicExample);
+		}
+		List<ProvinceEpidemic> pEpidemics = new ArrayList<ProvinceEpidemic>();
+		// 遍历出现存确诊最多的10个省份
+		for (int i = 0; i < pList.size() - 1; i++) {
+			int max = i;
+			for (int j = i + 1; j < pList.size(); j++) {
+				if (pList.get(max).getExistingDiagnosis() < pList.get(j).getExistingDiagnosis()) {
+					max = j;
+				}
+			}
+			pEpidemics.add(pList.get(max));
+			if (i == 9) {
+				break;
+			}
+		}
+		// 把查询出来的数据放到集合里
+		for (int i = 0; i < pEpidemics.size(); i++) {
+			// 要把new ProvinceEpidemicDetail()放到循环里面，ArrayList存储的是对象的引用
+			ProvinceEpidemicDetail provinceEpidemicDetail = new ProvinceEpidemicDetail();
+			for (int j = 0; j < provinces.size(); j++) {
+				if (provinces.get(j).getProvinceId() == pEpidemics.get(i).getProvinceId()) {
+					provinceEpidemicDetail.setProvince(provinces.get(j));
+					provinceEpidemicDetail.setProvinceEpidemic(pEpidemics.get(i));
+					list.add(provinceEpidemicDetail);
+					break;
+				}
+			}
+
+		}
 		return list;
 	}
 
@@ -378,9 +466,10 @@ public class EpidemicServiceImpl implements EpidemicService {
 
 			// 定义一个城市疫情信息集合
 			List<CityEpidemicDetail> list = new ArrayList<CityEpidemicDetail>();
-			CityEpidemicDetail cityEpidemicDetail = new CityEpidemicDetail();
+
 			// 把查询出来的数据放到集合里
 			for (int i = 0; i < cities.size(); i++) {
+				CityEpidemicDetail cityEpidemicDetail = new CityEpidemicDetail();
 				for (int j = 0; j < cList.size(); j++) {
 					if (cities.get(i).getCityId() == cList.get(j).getCityId()) {
 						cityEpidemicDetail.setCity(cities.get(i));

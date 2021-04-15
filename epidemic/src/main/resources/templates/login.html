@@ -23,28 +23,30 @@
 </head>
 <body id="body1">
 	<div class="container">
-		<div class="row">
+		<div class="row" style="text-align: center;">
 			<div class="col-md-4 col-md-offset-4">
 				<div style="height: 160px;"></div>
-				<h1>登录系统</h1>
+				<div>
+					<h1>登录系统</h1><br>
+				</div>
 				<form action="loginCheck" method="post" class="form-horizontal">
-					<div class="form-group">
-						<label class="col-md-2 control-label" for="campusId">账号:</label>
-						<div class="col-md-8">
-							<input type="text" name="campusId" id="campusId"
+					<div class="form-group has-feedback">
+						<div class="col-md-10 col-md-offset-1">
+							<input type="text" name="campusId" id="campusId" placeholder="账号"
 								class="form-control" required="required" maxlength="12">
+							<span class="glyphicon glyphicon-user form-control-feedback"></span>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="userPassword" class="col-md-2 control-label">密码:</label>
-						<div class="col-md-8">
+					<div class="form-group has-feedback">
+						<div class="col-md-10 col-md-offset-1">
 							<input type="password" name="userPassword" id="userPassword"
-								class="form-control" required="required">
+								placeholder="密码" class="form-control" required="required">
+							<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 						</div>
-					</div>
+					</div><br>
 					<div class="form-group">
-						<div class="col-md-4 col-md-offset-2">
-							<input type="submit" value="登录" class="btn btn-primary">
+						<div class="col-md-6 col-md-offset-3">
+							<input type="submit" value="登 录" class="btn btn-primary">
 						</div>
 					</div>
 				</form>

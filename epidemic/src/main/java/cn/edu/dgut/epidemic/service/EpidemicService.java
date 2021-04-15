@@ -17,11 +17,25 @@ public interface EpidemicService {
 	DomesticEpidemic getDomesticEpidemic();
 
 	/**
+	 * 获取一段时间内全国疫情数据
+	 * 
+	 * @return
+	 */
+	List<DomesticEpidemic> findDomesticEpidemic();
+
+	/**
 	 * 获取各省份疫情数据
 	 * 
 	 * @return
 	 */
 	List<ProvinceEpidemicDetail> getProvinceEpidemicList();
+
+	/**
+	 * 根据条件查询省份疫情数据
+	 * 
+	 * @return
+	 */
+	List<ProvinceEpidemicDetail> findProvinceEpidemic();
 
 	/**
 	 * 获取各城市的疫情数据
@@ -39,4 +53,5 @@ public interface EpidemicService {
 	 * @return
 	 */
 	List<EpidemicInformation> getEpidemicInformation(String flag);
+
 }
