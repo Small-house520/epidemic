@@ -9,7 +9,26 @@
 #body1 {
 	background-color: #10AEB5;
 }
+
+.btn {
+	/* margin: 20px 120px;
+	width: 80px; */
+}
+
+.content {
+	/* margin: 10px auto; */
+	display: none;
+}
+
+.btn.active {
+	background-color: pink;
+}
+
+.content.show {
+	display: block;
+}
 </style>
+
 <!-- Bootstrap -->
 <link rel="stylesheet" type="text/css"
 	href="bootstrap/css/bootstrap.css">
@@ -83,360 +102,480 @@
 			</div>
 		</div>
 		<!-- 疫情科普模块 时间轴 -->
+		<p class="btn1">
+			<button class="btn active">患者症状</button>
+			<button class="btn">疫情防控</button>
+			<button class="btn">疫情焦点</button>
+		</p>
 		<!-- 感染者症状 -->
-		<div class="row">
+		<div class="row content show">
 			<div class="col-md-10 col-md-offset-1"
 				style="background-color: #F8F9FA; padding: 6px;">
-				<ul class="timeline">
-					<!-- timeline time label -->
-					<li class="time-label"><span class="bg-red"> 10 Feb.
-							2014 </span></li>
-					<!-- /.timeline-label -->
-
-					<!-- timeline item -->
-					<li>
-						<!-- timeline icon --> <i class="fa fa-envelope bg-blue"></i>
-						<div class="timeline-item">
-							<span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-							<h3 class="timeline-header">
-								<a href="#">Support Team</a> ...
-							</h3>
-
-							<div class="timeline-body">... Content goes here</div>
-
-							<div class="timeline-footer">
-								<a class="btn btn-primary btn-xs">...</a>
-							</div>
-						</div>
-					</li>
-					<!-- END timeline item -->
-
-					...
-
+				<ul class="timeline" id="timeline1">
 				</ul>
 			</div>
 		</div>
 		<!-- 疫情防控知识 -->
-		<div class="row"></div>
+		<div class="row content">
+			<div class="col-md-10 col-md-offset-1"
+				style="background-color: #F8F9FA; padding: 6px;">
+				<ul class="timeline" id="timeline2">
+				</ul>
+			</div>
+		</div>
 		<!-- 防疫焦点资讯 -->
-		<div class="row"></div>
+		<div class="row content">
+			<div class="col-md-10 col-md-offset-1"
+				style="background-color: #F8F9FA; padding: 6px;">
+				<ul class="timeline" id="timeline3">
+				</ul>
+			</div>
+		</div>
 	</div>
 
-	<script type="text/javascript" src="bootstrap/js/jquery-1.11.2.js"></script>
-	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-	<script type="text/javascript" src="echarts/echarts.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			//国内疫情信息展示
-			//定义个用来给表格中装载数据的函数
-			var fillToDomesticTable = function(domesticEpidemic) {
-				var tbody1 = $("#tbody1");
-				var tbody2 = $("#tbody2");
-				tbody1.empty(); //清空
-				tbody2.empty(); //清空
-				var tr = $("<tr>");
-				var td = $("<td>");
-				td.text(domesticEpidemic.existingDiagnosis);
-				tr.append(td);
+</body>
 
-				td = $("<td>");
-				td.html("" + domesticEpidemic.existingAsymptomatic);
-				tr.append(td);
+<script type="text/javascript" src="bootstrap/js/jquery-1.11.2.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="echarts/echarts.js"></script>
+<script type="text/javascript">
+	$(function() {
+		//国内疫情信息展示
+		//定义个用来给表格中装载数据的函数
+		var fillToDomesticTable = function(domesticEpidemic) {
+			var tbody1 = $("#tbody1");
+			var tbody2 = $("#tbody2");
+			tbody1.empty(); //清空
+			tbody2.empty(); //清空
+			var tr = $("<tr>");
+			var td = $("<td>");
+			td.text(domesticEpidemic.existingDiagnosis);
+			tr.append(td);
 
-				td = $("<td>");
-				td.html("" + domesticEpidemic.overseasInput);
-				tr.append(td);
+			td = $("<td>");
+			td.html("" + domesticEpidemic.existingAsymptomatic);
+			tr.append(td);
 
-				tbody1.append(tr);
+			td = $("<td>");
+			td.html("" + domesticEpidemic.overseasInput);
+			tr.append(td);
 
-				tr = $("<tr>");
-				td = $("<td>");
+			tbody1.append(tr);
 
-				td = $("<td>");
-				td.html("" + domesticEpidemic.cumulativeDiagnosis);
-				tr.append(td);
+			tr = $("<tr>");
+			td = $("<td>");
 
-				td = $("<td>");
-				td.html("" + domesticEpidemic.cumulativeCure);
-				tr.append(td);
+			td = $("<td>");
+			td.html("" + domesticEpidemic.cumulativeDiagnosis);
+			tr.append(td);
 
-				td = $("<td>");
-				td.html("" + domesticEpidemic.cumulativeDeath);
-				tr.append(td);
+			td = $("<td>");
+			td.html("" + domesticEpidemic.cumulativeCure);
+			tr.append(td);
 
-				tbody2.append(tr);
-			};
-			
-			//中国地图显示疫情严重程度
-			var myMap = echarts.init($("#myMap").get(0));
-			//获取地图json数据，显示中国地图
-			$.getJSON("echarts/china.json", {}, function(chinaJson) {
-				echarts.registerMap("china", chinaJson);
-				var option = {
-					title : {
-						text : "2021-02-28 全国疫情分布图"
-					},
-					legend : {
-						data : [ "累计确诊人数" ]
-					},
-					tooltip : {},
-					visualMap : {
-						type : 'piecewise',
-						min : 0,
-						max : 10000,
-						splitList : [ {
-							start : 1000,
-							end : 10000
-						}, {
-							start : 500,
-							end : 1000
-						}, {
-							start : 100,
-							end : 500
-						}, {
-							start : 0,
-							end : 100
-						} ],
-						textStyle : {
-							color : 'orange'
-						}
-					},
-					series : [ {
-						name : '累计确诊人数',
-						type : 'map',
-						mapType : 'china',
-						data : []
-					} ]
-				};
-				myMap.setOption(option);
-			}, "json");
-			//将数据填充到地图中
-			var fillToMap = function(list) {
-				var data = [];
-				$.each(list, function(index, provinceEpidemicDetail) {
-					var obj = {};
-					obj.name = provinceEpidemicDetail.provinceName;
-					obj.value = provinceEpidemicDetail.provinceEpidemic.cumulativeDiagnosis;
-					data.push(obj);
-				});
-				myMap.setOption({
-					series : [ {
-						name : '累计确诊人数',
-						type : 'map',
-						mapType : 'china',
-						data : data
-					} ]
-				});
-			};
-			
-			//柱状图显示新增确诊人数较多的几个省份
-			//初始化图表
-			var myBar = echarts.init($("#myBar").get(0));
+			td = $("<td>");
+			td.html("" + domesticEpidemic.cumulativeDeath);
+			tr.append(td);
+
+			tbody2.append(tr);
+		};
+		
+		//中国地图显示疫情严重程度
+		var myMap = echarts.init($("#myMap").get(0));
+		//获取地图json数据，显示中国地图
+		$.getJSON("echarts/china.json", {}, function(chinaJson) {
+			echarts.registerMap("china", chinaJson);
 			var option = {
 				title : {
-					text : "当日全国疫情柱状图",
-					subtext : '2020-02-28'
-				},
-				grid : {
-					show : true
+					text : "2021-02-28 全国疫情分布图"
 				},
 				legend : {
-					data : [ "2020-02-28" ]
+					data : [ "累计确诊人数" ]
 				},
-				tooltip : {
-					trigger : 'axis'
+				tooltip : {},
+				visualMap : {
+					type : 'piecewise',
+					min : 0,
+					max : 10000,
+					splitList : [ {
+						start : 1000,
+						end : 10000
+					}, {
+						start : 500,
+						end : 1000
+					}, {
+						start : 100,
+						end : 500
+					}, {
+						start : 0,
+						end : 100
+					} ],
+					textStyle : {
+						color : 'orange'
+					}
 				},
-				xAxis : {
-					data : []
-				},
-				yAxis : {},
 				series : [ {
-					type : 'bar',
-					name : '2020-02-28',
+					name : '累计确诊人数',
+					type : 'map',
+					mapType : 'china',
 					data : []
 				} ]
 			};
-			myBar.setOption(option);
-			//将服务器端返回的数据设置到图表上
-			var fillToBar = function(list) {
-				var provinceNames = [];
-				var cumulativeDiagnosis = [];
-				$.each(list, function(index, provinceEpidemicDetail) {
-					provinceNames.push(provinceEpidemicDetail.provinceName);
-					cumulativeDiagnosis.push(provinceEpidemicDetail.provinceEpidemic.cumulativeDiagnosis);
-				});
-				myBar.setOption({
-					xAxis : {
-						data : provinceNames
-					},
-					series : [ {
-						data : cumulativeDiagnosis
-					} ]
-				});
-			};
-			
-			//折线图反映疫情走势信息
-			//初始化图表
-			var myLine = echarts.init($("#myLine").get(0));
-			var option = {
-				title: {
-			        text: '全国疫情走势'
-			    },
-			    tooltip: {
-			        trigger: 'axis'
-			    },
-			    legend: {
-			        data: ['现存确诊', '累计确诊', '境外输入', '现存无症状', '累计治愈', '累计死亡']
-			    },
-			    grid: {
-			        left: '3%',
-			        right: '4%',
-			        bottom: '3%',
-			        containLabel: true
-			    },
-			    toolbox: {
-			        feature: {
-			            saveAsImage: {}
-			        }
-			    },
-			    xAxis: {
-			        type: 'category',
-			        boundaryGap: false,
-			        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-			    },
-			    yAxis: {
-			        type: 'value'
-			    },
+			myMap.setOption(option);
+		}, "json");
+		//将数据填充到地图中
+		var fillToMap = function(list) {
+			var data = [];
+			$.each(list, function(index, provinceEpidemicDetail) {
+				var obj = {};
+				obj.name = provinceEpidemicDetail.provinceName;
+				obj.value = provinceEpidemicDetail.provinceEpidemic.cumulativeDiagnosis;
+				data.push(obj);
+			});
+			myMap.setOption({
 				series : [ {
+					name : '累计确诊人数',
+					type : 'map',
+					mapType : 'china',
+					data : data
+				} ]
+			});
+		};
+		
+		//柱状图显示新增确诊人数较多的几个省份
+		//初始化图表
+		var myBar = echarts.init($("#myBar").get(0));
+		var option = {
+			title : {
+				text : "当日全国疫情柱状图",
+				subtext : '2020-02-28'
+			},
+			grid : {
+				show : true
+			},
+			legend : {
+				data : [ "2020-02-28" ]
+			},
+			tooltip : {
+				trigger : 'axis'
+			},
+			xAxis : {
+				data : []
+			},
+			yAxis : {},
+			series : [ {
+				type : 'bar',
+				name : '2020-02-28',
+				data : []
+			} ]
+		};
+		myBar.setOption(option);
+		//将服务器端返回的数据设置到图表上
+		var fillToBar = function(list) {
+			var provinceNames = [];
+			var cumulativeDiagnosis = [];
+			$.each(list, function(index, provinceEpidemicDetail) {
+				provinceNames.push(provinceEpidemicDetail.provinceName);
+				cumulativeDiagnosis.push(provinceEpidemicDetail.provinceEpidemic.cumulativeDiagnosis);
+			});
+			myBar.setOption({
+				xAxis : {
+					data : provinceNames
+				},
+				series : [ {
+					data : cumulativeDiagnosis
+				} ]
+			});
+		};
+		
+		//折线图反映疫情走势信息
+		//初始化图表
+		var myLine = echarts.init($("#myLine").get(0));
+		var option = {
+			title: {
+		        text: '全国疫情走势'
+		    },
+		    tooltip: {
+		        trigger: 'axis'
+		    },
+		    legend: {
+		        data: ['现存确诊', '累计确诊', '累计治愈', '累计死亡']
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+			series : [ 
+				{
+					name : '现存确诊',
 					data: [],
 			        type: 'line'
+				},
+				{
+					name : '累计确诊',
+					data: [],
+			        type: 'line'
+				},
+				{
+					name : '累计治愈',
+					data: [],
+			        type: 'line'
+				},
+				{
+					name : '累计死亡',
+					data: [],
+			        type: 'line'
+				} 
+			]
+		};
+		myLine.setOption(option);
+		//将服务器端返回的数据设置到图表上
+		var fillToLine = function(list) {
+			var provinceNames = [];
+			var cumulativeDiagnosis = [];
+			$.each(list, function(index, provinceEpidemicDetail) {
+				provinceNames.push(provinceEpidemicDetail.provinceName);
+				cumulativeDiagnosis.push(provinceEpidemicDetail.provinceEpidemic.cumulativeDiagnosis);
+			});
+			myLine.setOption({
+				xAxis : {
+					data : provinceNames
+				},
+				series : [ {
+					data : cumulativeDiagnosis
 				} ]
-			};
-			myLine.setOption(option);
-			//将服务器端返回的数据设置到图表上
-			var fillToLine = function(list) {
-				var provinceNames = [];
-				var cumulativeDiagnosis = [];
-				$.each(list, function(index, provinceEpidemicDetail) {
-					provinceNames.push(provinceEpidemicDetail.provinceName);
-					cumulativeDiagnosis.push(provinceEpidemicDetail.provinceEpidemic.cumulativeDiagnosis);
-				});
-				myLine.setOption({
-					xAxis : {
-						data : provinceNames
-					},
-					series : [ {
-						data : cumulativeDiagnosis
-					} ]
-				});
-			};
-			
-			//各省份疫情信息汇总表
-			//定义个用来给表格中装载数据的函数
-			var fillToProvinceTable = function(provinceEpidemic) {
-				var tbody3 = $("#tbody3");
-				tbody3.empty(); //清空
-				var count = 0;
-				$.each(provinceEpidemic, function(index, epidemic) {
-					count += 1;
-					var tr = $("<tr onclick='getCityEpidemic("+epidemic.provinceId+","+epidemic.updateTime+")'>");
-					var td = $("<td>");
-					td.text(epidemic.provinceName);
-					tr.append(td);
+			});
+		};
+		
+		//各省份疫情信息汇总表
+		//定义个用来给表格中装载数据的函数
+		var fillToProvinceTable = function(provinceEpidemic) {
+			var tbody3 = $("#tbody3");
+			tbody3.empty(); //清空
+			var count = 0;
+			$.each(provinceEpidemic, function(index, epidemic) {
+				count += 1;
+				var tr = $("<tr onclick='getCityEpidemic("+epidemic.provinceId+","+epidemic.updateTime+")'>");
+				var td = $("<td>");
+				td.text(epidemic.provinceName);
+				tr.append(td);
 
-					td = $("<td>");
-					td.html("" + epidemic.provinceEpidemic.newDiagnosis);
-					tr.append(td);
+				td = $("<td>");
+				td.html("" + epidemic.provinceEpidemic.newDiagnosis);
+				tr.append(td);
 
-					td = $("<td>");
-					td.html("" + epidemic.provinceEpidemic.existingDiagnosis);
-					tr.append(td);
+				td = $("<td>");
+				td.html("" + epidemic.provinceEpidemic.existingDiagnosis);
+				tr.append(td);
 
-					td = $("<td>");
-					td.html("" + epidemic.provinceEpidemic.cumulativeDiagnosis);
-					tr.append(td);
+				td = $("<td>");
+				td.html("" + epidemic.provinceEpidemic.cumulativeDiagnosis);
+				tr.append(td);
 
-					td = $("<td>");
-					td.html("" + epidemic.provinceEpidemic.cumulativeDeath);
-					tr.append(td);
+				td = $("<td>");
+				td.html("" + epidemic.provinceEpidemic.cumulativeDeath);
+				tr.append(td);
 
-					td = $("<td>");
-					td.html("" + epidemic.provinceEpidemic.cumulativeCure);
-					tr.append(td);
-					
-					td = $("<tr id='province_'"+count+">");
-					tr.append(td);
+				td = $("<td>");
+				td.html("" + epidemic.provinceEpidemic.cumulativeCure);
+				tr.append(td);
+				
+				td = $("<tr id='province_'"+count+">");
+				tr.append(td);
 
-					tbody3.append(tr);
-				});
-			};
-			
-			//获取城市疫情信息
-		    function getCityEpidemic(provinceId,updateTime){
+				tbody3.append(tr);
+			});
+		};
+		
+		//获取城市疫情信息
+	    function getCityEpidemic(provinceId,updateTime){
 
-		        var city_ = $("tr[name=city_"+id+"]");
-		        if(city_ && city_.length>0){
-		        	city_.remove();
-		            return;
-		        }
+	        var city_ = $("tr[name=city_"+id+"]");
+	        if(city_ && city_.length>0){
+	        	city_.remove();
+	            return;
+	        }
 
-		        $.ajax({
-		            url : 'epidemicData/ajax/cityEpidemic?provinceId='+provinceId+'&updateTime='+updateTime,
-		            type : 'post',
-		            dataType : 'json',
-		            success : function(cityEpidemic) {
-		                 var tboty=[];
-		                 for(var i=0;i<cityEpidemic.length;i++){
-		                     tboty.push("<tr class='city' name=\"city_"+id+"\">");
-		                     tboty.push('<td>'+cityEpidemic[i].cityName+'</td>');
-		                     tboty.push('<td>'+cityEpidemic[i].newDiagnosis+'</td>');
-		                     tboty.push("<td>"+cityEpidemic[i].existingDiagnosis+"</td>");
-		                     tboty.push("<td>"+cityEpidemic[i].cumulativeDiagnosis+"</td>");
-		                     tboty.push("<td>"+cityEpidemic[i].cumulativeDeath+"</td>");
-		                     tboty.push("<td>"+cityEpidemic[i].cumulativeCure+"</td>");
-		                 }
-		                 $("#province_"+id).after(tboty.join(''));
+	        $.ajax({
+	            url : 'epidemicData/cityEpidemic?provinceId='+provinceId+'&updateTime='+updateTime,
+	            type : 'post',
+	            dataType : 'json',
+	            success : function(cityEpidemic) {
+	                 var tboty=[];
+	                 for(var i=0;i<cityEpidemic.length;i++){
+	                     tboty.push("<tr class='city' name=\"city_"+id+"\">");
+	                     tboty.push('<td>'+cityEpidemic[i].cityName+'</td>');
+	                     tboty.push('<td>'+cityEpidemic[i].newDiagnosis+'</td>');
+	                     tboty.push("<td>"+cityEpidemic[i].existingDiagnosis+"</td>");
+	                     tboty.push("<td>"+cityEpidemic[i].cumulativeDiagnosis+"</td>");
+	                     tboty.push("<td>"+cityEpidemic[i].cumulativeDeath+"</td>");
+	                     tboty.push("<td>"+cityEpidemic[i].cumulativeCure+"</td>");
+	                 }
+	                 $("#province_"+id).after(tboty.join(''));
 
-		            },
-		            error: function (data) {
-		                 alert("获取异常！");
-		             }  
-		        })
+	            },
+	            error: function (data) {
+	                 alert("获取异常！");
+	             }  
+	        })
 
-		    }
-			
-			<!-- 疫情科普模块 -->
-			<!-- 感染者症状 -->
-			
-			<!-- 疫情防控知识 -->
-			
-			<!-- 防疫焦点资讯 -->
-			
-			
-			
-			//发送请求获取国内最新疫情数据
-			$.get("epidemicData/ajax/domesticEpidemic", {}, function(resp) {
+	    }
+		
+		<!-- 疫情科普模块 -->
+		<!-- 感染者症状 -->
+        $.ajax({
+            url : "epidemicData/epidemicInfo?flag=1",
+            type : "get",
+            dataType : "json",
+            success : function(epidemicInfo) {
+            	var timeline1 = $("#timeline1");
+            	timeline1.empty(); //清空
+            	var li = "";
+    			$.each(epidemicInfo, function(index, epidemic) {
+    				li += "<li class='time-label'>";
+    				li += "<i class='fa fa-envelope bg-blue'></i>";
+    				li += "<div class='timeline-item'>";
+    				li += "<span class='time'><i class='fa fa-clock-o'></i>";
+    				if(epidemic.releaseTime!=null && epidemic.releaseTime != ""){
+    					li += epidemic.releaseTime;
+    				}
+    				li += "</span><h4 class='timeline-header'>";
+    				li += "<a href='#'>" + epidemic.title + "</a>";
+    				li += "</h4></div></li>";
+
+    			});
+    			timeline1.html(li);
+
+            },
+            error: function (data) {
+                 alert("获取异常！");
+             }  
+        })
+
+		<!-- 疫情防控知识 -->
+        $.ajax({
+            url : "epidemicData/epidemicInfo?flag=2",
+            type : "get",
+            dataType : "json",
+            success : function(epidemicInfo) {
+            	var timeline2 = $("#timeline2");
+            	timeline2.empty(); //清空
+            	var li = "";
+    			$.each(epidemicInfo, function(index, epidemic) {
+    				li += "<li class='time-label'>";
+    				li += "<i class='fa fa-envelope bg-blue'></i>";
+    				li += "<div class='timeline-item'>";
+    				li += "<span class='time'><i class='fa fa-clock-o'></i>";
+    				if(epidemic.releaseTime!=null && epidemic.releaseTime != ""){
+    					li += epidemic.releaseTime;
+    				}
+    				li += "</span><h4 class='timeline-header'>";
+    				li += "<a href='#'>" + epidemic.title + "</a>";
+    				li += "</h4></div></li>";
+
+    			});
+    			timeline2.html(li);
+
+            },
+            error: function (data) {
+                 alert("获取异常！");
+             }  
+        })
+        
+		<!-- 防疫焦点资讯 -->
+        $.ajax({
+            url : "epidemicData/epidemicInfo?flag=3",
+            type : "get",
+            dataType : "json",
+            success : function(epidemicInfo) {
+            	var timeline3 = $("#timeline3");
+            	timeline3.empty(); //清空
+            	var li = "";
+    			$.each(epidemicInfo, function(index, epidemic) {
+    				li += "<li class='time-label'>";
+    				li += "<i class='fa fa-envelope bg-blue'></i>";
+    				li += "<div class='timeline-item'>";
+    				li += "<span class='time'><i class='fa fa-clock-o'></i>";
+    				if(epidemic.releaseTime!=null && epidemic.releaseTime != ""){
+    					li += epidemic.releaseTime;
+    				}
+    				li += "</span><h4 class='timeline-header'>";
+    				li += "<a href='#'>" + epidemic.title + "</a>";
+    				li += "</h4></div></li>";
+
+    			});
+    			timeline3.html(li);
+
+            },
+            error: function (data) {
+                 alert("获取异常！");
+             }  
+        })
+		
+		
+		//发送请求获取国内最新疫情数据
+		/* $.get("epidemicData/domesticEpidemic", {}, function(resp) {
+			if (resp != null) {
+				fillToDomesticTable(resp);
+			}
+		}, "json"); */
+		$.ajax({
+			url: "epidemicData/domesticEpidemic",
+			type: "get",
+			data: {},
+			dataType: "json",
+			success: function(resp){
 				if (resp != null) {
 					fillToDomesticTable(resp);
 				}
-			}, "json");
-			//发送请求获取各省份最新疫情数据
-			$.get("epidemicData/ajax/provinceEpidemic", {}, function(resp) {
-				if (resp != null) {
-					fillToMap(resp);
-					fillToBar(resp);
-					fillToProvinceTable(resp);
-				}
-			}, "json");
-			//发送请求获取各城市最新疫情数据
-			$.get("epidemicData/ajax/cityEpidemic", {}, function(resp) {
-				if (resp != null) {
-					//alert(JSON.stringify(resp));
-					//fillToCityTable(resp);
-				}
-			}, "json");
-		});
-	</script>
-</body>
+			}
+		})
+		//发送请求获取各省份最新疫情数据
+		$.get("epidemicData/provinceEpidemic", {}, function(resp) {
+			if (resp != null) {
+				fillToMap(resp);
+				fillToBar(resp);
+				fillToProvinceTable(resp);
+			}
+		}, "json");
+		
+	});
+</script>
+
+<script>
+　　　　//获取页面的每个按钮
+       var btns = document.getElementsByClassName("btn")
+　　　　//获取内容盒子
+       var contents = document.getElementsByClassName("content")
+
+　　　　//遍历每个按钮为其添加点击事件
+       for(var i=0;i<btns.length;i++){
+           btns[i].index = i;
+           btns[i].onclick = function(){
+　　　　　　　　//对当前点击的按钮赋予active类名及显示当前按钮对应的内容
+              for(var j=0;j<btns.length;j++){
+                  btns[j].className = btns[j].className.replace(' active', '').trim();
+                  contents[j].className = contents[j].className.replace(' show', '').trim();
+              }
+              this.className = this.className + ' active';
+              contents[this.index].className = contents[this.index].className + ' show';
+           };
+       }
+</script>
+
 </html>

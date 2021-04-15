@@ -80,7 +80,7 @@ public class ShiroConfig {
 		// 修改被拦截后跳转的登录页面
 		shiroFilterFactoryBean.setLoginUrl("/login");
 		// 设置未授权的提示页面
-		shiroFilterFactoryBean.setUnauthorizedUrl("/epidemic/unAuth");
+		shiroFilterFactoryBean.setUnauthorizedUrl("/unAuth");
 		// 设置验证通过的的页面
 		shiroFilterFactoryBean.setSuccessUrl("/home");
 
@@ -102,6 +102,7 @@ public class ShiroConfig {
 		// 不过滤主页，主页可以访问
 		map.put("/", "anon");
 		map.put("/index", "anon");
+		map.put("/epidemicData/**", "anon");
 		// 放行登录认证逻辑请求
 		map.put("/loginCheck", "anon");
 

@@ -7,6 +7,8 @@ public class EpidemicInformation {
 
     private String title;
 
+    private String description;
+
     private String correspondingLink;
 
     private Date releaseTime;
@@ -29,6 +31,14 @@ public class EpidemicInformation {
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 
     public String getCorrespondingLink() {

@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.edu.dgut.epidemic.pojo.EpidemicInformation" >
     <id column="INFORMATION_ID" property="informationId" jdbcType="INTEGER" />
     <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
     <result column="CORRESPONDING_LINK" property="correspondingLink" jdbcType="VARCHAR" />
     <result column="RELEASE_TIME" property="releaseTime" jdbcType="TIMESTAMP" />
     <result column="INFORMATION_FLAG" property="informationFlag" jdbcType="VARCHAR" />
@@ -68,7 +69,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    INFORMATION_ID, TITLE, CORRESPONDING_LINK, RELEASE_TIME, INFORMATION_FLAG, REMARKS
+    INFORMATION_ID, TITLE, DESCRIPTION, CORRESPONDING_LINK, RELEASE_TIME, INFORMATION_FLAG, 
+    REMARKS
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicInformationExample" >
     select
@@ -101,12 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicInformation" >
-    insert into epidemic_information (INFORMATION_ID, TITLE, CORRESPONDING_LINK, 
-      RELEASE_TIME, INFORMATION_FLAG, REMARKS
-      )
-    values (#{informationId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{correspondingLink,jdbcType=VARCHAR}, 
-      #{releaseTime,jdbcType=TIMESTAMP}, #{informationFlag,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
-      )
+    insert into epidemic_information (INFORMATION_ID, TITLE, DESCRIPTION, 
+      CORRESPONDING_LINK, RELEASE_TIME, INFORMATION_FLAG, 
+      REMARKS)
+    values (#{informationId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{correspondingLink,jdbcType=VARCHAR}, #{releaseTime,jdbcType=TIMESTAMP}, #{informationFlag,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicInformation" >
     insert into epidemic_information
@@ -116,6 +118,9 @@
       </if>
       <if test="title != null" >
         TITLE,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
       </if>
       <if test="correspondingLink != null" >
         CORRESPONDING_LINK,
@@ -136,6 +141,9 @@
       </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
       </if>
       <if test="correspondingLink != null" >
         #{correspondingLink,jdbcType=VARCHAR},
@@ -166,6 +174,9 @@
       <if test="record.title != null" >
         TITLE = #{record.title,jdbcType=VARCHAR},
       </if>
+      <if test="record.description != null" >
+        DESCRIPTION = #{record.description,jdbcType=VARCHAR},
+      </if>
       <if test="record.correspondingLink != null" >
         CORRESPONDING_LINK = #{record.correspondingLink,jdbcType=VARCHAR},
       </if>
@@ -187,6 +198,7 @@
     update epidemic_information
     set INFORMATION_ID = #{record.informationId,jdbcType=INTEGER},
       TITLE = #{record.title,jdbcType=VARCHAR},
+      DESCRIPTION = #{record.description,jdbcType=VARCHAR},
       CORRESPONDING_LINK = #{record.correspondingLink,jdbcType=VARCHAR},
       RELEASE_TIME = #{record.releaseTime,jdbcType=TIMESTAMP},
       INFORMATION_FLAG = #{record.informationFlag,jdbcType=VARCHAR},
@@ -200,6 +212,9 @@
     <set >
       <if test="title != null" >
         TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
       </if>
       <if test="correspondingLink != null" >
         CORRESPONDING_LINK = #{correspondingLink,jdbcType=VARCHAR},
@@ -219,6 +234,7 @@
   <update id="updateByPrimaryKey" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicInformation" >
     update epidemic_information
     set TITLE = #{title,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
       CORRESPONDING_LINK = #{correspondingLink,jdbcType=VARCHAR},
       RELEASE_TIME = #{releaseTime,jdbcType=TIMESTAMP},
       INFORMATION_FLAG = #{informationFlag,jdbcType=VARCHAR},
