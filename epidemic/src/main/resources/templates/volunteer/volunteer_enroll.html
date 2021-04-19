@@ -6,7 +6,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>志愿者录用</title>
-<!-- Tell the browser to be responsive to screen width -->
 <meta
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
@@ -15,8 +14,6 @@
 <link rel="stylesheet"
 	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 <link rel="stylesheet" href="../css/style.css">
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
-<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -35,16 +32,13 @@
 			<div class="pull-left">
 				<div class="form-group form-inline">
 					<div class="btn-group">
-						<button type="button" class="btn btn-default" title="新建"
-							data-toggle="modal" data-target="#editModal">
-							<i class="fa fa-file-o"></i> 新建
-						</button>
-						<button type="button" class="btn btn-default" title="删除">
-							<i class="fa fa-trash-o"></i> 删除
-						</button>
 						<button type="button" class="btn btn-default" title="刷新"
 							onclick="window.location.reload();">
 							<i class="fa fa-refresh"></i> 刷新
+						</button>
+						<button type="button" class="btn btn-default" title="导出excel"
+							onclick="exportExcel();">
+							<i class="fa fa-refresh"></i> 导出excel
 						</button>
 					</div>
 				</div>
@@ -52,12 +46,14 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					编号：<input type="number" id="campusId" name="campusId"
-						placeholder="编号" value=""> 是否符合条件： <input type="text"
-						id="isQualified" name="isQualified" placeholder="姓名" value="">
-					报名时间： <input type="datetime" id="enrollTime" name="enrollTime"
-						placeholder="报名时间" value="">
-					<button class="btn btn-default">查询</button>
+					编号：<input type="text" id="campusId" name="campusId"
+						placeholder="编号" maxlength="12"> 是否符合条件： <select
+						id="isQualified" name="isQualified">
+						<option value="">请选择</option>
+						<option value="y">是</option>
+						<option value="n">否</option>
+					</select> 报名时间：<input type="date" id="enrollTime" name="enrollTime">
+					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
 			<!--工具栏/-->
@@ -67,86 +63,100 @@
 				class="table table-bordered table-striped table-hover dataTable">
 				<thead>
 					<tr>
-						<th class="" style="padding-right: 0px"><input id="selall"
-							type="checkbox" class="icheckbox_square-blue"></th>
 						<th class="sorting_asc">校内人员编号</th>
+						<th class="sorting_asc">姓名</th>
 						<th class="sorting">是否符合条件</th>
 						<th class="sorting">报名时间</th>
-						<th class="sorting">备注</th>
-
+						<th class="sorting">是否录用</th>
+						<th class="sorting">志愿者备注</th>
 
 						<th class="text-center">操作</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>1</td>
-						<td>梦琪琪商贸有限公司</td>
-						<td>梦琪琪</td>
-						<td>李梦琪</td>
-
-						<td class="text-center">
-							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#sellerModal">审核</button>
+				<tbody id="tb">
+					<tr th:each="enrollDetail:${enrollDetails}">
+						<td th:text="${enrollDetail.volunteerEnroll.campusId}"></td>
+						<td th:text="${enrollDetail.userInfo.fullName}"></td>
+						<td
+							th:text="${enrollDetail.volunteerEnroll.isQualified=='y'?'是':'否'}"></td>
+						<td
+							th:text="${#dates.format(enrollDetail.volunteerEnroll.enrollTime,'yyyy-MM-dd HH:mm')}"></td>
+						<td th:if="${enrollDetail.volunteerEnroll.employOrNot=='y'}">
+							<span th:text="是"></span>
 						</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>2</td>
-						<td>黑瞎子苹果专卖店</td>
-						<td>黑瞎子</td>
-						<td>孙大鹏</td>
+						<td th:if="${enrollDetail.volunteerEnroll.employOrNot=='n'}">
+							<span th:text="否"></span>
+						</td>
+						<td th:if="${enrollDetail.volunteerEnroll.employOrNot=='w'}">
+							<span th:text="待定"></span>
+						</td>
+						<td th:text="${enrollDetail.volunteerEnroll.volunteerRemarks}"></td>
 
 						<td class="text-center">
 							<button type="button" class="btn bg-olive btn-xs"
-								data-toggle="modal" data-target="#editModal">审核</button>
+								th:onclick="fillVolunteer([[${enrollDetail}]])"
+								data-toggle="modal" data-target="#volunteerModal">志愿者信息</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<!--数据列表/-->
 
-
 		</div>
 		<!-- 数据表格 /-->
-
-
-
 
 	</div>
 	<!-- /.box-body -->
 
 
-	<!-- 编辑窗口 -->
-	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+	<!-- 志愿者信息窗口 -->
+	<div class="modal fade" id="volunteerModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">×</button>
-					<h3 id="myModalLabel">审核</h3>
+					<h3 id="myModalLabel">志愿者信息</h3>
 				</div>
 				<div class="modal-body">
 
-					<table class="table table-bordered table-striped" width="800px">
-						<tr>
-							<td>是否录用</td>
-							<td><input type="text" id="employOrNot" name="employOrNot"
-								class="form-control" placeholder="是否录用"></td>
-						</tr>
-						<tr>
-							<td>备注</td>
-							<td><input type="text" id="remarks" name="remarks"
-								class="form-control" placeholder="备注"></td>
-						</tr>
-					</table>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#detail" data-toggle="tab">个人信息</a></li>
+					</ul>
+
+					<!-- 选项卡开始 -->
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane active in" id="detail">
+							<br>
+							<table class="table table-bordered table-striped">
+								<tr>
+									<td>性别</td>
+									<td id="gender"></td>
+								</tr>
+								<tr>
+									<td>年龄</td>
+									<td id="age"></td>
+								</tr>
+								<tr>
+									<td>手机号码</td>
+									<td id="phoneNumber"></td>
+								</tr>
+								<tr>
+									<td>紧急联系人</td>
+									<td id="emergencyContact"></td>
+								</tr>
+								<tr>
+									<td>紧急联系人手机号码</td>
+									<td id="emergencyContactPhone"></td>
+								</tr>
+							</table>
+						</div>
+
+					</div>
 
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" data-dismiss="modal"
-						aria-hidden="true">保存</button>
 					<button class="btn btn-default" data-dismiss="modal"
 						aria-hidden="true">关闭</button>
 				</div>
@@ -155,5 +165,155 @@
 	</div>
 
 </body>
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/moment.js"></script>
+
+<script type="text/javascript">
+	$("#campusId").keyup(function() {//控制输入的账号只能为数字
+		var value = $(this);
+		//替换非数字字符
+		var temp = "";
+		if (value.val().length == 1) {
+			temp = value.val().replace(/[^1-9]/g, '');
+			$(this).val(temp);
+		} else if (/[^\d]/.test(value.val())) {
+			temp = value.val().replace(/[^\d]/g, '');
+			$(this).val(temp);
+		}
+	})
+</script>
+<script th:inline="javascript">
+	
+	// 查询绑定点击事件
+   	$("#query").click(function(){
+	   	doAjax();
+   	})
+   
+   	var enrollDetails = [[${enrollDetails}]];
+   	var volunteerServiceId = 0;
+   	if(enrollDetails!=null && enrollDetails.length>0){
+   		volunteerServiceId = enrollDetails[0].volunteerEnroll.volunteerServiceId;
+   	}
+   	
+   	// 利用Ajax实现分页
+	function doAjax(){
+    	var campusId = $("#campusId").val();
+		var isQualified = $("#isQualified").val();
+		var enrollTime = $("#enrollTime").val();
+		
+		$.ajax({
+			url: "../volunteer/findEnrollDetails",
+			type: "post",
+			data: {"campusId":campusId, "isQualified":isQualified,"enrollTime":enrollTime,"volunteerServiceId":volunteerServiceId},
+			dataType: "json",
+			success: function(map){
+				show(map);
+			}
+		})
+		
+	}
+    
+	function show(map){
+		var enrollInfo = map.enrollInfo; //获取到map中的enrollInfo集合
+		var enrollDetails = map.enrollDetails; //获取到map中的enrollDetails集合
+		
+		if(enrollInfo!=null){
+			if(enrollInfo.campusId!=null && enrollInfo.campusId!=""){
+				$("#campusId").val(enrollInfo.campusId);
+			}
+			if(enrollInfo.isQualified!=null && enrollInfo.isQualified!=""){
+				$("#isQualified").val(enrollInfo.isQualified);
+			}
+			if(enrollInfo.enrollTime!=null){
+				$("#enrollTime").val(enrollInfo.enrollTime);
+			}
+		}
+		
+		// 先清空原来的内容
+		$("#tb").empty();
+		var user_tr = "<tr>";
+		if(enrollDetails!=null && enrollDetails.length>0){
+			// 拼接内容
+			$.each(enrollDetails, function(i, enrollDetail) {
+				user_tr += "<td>";
+				user_tr += enrollDetail.volunteerEnroll.campusId;
+				user_tr += "</td><td>";
+				user_tr += enrollDetail.userInfo.fullName;
+				user_tr += "</td><td>";
+				if(enrollDetail.volunteerEnroll.isQualified == "y"){
+					user_tr += "是";
+				}else{
+					user_tr += "否";
+				}
+				user_tr += "</td><td>";
+				user_tr += moment(enrollDetail.volunteerEnroll.enrollTime).format("YYYY-MM-DD HH:mm");
+				user_tr += "</td><td>";
+				if(enrollDetail.volunteerEnroll.employOrNot == "y"){
+					user_tr += "是";
+				}else if(enrollDetail.volunteerEnroll.employOrNot == "n"){
+					user_tr += "否";
+				}else{
+					user_tr += "待定";
+				}
+				user_tr += "</td><td>";
+				user_tr += enrollDetail.volunteerEnroll.volunteerRemarks;
+				user_tr += "</td><td class='text-center'>";
+				user_tr += "<button type='button' class='btn bg-olive btn-xs' ";
+				user_tr += "data-toggle='modal' data-target='#volunteerModal'";
+				user_tr += "onclick='fillVolunteer("+ enrollDetail +")'>志愿者信息</button></td></tr>";
+				
+			});
+		}else{
+			user_tr =  "<tr style='text-align: center;'><td colspan='12'>没有查询到相关记录！</td></tr>";
+		}
+		
+		$("#tb").html(user_tr);
+	}
+	
+	// 把报名志愿者信息导出到excel
+	function exportExcel(){
+		var campusId = $("#campusId").val();
+		var isQualified = $("#isQualified").val();
+		var enrollTime = $("#enrollTime").val();
+		window.location.href = "../volunteer/exportExcel?volunteerServiceId=" + volunteerServiceId
+				+ "&campusId=" + campusId + "&isQualified=" + isQualified + "&enrollTime=" +enrollTime;
+		
+		/* $.ajax({
+			url: "../volunteer/exportExcel",
+			type: "post",
+			data: JSON.stringify(enrollDetailList),
+			dataType: "json",
+			contentType: "application/json",
+			success: function(){
+			}
+		}) */
+		
+	}
+</script>
+
+<script th:inline="javascript">
+	//设置详情表单的默认值
+	function fillVolunteer(enrollDetail) {
+		// 根据id获取各对象
+		var gender = document.getElementById("gender");
+		var age = document.getElementById("age");
+		var phoneNumber = document.getElementById("phoneNumber");
+		var emergencyContact = document.getElementById("emergencyContact");
+		var emergencyContactPhone = document.getElementById("emergencyContactPhone");
+		
+		// 设置td的值
+		if(enrollDetail.userInfo.gender == "m"){
+			gender.innerText = "男";
+		} else {
+			gender.innerText = "女";
+		}
+		age.innerText = enrollDetail.userInfo.age;
+		phoneNumber.innerText = enrollDetail.userInfo.phoneNumber;
+		emergencyContact.innerText = enrollDetail.userInfo.emergencyContact;
+		emergencyContactPhone.innerText = enrollDetail.userInfo.emergencyContactPhone;
+	}
+	
+</script>
 
 </html>

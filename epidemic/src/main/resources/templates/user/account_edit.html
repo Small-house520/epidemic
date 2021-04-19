@@ -46,7 +46,7 @@
 					<!--表单内容-->
 					<div class="tab-pane active" id="home">
 						<div class="row data-type">
-							<form action="../user/accountedit" method="post" th:onsubmit="'return verify();'">
+							<form action="../user/accountEdit" method="post" th:onsubmit="'return verify();'">
 								<input type="hidden" id="userId" name="userId"
 									class="form-control" placeholder="用户编号"
 									th:value="${user.userId}">

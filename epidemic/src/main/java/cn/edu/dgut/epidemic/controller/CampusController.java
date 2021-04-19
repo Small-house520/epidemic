@@ -31,7 +31,7 @@ public class CampusController {
 	private CampusService campusService;
 
 	// 查看出入校园记录
-	@RequestMapping("/campusaccess")
+	@RequestMapping("/campusAccess")
 	public String campusAccess(Model model) {
 		// 获取出入校园记录
 		List<CampusAccessRecords> list = this.campusService.campusAccess(null);
@@ -40,7 +40,7 @@ public class CampusController {
 	}
 
 	// 查询出入校园记录
-	@RequestMapping("/findrecords")
+	@RequestMapping("/findRecords")
 	@ResponseBody
 	public Map<String, Object> findRecords(CampusAccessRecords accessRecords) {
 		// 获取出入校园记录
@@ -52,7 +52,7 @@ public class CampusController {
 	}
 
 	// 跳转到填报体温行程信息页面
-	@RequestMapping("/tohealthupload")
+	@RequestMapping("/toHealthUpload")
 	public String toHealthUpload(Model model, HttpSession session) {
 		// 取出session中的账号信息
 		// CampusUser campusUser = (CampusUser)
@@ -71,12 +71,12 @@ public class CampusController {
 	}
 
 	// 填报体温行程信息
-	@RequestMapping("/healthupload")
+	@RequestMapping("/healthUpload")
 	public String healthUpload(TemperatureItinerary healthInfo) {
 
 		this.campusService.healthUpload(healthInfo);
 
-		return "redirect:/campus/tohealthupload";
+		return "redirect:/campus/toHealthUpload";
 	}
 
 	// 查看体温行程信息
@@ -95,7 +95,7 @@ public class CampusController {
 	}
 
 	// 查询体温行程信息
-	@RequestMapping("/healthinfo")
+	@RequestMapping("/healthInfo")
 	@ResponseBody
 	public Map<String, Object> findHealthInfo(TemperatureItinerary healthInfo) {
 		// 获取用户信息

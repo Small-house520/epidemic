@@ -133,7 +133,7 @@ public class RoleController {
 	}
 
 	// 删除角色
-	@RequestMapping("/roledel")
+	@RequestMapping("/roleDel")
 	public String roledel(Short id) {
 		this.roleService.deleteRole(id);
 		return "redirect:/role/findRoles";

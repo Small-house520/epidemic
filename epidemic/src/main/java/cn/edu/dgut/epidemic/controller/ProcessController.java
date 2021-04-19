@@ -24,16 +24,16 @@ public class ProcessController {
 	private ProcessService processService;
 
 	// 根据id删除活动信息或报名信息
-	@RequestMapping("/deletebyid")
+	@RequestMapping("/deleteById")
 	public String deleteById(Integer id, Integer flag, Model model) {
 		this.processService.deleteById(id, flag);
 
 		model.addAttribute("flag", flag);
-		return "redirect:/process/myprocess";
+		return "redirect:/process/myProcess";
 	}
 
 	// 查询活动信息或报名信息
-	@RequestMapping("/myprocess")
+	@RequestMapping("/myProcess")
 	public String getProcesses(Integer flag, Model model, HttpSession session) {
 		// CampusUser user = (CampusUser)
 		// session.getAttribute(Constants.GLOBLE_USER_SESSION);

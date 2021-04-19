@@ -6,11 +6,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>防疫志愿风采展</title>
-<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+<meta
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
-<link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet"
+	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 <link rel="stylesheet" href="../css/style.css">
 
 </head>
@@ -85,6 +87,8 @@
 							<button type="button" class="btn bg-olive btn-xs"
 								th:onclick="fillEnroll([[${volunteer}]])" data-toggle="modal"
 								data-target="#enrollModal">报名</button>
+							<button type="button" class="btn bg-olive btn-xs"
+								th:onclick="enrollDetail([[${volunteer}]])">报名详情</button>
 						</td>
 					</tr>
 				</tbody>
@@ -295,9 +299,9 @@
 				user_tr += "onclick='fillDetail("+ volunteer +")'>详情</button>&nbsp;&nbsp;";
 				user_tr += "<button type='button' onclick='fillEnroll("+ volunteer +")' ";
 				user_tr += "class='btn bg-olive btn-xs' data-toggle='modal'";
-				user_tr += "data-target='#enrollModal'>报名</button></td></tr>";
-				//<fmt:formatDate value="${task.createTime}"
-				//th:text=""	pattern="yyyy-MM-dd hh:mm:ss" />
+				user_tr += "data-target='#enrollModal'>报名</button>&nbsp;&nbsp;";
+				user_tr += "<button type='button' onclick='enrollDetail("+ volunteer +")' ";
+				user_tr += "class='btn bg-olive btn-xs'>报名详情</button></td></tr>";
 			});
 		}else{
 			user_tr =  "<tr style='text-align: center;'><td colspan='12'>没有查询到相关记录！</td></tr>";
@@ -366,6 +370,11 @@
 		conditions.innerText = volunteer.conditions;
 		startTime.innerText = volunteer.startTime;
 		endTime.innerText = volunteer.endTime; */
+	}
+	
+	//跳转到报名详情页面
+	function enrollDetail(volunteer){
+		window.location.href = "../volunteer/findEnroll?volunteerServiceId=" + volunteer.volunteerServiceId;
 	}
 </script>
 

@@ -198,7 +198,7 @@
 	<div class="modal fade" id="addModal" tabindex="-1" role="dialog"
 		aria-labelledby="addModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<form action="../user/userinfoadd" method="post"
+			<form action="../user/userInfoAdd" method="post"
 				onsubmit="return verify()">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -296,7 +296,7 @@
 	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
 		aria-labelledby="editModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<form action="../user/useredit" method="post"
+			<form action="../user/userEdit" method="post"
 				onsubmit="return verify()">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -559,7 +559,7 @@
 				var ids = checkedBoxs.map(function() {
 					return this.value;
 				})
-				window.location.href = "../user/userdel?ids="+ids.toArray().join(",");
+				window.location.href = "../user/userDel?ids="+ids.toArray().join(",");
 			  }
 		   }
 	   })

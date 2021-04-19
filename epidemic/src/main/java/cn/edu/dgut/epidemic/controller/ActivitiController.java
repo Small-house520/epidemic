@@ -203,7 +203,7 @@ public class ActivitiController {
 		this.activitiService.submitTask(id, taskId, comment, outcome, sponsor, userInfo, flag);
 
 		// model.addAttribute("flag", flag);
-		return "redirect:/process/myprocess?flag=" + flag;
+		return "redirect:/process/myProcess?flag=" + flag;
 	}
 
 	// 查看当前流程图（查看当前活动节点，并使用红色的框标注）
@@ -306,7 +306,7 @@ public class ActivitiController {
 	}
 
 	// 删除部署信息
-	@RequestMapping("/deploymentdel")
+	@RequestMapping("/deploymentDel")
 	public String delDeployment(String deploymentId) {
 		// 使用部署对象ID，删除流程定义
 		this.activitiService.deleteProcessDefinitionByDeploymentId(deploymentId);

@@ -126,7 +126,7 @@
 		var uploadDate = $("#uploadDate").val();
 		   
 		$.ajax({
-			url: "../campus/healthinfo",
+			url: "../campus/healthInfo",
 			type: "post",
 			data: {"campusId":campusId, "temperature":temperature, "uploadDate":uploadDate},
 			dataType: "json",

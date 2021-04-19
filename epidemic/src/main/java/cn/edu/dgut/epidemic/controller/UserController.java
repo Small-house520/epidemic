@@ -31,21 +31,21 @@ public class UserController {
 	private RoleService roleService;
 
 	// 添加账号（账号信息）
-	@RequestMapping("/accountadd")
+	@RequestMapping("/accountAdd")
 	public String accountAdd(CampusUser campusUser) {
 		this.userService.accountAdd(campusUser);
-		return "forward:/accountlist";
+		return "forward:/accountList";
 	}
 
 	// 删除账号（账号信息）
-	@RequestMapping("/accountdel")
+	@RequestMapping("/accountDel")
 	public String accountDel(String ids) {
 		this.userService.accountDel(ids);
-		return "forward:/accountlist";
+		return "forward:/accountList";
 	}
 
 	// 获取个人账号信息
-	@RequestMapping("/getaccount")
+	@RequestMapping("/getAccount")
 	public String accountEdit(Model model, HttpSession session) {
 		// 取出session中的账号信息
 		// CampusUser campusUser = (CampusUser)
@@ -59,7 +59,7 @@ public class UserController {
 	}
 
 	// 编辑账号信息
-	@RequestMapping("/accountedit")
+	@RequestMapping("/accountEdit")
 	public String accountEdit(CampusUser campusUser, HttpSession session) {
 		// CampusUser user = (CampusUser)
 		// session.getAttribute(Constants.GLOBLE_USER_SESSION);
@@ -67,13 +67,13 @@ public class UserController {
 		// 更新账号信息
 		this.userService.accountEdit(campusUser);
 		if (customUser.getCampusId() == campusUser.getCampusId()) {
-			return "redirect:/user/getaccount";
+			return "redirect:/user/getAccount";
 		}
-		return "redirect:/user/accountlist";
+		return "redirect:/user/accountList";
 	}
 
 	// 查看账号信息
-	@RequestMapping("/accountlist")
+	@RequestMapping("/accountList")
 	public String accountList(Model model) {
 		List<CampusUser> list = this.userService.accountList(null);
 		List<Role> roles = this.roleService.findAllRoles();
@@ -95,7 +95,7 @@ public class UserController {
 	}
 
 	// 跳转到添加用户页面
-	@RequestMapping("/touseradd")
+	@RequestMapping("/toUserAdd")
 	public String toUserAdd(Model model) {
 		List<GradeClass> classes = this.userService.findClasses();
 		model.addAttribute("classes", classes);
@@ -103,28 +103,28 @@ public class UserController {
 	}
 
 	// 添加用户（包括账号信息和个人信息）
-	@RequestMapping("/useradd")
+	@RequestMapping("/userAdd")
 	public String userAdd(CampusUser campusUser, CampusUserInfo campusUserInfo) {
 		this.userService.userAdd(campusUser, campusUserInfo);
 		return "user/user_list";
 	}
 
 	// 添加用户（用户个人信息）
-	@RequestMapping("/userinfoadd")
+	@RequestMapping("/userInfoAdd")
 	public String userInfoAdd(CampusUserInfo userInfo) {
 		this.userService.userInfoAdd(userInfo);
-		return "redirect:/user/userlist";
+		return "redirect:/user/userList";
 	}
 
 	// 删除个人信息
-	@RequestMapping("/userdel")
+	@RequestMapping("/userDel")
 	public String userDel(String ids) {
 		this.userService.userDel(ids);
-		return "forward:/accountlist";
+		return "forward:/accountList";
 	}
 
 	// 获取个人信息
-	@RequestMapping("/getuser")
+	@RequestMapping("/getUser")
 	public String getUserInfo(Model model, HttpSession session) {
 		// 取出session中的账号信息
 		// CampusUser campusUser = (CampusUser)
@@ -143,15 +143,15 @@ public class UserController {
 	}
 
 	// 编辑个人信息
-	@RequestMapping("/useredit")
+	@RequestMapping("/userEdit")
 	public String userEdit(CampusUserInfo userInfo) {
 		// 清理session
 		this.userService.userEdit(userInfo);
-		return "redirect:/user/userlist";
+		return "redirect:/user/userList";
 	}
 
 	// 查看个人信息
-	@RequestMapping("/userlist")
+	@RequestMapping("/userList")
 	public String userList(CampusUserInfo userInfo, Model model) {
 		List<CampusUserInfo> list = this.userService.userList(userInfo);
 		model.addAttribute("users", list);

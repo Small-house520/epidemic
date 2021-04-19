@@ -172,7 +172,7 @@
 						aria-hidden="true">×</button>
 					<h3 id="myModalLabel">账号编辑</h3>
 				</div>
-				<form action="../user/accountedit" method="post" onsubmit="return verify()">
+				<form action="../user/accountEdit" method="post" onsubmit="return verify()">
 					<input type="hidden" id="userId2" name="userId"
 						class="form-control">
 					<div class="modal-body">
@@ -421,7 +421,7 @@
 				var ids = checkedBoxs.map(function() {
 					return this.value;
 				})
-				window.location.href = "../user/accountdel?ids="+ids.toArray().join(",");
+				window.location.href = "../user/accountDel?ids="+ids.toArray().join(",");
 			  }
 		   }
 	   })
