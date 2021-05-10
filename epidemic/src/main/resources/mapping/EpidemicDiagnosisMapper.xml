@@ -9,6 +9,7 @@
     <result column="DIAGNOSIS_TIME" property="diagnosisTime" jdbcType="TIMESTAMP" />
     <result column="SOURCE_OF_INFECTION" property="sourceOfInfection" jdbcType="VARCHAR" />
     <result column="WHETHER_SEVERE" property="whetherSevere" jdbcType="VARCHAR" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
     <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -71,7 +72,7 @@
   </sql>
   <sql id="Base_Column_List" >
     EPIDEMIC_DIAGNOSIS_ID, CAMPUS_ID, SYMPTOMS, HOSPITAL, DIAGNOSIS_TIME, SOURCE_OF_INFECTION, 
-    WHETHER_SEVERE, REMARKS
+    WHETHER_SEVERE, FLAG, REMARKS
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosisExample" >
     select
@@ -106,10 +107,12 @@
   <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosis" >
     insert into epidemic_diagnosis (EPIDEMIC_DIAGNOSIS_ID, CAMPUS_ID, SYMPTOMS, 
       HOSPITAL, DIAGNOSIS_TIME, SOURCE_OF_INFECTION, 
-      WHETHER_SEVERE, REMARKS)
+      WHETHER_SEVERE, FLAG, REMARKS
+      )
     values (#{epidemicDiagnosisId,jdbcType=INTEGER}, #{campusId,jdbcType=VARCHAR}, #{symptoms,jdbcType=VARCHAR}, 
       #{hospital,jdbcType=VARCHAR}, #{diagnosisTime,jdbcType=TIMESTAMP}, #{sourceOfInfection,jdbcType=VARCHAR}, 
-      #{whetherSevere,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
+      #{whetherSevere,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicDiagnosis" >
     insert into epidemic_diagnosis
@@ -134,6 +137,9 @@
       </if>
       <if test="whetherSevere != null" >
         WHETHER_SEVERE,
+      </if>
+      <if test="flag != null" >
+        FLAG,
       </if>
       <if test="remarks != null" >
         REMARKS,
@@ -160,6 +166,9 @@
       </if>
       <if test="whetherSevere != null" >
         #{whetherSevere,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
       </if>
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
@@ -196,6 +205,9 @@
       <if test="record.whetherSevere != null" >
         WHETHER_SEVERE = #{record.whetherSevere,jdbcType=VARCHAR},
       </if>
+      <if test="record.flag != null" >
+        FLAG = #{record.flag,jdbcType=VARCHAR},
+      </if>
       <if test="record.remarks != null" >
         REMARKS = #{record.remarks,jdbcType=VARCHAR},
       </if>
@@ -213,6 +225,7 @@
       DIAGNOSIS_TIME = #{record.diagnosisTime,jdbcType=TIMESTAMP},
       SOURCE_OF_INFECTION = #{record.sourceOfInfection,jdbcType=VARCHAR},
       WHETHER_SEVERE = #{record.whetherSevere,jdbcType=VARCHAR},
+      FLAG = #{record.flag,jdbcType=VARCHAR},
       REMARKS = #{record.remarks,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -239,6 +252,9 @@
       <if test="whetherSevere != null" >
         WHETHER_SEVERE = #{whetherSevere,jdbcType=VARCHAR},
       </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
       <if test="remarks != null" >
         REMARKS = #{remarks,jdbcType=VARCHAR},
       </if>
@@ -253,6 +269,7 @@
       DIAGNOSIS_TIME = #{diagnosisTime,jdbcType=TIMESTAMP},
       SOURCE_OF_INFECTION = #{sourceOfInfection,jdbcType=VARCHAR},
       WHETHER_SEVERE = #{whetherSevere,jdbcType=VARCHAR},
+      FLAG = #{flag,jdbcType=VARCHAR},
       REMARKS = #{remarks,jdbcType=VARCHAR}
     where EPIDEMIC_DIAGNOSIS_ID = #{epidemicDiagnosisId,jdbcType=INTEGER}
   </update>

@@ -62,8 +62,9 @@ public interface CampusEpidemicService {
 	 * 新增确诊患者信息
 	 * 
 	 * @param diagnosis
+	 * @param flag
 	 */
-	void diagnosesAdd(EpidemicDiagnosis diagnosis);
+	void diagnosesAdd(EpidemicDiagnosis diagnosis, String flag);
 
 	/**
 	 * 新增密切接触者信息
@@ -71,4 +72,16 @@ public interface CampusEpidemicService {
 	 * @param epidemicContact
 	 */
 	void contactAdd(EpidemicContact epidemicContact);
+
+	/**
+	 * 新增治愈或死亡者信息
+	 * 
+	 * @param cureDeath
+	 */
+	void cureDeathAdd(EpidemicCureDeath cureDeath);
+
+	/**
+	 * 隔离完成
+	 */
+	void isolateFinish(String campusId);
 }

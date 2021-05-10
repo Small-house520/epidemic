@@ -10,14 +10,34 @@
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
 <link rel="stylesheet"
 	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../bootstrap/css/bootstrap-table.min.css">
 <link rel="stylesheet" href="../css/style.css">
 
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
+	
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>校园疫情信息管理</li>
+			<li class="active">治愈管理</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
+	
 	<!-- .box-body -->
 	<div class="box-header with-border">
 		<h3 class="box-title">治愈者列表</h3>
@@ -42,11 +62,20 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					编号：<input type="text" id="campusId" name="campusId"
-						placeholder="编号" value="" maxlength="12"> 姓名： <input
+					<span th:if="${cureDeathInfo==null}">编号：<input type="text" id="campusId" name="campusId"
+						placeholder="编号" maxlength="12"> <span th:if="${fullName==null}">姓名：<input
 						type="text" id="fullName" name="fullName" placeholder="姓名"
-						value=""> 治愈时间： <input type="date" id="timeOfCure"
-						name="timeOfCure" placeholder="出院时间" value="">
+						></span><span th:if="${fullName!=null}">姓名：<input
+						type="text" id="fullName" name="fullName" placeholder="姓名"
+						th:value="${fullName}"></span> 治愈时间： <input type="date" id="timeOfCure"
+						name="timeOfCure" placeholder="出院时间"></span>
+					<span th:if="${cureDeathInfo!=null}">编号：<input type="text" id="campusId" name="campusId"
+						placeholder="编号" th:value="${cureDeathInfo.campusId}" maxlength="12"> <span th:if="${fullName==null}">姓名：<input
+						type="text" id="fullName" name="fullName" placeholder="姓名"
+						></span><span th:if="${fullName!=null}">姓名：<input
+						type="text" id="fullName" name="fullName" placeholder="姓名"
+						th:value="${fullName}"></span> 治愈时间： <input type="date" id="timeOfCure"
+						name="timeOfCure" placeholder="出院时间" th:value="${#dates.format(cureDeathInfo.timeOfCure,'yyyy-MM-dd')}"></span>
 					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
@@ -149,6 +178,8 @@
 
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../bootstrap/js/bootstrap-table.min.js"></script>
+<script src="../bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
 <script src="../js/moment.js"></script>
 
 <script type="text/javascript">
@@ -169,9 +200,18 @@
 <script type="text/javascript">
 	// 查询绑定点击事件
 	$("#query").click(function() {
-		doAjax();
+		//doAjax();
+		findCure();
 	})
 
+	// 查询确诊患者信息
+	function findCure(){
+		var campusId = $("#campusId").val();
+		var fullName = $("#fullName").val();
+		var timeOfCure = $("#timeOfCure").val();
+    	window.location.href = "../campusEpidemic/findCureDeath?campusId="+campusId+"&fullName="+fullName+"&timeOfCure="+timeOfCure+"&flag=1";
+    }
+	
 	// 利用Ajax实现分页
 	function doAjax() {
 		var campusId = $("#campusId").val();
@@ -256,6 +296,22 @@
 		idNumber.innerText = user.idNumber;
 		address.innerText = user.address;
 	}
+</script>
+
+<script type="text/javascript">
+	//实现表格分页
+	$("#dataList").bootstrapTable({
+		striped: true,//是否显示行间隔色
+        cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+		pageNumber : 1, //首页页码
+		pagination : true, //是否显示分页条
+		pageSize : 5, //默认一页显示的行数
+		paginationLoop : false, //是否开启分页条无限循环，最后一页时点击下一页是否转到第一页
+		pageList : [ 5, 10, 20 ], //选择每页显示多少行
+		search : false, //启用关键字搜索框
+		sortable : true// 是否启用排序
+
+	});
 </script>
 
 </html>

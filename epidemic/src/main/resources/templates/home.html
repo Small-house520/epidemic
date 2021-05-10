@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<!-- 页面meta -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>校园疫情防控后台管理系统</title>
@@ -26,7 +25,6 @@
 
 	<div class="wrapper">
 
-		<!-- 页面头部 -->
 		<header class="main-header">
 			<a href="home" class="logo"> <span class="logo-mini"><b>防控疫情</b></span>
 				<span class="logo-lg"><b>校园疫情-防控管理</b></span>
@@ -67,9 +65,7 @@
 				</div>
 			</nav>
 		</header>
-		<!-- 页面头部 /-->
 
-		<!-- 导航侧栏 -->
 		<aside class="main-sidebar">
 			<section class="sidebar">
 				<div class="user-panel">
@@ -87,7 +83,6 @@
 					<li class="header">菜单</li>
 					<li><a href="home"><i class="fa fa-home"></i> <span>首页</span></a></li>
 
-					<!-- 菜单 -->
 					<li class="treeview"><a href="#"> <i class="fa fa-users"></i>
 							<span>用户管理</span> <span class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
@@ -102,10 +97,10 @@
 							</a>
 								<ul class="treeview-menu">
 									<li><a href="user/getAccount" target="iframe"> <i
-											class="fa fa-pencil"></i>编辑账号信息
+											class="fa fa-pencil"></i>编辑账号
 									</a></li>
 									<li><a href="user/accountList" target="iframe"> <i
-											class="fa fa-indent"></i>查询账号信息
+											class="fa fa-indent"></i>账号信息
 									</a></li>
 								</ul></li>
 
@@ -136,28 +131,29 @@
 									class="fa fa-plus"></i>添加角色
 							</a></li>
 							<li><a href="role/findRoles" target="iframe"> <i
-									class="fa fa-street-view"></i>查看角色
+									class="fa fa-street-view"></i>角色管理
 							</a></li>
 						</ul></li>
 
-					<li class="treeview"><a href="#"> <i class="fa fa-calendar"></i>
-							<span>我的事务</span> <span class="pull-right-container"> <i
+					<li class="treeview"><a href="#"> <i
+							class="fa fa-calendar"></i> <span>我的事务</span> <span
+							class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 						<ul class="treeview-menu">
 
 							<li><a href="activiti/myTaskList?flag=1" target="iframe">
-									<i class="fa fa-calendar-plus-o"></i>待办事务1
+									<i class="fa fa-calendar-plus-o"></i>活动申请
 							</a></li>
 							<li><a href="activiti/myTaskList?flag=2" target="iframe">
-									<i class="fa fa-calendar-plus-o"></i>待办事务2
+									<i class="fa fa-calendar-plus-o"></i>报名审核
 							</a></li>
 							<li><a href="process/myProcess?flag=1" target="iframe">
-									<i class="fa fa-calendar-check-o"></i>查看事务1
+									<i class="fa fa-calendar-check-o"></i>查看事务
 							</a></li>
 							<li><a href="process/myProcess?flag=2" target="iframe">
-									<i class="fa fa-calendar-check-o"></i>查看事务2
+									<i class="fa fa-calendar-check-o"></i>查看事务
 							</a></li>
 						</ul></li>
 
@@ -176,9 +172,10 @@
 							</a></li>
 						</ul></li>
 
-					<li class="treeview"><a href="#"> <i class="fa fa-h-square"></i>
-							<span>体温行程信息管理</span> <span class="pull-right-container">
-								<i class="fa fa-angle-left pull-right"></i>
+					<li class="treeview"><a href="#"> <i
+							class="fa fa-h-square"></i> <span>体温行程信息管理</span> <span
+							class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 						<ul class="treeview-menu">
@@ -186,13 +183,13 @@
 									class="fa fa-arrow-up"></i>体温行程上报
 							</a></li>
 							<li><a href="campus/health?flag=1" target="iframe"> <i
-									class="fa fa-bar-chart"></i>体温记录管理
+									class="fa fa-bar-chart"></i>体温记录
 							</a></li>
 							<li><a href="campus/health?flag=2" target="iframe"> <i
-									class="fa fa-car"></i>行程记录管理
+									class="fa fa-car"></i>行程记录
 							</a></li>
 							<li><a href="campus/campusAccess" target="iframe"> <i
-									class="fa fa-book"></i>出入校园记录管理
+									class="fa fa-book"></i>出入校园记录
 							</a></li>
 						</ul></li>
 
@@ -265,42 +262,36 @@
 						</ul></li> -->
 
 					<li class="treeview"><a href="#"> <i class="fa fa-heart-o"></i>
-							<span>防疫志愿服务管理</span> <span class="pull-right-container">
+							<span>防疫志愿活动管理</span> <span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 						<ul class="treeview-menu">
 
 							<li><a href="volunteer/toStart" target="iframe"> <i
-									class="fa fa-flag"></i>发起志愿活动
+									class="fa fa-hand-paper-o"></i>发起志愿活动
 							</a></li>
 							<li><a href="volunteer/activities" target="iframe"> <i
-									class="fa fa-hand-paper-o"></i>防疫志愿风采
+									class="fa fa-flag"></i>防疫志愿风采
 							</a></li>
 						</ul></li>
 
-					<!-- 菜单 /-->
 				</ul>
 			</section>
 		</aside>
-		<!-- 导航侧栏 /-->
 
-		<!-- 内容区域 -->
 		<div class="content-wrapper">
 			<iframe width="100%" id="iframe" name="iframe"
 				onload="SetIFrameHeight()" frameborder="0" src="panel"></iframe>
 
 		</div>
-		<!-- 内容区域 /-->
 
-		<!-- 底部导航 -->
 		<footer class="main-footer">
 			<div class="pull-right hidden-xs">
 				<b>Version</b> 1.0
 			</div>
 			<strong>Copyright &copy; 2021 东莞理工学院-房志坪 </strong>
 		</footer>
-		<!-- 底部导航 /-->
 
 	</div>
 

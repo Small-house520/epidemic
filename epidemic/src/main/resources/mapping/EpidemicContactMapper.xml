@@ -7,6 +7,7 @@
     <result column="CONTACT_SOURCE" property="contactSource" jdbcType="VARCHAR" />
     <result column="ISOLATION_ADDRESS" property="isolationAddress" jdbcType="VARCHAR" />
     <result column="ISOLATION_TIME" property="isolationTime" jdbcType="TIMESTAMP" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
     <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -69,7 +70,7 @@
   </sql>
   <sql id="Base_Column_List" >
     EPIDEMIC_CONTACT_ID, CAMPUS_ID, CONTACT_SOURCE, ISOLATION_ADDRESS, ISOLATION_TIME, 
-    REMARKS
+    FLAG, REMARKS
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicContactExample" >
     select
@@ -103,11 +104,11 @@
   </delete>
   <insert id="insert" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicContact" >
     insert into epidemic_contact (EPIDEMIC_CONTACT_ID, CAMPUS_ID, CONTACT_SOURCE, 
-      ISOLATION_ADDRESS, ISOLATION_TIME, REMARKS
-      )
+      ISOLATION_ADDRESS, ISOLATION_TIME, FLAG, 
+      REMARKS)
     values (#{epidemicContactId,jdbcType=INTEGER}, #{campusId,jdbcType=VARCHAR}, #{contactSource,jdbcType=VARCHAR}, 
-      #{isolationAddress,jdbcType=VARCHAR}, #{isolationTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
-      )
+      #{isolationAddress,jdbcType=VARCHAR}, #{isolationTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.dgut.epidemic.pojo.EpidemicContact" >
     insert into epidemic_contact
@@ -126,6 +127,9 @@
       </if>
       <if test="isolationTime != null" >
         ISOLATION_TIME,
+      </if>
+      <if test="flag != null" >
+        FLAG,
       </if>
       <if test="remarks != null" >
         REMARKS,
@@ -146,6 +150,9 @@
       </if>
       <if test="isolationTime != null" >
         #{isolationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
       </if>
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
@@ -176,6 +183,9 @@
       <if test="record.isolationTime != null" >
         ISOLATION_TIME = #{record.isolationTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.flag != null" >
+        FLAG = #{record.flag,jdbcType=VARCHAR},
+      </if>
       <if test="record.remarks != null" >
         REMARKS = #{record.remarks,jdbcType=VARCHAR},
       </if>
@@ -191,6 +201,7 @@
       CONTACT_SOURCE = #{record.contactSource,jdbcType=VARCHAR},
       ISOLATION_ADDRESS = #{record.isolationAddress,jdbcType=VARCHAR},
       ISOLATION_TIME = #{record.isolationTime,jdbcType=TIMESTAMP},
+      FLAG = #{record.flag,jdbcType=VARCHAR},
       REMARKS = #{record.remarks,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -211,6 +222,9 @@
       <if test="isolationTime != null" >
         ISOLATION_TIME = #{isolationTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
       <if test="remarks != null" >
         REMARKS = #{remarks,jdbcType=VARCHAR},
       </if>
@@ -223,6 +237,7 @@
       CONTACT_SOURCE = #{contactSource,jdbcType=VARCHAR},
       ISOLATION_ADDRESS = #{isolationAddress,jdbcType=VARCHAR},
       ISOLATION_TIME = #{isolationTime,jdbcType=TIMESTAMP},
+      FLAG = #{flag,jdbcType=VARCHAR},
       REMARKS = #{remarks,jdbcType=VARCHAR}
     where EPIDEMIC_CONTACT_ID = #{epidemicContactId,jdbcType=INTEGER}
   </update>

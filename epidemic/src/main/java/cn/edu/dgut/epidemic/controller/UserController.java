@@ -1,8 +1,6 @@
 package cn.edu.dgut.epidemic.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -79,19 +77,30 @@ public class UserController {
 		List<Role> roles = this.roleService.findAllRoles();
 		model.addAttribute("users", list);
 		model.addAttribute("roles", roles);
+		model.addAttribute("user", null);
 		return "user/account_list";
 	}
 
 	// 查询账号信息
+	// @RequestMapping("/findAccount")
+	// @ResponseBody
+	// public Map<String, Object> findAccount(CampusUser user) {
+	// List<CampusUser> list = this.userService.accountList(user);
+	// List<Role> roles = this.roleService.findAllRoles();
+	// Map<String, Object> map = new HashMap<String, Object>();
+	// map.put("users", list);
+	// map.put("roles", roles);
+	// return map;
+	// }
+	// 查询账号信息
 	@RequestMapping("/findAccount")
-	@ResponseBody
-	public Map<String, Object> findAccount(CampusUser user) {
+	public String findAccount(CampusUser user, Model model) {
 		List<CampusUser> list = this.userService.accountList(user);
 		List<Role> roles = this.roleService.findAllRoles();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("users", list);
-		map.put("roles", roles);
-		return map;
+		model.addAttribute("users", list);
+		model.addAttribute("roles", roles);
+		model.addAttribute("user", user);
+		return "user/account_list";
 	}
 
 	// 跳转到添加用户页面
@@ -158,19 +167,30 @@ public class UserController {
 
 		List<GradeClass> classes = this.userService.findClasses();
 		model.addAttribute("classes", classes);
+		model.addAttribute("userInfo", userInfo);
 		return "user/user_list";
 	}
 
 	// 查询个人信息
+	// @RequestMapping("/findUsers")
+	// @ResponseBody
+	// public Map<String, Object> findUsers(CampusUserInfo userInfo) {
+	// List<CampusUserInfo> list = this.userService.userList(userInfo);
+	// List<GradeClass> classes = this.userService.findClasses();
+	// Map<String, Object> map = new HashMap<String, Object>();
+	// map.put("users", list);
+	// map.put("classes", classes);
+	// return map;
+	// }
+	// 查询个人信息
 	@RequestMapping("/findUsers")
-	@ResponseBody
-	public Map<String, Object> findUsers(CampusUserInfo userInfo) {
+	public String findUsers(CampusUserInfo userInfo, Model model) {
 		List<CampusUserInfo> list = this.userService.userList(userInfo);
 		List<GradeClass> classes = this.userService.findClasses();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("users", list);
-		map.put("classes", classes);
-		return map;
+		model.addAttribute("users", list);
+		model.addAttribute("classes", classes);
+		model.addAttribute("userInfo", userInfo);
+		return "user/user_list";
 	}
 
 	// 验证账号是否已存在

@@ -1,8 +1,6 @@
 package cn.edu.dgut.epidemic.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.edu.dgut.epidemic.pojo.CampusAccessRecords;
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
@@ -36,19 +33,30 @@ public class CampusController {
 		// 获取出入校园记录
 		List<CampusAccessRecords> list = this.campusService.campusAccess(null);
 		model.addAttribute("accessRecords", list);
+		model.addAttribute("health", null);
 		return "campus/campus_access";
 	}
 
 	// 查询出入校园记录
+	// @RequestMapping("/findRecords")
+	// @ResponseBody
+	// public Map<String, Object> findRecords(CampusAccessRecords accessRecords) {
+	// // 获取出入校园记录
+	// List<CampusAccessRecords> list =
+	// this.campusService.campusAccess(accessRecords);
+	//
+	// Map<String, Object> map = new HashMap<String, Object>();
+	// map.put("accessRecords", list);
+	// return map;
+	// }
 	@RequestMapping("/findRecords")
-	@ResponseBody
-	public Map<String, Object> findRecords(CampusAccessRecords accessRecords) {
+	public String findRecords(CampusAccessRecords accessRecords, Model model) {
 		// 获取出入校园记录
 		List<CampusAccessRecords> list = this.campusService.campusAccess(accessRecords);
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("accessRecords", list);
-		return map;
+		model.addAttribute("accessRecords", list);
+		model.addAttribute("health", accessRecords);
+		return "campus/campus_access";
 	}
 
 	// 跳转到填报体温行程信息页面
@@ -88,6 +96,8 @@ public class CampusController {
 		List<TemperatureItinerary> list = this.campusService.temperature(null);
 		model.addAttribute("healthInfo", list);
 		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("health", null);
+		model.addAttribute("flag", flag);
 		if (flag == 1) {
 			return "campus/temperature";
 		}
@@ -95,16 +105,33 @@ public class CampusController {
 	}
 
 	// 查询体温行程信息
+	// @RequestMapping("/healthInfo")
+	// @ResponseBody
+	// public Map<String, Object> findHealthInfo(TemperatureItinerary healthInfo) {
+	// // 获取用户信息
+	// List<CampusUserInfo> userInfo = this.userService.userList(null);
+	//
+	// List<TemperatureItinerary> list = this.campusService.temperature(healthInfo);
+	// Map<String, Object> map = new HashMap<String, Object>();
+	// map.put("healthInfo", list);
+	// map.put("userInfo", userInfo);
+	// return map;
+	// }
+
+	// 查询体温行程信息
 	@RequestMapping("/healthInfo")
-	@ResponseBody
-	public Map<String, Object> findHealthInfo(TemperatureItinerary healthInfo) {
+	public String findHealthInfo(TemperatureItinerary healthInfo, Integer flag, Model model) {
 		// 获取用户信息
 		List<CampusUserInfo> userInfo = this.userService.userList(null);
 
 		List<TemperatureItinerary> list = this.campusService.temperature(healthInfo);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("healthInfo", list);
-		map.put("userInfo", userInfo);
-		return map;
+		model.addAttribute("healthInfo", list);
+		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("health", healthInfo);
+		model.addAttribute("flag", flag);
+		if (flag == 1) {
+			return "campus/temperature";
+		}
+		return "campus/travel";
 	}
 }

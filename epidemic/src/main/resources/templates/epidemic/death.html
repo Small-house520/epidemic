@@ -10,15 +10,33 @@
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 <link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../plugins/select2/select2.css" />
-<link rel="stylesheet" href="../plugins/select2/select2-bootstrap.css" />
+<link rel="stylesheet" href="../bootstrap/css/bootstrap-table.min.css">
 
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
+	
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>校园疫情信息管理</li>
+			<li class="active">死亡管理</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
+	
 	<!-- .box-body -->
 	<div class="box-header with-border">
 		<h3 class="box-title">死亡者列表</h3>
@@ -43,11 +61,20 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					编号：<input type="text" id="campusId" name="campusId"
-						placeholder="编号" maxlength="12" value=""> 姓名：<input
+					<span th:if="${cureDeathInfo==null}">编号：<input type="text" id="campusId" name="campusId"
+						placeholder="编号" maxlength="12"> <span th:if="${fullName==null}">姓名：<input
 						type="text" id="fullName" name="fullName" placeholder="姓名"
-						value=""> 死亡时间：<input type="date" id="timeOfDeath"
-						name="timeOfDeath" placeholder="死亡时间" value="">
+						></span><span th:if="${fullName!=null}">姓名：<input
+						type="text" id="fullName" name="fullName" placeholder="姓名"
+						th:value="${fullName}"></span> 死亡时间： <input type="date" id="timeOfDeath"
+						name="timeOfDeath"></span>
+					<span th:if="${cureDeathInfo!=null}">编号：<input type="text" id="campusId" name="campusId"
+						placeholder="编号" th:value="${cureDeathInfo.campusId}" maxlength="12"> <span th:if="${fullName==null}">姓名：<input
+						type="text" id="fullName" name="fullName" placeholder="姓名"
+						></span><span th:if="${fullName!=null}">姓名：<input
+						type="text" id="fullName" name="fullName" placeholder="姓名"
+						th:value="${fullName}"></span> 死亡时间： <input type="date" id="timeOfDeath"
+						name="timeOfDeath" th:value="${#dates.format(cureDeathInfo.timeOfDeath,'yyyy-MM-dd')}"></span>
 					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
@@ -69,7 +96,7 @@
 						<th class="text-center">操作</th>
 					</tr>
 				</thead>
-				<tbody id="tb">
+				<tbody id="tb" th:if="${userInfo!=null}">
 					<tr th:each="user:${userInfo}">
 						<td th:text="${user.campusId}"></td>
 						<td th:text="${user.fullName}"></td>
@@ -150,7 +177,8 @@
 
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="../plugins/select2/select2.min.js"></script>
+<script src="../bootstrap/js/bootstrap-table.min.js"></script>
+<script src="../bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
 <script src="../js/moment.js"></script>
 
 <script type="text/javascript">
@@ -171,9 +199,18 @@
 <script type="text/javascript">
 	// 查询绑定点击事件
 	$("#query").click(function() {
-		doAjax();
+		//doAjax();
+		findDeath();
 	})
 
+	// 查询确诊患者信息
+	function findDeath(){
+		var campusId = $("#campusId").val();
+		var fullName = $("#fullName").val();
+		var timeOfDeath = $("#timeOfDeath").val();
+    	window.location.href = "../campusEpidemic/findCureDeath?campusId="+campusId+"&fullName="+fullName+"&timeOfDeath="+timeOfDeath+"&flag=2";
+    }
+	
 	// 利用Ajax实现分页
 	function doAjax() {
 		var campusId = $("#campusId").val();
@@ -206,40 +243,37 @@
 		var user_tr = "<tr>";
 		if (userInfo != null && userInfo.length > 0) {
 			// 拼接内容
-			$
-					.each(
-							userInfo,
-							function(i, user) {
-								user_tr += "<td>";
-								user_tr += user.campusId;
-								user_tr += "</td><td>";
-								user_tr += user.fullName;
-								user_tr += "</td><td>";
-								if (user.gender == 'm') {
-									user_tr += '男';
-								} else {
-									user_tr += '女';
-								}
-								user_tr += "</td><td>";
-								user_tr += user.age;
-								user_tr += "</td><td>";
-								user_tr += user.phoneNumber;
-								user_tr += "</td><td>";
-								for (var i = 0; i < cureDeath.length; i++) {
-									if (cureDeath[i].campusId == user.campusId) {
-										user_tr += moment(cureDeath[i].timeOfDeath).format("YYYY-MM-DD HH:mm:ss");
-										user_tr += "</td><td>";
-										user_tr += cureDeath[i].remarks;
-										break;
-									}
-								}
-								user_tr += "</td><td class='text-center'>";
-								user_tr += "<button type='button' class='btn bg-olive btn-xs' ";
-								user_tr += "data-toggle='modal' data-target='#detailModal'";
-								user_tr += "onclick='fillDetail(" + user
-										+ ")'>详情</button></td></tr>";
+			$.each(userInfo, function(i, user) {
+				user_tr += "<td>";
+				user_tr += user.campusId;
+				user_tr += "</td><td>";
+				user_tr += user.fullName;
+				user_tr += "</td><td>";
+				if (user.gender == 'm') {
+					user_tr += '男';
+				} else {
+					user_tr += '女';
+				}
+				user_tr += "</td><td>";
+				user_tr += user.age;
+				user_tr += "</td><td>";
+				user_tr += user.phoneNumber;
+				user_tr += "</td><td>";
+				for (var i = 0; i < cureDeath.length; i++) {
+					if (cureDeath[i].campusId == user.campusId) {
+						user_tr += moment(cureDeath[i].timeOfDeath).format("YYYY-MM-DD HH:mm:ss");
+						user_tr += "</td><td>";
+						user_tr += cureDeath[i].remarks;
+						break;
+					}
+				}
+				user_tr += "</td><td class='text-center'>";
+				user_tr += "<button type='button' class='btn bg-olive btn-xs' ";
+				user_tr += "data-toggle='modal' data-target='#detailModal'";
+				user_tr += "onclick='fillDetail(" + user
+						+ ")'>详情</button></td></tr>";
 
-							});
+			});
 		} else {
 			user_tr = "<tr style='text-align: center;'><td colspan='12'>没有查询到相关记录！</td></tr>";
 		}
@@ -262,6 +296,22 @@
 		idNumber.innerText = user.idNumber;
 		address.innerText = user.address;
 	}
+</script>
+
+<script type="text/javascript">
+	//实现表格分页
+	$("#dataList").bootstrapTable({
+		striped: true,//是否显示行间隔色
+        cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+		pageNumber : 1, //首页页码
+		pagination : true, //是否显示分页条
+		pageSize : 5, //默认一页显示的行数
+		paginationLoop : false, //是否开启分页条无限循环，最后一页时点击下一页是否转到第一页
+		pageList : [ 5, 10, 20 ], //选择每页显示多少行
+		search : false, //启用关键字搜索框
+		sortable : true// 是否启用排序
+
+	});
 </script>
 
 </html>

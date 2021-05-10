@@ -8,7 +8,11 @@
 
 <!-- Bootstrap -->
 <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="../css/content.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="../bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../bower_components/Ionicons/css/ionicons.min.css">
+<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
 
 <style type="text/css">
 th, td {
@@ -26,61 +30,93 @@ th, td {
 </head>
 <body>
 
-	<!--路径导航-->
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>我的事务</li>
+			<li class="active">查看事务</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
 
-	<div class="page-content">
-		<form class="form-inline">
-			<div class="panel panel-default">
-				<div class="panel-heading">活动信息列表</div>
+	<!-- .box-body -->
+	<div class="box-header with-border">
+		<h3 class="box-title">活动信息列表</h3>
+	</div>
 
-				<div class="table-responsive">
-					<table class="table table-striped table-hover" id="tb">
-						<thead>
-							<tr>
-								<th width="8%">活动ID</th>
-								<th width="12%">活动标题</th>
-								<th width="15%">举办单位</th>
-								<th width="10%">招募志愿者人数</th>
-								<th width="10%">审核状态</th>
-								<th width="25%">操作</th>
-							</tr>
-						</thead>
-						<tbody th:if="${activities!=null && activities.size()>0}">
-							<tr th:each="activity:${activities}">
-								<td th:text="${activity.volunteerServiceId}"></td>
-								<td th:text="${activity.title}"></td>
-								<td th:text="${activity.sponsorOrg}"></td>
-								<td th:text="${activity.expectedVolunteers}"></td>
-								<td th:text="${activity.state=='2'?'审核中':'已完成'}"></td>
-								<td th:if="${activity.state=='1' || activity.state=='2'}"><a
-									href="#" class="btn btn-success btn-xs"
-									th:onclick="viewHisComment([[${activity.volunteerServiceId}]])"><span
-										class="glyphicon glyphicon-eye-open"></span> 审核记录</a>&nbsp;&nbsp;
-									<a href="#" class="btn btn-success btn-xs"
-									th:onclick="viewCurrentImageById([[${activity.volunteerServiceId}]])"><span
-										class="glyphicon glyphicon-eye-open"></span> 当前流程图</a>
-								<td th:if="${activity.state=='3'}"><a href="#"
-									class="btn btn-success btn-xs"
-									th:onclick="viewHisComment([[${activity.volunteerServiceId}]])"><span
-										class="glyphicon glyphicon-eye-open"></span> 审核记录</a>&nbsp;&nbsp;
-									<a href="#"
-									th:onclick="delConf([[${activity.volunteerServiceId}]])"
-									class="btn btn-danger btn-xs"><span
-										class="glyphicon glyphicon-remove"></span> 删除</a></td>
+	<div class="box-body">
 
-							</tr>
-						</tbody>
-						<tbody th:if="${activities==null || activities.size()<=0}">
-							<tr>
-								<td colspan='12'>暂无活动信息记录</td>
-							</tr>
-						</tbody>
-					</table>
+		<!-- 数据表格 -->
+		<div class="table-box">
+
+			<!--工具栏-->
+			<div class="pull-left">
+				<div class="form-group form-inline">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default" title="刷新"
+							onclick="window.location.reload();">
+							<i class="fa fa-refresh"></i> 刷新
+						</button>
+					</div>
 				</div>
 			</div>
-		</form>
+
+			<!--数据列表-->
+			<table id="dataList"
+				class="table table-bordered table-striped table-hover dataTable">
+				<thead>
+					<tr>
+						<th class="sorting_asc">活动ID</th>
+						<th class="sorting">活动标题</th>
+						<th class="sorting">举办单位</th>
+						<th class="sorting">招募志愿者人数</th>
+						<th class="sorting">审核状态</th>
+						<th class="sorting">操作</th>
+					</tr>
+				</thead>
+				<tbody th:if="${activities!=null && activities.size()>0}">
+					<tr th:each="activity:${activities}">
+						<td th:text="${activity.volunteerServiceId}"></td>
+						<td th:text="${activity.title}"></td>
+						<td th:text="${activity.sponsorOrg}"></td>
+						<td th:text="${activity.expectedVolunteers}"></td>
+						<td th:text="${activity.state=='2'?'审核中':'已完成'}"></td>
+						<td th:if="${activity.state=='1' || activity.state=='2'}"><a
+							href="#" class="btn btn-success btn-xs"
+							th:onclick="viewHisComment([[${activity.volunteerServiceId}]])"><span
+								class="glyphicon glyphicon-eye-open"></span> 审核记录</a>&nbsp;&nbsp;
+							<a href="#" class="btn btn-success btn-xs"
+							th:onclick="viewCurrentImageById([[${activity.volunteerServiceId}]])"><span
+								class="glyphicon glyphicon-eye-open"></span> 当前流程图</a>
+						<td th:if="${activity.state=='3'}"><a href="#"
+							class="btn btn-success btn-xs"
+							th:onclick="viewHisComment([[${activity.volunteerServiceId}]])"><span
+								class="glyphicon glyphicon-eye-open"></span> 审核记录</a>&nbsp;&nbsp;
+							<a href="#"
+							th:onclick="delConf([[${activity.volunteerServiceId}]])"
+							class="btn btn-danger btn-xs"><span
+								class="glyphicon glyphicon-remove"></span> 删除</a></td>
+
+					</tr>
+				</tbody>
+				<tbody th:if="${activities==null || activities.size()<=0}">
+					<tr>
+						<td colspan='12'>暂无活动信息记录</td>
+					</tr>
+				</tbody>
+			</table>
+			<!--数据列表/-->
+
+		</div>
+		<!-- 数据表格 /-->
 
 	</div>
+	<!-- /.box-body -->
 
 </body>
 

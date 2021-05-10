@@ -17,6 +17,8 @@ public class EpidemicDiagnosis {
 
     private String whetherSevere;
 
+    private String flag;
+
     private String remarks;
 
     public Integer getEpidemicDiagnosisId() {
@@ -73,6 +75,14 @@ public class EpidemicDiagnosis {
 
     public void setWhetherSevere(String whetherSevere) {
         this.whetherSevere = whetherSevere == null ? null : whetherSevere.trim();
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag == null ? null : flag.trim();
     }
 
     public String getRemarks() {

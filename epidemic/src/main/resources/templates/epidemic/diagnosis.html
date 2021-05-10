@@ -6,16 +6,38 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>现有确诊管理</title>
-<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+<meta
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
-<link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet"
+	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../bootstrap/css/bootstrap-table.min.css">
 <link rel="stylesheet" href="../css/style.css">
 
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
+
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>校园疫情信息管理</li>
+			<li class="active">确诊患者管理</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
+
 	<!-- .box-body -->
 	<div class="box-header with-border">
 		<h3 class="box-title">现有确诊列表</h3>
@@ -44,16 +66,33 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					编号：<input type="text" id="campusIdFind" name="campusId"
-						maxlength="12" placeholder="编号" value=""> 姓名：<input
-						type="text" id="fullName" name="fullName" placeholder="姓名"
-						value=""> 是否重症：<select id="whetherSevereFind"
-						name="whetherSevere">
-						<option value="" selected="selected">请选择</option>
-						<option value="y">是</option>
-						<option value="n">否</option>
-					</select> 感染源：<input type="text" id="sourceOfInfectionFind"
-						name="sourceOfInfection" placeholder="感染来源" value="">
+					<span th:if="${epidemicDiagnosis==null}">编号：<input
+						type="text" id="campusIdFind" name="campusId" maxlength="12"
+						placeholder="编号"> <span th:if="${fullName==null}">姓名：<input
+							type="text" id="fullName" name="fullName" placeholder="姓名"></span><span
+						th:if="${fullName!=null}">姓名：<input type="text"
+							id="fullName" name="fullName" placeholder="姓名"
+							th:value="${fullName}"></span> 是否重症：<select
+						id="whetherSevereFind" name="whetherSevere">
+							<option value="" selected="selected">请选择</option>
+							<option value="y">是</option>
+							<option value="n">否</option>
+					</select> </span> <span
+						th:if="${epidemicDiagnosis!=null}">编号：<input type="text"
+						id="campusIdFind" name="campusId" maxlength="12" placeholder="编号"
+						th:value="${epidemicDiagnosis.campusId}"> <span
+						th:if="${fullName==null}">姓名：<input type="text"
+							id="fullName" name="fullName" placeholder="姓名"></span><span
+						th:if="${fullName!=null}">姓名：<input type="text"
+							id="fullName" name="fullName" placeholder="姓名"
+							th:value="${fullName}"></span> 是否重症：<select
+						id="whetherSevereFind" name="whetherSevere">
+							<option value="">请选择</option>
+							<option value="y"
+								th:selected="${epidemicDiagnosis.whetherSevere=='y'?true:false}">是</option>
+							<option value="n"
+								th:selected="${epidemicDiagnosis.whetherSevere=='n'?true:false}">否</option>
+					</select> </span>
 					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
@@ -90,9 +129,9 @@
 							<button type="button" class="btn bg-olive btn-xs"
 								th:onclick="fillDetail([[${diagnosis}]])" data-toggle="modal"
 								data-target="#detailModal">详情</button>
-							<button type="button" class="btn bg-olive btn-xs"
+							<button type="button" class="btn bg-olive btn-xs" th:onclick="fillCureDeath([[${diagnosis}]])"
 								data-toggle="modal" data-target="#cureModal">转为治愈</button>
-							<button type="button" class="btn bg-olive btn-xs"
+							<button type="button" class="btn bg-olive btn-xs" th:onclick="fillCureDeath([[${diagnosis}]])"
 								data-toggle="modal" data-target="#deathModal">转为死亡</button>
 						</td>
 					</tr>
@@ -252,10 +291,107 @@
 		</div>
 	</div>
 
+	<!-- 转为治愈 -->
+	<div class="modal fade" id="cureModal" tabindex="-1" role="dialog"
+		aria-labelledby="addModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<form action="../campusEpidemic/cureAdd" method="post"
+				onsubmit="return verify()">
+				<input type="hidden" id="state" name="state" value="c">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h3 id="addModalLabel">转为治愈</h3>
+					</div>
+
+					<div class="modal-body">
+
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>编号</td>
+								<td><input type="text" id="campusId2" name="campusId"
+									class="form-control" placeholder="编号" maxlength="12"
+									readonly="readonly"></td>
+							</tr>
+							<tr>
+								<td>姓名</td>
+								<td><input type="text" id="fullName2" name="fullName"
+									class="form-control" placeholder="姓名" 
+									readonly="readonly"></td>
+							</tr>
+							<tr>
+								<td>备注</td>
+								<td><input type="text" id="remarks" name="remarks"
+									class="form-control" placeholder="备注"></td>
+							</tr>
+						</table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">确 定</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关 闭</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- 转为死亡 -->
+	<div class="modal fade" id="deathModal" tabindex="-1" role="dialog"
+		aria-labelledby="addModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<form action="../campusEpidemic/deathAdd" method="post"
+				onsubmit="return verify()">
+				<input type="hidden" id="state" name="state" value="d">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h3 id="addModalLabel">转为死亡</h3>
+					</div>
+
+					<div class="modal-body">
+
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>编号</td>
+								<td><input type="text" id="campusId3" name="campusId"
+									class="form-control" placeholder="编号" maxlength="12"
+									required="required"></td>
+								<td><span id="campusIdCheck"></span></td>
+							</tr>
+							<tr>
+								<td>姓名</td>
+								<td><input type="text" id="fullName3" name="fullName"
+									class="form-control" placeholder="姓名" 
+									readonly="readonly"></td>
+							</tr>
+							<tr>
+								<td>备注</td>
+								<td><input type="text" id="remarks" name="remarks"
+									class="form-control" placeholder="备注"></td>
+							</tr>
+						</table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">确 定</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关 闭</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
 </body>
 
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../bootstrap/js/bootstrap-table.min.js"></script>
+<script src="../bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
 <script src="../js/moment.js"></script>
 
 <script type="text/javascript">
@@ -325,9 +461,18 @@
 	
 	// 查询绑定点击事件
    	$("#query").click(function(){
-	   	doAjax();
+	   	//doAjax();
+   		findDiagnosis();
    	})
    
+   	// 查询确诊患者信息
+	function findDiagnosis(){
+   		var campusId = $("#campusIdFind").val();
+		var fullName = $("#fullName").val();
+		var whetherSevere = $("#whetherSevereFind").val();
+    	window.location.href = "../campusEpidemic/findDiagnosis?campusId="+campusId+"&fullName="+fullName+"&whetherSevere="+whetherSevere;
+    }
+   	
    	// 利用Ajax实现分页
 	function doAjax(){
     	var campusId = $("#campusIdFind").val();
@@ -444,6 +589,41 @@
 		sourceOfInfection.innerText = diagnosis.sourceOfInfection;
 		remarks.innerText = diagnosis.remarks;
 	}
+	
+	//设置转为治愈表单的默认值
+	function fillCureDeath(diagnosis) {
+		
+		// 获取用户信息
+		var userInfos = [[${userInfo}]];
+		// 匹配当前选中用户信息
+		var user = null;
+		for(var i=0; i<userInfos.length; i++){
+			if(diagnosis.campusId == userInfos[i].campusId){
+				user = userInfos[i];
+			}
+		}
+		
+		$("#campusId2").val(diagnosis.campusId);
+		$("#campusId3").val(diagnosis.campusId);
+		$("#fullName2").val(user.fullName);
+		$("#fullName3").val(user.fullName);
+	}
+</script>
+
+<script type="text/javascript">
+	//实现表格分页
+	$("#dataList").bootstrapTable({
+		striped: true,//是否显示行间隔色
+        cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+		pageNumber : 1, //首页页码
+		pagination : true, //是否显示分页条
+		pageSize : 5, //默认一页显示的行数
+		paginationLoop : false, //是否开启分页条无限循环，最后一页时点击下一页是否转到第一页
+		pageList : [ 5, 10, 20 ], //选择每页显示多少行
+		search : false, //启用关键字搜索框
+		sortable : true// 是否启用排序
+
+	});
 </script>
 
 </html>

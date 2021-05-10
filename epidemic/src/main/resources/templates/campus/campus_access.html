@@ -10,14 +10,34 @@
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
 <link rel="stylesheet"
 	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../bootstrap/css/bootstrap-table.min.css">
 
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
+	
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>体温行程信息管理</li>
+			<li class="active">出入校园记录</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
+	
 	<!-- .box-body -->
 	<div class="box-header with-border">
 		<h3 class="box-title">出入校园记录</h3>
@@ -42,14 +62,22 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					姓名： <input type="text" id="fullName" name="fullName"
-						placeholder="姓名" value=""> 状态：<select id="state"
+					<span th:if="${health==null}">姓名： <input type="text" id="fullName" name="fullName"
+						placeholder="姓名"> 状态：<select id="state"
 						name="state">
 						<option value="" selected="selected">请选择</option>
 						<option value="i">进入学校</option>
 						<option value="o">离开学校</option>
-					</select> 记录时间(及之后)：<input type="date" id="recordDate" name="recordDate"
-						value="">
+					</select> 记录时间：<input type="date" id="recordDate" name="recordDate"
+						></span>
+					<span th:if="${health!=null}">姓名： <input type="text" id="fullName" name="fullName"
+						placeholder="姓名" th:value="${health.fullName}"> 状态：<select id="state"
+						name="state">
+						<option value="">请选择</option>
+						<option value="i" th:selected="${health.state=='i'?true:false}">进入学校</option>
+						<option value="o" th:selected="${health.state=='o'?true:false}">离开学校</option>
+					</select> 记录时间：<input type="date" id="recordDate" name="recordDate"
+						th:value="${#dates.format(health.recordDate,'yyyy-MM-dd')}"></span>
 					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
@@ -156,16 +184,27 @@
 
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../bootstrap/js/bootstrap-table.min.js"></script>
+<script src="../bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
 <script src="../js/moment.js"></script>
 
 <script th:inline="javascript">
 	$(function() {
 		// 查询绑定点击事件
 		$("#query").click(function() {
-			doAjax();
+			//doAjax();
+			findCampusAccess();
 		})
 	})
 
+	// 查询出入校园记录信息
+	function findCampusAccess(){
+		var fullName = $("#fullName").val();
+		var state = $("#state").val();
+		var recordDate = $("#recordDate").val();
+    	window.location.href = "../campus/findRecords?fullName="+fullName+"&state="+state+"&recordDate="+recordDate;
+    }
+	
 	// 利用Ajax实现分页
 	function doAjax() {
 		var fullName = $("#fullName").val();
@@ -249,6 +288,22 @@
 		}
 		remarks.innerText = accessRecord.remarks;
 	}
+</script>
+
+<script type="text/javascript">
+	//实现表格分页
+	$("#dataList").bootstrapTable({
+		striped: true,//是否显示行间隔色
+        cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+		pageNumber : 1, //首页页码
+		pagination : true, //是否显示分页条
+		pageSize : 5, //默认一页显示的行数
+		paginationLoop : false, //是否开启分页条无限循环，最后一页时点击下一页是否转到第一页
+		pageList : [ 5, 10, 20 ], //选择每页显示多少行
+		search : false, //启用关键字搜索框
+		sortable : true// 是否启用排序
+
+	});
 </script>
 
 </html>

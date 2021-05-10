@@ -6,12 +6,21 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>编辑账号信息</title>
-<!-- Tell the browser to be responsive to screen width -->
 <meta
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 
+<style type="text/css">
+.body1 {
+	background-color: #ECF0F5;
+}
+</style>
+
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
 <link rel="stylesheet"
 	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
@@ -19,82 +28,70 @@
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 
-
 </head>
 
-<body class="hold-transition skin-red sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini body1">
+
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>用户管理</li>
+			<li>账号信息管理</li>
+			<li class="active">编辑账号</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
 
 	<!-- 正文区域 -->
 	<section class="content">
 
-		<div class="box-body">
+		<div class="col-md-6">
 
 			<!--tab页-->
-			<div class="nav-tabs-custom">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">编辑账号</h3>
+				</div>
 
-				<!--tab头-->
-				<ul class="nav nav-tabs">
-
-					<li class="active"><a href="#home" data-toggle="tab">编辑账号</a>
-					</li>
-				</ul>
-				<!--tab头/-->
-
-				<!--tab内容-->
-				<div class="tab-content">
-
-					<!--表单内容-->
-					<div class="tab-pane active" id="home">
-						<div class="row data-type">
-							<form action="../user/accountEdit" method="post" th:onsubmit="'return verify();'">
-								<input type="hidden" id="userId" name="userId"
-									class="form-control" placeholder="用户编号"
-									th:value="${user.userId}">
-
-								<div class="col-md-2 title">编号</div>
-								<div class="col-md-10 data">
-									<input type="text" id="campusId" name="campusId"
-										class="form-control" placeholder="编号"
-										th:value="${user.campusId}" maxlength="12" readonly="readonly">
-								</div>
-
-								<div class="col-md-2 title">用户名</div>
-								<div class="col-md-6 data">
-									<input type="text" id="username" name="username"
-										class="form-control" placeholder="用户名"
-										th:value="${user.username}" required="required">
-								</div>
-								<div class="col-md-4 data">
-									<span id="usernameCheck"></span>
-								</div>
-
-								<div class="col-md-2 title">密码</div>
-								<div class="col-md-10 data">
-									<input type="text" id="userPassword" name="userPassword"
-										class="form-control" placeholder="密码"
-										th:value="${user.userPassword}" required="required">
-								</div>
-
-								<div class="btn-toolbar list-toolbar">
-									<button type="submit" class="btn btn-primary">修 改</button>
-									&nbsp;&nbsp;
-									<button type="reset" class="btn btn-danger">重 置</button>
-								</div>
-							</form>
+				<form action="../user/accountEdit" role="form" method="post"
+					th:onsubmit="'return verify();'">
+					<input type="hidden" id="userId" name="userId" class="form-control"
+						placeholder="用户编号" th:value="${user.userId}">
+					<div class="box-body">
+						<div class="form-group col-sm-9">
+							<label for="campusId">账号（校内编号）</label> <input type="text"
+								class="form-control" id="campusId" name="campusId"
+								th:value="${user.campusId}" maxlength="12" readonly="readonly">
+						</div>
+						<div class="form-group col-sm-9">
+							<label for="username">用户名</label> <input type="text"
+								class="form-control" id="username" name="username"
+								th:value="${user.username}" required="required"> <label
+								class="control-label" for="username"><span
+								id="usernameCheck"></span></label>
+						</div>
+						<div class="form-group col-sm-9">
+							<label for="userPassword">密码</label> <input type="text"
+								class="form-control" id="userPassword" name="userPassword"
+								th:value="${user.userPassword}" required="required">
 						</div>
 					</div>
 
-
-				</div>
-				<!--tab内容/-->
-				<!--表单内容/-->
+					<div class="box-footer">
+						<button type="submit" class="btn btn-primary">修 改</button>
+						&nbsp;&nbsp;
+						<button type="reset" class="btn btn-danger">重 置</button>
+					</div>
+				</form>
 
 			</div>
 
-
-
 		</div>
-
 
 	</section>
 	<!-- 正文区域 /-->
@@ -118,18 +115,20 @@
 <script type="text/javascript">
 	var flag = 0;
 	$(function() {
-		
+
 		// 使用Ajax异步获取后台用户账号注册情况
 		$("#username").keyup(function() {
 			var username = this.value;
 			// get的方式向后台发送请求，第一个参数为发送的地址，第二个参数为发送的数据，function表示执行成功返回的数据
 			$.ajax({
-				url: "../user/nameCheack",
-				type: "post",
-				data: {"username":username},
-				dataType: "json",
-				
-				success: function(num) {
+				url : "../user/nameCheack",
+				type : "post",
+				data : {
+					"username" : username
+				},
+				dataType : "json",
+
+				success : function(num) {
 					if (num == "2") {
 						$("#usernameCheck").html("<span style='color: red;'>用户名已存在！</span>");
 						flag = 0;
@@ -142,7 +141,7 @@
 		});
 
 	})
-	
+
 	// form表单提交时先进行判断
 	function verify() {
 		if (flag == 0) {

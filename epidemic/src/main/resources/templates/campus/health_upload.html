@@ -7,7 +7,18 @@
 <meta
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
+
+<style type="text/css">
+.body1 {
+	background-color: #ECF0F5;
+}
+</style>
+
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
 <link rel="stylesheet"
 	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
@@ -15,108 +26,110 @@
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 
-
 </head>
-<body class="hold-transition skin-red sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini body1">
+	
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>体温行程信息管理</li>
+			<li class="active">体温行程填报</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
+	
 	<!-- 正文区域 -->
 	<section class="content">
-		<form action="../campus/healthUpload" method="post">
-			<div class="box-body">
-
-				<!--tab页-->
-				<div class="nav-tabs-custom">
-
-					<!--tab头-->
-					<ul class="nav nav-tabs">
-
-						<li class="active"><a href="#home" data-toggle="tab">体温行程填报</a>
-						</li>
-					</ul>
-					<!--tab头/-->
-
-					<!--tab内容-->
-					<div class="tab-content">
-
-						<!--表单内容-->
-						<div class="tab-pane active" id="home">
-							<div class="row data-type">
-
-								<div class="col-md-2 title">编号</div>
-								<div class="col-md-10 data">
-									<input type="text" id="campusId" name="campusId"
-										readonly="readonly" class="form-control"
-										th:value="${userInfo.campusId}">
-								</div>
-
-								<div class="col-md-2 title">姓名</div>
-								<div class="col-md-10 data">
-									<input type="text" id="campusId" name="campusId"
-										readonly="readonly" class="form-control"
-										th:value="${userInfo.fullName}">
-								</div>
-
-								<div class="col-md-2 title">身体状况</div>
-								<div class="col-md-10 data">
-									<input type="text" id="physicalCondition" required="required"
-										name="physicalCondition" class="form-control" placeholder="良好">
-								</div>
-
-								<div class="col-md-2 title">近14天的行程记录</div>
-								<div class="col-md-10 data">
-									<input type="text" id="itineraryRecords"
-										name="itineraryRecords" class="form-control"
-										placeholder="近14天的行程记录" required="required">
-								</div>
-
-								<div class="col-md-2 title">是否已经返校</div>
-								<div class="col-md-10 data">
-									<select id="returnedToSchool" name="returnedToSchool"
-										class="form-control">
-										<option value="y" selected="selected">是</option>
-										<option value="n">否</option>
-								</div>
-
-								<div class="col-md-2 title">当前所在地</div>
-								<div class="col-md-10 data">
-									<input type="text" id="currentAddress" name="currentAddress"
-										class="form-control" placeholder="当前所在地" required="required">
-								</div>
-
-								<div class="col-md-2 title">今日体温（℃）</div>
-								<div class="col-md-10 data">
-									<input type="number" id="temperature" name="temperature"
-										min="30" max="45" step="0.1" class="form-control"
-										placeholder="今日体温" required="required">
-								</div>
-
-								<div class="col-md-2 title">备注</div>
-								<div class="col-md-10 data">
-									<input type="text" id="remarks" name="remarks"
-										class="form-control" placeholder="备注">
-								</div>
-
-
-							</div>
-						</div>
-
-
-					</div>
-					<!--tab内容/-->
-					<!--表单内容/-->
-
+		<div class="col-md-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">体温行程填报</h3>
 				</div>
 
+				<form action="../campus/healthUpload" class="form-horizontal"
+					method="post">
+					<div class="box-body">
+						<div class="form-group">
+							<label for="campusId" class="col-sm-2 control-label">编号</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="campusId"
+									name="campusId" th:value="${userInfo.campusId}"
+									readonly="readonly">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="fullName" class="col-sm-2 control-label">姓名</label>
+							<div class="col-sm-6">
+								<input type="text" id="fullName" name="fullName"
+									readonly="readonly" class="form-control"
+									th:value="${userInfo.fullName}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="physicalCondition" class="col-sm-2 control-label">身体状况</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="physicalCondition"
+									name="physicalCondition" placeholder="良好" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="itineraryRecords" class="col-sm-2 control-label">近14天的行程记录</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="itineraryRecords"
+									name="itineraryRecords" placeholder="近14天的行程记录"
+									required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="returnedToSchool" class="col-sm-2 control-label">是否已经返校</label>
+							<div class="col-sm-6">
+								<select id="returnedToSchool" name="returnedToSchool"
+									class="form-control" onchange="setClass(this);">
+									<option value="y" selected="selected">是</option>
+									<option value="n">否</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="currentAddress" class="col-sm-2 control-label">当前所在地</label>
+							<div class="col-sm-6">
+								<input type="text" id="currentAddress" name="currentAddress"
+									class="form-control" placeholder="当前所在地" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="temperature" class="col-sm-2 control-label">今日体温（℃）</label>
+							<div class="col-sm-6">
+								<input type="number" id="temperature" name="temperature"
+									min="30" max="45" step="0.1" class="form-control"
+									placeholder="今日体温" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="remarks" class="col-sm-2 control-label">备注</label>
+							<div class="col-sm-6">
+								<input type="text" id="remarks" name="remarks"
+									class="form-control" placeholder="备注">
+							</div>
+						</div>
+					</div>
+
+					<div class="box-footer">
+						<button type="submit" id="sub" class="btn btn-primary">保
+							存</button>
+						&nbsp;&nbsp;
+						<button type="reset" id="res" class="btn btn-danger">清 空</button>
+					</div>
+				</form>
 
 			</div>
-			<div class="btn-toolbar list-toolbar">
-				<button type="submit" id="sub" class="btn btn-primary">
-					<i class="fa fa-save"></i>保 存
-				</button>
-				<button type="reset" id="res" class="btn btn-danger">
-					<i class="fa fa-save"></i>清 空
-				</button>
-			</div>
-		</form>
+
+		</div>
 	</section>
 	<!-- 正文区域 /-->
 

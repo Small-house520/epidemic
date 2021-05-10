@@ -2,9 +2,7 @@ package cn.edu.dgut.epidemic.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.edu.dgut.epidemic.pojo.CampusUserInfo;
 import cn.edu.dgut.epidemic.pojo.CustomUser;
@@ -71,13 +68,29 @@ public class VolunteerController {
 		List<CampusUserInfo> userInfos = this.userService.findUserByIds(ids);
 		model.addAttribute("userInfo", userInfos);
 		model.addAttribute("volunteerInfo", list);
+		model.addAttribute("volunteer", null);
 		return "volunteer/volunteer_activities";
 	}
 
 	// 根据条件查询志愿活动信息
+	// @RequestMapping("/findActivities")
+	// @ResponseBody
+	// public Map<String, Object> findActivities(VolunteerService volunteerInfo) {
+	// List<VolunteerService> list =
+	// this.volunteersService.getActivities(volunteerInfo);
+	// // 根据id获取活动发起者个人信息
+	// List<String> ids = new ArrayList<String>();
+	// for (VolunteerService volunteerService : list) {
+	// ids.add(volunteerService.getCampusId());
+	// }
+	// List<CampusUserInfo> userInfos = this.userService.findUserByIds(ids);
+	// Map<String, Object> map = new HashMap<String, Object>();
+	// map.put("userInfo", userInfos);
+	// map.put("volunteerInfo", list);
+	// return map;
+	// }
 	@RequestMapping("/findActivities")
-	@ResponseBody
-	public Map<String, Object> findActivities(VolunteerService volunteerInfo) {
+	public String findActivities(VolunteerService volunteerInfo, Model model) {
 		List<VolunteerService> list = this.volunteersService.getActivities(volunteerInfo);
 		// 根据id获取活动发起者个人信息
 		List<String> ids = new ArrayList<String>();
@@ -85,10 +98,10 @@ public class VolunteerController {
 			ids.add(volunteerService.getCampusId());
 		}
 		List<CampusUserInfo> userInfos = this.userService.findUserByIds(ids);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("userInfo", userInfos);
-		map.put("volunteerInfo", list);
-		return map;
+		model.addAttribute("userInfo", userInfos);
+		model.addAttribute("volunteerInfo", list);
+		model.addAttribute("volunteer", volunteerInfo);
+		return "volunteer/volunteer_activities";
 	}
 
 	// 根据志愿活动id查询该活动的报名情况
@@ -116,13 +129,49 @@ public class VolunteerController {
 		}
 
 		model.addAttribute("enrollDetails", enrollDetails);
+		model.addAttribute("volunteerServiceId", volunteerServiceId);
+		model.addAttribute("volunteer", null);
 		return "volunteer/volunteer_enroll";
 	}
 
 	// 根据条件查询志愿活动报名信息
+	// @RequestMapping("/findEnrollDetails")
+	// @ResponseBody
+	// public Map<String, Object> findEnrollDetails(VolunteerEnroll enrollInfo) {
+	// List<VolunteerEnroll> list =
+	// this.volunteersService.findEnrollDetails(enrollInfo);
+	// // 根据id获取活动发起者个人信息
+	// List<String> ids = new ArrayList<String>();
+	// if (list != null && list.size() > 0) {
+	// for (VolunteerEnroll volunteerEnroll : list) {
+	// ids.add(volunteerEnroll.getCampusId());
+	// }
+	// }
+	// List<CampusUserInfo> userInfos = this.userService.findUserByIds(ids);
+	//
+	// List<VolunteerEnrollDetail> enrollDetails = new
+	// ArrayList<VolunteerEnrollDetail>();
+	// if (userInfos != null && userInfos.size() > 0) {
+	// for (CampusUserInfo userInfo : userInfos) {
+	// VolunteerEnrollDetail enrollDetail = new VolunteerEnrollDetail();
+	// for (VolunteerEnroll volunteerEnroll : list) {
+	// if (userInfo.getCampusId().equals(volunteerEnroll.getCampusId())) {
+	// enrollDetail.setUserInfo(userInfo);
+	// enrollDetail.setVolunteerEnroll(volunteerEnroll);
+	// enrollDetails.add(enrollDetail);
+	// break;
+	// }
+	// }
+	// }
+	// }
+	//
+	// Map<String, Object> map = new HashMap<String, Object>();
+	// map.put("enrollDetails", enrollDetails);
+	// map.put("enrollInfo", enrollInfo);
+	// return map;
+	// }
 	@RequestMapping("/findEnrollDetails")
-	@ResponseBody
-	public Map<String, Object> findEnrollDetails(VolunteerEnroll enrollInfo) {
+	public String findEnrollDetails(VolunteerEnroll enrollInfo, Model model) {
 		List<VolunteerEnroll> list = this.volunteersService.findEnrollDetails(enrollInfo);
 		// 根据id获取活动发起者个人信息
 		List<String> ids = new ArrayList<String>();
@@ -148,10 +197,10 @@ public class VolunteerController {
 			}
 		}
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("enrollDetails", enrollDetails);
-		map.put("enrollInfo", enrollInfo);
-		return map;
+		model.addAttribute("enrollDetails", enrollDetails);
+		model.addAttribute("volunteerServiceId", enrollInfo.getVolunteerServiceId());
+		model.addAttribute("enrollInfo", enrollInfo);
+		return "volunteer/volunteer_enroll";
 	}
 
 	// 把报名志愿者名单到处excel

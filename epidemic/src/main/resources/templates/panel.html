@@ -1,167 +1,675 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- 页面meta -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>后台管理系统</title>
-<meta
-	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 
-<link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="plugins/adminLTE/css/AdminLTE.css">
-<link rel="stylesheet"
-	href="plugins/adminLTE/css/skins/_all-skins.min.css">
+<style type="text/css">
+.body1 {
+	background-color: #ECF0F5;
+}
+
+#myMap,#myBar,#myLine {
+	background-color: #F8F9FA;
+}
+
+.content2 {
+	display: none;
+}
+
+.btn.active {
+	background-color: #10AEB5;
+	color: white;
+}
+
+.content2.show {
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+	display: block;
+}
+
+.contentDiv {
+	background-color: #F8F9FA;
+	padding: 6px;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+
+</style>
+
+<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+<link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="bower_components/morris.js/morris.css">
+<link rel="stylesheet" href="bower_components/jvectormap/jquery-jvectormap.css">
+<link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 <link rel="stylesheet" href="css/style.css">
-<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
-<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini body1">
+	
+		<section class="content-header">
+			<h1>
+				疫情信息 <small></small>
+			</h1>
+			<ol class="breadcrumb">
+				<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+				<i class="fa fa-home"></i>&nbsp;&nbsp;首页
+			</ol>
+		</section>
 
-	<!-- 内容头部 -->
-	<section class="content-header">
-		<h1>
-			控制面板 <small>首页</small>
-		</h1>
-		<ol class="breadcrumb">
-			<li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li>
-		</ol>
-	</section>
-	<!-- 内容头部 /-->
+		<section class="content">
 
-	<!-- 正文区域 -->
-	<section class="content">
+			<div class="row">
+				<div class="col-lg-2 col-xs-4">
+					<div class="small-box bg-aqua">
+						<div class="inner">
+							<h3 id="h3_1">150</h3>
 
-		<!-- 统计数值 -->
-		<div class="row">
-			<div class="col-lg-2 col-xs-4">
-				<div class="small-box bg-aqua">
-					<div class="inner">
-						<h3 id="h3_1">150</h3>
-
-						<p>现存确诊</p>
-					</div>
-					<div class="icon">
-						<i class="ion ion-bag"></i>
-					</div>
-					<!-- <a href="all-order-manage-list.html" class="small-box-footer">详细
+							<p>现存确诊</p>
+						</div>
+						<div class="icon">
+							<i class="fa fa-user-md"></i>
+						</div>
+						<!-- <a href="all-order-manage-list.html" class="small-box-footer">详细
 						<i class="fa fa-arrow-circle-right"></i>
 					</a> -->
+					</div>
 				</div>
-			</div>
-			<div class="col-lg-2 col-xs-4">
-				<div class="small-box bg-green">
-					<div class="inner">
-						<h3 id="h3_2">53</h3>
+				<div class="col-lg-2 col-xs-4">
+					<div class="small-box bg-light-blue">
+						<div class="inner">
+							<h3 id="h3_2">53</h3>
 
-						<p>累计确诊</p>
-					</div>
-					<div class="icon">
-						<i class="ion ion-stats-bars"></i>
-					</div>
-					<!-- <a href="all-ad-statistics-list.html" class="small-box-footer">详细
+							<p>累计确诊</p>
+						</div>
+						<div class="icon">
+							<i class="ion ion-stats-bars"></i>
+						</div>
+						<!-- <a href="all-ad-statistics-list.html" class="small-box-footer">详细
 						<i class="fa fa-arrow-circle-right"></i>
 					</a> -->
+					</div>
 				</div>
-			</div>
-			<div class="col-lg-2 col-xs-4">
-				<div class="small-box bg-yellow">
-					<div class="inner">
-						<h3 id="h3_3">44</h3>
+				<div class="col-lg-2 col-xs-4">
+					<div class="small-box bg-yellow">
+						<div class="inner">
+							<h3 id="h3_3">44</h3>
 
-						<p>境外输入</p>
-					</div>
-					<div class="icon">
-						<i class="ion ion-person-add"></i>
-					</div>
-					<!-- <a href="all-member-manage-list.html" class="small-box-footer">详细
+							<p>境外输入</p>
+						</div>
+						<div class="icon">
+							<i class="ion ion-person-add"></i>
+						</div>
+						<!-- <a href="all-member-manage-list.html" class="small-box-footer">详细
 						<i class="fa fa-arrow-circle-right"></i>
 					</a> -->
+					</div>
 				</div>
-			</div>
-			<div class="col-lg-2 col-xs-4">
-				<div class="small-box bg-red">
-					<div class="inner">
-						<h3 id="h3_4">65</h3>
+				<div class="col-lg-2 col-xs-4">
+					<div class="small-box bg-maroon">
+						<div class="inner">
+							<h3 id="h3_4">65</h3>
 
-						<p>现存无症状</p>
-					</div>
-					<div class="icon">
-						<i class="ion ion-pie-graph"></i>
-					</div>
-					<!-- <a href="all-ad-statistics-list.html" class="small-box-footer">详细
+							<p>现存无症状</p>
+						</div>
+						<div class="icon">
+							<i class="fa fa-stethoscope"></i>
+						</div>
+						<!-- <a href="all-ad-statistics-list.html" class="small-box-footer">详细
 						<i class="fa fa-arrow-circle-right"></i>
 					</a> -->
+					</div>
 				</div>
-			</div>
-			<div class="col-lg-2 col-xs-4">
-				<div class="small-box bg-red">
-					<div class="inner">
-						<h3 id="h3_5">65</h3>
+				<div class="col-lg-2 col-xs-4">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3 id="h3_5">65</h3>
 
-						<p>累计治愈</p>
-					</div>
-					<div class="icon">
-						<i class="ion ion-pie-graph"></i>
-					</div>
-					<!-- <a href="all-ad-statistics-list.html" class="small-box-footer">详细
+							<p>累计治愈</p>
+						</div>
+						<div class="icon">
+							<i class="fa fa-heart"></i>
+						</div>
+						<!-- <a href="all-ad-statistics-list.html" class="small-box-footer">详细
 						<i class="fa fa-arrow-circle-right"></i>
 					</a> -->
+					</div>
 				</div>
-			</div>
-			<div class="col-lg-2 col-xs-4">
-				<div class="small-box bg-red">
-					<div class="inner">
-						<h3 id="h3_6">65</h3>
+				<div class="col-lg-2 col-xs-4">
+					<div class="small-box bg-red">
+						<div class="inner">
+							<h3 id="h3_6">65</h3>
 
-						<p>累计死亡</p>
-					</div>
-					<div class="icon">
-						<i class="ion ion-pie-graph"></i>
-					</div>
-					<!-- <a href="all-ad-statistics-list.html" class="small-box-footer">详细
+							<p>累计死亡</p>
+						</div>
+						<div class="icon">
+							<i class="fa fa-heartbeat"></i>
+						</div>
+						<!-- <a href="all-ad-statistics-list.html" class="small-box-footer">详细
 						<i class="fa fa-arrow-circle-right"></i>
 					</a> -->
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-	<!-- 正文区域 /-->
+
+			<div class="row">
+				<section class="col-lg-6 connectedSortable ui-sortable">
+					<div class="box box-warning">
+						<div id="myMap" style="height: 660px;"></div>
+					</div>
+					<div class="box box-primary">
+						<div>
+							<span style="font-size: 18px; font-weight: bold;">国内各地区疫情统计汇总</span>
+						</div>
+						<br />
+						<div class="slimScrollDiv" style="position: relative; height: 800px; overflow: hidden; padding: 6px;">
+							<table class="table table-hover table-bordered table-striped" 
+								style="text-align: center;">
+								<thead>
+									<tr>
+										<th>地区</th>
+										<th>现存确诊</th>
+										<th>累计确诊</th>
+										<th>累计治愈</th>
+										<th>累计死亡</th>
+									</tr>
+								</thead>
+								<tbody id="tbody3"></tbody>
+							</table>
+						</div>
+					</div>
+				</section>
+
+				<section class="col-lg-6 connectedSortable ui-sortable">
+					<div class="box box-danger">
+						<div id="myBar" style="height: 500px;"></div>
+					</div>
+					<div class="box box-success">
+						<div id="myLine" style="height: 500px;"></div>
+					</div>
+					<div class="box box-info">
+						<div>
+							<p class="btn1">
+								<button class="btn active">患者症状</button>
+								<button class="btn">疫情防控</button>
+								<button class="btn">疫情焦点</button>
+							</p>
+						</div>
+						<!-- 感染者症状 -->
+						<div class="content2 show">
+							<div class="contentDiv">
+								<ul class="timeline" id="timeline1"></ul>
+							</div>
+						</div>
+						<!-- 疫情防控知识 -->
+						<div class="content2">
+							<div class="contentDiv">
+								<ul class="timeline" id="timeline2"></ul>
+							</div>
+						</div>
+						<!-- 防疫焦点资讯 -->
+						<div class="content2">
+							<div class="contentDiv">
+								<ul class="timeline" id="timeline3"></ul>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</section>
 
 </body>
 
+<script type="text/javascript" src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="bower_components/raphael/raphael.min.js"></script>
+<script type="text/javascript" src="bower_components/morris.js/morris.min.js"></script>
+<script type="text/javascript" src="bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+<script type="text/javascript" src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script type="text/javascript" src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script type="text/javascript" src="bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
+<script type="text/javascript" src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script type="text/javascript" src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" src="bower_components/fastclick/lib/fastclick.js"></script>
+<script type="text/javascript" src="dist/js/adminlte.min.js"></script>
+<script type="text/javascript" src="echarts/echarts.js"></script>
+<script type="text/javascript" src="js/moment.js"></script>
+
 <script type="text/javascript">
-	$(function(){
+	$(function() {
+		// 获取国内疫情数据
 		$.ajax({
 			url : "epidemicData/domesticEpidemic",
 			type : "get",
 			data : {},
 			dataType : "json",
-			success : function(resp){
-				if(resp!=null){
+			success : function(resp) {
+				if (resp != null) {
 					fillContent(resp);
 				}
 			}
 		})
+		
+		//中国地图显示疫情严重程度
+		var myMap = echarts.init($("#myMap").get(0));
+		//获取地图json数据，显示中国地图
+		$.getJSON("echarts/china.json", {}, function(chinaJson) {
+			echarts.registerMap("china", chinaJson);
+			var option = {
+				title : {
+					text : "全国疫情分布图"
+				},
+				legend : {
+					data : [ "现有确诊" ]
+				},
+				tooltip : {},
+				visualMap : {
+					type : 'piecewise',
+					min : 0,
+					max : 10000,
+					splitList : [ {
+						start : 10000,
+					}, {
+						start : 1000,
+						end : 10000
+					}, {
+						start : 500,
+						end : 999
+					}, {
+						start : 100,
+						end : 499
+					}, {
+						start : 10,
+						end : 99
+					}, {
+						start : 1,
+						end : 9
+					}, {
+						start : 0,
+						end : 0
+					} ],
+					textStyle : {
+						color : 'orange'
+					}
+				},
+				series : [ 
+					{
+						name : '现有确诊',
+						type : 'map',
+						mapType : 'china',
+						showLegendSymbol : false,
+						label: {
+			                normal: {
+			                    show: true
+			                },
+			                emphasis: {
+			                    show: true
+			                }
+			            },
+						data : []
+					}
+				]
+			};
+			myMap.setOption(option);
+		}, "json");
+		
+		//将数据填充到地图中
+		var fillToMap = function(list) {
+			var data = [];
+			$.each(list, function(index, provinceEpidemicDetail) {
+				var obj = {};
+				obj.name = provinceEpidemicDetail.province.provinceName;//省份名称
+				obj.value = provinceEpidemicDetail.provinceEpidemic.existingDiagnosis;//现存确诊
+				data.push(obj);
+			});
+			myMap.setOption({
+				title : {
+					text : "全国疫情地图"
+				},
+				series : [ 
+					{
+						name : '现有确诊',
+						type : 'map',
+						mapType : 'china',
+						data : data
+					}
+				]
+			});
+		};
+		
+		//柱状图显示新增确诊人数较多的几个省份
+		//初始化图表
+		var myBar = echarts.init($("#myBar").get(0));
+		var option = {
+			title : {
+				text : "现存确诊省份 Top10",
+				subtext : '单位：例'
+			},
+			grid : {
+				show : true
+			},
+			legend : {
+				/* data : [ "2020-02-28" ] */
+			},
+			tooltip : {
+				trigger : 'axis'
+			},
+			xAxis : {
+				data : []
+			},
+			yAxis : {},
+			series : [ {
+				type : 'bar',
+				barWidth : 30,
+				/* name : '2020-02-28', */
+				data : []
+			} ]
+		};
+		myBar.setOption(option);
+		//将服务器端返回的数据设置到图表上
+		var fillToBar = function(list) {
+			var provinceNames = [];
+			var existingDiagnosis = [];
+			$.each(list, function(index, provinceEpidemicDetail) {
+				provinceNames.push(provinceEpidemicDetail.province.provinceName);
+				existingDiagnosis.push(provinceEpidemicDetail.provinceEpidemic.existingDiagnosis);
+			});
+			myBar.setOption({
+				xAxis : {
+					data : provinceNames
+				},
+				series : [ {
+					data : existingDiagnosis
+				} ]
+			});
+		};
+		
+		//折线图反映疫情走势信息
+		//初始化图表
+		var myLine = echarts.init($("#myLine").get(0));
+		var option = {
+			title: {
+		        text: '全国疫情走势'
+		    },
+		    tooltip: {
+		        trigger: 'axis'
+		    },
+		    legend: {
+		        data: ['现存确诊', '累计确诊', '累计治愈', '累计死亡']
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: []
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+			series : [ 
+				{
+					name : '现存确诊',
+					data: [],
+			        type: 'line'
+				},
+				{
+					name : '累计确诊',
+					data: [],
+			        type: 'line'
+				},
+				{
+					name : '累计治愈',
+					data: [],
+			        type: 'line'
+				},
+				{
+					name : '累计死亡',
+					data: [],
+			        type: 'line'
+				} 
+			]
+		};
+		myLine.setOption(option);
+		//将服务器端返回的数据设置到图表上
+		var fillToLine = function(list) {
+			var datatime = [];
+			var existingDiagnosis = [];
+			var cumulativeDiagnosis = [];
+			var cumulativeCure = [];
+			var cumulativeDeath = [];
+			$.each(list, function(index, domesticEpidemic) {
+				datatime.push(moment(domesticEpidemic.updateTime).format("MM-DD"));
+				existingDiagnosis.push(domesticEpidemic.existingDiagnosis);
+				cumulativeDiagnosis.push(domesticEpidemic.cumulativeDiagnosis);
+				cumulativeCure.push(domesticEpidemic.cumulativeCure);
+				cumulativeDeath.push(domesticEpidemic.cumulativeDeath);
+			});
+			myLine.setOption({
+				xAxis: {
+			        data: datatime
+			    },
+				series : [ 
+					{
+						data : existingDiagnosis
+					},
+					{
+						data : cumulativeDiagnosis
+					},
+					{
+						data : cumulativeCure
+					},
+					{
+						data : cumulativeDeath
+					}
+				]
+			});
+		};
+		
+		//各省份疫情信息汇总表
+		//定义个用来给表格中装载数据的函数
+		var fillToProvinceTable = function(provinceEpidemic) {
+			var tbody3 = $("#tbody3");
+			tbody3.empty(); //清空
+			var count = 0;
+			$.each(provinceEpidemic, function(index, epidemic) {
+				count += 1;
+				var tr = $("<tr onclick='getCityEpidemic("+epidemic.province.provinceId+","+epidemic.provinceEpidemic.updateTime+")'>");
+				var td = $("<td>");
+				td.text(epidemic.province.provinceName);
+				tr.append(td);
+
+				td = $("<td>");
+				td.html("" + epidemic.provinceEpidemic.existingDiagnosis);
+				tr.append(td);
+
+				td = $("<td>");
+				td.html("" + epidemic.provinceEpidemic.cumulativeDiagnosis);
+				tr.append(td);
+
+				td = $("<td>");
+				td.html("" + epidemic.provinceEpidemic.cumulativeDeath);
+				tr.append(td);
+
+				td = $("<td>");
+				td.html("" + epidemic.provinceEpidemic.cumulativeCure);
+				tr.append(td);
+				
+				td = $("<tr id='province_'"+count+">");
+				tr.append(td);
+
+				tbody3.append(tr);
+			});
+		};
+		
+		
+		<!-- 疫情科普模块 -->
+		<!-- 感染者症状 -->
+        $.ajax({
+            url : "epidemicData/epidemicInfo?flag=1",
+            type : "get",
+            dataType : "json",
+            success : function(epidemicInfo) {
+            	var timeline1 = $("#timeline1");
+            	timeline1.empty(); //清空
+            	var li = "";
+    			$.each(epidemicInfo, function(index, epidemic) {
+    				li += "<li class='time-label'>";
+    				li += "<i class='fa fa-envelope bg-blue'></i>";
+    				li += "<div class='timeline-item'>";
+    				li += "<span class='time'><i class='fa fa-clock-o'></i>";
+    				if(epidemic.releaseTime!=null && epidemic.releaseTime != ""){
+    					li += moment(epidemic.releaseTime).format("YYYY-MM-DD HH:mm");
+    				}
+    				li += "</span><h4 class='timeline-header'>";
+    				li += "<a href='#'>" + epidemic.title + "</a>";
+    				li += "</h4></div></li>";
+
+    			});
+    			timeline1.html(li);
+
+            },
+            error: function (data) {
+                 alert("获取异常！");
+             }  
+        })
+
+		<!-- 疫情防控知识 -->
+        $.ajax({
+            url : "epidemicData/epidemicInfo?flag=2",
+            type : "get",
+            dataType : "json",
+            success : function(epidemicInfo) {
+            	var timeline2 = $("#timeline2");
+            	timeline2.empty(); //清空
+            	var li = "";
+    			$.each(epidemicInfo, function(index, epidemic) {
+    				li += "<li class='time-label'>";
+    				li += "<i class='fa fa-envelope bg-blue'></i>";
+    				li += "<div class='timeline-item'>";
+    				li += "<span class='time'><i class='fa fa-clock-o'></i>";
+    				if(epidemic.releaseTime!=null && epidemic.releaseTime != ""){
+    					li += moment(epidemic.releaseTime).format("YYYY-MM-DD HH:mm");
+    				}
+    				li += "</span><h4 class='timeline-header'>";
+    				li += "<a href='#'>" + epidemic.title + "</a>";
+    				li += "</h4></div></li>";
+
+    			});
+    			timeline2.html(li);
+
+            },
+            error: function (data) {
+                 alert("获取异常！");
+             }  
+        })
+        
+		<!-- 防疫焦点资讯 -->
+        $.ajax({
+            url : "epidemicData/epidemicInfo?flag=3",
+            type : "get",
+            dataType : "json",
+            success : function(epidemicInfo) {
+            	var timeline3 = $("#timeline3");
+            	timeline3.empty(); //清空
+            	var li = "";
+    			$.each(epidemicInfo, function(index, epidemic) {
+    				li += "<li class='time-label'>";
+    				li += "<i class='fa fa-envelope bg-blue'></i>";
+    				li += "<div class='timeline-item'>";
+    				li += "<span class='time'><i class='fa fa-clock-o'></i>";
+    				if(epidemic.releaseTime!=null && epidemic.releaseTime != ""){
+    					li += moment(epidemic.releaseTime).format("YYYY-MM-DD HH:mm");
+    				}
+    				li += "</span><h4 class='timeline-header'>";
+    				li += "<a href='#'>" + epidemic.title + "</a>";
+    				li += "</h4></div></li>";
+
+    			});
+    			timeline3.html(li);
+
+            },
+            error: function (data) {
+                 alert("获取异常！");
+             }  
+        })
+		
+		
+		$.get("epidemicData/findDomesticEpidemic", {}, function(resp) {
+			if (resp != null) {
+				fillToLine(resp);
+			}
+		}, "json");
+		
+		//发送请求获取各省份最新疫情数据
+		$.get("epidemicData/provinceEpidemic", {}, function(resp) {
+			if (resp != null) {
+				fillToMap(resp);
+				fillToProvinceTable(resp);
+			}
+		}, "json");
+		
+      	//发送请求获取各省份最新疫情数据（带条件）
+		$.get("epidemicData/findProvinceEpidemic", {}, function(resp) {
+			if (resp != null) {
+				fillToBar(resp);
+			}
+		}, "json");
 	})
-	
+
 	// 把获取到的数据填充到content
-	function fillContent(data){
+	function fillContent(data) {
 		var h3Id1 = document.getElementById("h3_1");
 		var h3Id2 = document.getElementById("h3_2");
 		var h3Id3 = document.getElementById("h3_3");
 		var h3Id4 = document.getElementById("h3_4");
 		var h3Id5 = document.getElementById("h3_5");
 		var h3Id6 = document.getElementById("h3_6");
-		
+
 		h3Id1.innerText = data.existingDiagnosis;
 		h3Id2.innerText = data.cumulativeDiagnosis;
 		h3Id3.innerText = data.overseasInput;
 		h3Id4.innerText = data.existingAsymptomatic;
 		h3Id5.innerText = data.cumulativeCure;
 		h3Id6.innerText = data.cumulativeDeath;
+	}
+</script>
+
+<script type="text/javascript">
+	//获取页面的每个按钮
+	var btns = document.getElementsByClassName("btn")
+	//获取内容盒子
+	var contents = document.getElementsByClassName("content2")
+	
+	//遍历每个按钮为其添加点击事件
+	for(var i=0;i<btns.length;i++){
+	    btns[i].index = i;
+	    btns[i].onclick = function(){
+	　		//对当前点击的按钮赋予active类名及显示当前按钮对应的内容
+	       for(var j=0;j<btns.length;j++){
+	           btns[j].className = btns[j].className.replace(' active', '').trim();
+	           contents[j].className = contents[j].className.replace(' show', '').trim();
+	       }
+	       this.className = this.className + ' active';
+	       contents[this.index].className = contents[this.index].className + ' show';
+	    };
 	}
 </script>
 

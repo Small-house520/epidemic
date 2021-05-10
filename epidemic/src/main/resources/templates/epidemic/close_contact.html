@@ -10,14 +10,34 @@
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
 <link rel="stylesheet"
 	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../bootstrap/css/bootstrap-table.min.css">
 <link rel="stylesheet" href="../css/style.css">
 
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
+	
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>校园疫情信息管理</li>
+			<li class="active">密切接触者管理</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
+	
 	<!-- .box-body -->
 	<div class="box-header with-border">
 		<h3 class="box-title">密切接触者列表</h3>
@@ -46,13 +66,26 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					编号：<input type="text" id="campusIdFind" name="campusId"
-						placeholder="编号" value="" maxlength="12"> 姓名：<input type="text"
-						id="fullName" name="fullName" placeholder="姓名" value="">
+					<span th:if="${contact==null}">编号：<input type="text" id="campusIdFind" name="campusId"
+						placeholder="编号" maxlength="12"> <span th:if="${fullName==null}">姓名：<input
+						type="text" id="fullName" name="fullName" placeholder="姓名"
+						></span><span th:if="${fullName!=null}">姓名：<input
+						type="text" id="fullName" name="fullName" placeholder="姓名"
+						th:value="${fullName}"></span>
 					接触来源：<input type="text" id="contactSourceFind" name="contactSource"
-						placeholder="接触来源" value=""> 隔离时间：<input type="date"
+						placeholder="接触来源"> 隔离时间：<input type="date"
 						id="isolationTimeFind" name="isolationTime" placeholder="隔离时间"
-						value="">
+						></span>
+					<span th:if="${contact!=null}">编号：<input type="text" id="campusIdFind" name="campusId"
+						placeholder="编号" th:value="${contact.campusId}" maxlength="12"> <span th:if="${fullName==null}">姓名：<input
+						type="text" id="fullName" name="fullName" placeholder="姓名"
+						></span><span th:if="${fullName!=null}">姓名：<input
+						type="text" id="fullName" name="fullName" placeholder="姓名"
+						th:value="${fullName}"></span>
+					接触来源：<input type="text" id="contactSourceFind" name="contactSource"
+						placeholder="接触来源" th:value="${contact.contactSource}"> 隔离时间：<input type="date"
+						id="isolationTimeFind" name="isolationTime" placeholder="隔离时间"
+						th:value="${#dates.format(contact.isolationTime,'yyyy-MM-dd')}"></span>
 					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
@@ -88,9 +121,9 @@
 							<button type="button" class="btn bg-olive btn-xs"
 								th:onclick="fillDetail([[${contact}]])" data-toggle="modal"
 								data-target="#detailModal">详情</button>
-							<button type="button" class="btn bg-olive btn-xs"
+							<button type="button" class="btn bg-olive btn-xs" th:onclick="fillCure([[${contact}]])"
 								data-toggle="modal" data-target="#cureModal">隔离结束</button>
-							<button type="button" class="btn bg-olive btn-xs"
+							<button type="button" class="btn bg-olive btn-xs" th:onclick="fillDiagnosis([[${contact}]])"
 								data-toggle="modal" data-target="#diagnosisModal">转为确诊</button>
 						</td>
 					</tr>
@@ -224,11 +257,133 @@
 		</div>
 	</div>
 
+	<!-- 隔离完成 -->
+	<div class="modal fade" id="cureModal" tabindex="-1" role="dialog"
+		aria-labelledby="addModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<form action="../campusEpidemic/isolateFinish" method="post"
+				onsubmit="return verify()">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h3 id="addModalLabel">隔离完成</h3>
+					</div>
+
+					<div class="modal-body">
+
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>编号</td>
+								<td><input type="text" id="campusId2" name="campusId"
+									class="form-control" placeholder="编号" maxlength="12"
+									readonly="readonly"></td>
+								<td><span id="campusIdCheck"></span></td>
+							</tr>
+							<tr>
+								<td>姓名</td>
+								<td><input type="text" id="fullName2" name="fullName"
+									class="form-control" placeholder="姓名" 
+									readonly="readonly"></td>
+							</tr>
+						</table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">确 定</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关 闭</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<!-- 转为确诊 -->
+	<div class="modal fade" id="diagnosisModal" tabindex="-1" role="dialog"
+		aria-labelledby="addModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<form action="../campusEpidemic/diagnosesAdd" method="post"
+				onsubmit="return verify()">
+				<input type="hidden" id="flag" name="flag"
+									value="3">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h3 id="addModalLabel">转为确诊</h3>
+					</div>
+
+					<div class="modal-body">
+
+						<table class="table table-bordered table-striped" width="800px">
+							<tr>
+								<td>编号</td>
+								<td><input type="text" id="campusId3" name="campusId"
+									class="form-control" placeholder="编号" maxlength="12"
+									readonly="readonly"></td>
+								<td><span id="campusIdCheck"></span></td>
+							</tr>
+							<tr>
+								<td>姓名</td>
+								<td><input type="text" id="fullName3" name="fullName"
+									class="form-control" placeholder="姓名" 
+									readonly="readonly"></td>
+							</tr>
+							<tr>
+								<td>症状</td>
+								<td><input type="text" id="symptoms" name="symptoms"
+									class="form-control" placeholder="症状" required="required"></td>
+							</tr>
+							<tr>
+								<td>是否重症</td>
+								<td><select id="whetherSevere" name="whetherSevere"
+									class="form-control">
+										<option value="y">是</option>
+										<option value="n" selected="selected">否</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td>诊治医院</td>
+								<td><input type="text" id="hospital" name="hospital"
+									required="required" class="form-control" placeholder="诊治医院"></td>
+							</tr>
+							<tr>
+								<td>确诊时间</td>
+								<td><input type="datetime-local" id="diagnosisTime"
+									name="diagnosisTime" class="form-control" required="required"></td>
+							</tr>
+							<tr>
+								<td>感染源</td>
+								<td><input type="text" id="sourceOfInfection"
+									name="sourceOfInfection" class="form-control"
+									placeholder="感染来源" required="required"></td>
+							</tr>
+							<tr>
+								<td>备注</td>
+								<td><input type="text" id="remarks" name="remarks"
+									class="form-control" placeholder="备注"></td>
+							</tr>
+						</table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">确 定</button>
+						<button class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">关 闭</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
 
 </body>
 
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../bootstrap/js/bootstrap-table.min.js"></script>
+<script src="../bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
 <script src="../js/moment.js"></script>
 
 <script type="text/javascript">
@@ -298,9 +453,19 @@
 	
 	// 查询绑定点击事件
    	$("#query").click(function(){
-	   	doAjax();
+	   	//doAjax();
+   		findContact();
    	})
    
+   	// 查询密切接触者信息
+	function findContact(){
+   		var campusId = $("#campusIdFind").val();
+		var fullName = $("#fullName").val();
+		var contactSource = $("#contactSourceFind").val();
+		var isolationTime = $("#isolationTimeFind").val();
+    	window.location.href = "../campusEpidemic/findContact?campusId="+campusId+"&fullName="+fullName+"&contactSource="+contactSource+"&isolationTime="+isolationTime;
+    }
+   	
    	// 利用Ajax实现分页
 	function doAjax(){
     	var campusId = $("#campusIdFind").val();
@@ -402,6 +567,55 @@
 		address.innerText = user.address;
 		
 	}
+	
+	//设置隔离完成表单的值
+	function fillCure(contact) {
+		// 获取用户信息
+		var userInfos = [[${userInfo}]];
+		// 匹配当前选中用户信息
+		var user = null;
+		for(var i=0; i<userInfos.length; i++){
+			if(contact.campusId == userInfos[i].campusId){
+				user = userInfos[i];
+			}
+		}
+		
+		$("#campusId2").val(contact.campusId);
+		$("#fullName2").val(user.fullName);
+	}
+	
+	//设置转为确诊表单的值
+	function fillDiagnosis(contact) {
+		// 获取用户信息
+		var userInfos = [[${userInfo}]];
+		// 匹配当前选中用户信息
+		var user = null;
+		for(var i=0; i<userInfos.length; i++){
+			if(contact.campusId == userInfos[i].campusId){
+				user = userInfos[i];
+			}
+		}
+		
+		$("#campusId3").val(contact.campusId);
+		$("#fullName3").val(user.fullName);
+	}
+	
+</script>
+
+<script type="text/javascript">
+	//实现表格分页
+	$("#dataList").bootstrapTable({
+		striped: true,//是否显示行间隔色
+        cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+		pageNumber : 1, //首页页码
+		pagination : true, //是否显示分页条
+		pageSize : 5, //默认一页显示的行数
+		paginationLoop : false, //是否开启分页条无限循环，最后一页时点击下一页是否转到第一页
+		pageList : [ 5, 10, 20 ], //选择每页显示多少行
+		search : false, //启用关键字搜索框
+		sortable : true// 是否启用排序
+
+	});
 </script>
 
 </html>

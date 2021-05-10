@@ -11,6 +11,12 @@
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 
+<style type="text/css">
+.body1 {
+	background-color: #ECF0F5;
+}
+</style>
+
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
 <link rel="stylesheet"
@@ -21,151 +27,158 @@
 
 </head>
 
-<body class="hold-transition skin-red sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini body1">
+
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>用户管理</li>
+			<li>用户信息管理</li>
+			<li class="active">添加用户</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
 
 	<!-- 正文区域 -->
 	<section class="content">
-		<form action="../user/userAdd" method="post" onsubmit="return verify()">
-			<div class="box-body">
 
-				<!--tab页-->
-				<div class="nav-tabs-custom">
-
-					<!--tab头-->
-					<ul class="nav nav-tabs">
-
-						<li class="active"><a href="#home" data-toggle="tab">添加用户</a>
-						</li>
-					</ul>
-					<!--tab头/-->
-
-
-					<!--tab内容-->
-					<div class="tab-content">
-
-						<!--表单内容-->
-						<div class="tab-pane active" id="home">
-							<div class="row data-type">
-
-								<div class="col-md-2 title">编号</div>
-								<div class="col-md-6 data">
-									<input type="text" id="campusId" name="campusId"
-										class="form-control" placeholder="编号" required="required"
-										maxlength="12">
-								</div>
-								<div class="col-md-4 data">
-									<span id="campusIdCheck"></span>
-								</div>
-
-								<div class="col-md-2 title">密码</div>
-								<div class="col-md-10 data">
-									<input type="text" id="userPassword" name="userPassword"
-										class="form-control" placeholder="密码" required="required">
-								</div>
-
-								<div class="col-md-2 title">用户名</div>
-								<div class="col-md-6 data">
-									<input type="text" id="username" name="username"
-										class="form-control" placeholder="用户名">
-								</div>
-								<div class="col-md-4 data">
-									<span id="usernameCheck"></span>
-								</div>
-
-								<div class="col-md-2 title">姓名</div>
-								<div class="col-md-10 data">
-									<input type="text" id="fullName" name="fullName"
-										class="form-control" placeholder="姓名" required="required">
-								</div>
-
-								<div class="col-md-2 title">性别</div>
-								<div class="col-md-10 data">
-									<select id="gender" name="gender" class="form-control">
-										<option value="男" selected="selected">男</option>
-										<option value="女">女</option>
-									</select>
-								</div>
-
-								<div class="col-md-2 title">年龄</div>
-								<div class="col-md-10 data">
-									<input type="number" id="age" name="age" class="form-control"
-										placeholder="年龄" required="required" min="1" max="200" maxlength="3">
-								</div>
-
-								<div class="col-md-2 title">身份证号</div>
-								<div class="col-md-10 data">
-									<input type="text" id="idNumber" name="idNumber"
-										class="form-control" placeholder="身份证号" required="required" maxlength="18">
-								</div>
-
-								<div class="col-md-2 title">职称/岗位</div>
-								<div class="col-md-10 data">
-									 <select id="post" name="post" class="form-control" onchange="setClass(this);">
-										<option value="学生" selected="selected">学生</option>
-										<option value="讲师">讲师</option>
-										<option value="副教授">副教授</option>
-										<option value="教授">教授</option>
-										<option value="教师">教师（教务、辅导员等）</option>
-										<option value="职工">职工（保安、食堂职工等）</option>
-									</select>
-								</div>
-
-								<div class="col-md-2 title">班级编号（学生专属）</div>
-								<div class="col-md-10 data">
-									<select id="classId" name="classId" class="form-control">
-										<option th:each="class:${classes}" th:value=${class.classId}
-											th:text="${class.gradeClass}"></option>
-									</select>
-								</div>
-
-								<div class="col-md-2 title">手机号码</div>
-								<div class="col-md-10 data">
-									<input type="text" id="phoneNumber" name="phoneNumber"
-										class="form-control" placeholder="手机号码" required="required"
-										maxlength="11">
-								</div>
-
-								<div class="col-md-2 title">紧急联系人</div>
-								<div class="col-md-10 data">
-									<input type="text" id="emergencyContact"
-										name="emergencyContact" class="form-control"
-										placeholder="紧急联系人" required="required">
-								</div>
-
-								<div class="col-md-2 title">紧急联系人手机号码</div>
-								<div class="col-md-10 data">
-									<input type="text" id="emergencyContactPhone"
-										name="emergencyContactPhone" class="form-control"
-										placeholder="紧急联系人手机号码" required="required" maxlength="11">
-								</div>
-
-								<div class="col-md-2 title">住址</div>
-								<div class="col-md-10 data">
-									<input type="text" id="address" name="address"
-										class="form-control" placeholder="住址" required="required">
-								</div>
-
-							</div>
-						</div>
-
-
-					</div>
-					<!--tab内容/-->
-					<!--表单内容/-->
+		<div class="col-md-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">添加用户</h3>
 				</div>
 
+				<form action="../user/userAdd" class="form-horizontal" method="post"
+					th:onsubmit="'return verify();'">
+					<div class="box-body">
+						<div class="form-group">
+							<label for="campusId" class="col-sm-2 control-label">账号（校内编号）</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="campusId"
+									name="campusId" placeholder="编号" required="required"
+									maxlength="12">
+							</div>
+							<label class="col-sm-2 control-label" for="campusId"><span
+								id="campusIdCheck"></span></label>
+						</div>
+						<div class="form-group">
+							<label for="userPassword" class="col-sm-2 control-label">密码</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="userPassword"
+									name="userPassword" placeholder="密码" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="username" class="col-sm-2 control-label">用户名</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="username"
+									name="username" placeholder="用户名" required="required">
+							</div>
+							<label class="col-sm-2 control-label" for="username"><span
+								id="usernameCheck"></span></label>
+						</div>
+						<div class="form-group">
+							<label for="fullName" class="col-sm-2 control-label">姓名</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="fullName"
+									name="fullName" placeholder="姓名" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="gender" class="col-sm-2 control-label">性别</label>
+							<div class="col-sm-6">
+								<select id="gender" name="gender" class="form-control">
+									<option value="男" selected="selected">男</option>
+									<option value="女">女</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="age" class="col-sm-2 control-label">年龄</label>
+							<div class="col-sm-6">
+								<input type="number" class="form-control" id="age" name="age"
+									placeholder="年龄" required="required" min="1" max="200"
+									maxlength="3">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="idNumber" class="col-sm-2 control-label">身份证号</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="idNumber"
+									name="idNumber" placeholder="身份证号" required="required"
+									maxlength="18">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="post" class="col-sm-2 control-label">职称/岗位</label>
+							<div class="col-sm-6">
+								<select id="post" name="post" class="form-control"
+									onchange="setClass(this);">
+									<option value="学生" selected="selected">学生</option>
+									<option value="助教">助教</option>
+									<option value="讲师">讲师</option>
+									<option value="副教授">副教授</option>
+									<option value="教授">教授</option>
+									<option value="教务">教务</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="classId" class="col-sm-2 control-label">（学生）班级编号</label>
+							<div class="col-sm-6">
+								<select id="classId" name="classId" class="form-control">
+									<option th:each="class:${classes}" th:value=${class.classId}
+										th:text="${class.gradeClass}"></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="phoneNumber" class="col-sm-2 control-label">手机号码</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="phoneNumber"
+									name="phoneNumber" placeholder="手机号码" required="required"
+									maxlength="11">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="emergencyContact" class="col-sm-2 control-label">紧急联系人</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="emergencyContact"
+									name="emergencyContact" placeholder="紧急联系人" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="emergencyContactPhone" class="col-sm-2 control-label">紧急联系人手机号码</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control"
+									id="emergencyContactPhone" name="emergencyContactPhone"
+									placeholder="紧急联系人手机号码" required="required" maxlength="11">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="address" class="col-sm-2 control-label">住址</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="address"
+									name="address" placeholder="住址" required="required">
+							</div>
+						</div>
+					</div>
 
+					<div class="box-footer">
+						<button type="submit" class="btn btn-primary">保 存</button>
+						&nbsp;&nbsp;
+						<button type="reset" class="btn btn-danger">重 置</button>
+					</div>
+				</form>
 
 			</div>
-			<div class="btn-toolbar list-toolbar">
-				<button type="submit" class="btn btn-primary">
-					<i class="fa fa-save"></i>保 存
-				</button>
-				<button type="reset" class="btn btn-danger">
-					<i class="fa fa-save"></i>清 空
-				</button>
-			</div>
-		</form>
+
+		</div>
 	</section>
 	<!-- 正文区域 /-->
 

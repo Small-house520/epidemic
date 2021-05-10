@@ -10,6 +10,10 @@
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
 <link rel="stylesheet"
 	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
@@ -20,117 +24,125 @@
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
+	
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>防疫志愿活动管理</li>
+			<li class="active">发起志愿活动</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
+	
 	<!-- 正文区域 -->
 	<section class="content">
-		<form action="../activiti/activityProcess" method="post">
-			<input type="hidden" id="campusId" name="campusId"
-				th:value="${userInfo.campusId}">
-			<div class="box-body">
-
-				<!--tab页-->
-				<div class="nav-tabs-custom">
-
-					<!--tab头-->
-					<ul class="nav nav-tabs">
-						<li class="active"><a href="#home" data-toggle="tab">发起志愿活动</a>
-						</li>
-					</ul>
-					<!--tab头/-->
-
-					<!--tab内容-->
-					<div class="tab-content">
-
-						<!--表单内容-->
-						<div class="tab-pane active" id="home">
-							<div class="row data-type">
-
-								<div class="col-md-2 title">志愿服务标题</div>
-								<div class="col-md-10 data">
-									<input type="text" id="title" name="title" class="form-control"
-										placeholder="志愿服务标题" required="required">
-								</div>
-
-								<div class="col-md-2 title">志愿服务详情</div>
-								<div class="col-md-10 data">
-									<input type="text" id="details" name="details"
-										class="form-control" placeholder="志愿服务详情" required="required">
-								</div>
-
-								<div class="col-md-2 title">志愿服务发起人</div>
-								<div class="col-md-10 data">
-									<input type="text" id="sponsor" name="sponsor"
-										class="form-control" th:value="${userInfo.fullName}"
-										readonly="readonly">
-								</div>
-
-								<div class="col-md-2 title">举办单位</div>
-								<div class="col-md-10 data">
-									<input type="text" id="sponsorOrg" name="sponsorOrg"
-										class="form-control" placeholder="举办单位" required="required">
-								</div>
-
-								<div class="col-md-2 title">招募志愿者人数</div>
-								<div class="col-md-10 data">
-									<input type="number" id="expectedVolunteers"
-										name="expectedVolunteers" class="form-control"
-										placeholder="招募志愿者人数" min="1" required="required">
-								</div>
-
-								<div class="col-md-2 title">招募志愿者条件</div>
-								<div class="col-md-10 data">
-									<input type="text" id="conditions" name="conditions"
-										class="form-control" placeholder="招募志愿者条件">
-								</div>
-
-								<div class="col-md-2 title">志愿服务地点</div>
-								<div class="col-md-10 data">
-									<input type="text" id="location" name="location"
-										class="form-control" placeholder="志愿服务地点" required="required">
-								</div>
-
-								<div class="col-md-2 title">报名截止时间</div>
-								<div class="col-md-10 data">
-									<input type="datetime-local" id="deadline" name="deadline"
-										class="form-control" required="required">
-								</div>
-
-								<div class="col-md-2 title">志愿服务开始时间</div>
-								<div class="col-md-10 data">
-									<input type="datetime-local" id="startTime" name="startTime"
-										class="form-control" required="required">
-								</div>
-
-								<div class="col-md-2 title">志愿服务结束时间</div>
-								<div class="col-md-10 data">
-									<input type="datetime-local" id="endTime" name="endTime"
-										class="form-control" required="required">
-								</div>
-
-								<div class="col-md-2 title">备注</div>
-								<div class="col-md-10 data">
-									<input type="text" id="remarks" name="remarks"
-										class="form-control" placeholder="备注">
-								</div>
-
-							</div>
-						</div>
-
-					</div>
-					<!--tab内容/-->
-					<!--表单内容/-->
-
+		<div class="col-md-12">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">发起志愿活动</h3>
 				</div>
 
+				<form action="../activiti/activityProcess" class="form-horizontal" method="post"
+					th:onsubmit="'return verify();'">
+					<input type="hidden" id="campusId" name="campusId"
+				th:value="${userInfo.campusId}">
+					<div class="box-body">
+						<div class="form-group">
+							<label for="title" class="col-sm-2 control-label">志愿服务标题</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="title"
+									name="title" placeholder="志愿服务标题" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="details" class="col-sm-2 control-label">志愿服务详情</label>
+							<div class="col-sm-6">
+								<input type="text" id="details" name="details"
+										class="form-control" placeholder="志愿服务详情" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="sponsor" class="col-sm-2 control-label">志愿服务发起人</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="sponsor" name="sponsor"
+									th:value="${userInfo.fullName}"
+										readonly="readonly">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="sponsorOrg" class="col-sm-2 control-label">举办单位</label>
+							<div class="col-sm-6">
+								<input type="text" id="sponsorOrg" name="sponsorOrg"
+										class="form-control" placeholder="举办单位" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="expectedVolunteers" class="col-sm-2 control-label">招募志愿者人数</label>
+							<div class="col-sm-6">
+								<input type="number" id="expectedVolunteers"
+										name="expectedVolunteers" class="form-control"
+										placeholder="招募志愿者人数" min="1" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="conditions" class="col-sm-2 control-label">招募志愿者条件</label>
+							<div class="col-sm-6">
+								<input type="text" id="conditions" name="conditions"
+										class="form-control" placeholder="招募志愿者条件">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="location" class="col-sm-2 control-label">志愿服务地点</label>
+							<div class="col-sm-6">
+								<input type="text" id="location" name="location"
+										class="form-control" placeholder="志愿服务地点" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="deadline" class="col-sm-2 control-label">报名截止时间</label>
+							<div class="col-sm-6">
+								<input type="datetime-local" id="deadline" name="deadline"
+										class="form-control" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="startTime" class="col-sm-2 control-label">志愿服务开始时间</label>
+							<div class="col-sm-6">
+								<input type="datetime-local" id="startTime" name="startTime"
+										class="form-control" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="endTime" class="col-sm-2 control-label">志愿服务结束时间</label>
+							<div class="col-sm-6">
+								<input type="datetime-local" id="endTime" name="endTime"
+										class="form-control" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="remarks" class="col-sm-2 control-label">备注</label>
+							<div class="col-sm-6">
+								<input type="text" id="remarks" name="remarks"
+										class="form-control" placeholder="备注">
+							</div>
+						</div>
+					</div>
+
+					<div class="box-footer">
+						<button type="submit" class="btn btn-primary">提交活动申请</button>
+						&nbsp;&nbsp;
+						<button type="reset" class="btn btn-danger">清 空</button>
+					</div>
+				</form>
+
 			</div>
-			<div class="btn-toolbar list-toolbar">
-				<button type="submit" class="btn btn-primary">
-					<i class="fa fa-save"></i>提交活动申请
-				</button>
-				<button type="reset" class="btn btn-primary">
-					<i class="fa fa-save"></i>重 填
-				</button>
-			</div>
-		</form>
+
+		</div>
 	</section>
 	<!-- 正文区域 /-->
 

@@ -10,17 +10,40 @@
 <meta
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
+
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
 <link rel="stylesheet"
 	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 <link rel="stylesheet" href="../css/style.css">
 <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-
+<link rel="stylesheet" href="../bootstrap/css/bootstrap-table.min.css">
+<script src="../bootstrap/js/bootstrap-table.min.js"></script>
+<script src="../bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
+	
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>用户管理</li>
+			<li>用户信息管理</li>
+			<li class="active">用户信息</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
+	
 	<!-- .box-body -->
 	<div class="box-header with-border">
 		<h3 class="box-title">用户信息</h3>
@@ -53,22 +76,38 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					编号：<input type="text" id="campusIdFind" name="campusId"
-						placeholder="编号" value="">&nbsp;&nbsp; 姓名：<input type="text"
-						id="fullNameFind" name="fullName" placeholder="姓名" value="">&nbsp;&nbsp;
+					<span th:if="${userInfo==null}">编号：<input type="text" id="campusIdFind" name="campusId"
+						placeholder="编号">&nbsp;&nbsp; 姓名：<input type="text"
+						id="fullNameFind" name="fullName" placeholder="姓名" >&nbsp;&nbsp;
 					岗位/职称：<select id="postFind" name="post" onchange="setClass(this);">
 						<option value="" selected="selected">请选择</option>
 						<option value="学生">学生</option>
+						<option value="助教">助教</option>
 						<option value="讲师">讲师</option>
 						<option value="副教授">副教授</option>
 						<option value="教授">教授</option>
-						<option value="教师">教师（教务、辅导员等）</option>
-						<option value="职工">职工（保安、食堂职工等）</option>
+						<option value="教务">教务</option>
 					</select>&nbsp;&nbsp; 班级：<select id="classIdFind" name="classId">
 						<option value="" selected="selected">请选择</option>
 						<option th:each="class:${classes}" th:value=${class.classId}
 							th:text="${class.gradeClass}"></option>
-					</select>
+					</select></span>
+					<span th:if="${userInfo!=null}">编号：<input type="text" id="campusIdFind" name="campusId"
+						placeholder="编号" th:value="${userInfo.campusId}">&nbsp;&nbsp; 姓名：<input type="text"
+						id="fullNameFind" name="fullName" placeholder="姓名" th:value="${userInfo.fullName}">&nbsp;&nbsp;
+					岗位/职称：<select id="postFind" name="post" onchange="setClass(this);">
+						<option value="">请选择</option>
+						<option value="学生" th:selected="${userInfo.post=='学生'?true:false}">学生</option>
+						<option value="助教" th:selected="${userInfo.post=='助教'?true:false}">助教</option>
+						<option value="讲师" th:selected="${userInfo.post=='讲师'?true:false}">讲师</option>
+						<option value="副教授" th:selected="${userInfo.post=='副教授'?true:false}">副教授</option>
+						<option value="教授" th:selected="${userInfo.post=='教授'?true:false}">教授</option>
+						<option value="教务" th:selected="${userInfo.post=='教务'?true:false}">教务</option>
+					</select>&nbsp;&nbsp; 班级：<select id="classIdFind" name="classId">
+						<option value="">请选择</option>
+						<option th:each="class:${classes}" th:value=${class.classId}
+							th:text="${class.gradeClass}" th:selected="${userInfo.classId==class.classId?true:false}"></option>
+					</select></span>
 					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
@@ -109,7 +148,7 @@
 						<td class="text-center">
 							<button type="button" class="btn bg-olive btn-xs"
 								data-toggle="modal" data-target="#infoModal"
-								th:onclick="fillInfoTable([[${user}]])">详情</button>&nbsp;&nbsp;
+								th:onclick="fillInfoTable([[${user}]])">详情</button>&nbsp;
 							<button type="button" class="btn bg-olive btn-xs"
 								data-toggle="modal" data-target="#editModal"
 								th:onclick="fillEditTable([[${user}]])">编辑</button>
@@ -566,10 +605,20 @@
 	   
 	   /** 查询绑定点击事件 */
 	   $("#query").click(function(){
-		   doAjax();
+		   //doAjax();
+		   findUsers();
 	   })
 	})
 
+	// 查询用户信息
+	function findUsers(){
+    	var campusId = $("#campusIdFind").val();
+		var fullName = $("#fullNameFind").val();
+		var post = $("#postFind").val();
+		var classId = $("#classIdFind").val();
+    	window.location.href = "../user/findUsers?campusId="+campusId+"&fullName="+fullName+"&post="+post+"&classId="+classId;
+    }
+	
 	// 利用Ajax实现分页
 	function doAjax(){
     	var campusId = $("#campusIdFind").val();
@@ -705,7 +754,10 @@
 	      sec.disabled = false;
 	      sec2.disabled = false;
 	      sec3.disabled = false;
-	      for(var i=0; i<classes.length; i++){
+	      sec.options[0] = new Option("请选择", "");
+    	  sec2.options[0] = new Option("请选择", "");
+    	  sec3.options[0] = new Option("请选择", "");
+	      for(var i=1; i<classes.length; i++){
 	    	  sec.options[i] = new Option(classes[i].gradeClass, classes[i].classId);
 	    	  sec2.options[i] = new Option(classes[i].gradeClass, classes[i].classId);
 	    	  sec3.options[i] = new Option(classes[i].gradeClass, classes[i].classId);
@@ -725,6 +777,22 @@
 	    }
 	}
 	
+</script>
+
+<script type="text/javascript">
+	//实现表格分页
+	$("#dataList").bootstrapTable({
+		striped: true,//是否显示行间隔色
+        cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+		pageNumber : 1, //首页页码
+		pagination : true, //是否显示分页条
+		pageSize : 5, //默认一页显示的行数
+		paginationLoop : false, //是否开启分页条无限循环，最后一页时点击下一页是否转到第一页
+		pageList : [ 5, 10, 20 ], //选择每页显示多少行
+		search : false, //启用关键字搜索框
+		sortable : true// 是否启用排序
+
+	});
 </script>
 
 </html>

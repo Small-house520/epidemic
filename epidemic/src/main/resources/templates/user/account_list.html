@@ -10,9 +10,13 @@
 <meta
 	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
 	name="viewport">
+	
 <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
-<link rel="stylesheet" href="../css/content.css">
 <link rel="stylesheet"
 	href="../plugins/adminLTE/css/skins/_all-skins.min.css">
 <link rel="stylesheet" href="../css/style.css">
@@ -25,6 +29,22 @@
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
+
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>用户管理</li>
+			<li>账号信息管理</li>
+			<li class="active">账号信息</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
+
 	<!-- .box-body -->
 	<div class="box-header with-border">
 		<h3 class="box-title">账号信息</h3>
@@ -56,10 +76,14 @@
 
 			<div class="box-tools pull-right">
 				<div class="has-feedback">
-					账号：<input type="text" id="campusIdFind" name="campusId"
-						placeholder="编号" value="" maxlength="12"> 用户名： <input
+					<span th:if="${user==null}">账号：<input type="text" id="campusIdFind" name="campusId"
+						placeholder="编号"  maxlength="12"> 用户名： <input
 						type="text" id="usernameFind" name="username" placeholder="用户名"
-						value="">
+						></span>
+						<span th:if="${user!=null}">账号：<input type="text" id="campusIdFind" name="campusId"
+						placeholder="编号" th:value="${user.campusId}" maxlength="12"> 用户名： <input
+						type="text" id="usernameFind" name="username" placeholder="用户名"
+						th:value="${user.username}"></span>
 					<button id="query" class="btn btn-default">查询</button>
 				</div>
 			</div>
@@ -81,7 +105,7 @@
 						<th class="text-center">操作</th>
 					</tr>
 				</thead>
-				<tbody id="tb">
+				<tbody id="tb" th:if="${users!=null&&users.size()>0}">
 					<tr th:each="user:${users}" name="trCheck">
 						<td><input type="checkbox" name="box" th:value="${user.userId}" onclick="setChecked(this)"></td>
 						<td th:text="${user.userId}"></td>
@@ -99,7 +123,7 @@
 						<td class="text-center">
 							<button type="button" class="btn bg-olive btn-xs"
 								data-toggle="modal" data-target="#editModal"
-								th:onclick="fillTable([[${user}]])">编辑</button>
+								th:onclick="fillTable([[${user}]])">编辑</button>&nbsp;
 							<button type="button" th:onclick="viewPermission([[${user.campusId}]])"
 								class="btn bg-olive btn-xs" data-toggle="modal"
 								data-target="#viewModal">查看权限</button>
@@ -428,10 +452,18 @@
 	   
 	   /** 查询绑定点击事件 */
 	   $("#query").click(function(){
-		   doAjax();
+		   //doAjax();
+		   findAccount();
 	   })
 	})
 
+	// 查询账号信息
+	function findAccount(){
+    	var campusId = $("#campusIdFind").val();
+		var username = $("#usernameFind").val();
+    	window.location.href = "../user/findAccount?campusId="+campusId+"&username="+username;
+    }
+	
 	// 利用Ajax实现分页
 	function doAjax(){
     	var campusId = $("#campusIdFind").val();
@@ -494,7 +526,7 @@
 				user_tr += "</select></td><td class='text-center'>";
 				user_tr += "<button type='button' class='btn bg-olive btn-xs'";
 				user_tr += "data-toggle='modal' data-target='#editModal'";
-				user_tr += "onclick='fillTable("+ user +")'>编辑</button>";
+				user_tr += "onclick='fillTable("+ user +")'>编辑</button>&nbsp;&nbsp;";
 				user_tr += "<button type='button' onclick='viewPermission("+ user.campusId +")'";
 				user_tr += "class='btn bg-olive btn-xs' data-toggle='modal'";
 				user_tr += "data-target='#viewModal'>查看权限</button></td></tr>";
@@ -504,7 +536,6 @@
 		}
 		
 		$("#tb").html(user_tr);
-		
 		//var roleRow = $("<tr>" + role_td + permission_td + "</tr>");
 		//$("#roleListBody").append($(roleRow));
 		
@@ -570,31 +601,24 @@
 </script>
 
 <script type="text/javascript">
+
 	//实现表格分页
 	$("#dataList").bootstrapTable({
-		//点击行事件,element为被点击行的tr元素对象
-		onClickRow : function(row, $element) {
-			$element.each(function() {
-				//获取所有td的值
-				var tds = $(this).find("td")
-				/* var id = tds.eq(0).text()
-				var title = tds.eq(1).text()
-				var remark = tds.eq(2).text()
-				var money = tds.eq(3).text()
-				var creatdate = tds.eq(4).text()
-				var state = tds.eq(5).text() */
-			})
-		},
+        striped: true,//是否显示行间隔色
+        cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 		pageNumber : 1, //首页页码
 		pagination : true, //是否显示分页条
 		pageSize : 5, //默认一页显示的行数
 		paginationLoop : false, //是否开启分页条无限循环，最后一页时点击下一页是否转到第一页
 		pageList : [ 5, 10, 20 ], //选择每页显示多少行
 		search : false, //启用关键字搜索框
-		sortable : true
-	// 是否启用排序
-
+		sortable : true,// 是否启用排序
+		sortOrder: "asc",//排序方式
+        sidePagination: "client",//分页方式：client客户端分页，server服务端分页（*）
+        clickToSelect: true,//是否启用点击选中行
+        
 	});
+	
 </script>
 
 </html>

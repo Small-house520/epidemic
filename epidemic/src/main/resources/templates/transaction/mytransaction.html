@@ -8,7 +8,11 @@
 
 <!-- Bootstrap -->
 <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="../css/content.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="../bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../bower_components/Ionicons/css/ionicons.min.css">
+<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
 
 <style type="text/css">
 th, td {
@@ -24,47 +28,81 @@ th, td {
 <script src="../bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
 </head>
 <body>
-	<!--路径导航-->
+	<!-- 内容头部 -->
+	<section class="content-header">
+		<h1>
+			<small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<!-- <li><a href="home"><i class="fa fa-dashboard"></i> 首页</a></li> -->
+			<li><i class="fa fa-home"></i>&nbsp;&nbsp;首页</li>
+			<li>我的事务</li>
+			<li class="active">代办事务</li>
+		</ol>
+	</section>
+	<!-- 内容头部 /-->
 
-	<div class="page-content">
-		<form class="form-inline">
-			<div class="panel panel-default">
-				<div class="panel-heading">待办事务列表</div>
+	<!-- .box-body -->
+	<div class="box-header with-border">
+		<h3 class="box-title">待办事务列表</h3>
+	</div>
 
-				<div class="table-responsive">
-					<table class="table table-striped table-hover" id="tb">
-						<thead>
-							<tr>
-								<th width="15%">任务ID</th>
-								<th width="25%">任务名称</th>
-								<th width="20%">创建时间</th>
-								<th width="20%">办理人</th>
-								<th width="20%">操作</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="task:${taskList}">
-								<td th:text="${task.id}"></td>
-								<td th:text="${task.name}"></td>
-								<td
-									th:text="${#dates.format(task.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
-								<td th:if="${task.assignee!=null}" th:text="${task.assignee}"></td>
-								<td th:unless="${task.assignee!=null}" th:text="${userInfo.fullName}"></td>
-								<td><a href="#"
-									th:onclick="startTask([[${task.id}]],[[${flag}]])"
-									class="btn btn-success btn-xs"><span
-										class="glyphicon glyphicon-plus"></span> 办理任务</a>&nbsp;&nbsp; <a
-									href="#" th:onclick="viewCurrentImage([[${task.id}]])"
-									class="btn btn-success btn-xs"><span
-										class="glyphicon glyphicon-eye-open"></span> 当前流程图</a></td>
-							</tr>
-						</tbody>
-					</table>
+	<div class="box-body">
+
+		<!-- 数据表格 -->
+		<div class="table-box">
+
+			<!--工具栏-->
+			<div class="pull-left">
+				<div class="form-group form-inline">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default" title="刷新"
+							onclick="window.location.reload();">
+							<i class="fa fa-refresh"></i> 刷新
+						</button>
+					</div>
 				</div>
 			</div>
-		</form>
+			<!--工具栏/-->
+
+			<!--数据列表-->
+			<table id="dataList"
+				class="table table-bordered table-striped table-hover dataTable">
+				<thead>
+					<tr>
+						<th class="sorting_asc">任务ID</th>
+						<th class="sorting">任务名称</th>
+						<th width="20%">创建时间</th>
+						<th width="20%">办理人</th>
+						<th width="20%">操作</th>
+					</tr>
+				</thead>
+				<tbody id="tb">
+					<tr th:each="task:${taskList}">
+						<td th:text="${task.id}"></td>
+						<td th:text="${task.name}"></td>
+						<td
+							th:text="${#dates.format(task.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td th:if="${task.assignee!=null}" th:text="${task.assignee}"></td>
+						<td th:unless="${task.assignee!=null}" th:text="${userInfo.fullName}"></td>
+						<td><a href="#"
+							th:onclick="startTask([[${task.id}]],[[${flag}]])"
+							class="btn btn-success btn-xs"><span
+								class="glyphicon glyphicon-plus"></span> 办理任务</a>&nbsp;&nbsp; <a
+							href="#" th:onclick="viewCurrentImage([[${task.id}]])"
+							class="btn btn-success btn-xs"><span
+								class="glyphicon glyphicon-eye-open"></span> 当前流程图</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<!--数据列表/-->
+
+		</div>
+		<!-- 数据表格 /-->
 
 	</div>
+	<!-- /.box-body -->
+	
 </body>
 
 <script type="text/javascript">
@@ -79,7 +117,7 @@ th, td {
 
 <script>
 	//实现表格分页
-	$("#tb").bootstrapTable({
+	$("#dataList").bootstrapTable({
 		//点击行事件,element为被点击行的tr元素对象
 		onClickRow : function(row, $element) {
 			$element.each(function() {

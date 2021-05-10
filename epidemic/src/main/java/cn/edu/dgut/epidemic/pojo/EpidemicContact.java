@@ -13,6 +13,8 @@ public class EpidemicContact {
 
     private Date isolationTime;
 
+    private String flag;
+
     private String remarks;
 
     public Integer getEpidemicContactId() {
@@ -53,6 +55,14 @@ public class EpidemicContact {
 
     public void setIsolationTime(Date isolationTime) {
         this.isolationTime = isolationTime;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag == null ? null : flag.trim();
     }
 
     public String getRemarks() {
